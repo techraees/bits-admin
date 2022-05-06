@@ -1,0 +1,11 @@
+.btnDesign{
+    background-color: blue !important;
+    color: white !important;
+    width: 100%;
+    border-radius: 20px;
+    height: 50px;
+}
+
+.btnDesign:focus{
+    border: none !important;
+}

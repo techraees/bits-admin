@@ -1,0 +1,23 @@
+.red-gradient {
+    background-image: linear-gradient(#f45c5c, #7e1c1c) !important;
+}
+
+.semi-bold {
+    font-weight: 600 !important;
+}
+
+.regular {
+    font-weight: 400 !important;
+}
+
+.light-grey {
+    color: #b0b0b0 !important;
+}
+
+.red {
+    color: #D54343 !important;
+}
+
+.cursor{
+    cursor: pointer;
+}

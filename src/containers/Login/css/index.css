@@ -1,0 +1,27 @@
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logoSize {
+    height: 250px;
+    width: 250px;
+}
+
+.formContainer{
+    background-color: white;
+    width: 100%;
+    border-radius: 20px;
+    padding: 40px;
+}
+
+@media only screen and (max-width: 600px) {
+    .formMobView{
+        flex-wrap: wrap;
+    }
+    .formContainer{
+        margin: 0px !important;
+        margin-bottom: 20px !important;
+    }
+}
