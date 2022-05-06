@@ -1,0 +1,9 @@
+.navbarBgColor {
+    background-color: #000000 !important;
+}
+.logoView{
+    background-color: white;
+    width: 55px;
+    height: 55px;
+    border-radius: 55px;
+}

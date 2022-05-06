@@ -3,8 +3,10 @@ import { Checkbox } from "antd";
 import { account, logo } from "../../assets";
 import { ButtonComponent, InputComponent } from "../../components";
 import "./css/index.css";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  let navigate = useNavigate();
   return (
     <div className="red-gradient">
       <div className="container loginContainer py-4">
@@ -31,10 +33,12 @@ function Login() {
               <span className="ms-3 light-grey">Remember me</span>
             </div>
             <div className="my-5">
-              <ButtonComponent text={"CREATE ACCOUNT"} />
+              <ButtonComponent onClick={()=>navigate('collections')} text={"LOGIN"} />
             </div>
             <div className="d-flex justify-content-center">
-              <span>Don't have Account? <span className="red cursor">Sign Up</span></span>
+              <span>
+                Don't have Account? <span className="red cursor">Sign Up</span>
+              </span>
             </div>
           </div>
           <div className="formContainer ms-4">
@@ -60,10 +64,12 @@ function Login() {
               <span className="ms-3 light-grey">Remember me</span>
             </div>
             <div className="my-5">
-              <ButtonComponent text={"CREATE ACCOUNT"} />
+              <ButtonComponent onClick={()=>navigate('collections')} text={"CREATE ACCOUNT"} />
             </div>
             <div className="d-flex justify-content-center">
-              <span>Already have Account? <span className="red cursor">Login</span></span>
+              <span>
+                Already have Account? <span className="red cursor">Login</span>
+              </span>
             </div>
           </div>
         </div>

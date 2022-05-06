@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   Login,
-  Home,
+  Collections
 } from "../../containers/index";
 import { useSelector } from "react-redux";
 
@@ -16,8 +16,8 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/collections" element={<Collections />} />
+        <Route path="/" element={<Login />} />
         {/* {(Object.keys(data).length > 0 || userData) && (
           <>
           </>

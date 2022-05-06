@@ -2,6 +2,10 @@
     background-image: linear-gradient(#f45c5c, #7e1c1c) !important;
 }
 
+.black-background{
+    background-color: #222222 !important;
+}
+
 .semi-bold {
     font-weight: 600 !important;
 }
