@@ -1,11 +1,25 @@
-.btnDesign{
+.btnDesign {
     background-color: blue !important;
     color: white !important;
     width: 100% !important;
     border-radius: 20px !important;
     height: 50px !important;
+    border: none !important;
 }
 
-.btnDesign:focus{
+.btnDesign:focus {
+    border: none !important;
+}
+
+.simpleBtnDesign {
+    background-color: blue !important;
+    color: white !important;
+    width: 100% !important;
+    border-radius: 10px !important;
+    height: 40px !important;
+    border: none !important;
+}
+
+.simpleBtnDesign:focus {
     border: none !important;
 }

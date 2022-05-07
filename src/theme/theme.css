@@ -2,6 +2,12 @@
     background-image: linear-gradient(#f45c5c, #7e1c1c) !important;
 }
 
+.red-gradient-color {
+    background: -webkit-linear-gradient(#f45c5c, #7e1c1c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .black-background{
     background-color: #222222 !important;
 }
@@ -22,6 +28,14 @@
     color: #D54343 !important;
 }
 
+.red-background {
+    background-color: #D54343 !important;
+}
+
 .cursor{
     cursor: pointer;
+}
+
+.white{
+    color: white !important;
 }

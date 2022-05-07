@@ -15,6 +15,9 @@ import payment from "./icons/payment.svg";
 import plus from "./icons/plus.svg";
 import right_arrow from "./icons/right_arrow.svg";
 import setting from "./icons/setting.svg";
+import profile_large from "./images/profile_large.png";
+import location from "./icons/location.svg";
+import upload from "./icons/upload.svg";
 
 export {
   logo,
@@ -34,4 +37,7 @@ export {
   plus,
   right_arrow,
   setting,
+  profile_large,
+  location,
+  upload,
 };
