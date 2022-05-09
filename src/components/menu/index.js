@@ -1,15 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import "./css/index.css";
-import { Menu, Button } from "antd";
-import {
-  AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
-  MailOutlined,
-} from "@ant-design/icons";
+import { Menu } from "antd";
 import {
   collection,
   gallery,
@@ -20,7 +11,15 @@ import {
   plus,
   payment,
   setting,
+  transaction_history,
+  selling_history,
+  purchase_history,
+  account_settings,
+  help_center,
+  lock,
+  about,
 } from "../../assets";
+import { useNavigate } from "react-router-dom";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -39,34 +38,42 @@ const items = [
   getItem("NFT Marketplace", "4", <img src={marketplace} />),
   getItem("Mint NFT", "5", <img src={right_arrow} />),
   getItem("Transaction History", "sub1", <img src={history} />, [
-    getItem("Option 6", "6"),
-    getItem("Option 7", "7"),
-    getItem("Option 8", "8"),
+    getItem("Transaction History", "6", <img src={transaction_history} />),
+    getItem("Selling History", "7", <img src={selling_history} />),
+    getItem("Purchase History", "8", <img src={purchase_history} />),
   ]),
   getItem("Create Emote", "9", <img src={plus} />),
   getItem("Payment", "10", <img src={payment} />),
   getItem("Settings", "sub2", <img src={setting} />, [
-    getItem("Option 11", "11"),
-    getItem("Option 12", "12"),
+    getItem("Account Settings", "11", <img src={account_settings} />),
+    getItem("Help Center", "12", <img src={help_center} />),
+    getItem("Privacy & Security", "13", <img src={lock} />),
+    getItem("About", "14", <img src={about} />),
   ]),
 ];
 
-const MenuComponent = ({ menuHandle }) => {
+const MenuComponent = ({ menuHandle, selectedKey }) => {
+  let navigate = useNavigate();
   return (
     <div
       style={{
         width: 256,
         position: "absolute",
+        zIndex: 1,
       }}
     >
       <Menu
         className="manuStyle"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={[selectedKey]}
         // defaultOpenKeys={["sub1"]}
         mode="inline"
         theme="dark"
         inlineCollapsed={menuHandle}
         items={items}
+        onSelect={(item) => {
+          item.key === "1" && navigate("/collections");
+          item.key === "6" && navigate("/transaction-history");
+        }}
       />
     </div>
   );

@@ -22,54 +22,54 @@ const Collections = () => {
       image: profile,
       name: "Speedy Walkovers",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=N3AkSS5hXMA",
+      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
     },
     {
       image: profile,
       name: "Speedy Walkovers",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=N3AkSS5hXMA",
+      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
     },
     {
       image: profile,
       name: "Speedy Walkovers",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=N3AkSS5hXMA",
+      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
     },
     {
       image: profile,
       name: "Speedy Walkovers",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=N3AkSS5hXMA",
+      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
     },
     {
       image: profile,
       name: "Speedy Walkovers",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=N3AkSS5hXMA",
+      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
     },
     {
       image: profile,
       name: "Speedy Walkovers",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=N3AkSS5hXMA",
+      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
     },
     {
       image: profile,
       name: "Speedy Walkovers",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=N3AkSS5hXMA",
+      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
     },
     {
       image: profile,
       name: "Speedy Walkovers",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=N3AkSS5hXMA",
+      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
     },
   ];
   return (
     <div className="black-background">
-      <NavbarComponent />
+      <NavbarComponent selectedKey={"1"} />
       <div className="container">
         <div
           style={{ alignItems: "center" }}
@@ -105,7 +105,7 @@ const Collections = () => {
         <div className="my-4 d-flex justify-content-between">
           <div style={{ width: "100%" }} className="d-flex searchStyle">
             <Input placeholder="Search Here..." className="searchStyle" />
-            <img className="me-3" style={{ width: 15 }} src={search} />
+            <img className="me-3 cursor" style={{ width: 15 }} src={search} />
           </div>
           <div
             className="d-flex ms-3 p-2"

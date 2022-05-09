@@ -10,7 +10,7 @@ import {
 import MenuComponent from "../menu";
 import "./css/index.css";
 
-const NavbarComponent = () => {
+const NavbarComponent = ({ headerText,selectedKey }) => {
   const [collapsed, setCollapsed] = useState(true);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -92,7 +92,12 @@ const NavbarComponent = () => {
           </div>
         </div>
       </nav>
-      <MenuComponent menuHandle={collapsed} />
+      <MenuComponent selectedKey={selectedKey} menuHandle={collapsed} />
+      {headerText && (
+        <div className="black-background2 p-2" style={{ textAlign: "center" }}>
+          <span className="light-grey fs-5">{headerText}</span>
+        </div>
+      )}
     </>
   );
 };

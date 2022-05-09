@@ -1,0 +1,23 @@
+.dropdownView{
+    background-color: #CCCCCC !important;
+    border: none !important;
+}
+
+.dropdownView:hover{
+    color: #5c5b5b !important;
+}
+
+.transactionsList{
+    -webkit-box-shadow: 0 0 10px rgba(255,255,255,.5);
+        box-shadow: 0 0 10px  rgba(255,255,255,.5);
+        border-radius: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+    .transactionFirstView{
+        flex-direction: column;
+    }
+    .mobMargin{
+        margin-top: 30px;
+    }
+}

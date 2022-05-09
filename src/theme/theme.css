@@ -8,8 +8,12 @@
     -webkit-text-fill-color: transparent;
 }
 
-.black-background{
+.black-background {
     background-color: #222222 !important;
+}
+
+.black-background2 {
+    background-color: #141414 !important;
 }
 
 .semi-bold {
@@ -36,10 +40,18 @@
     background-color: #D54343 !important;
 }
 
-.cursor{
+.cursor {
     cursor: pointer;
 }
 
-.white{
+.white {
     color: white !important;
+}
+
+.light-blue {
+    color: #73ADE3 !important;
+}
+
+.light-green{
+    color: #74F086 !important;
 }

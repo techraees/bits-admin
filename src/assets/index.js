@@ -23,6 +23,17 @@ import grid from "./icons/grid.svg";
 import check from "./icons/check.svg";
 import cross from "./icons/cross.svg";
 import thumb from "./icons/thumb.svg";
+import about from "./icons/about.svg";
+import account_settings from "./icons/account_settings.svg";
+import help_center from "./icons/help_center.svg";
+import lock from "./icons/lock.svg";
+import purchase_history from "./icons/purchase_history.svg";
+import selling_history from "./icons/selling_history.svg";
+import transaction_history from "./icons/transaction_history.svg";
+import paypal from "./icons/paypal.svg";
+import metamask from "./icons/metamask.svg";
+import down_arrow from "./icons/down_arrow.svg";
+import up_arrow from "./icons/up_arrow.svg";
 
 export {
   logo,
@@ -50,4 +61,15 @@ export {
   check,
   cross,
   thumb,
+  about,
+  account_settings,
+  help_center,
+  lock,
+  purchase_history,
+  selling_history,
+  transaction_history,
+  paypal,
+  metamask,
+  up_arrow,
+  down_arrow,
 };

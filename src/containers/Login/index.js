@@ -33,7 +33,7 @@ function Login() {
               <span className="ms-3 light-grey">Remember me</span>
             </div>
             <div className="my-5">
-              <ButtonComponent onClick={()=>navigate('collections')} text={"LOGIN"} />
+              <ButtonComponent onClick={()=>navigate('/collections')} text={"LOGIN"} />
             </div>
             <div className="d-flex justify-content-center">
               <span>
@@ -64,7 +64,7 @@ function Login() {
               <span className="ms-3 light-grey">Remember me</span>
             </div>
             <div className="my-5">
-              <ButtonComponent onClick={()=>navigate('collections')} text={"CREATE ACCOUNT"} />
+              <ButtonComponent onClick={()=>navigate('/collections')} text={"CREATE ACCOUNT"} />
             </div>
             <div className="d-flex justify-content-center">
               <span>

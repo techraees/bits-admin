@@ -1,4 +1,5 @@
 import Login from "./Login";
 import Collections from "./Collections";
+import TransactionHistory from "./TransactionHistory";
 
-export { Login, Collections };
+export { Login, Collections, TransactionHistory };
