@@ -18,6 +18,11 @@ import setting from "./icons/setting.svg";
 import profile_large from "./images/profile_large.png";
 import location from "./icons/location.svg";
 import upload from "./icons/upload.svg";
+import AZ from "./icons/AZ.svg";
+import grid from "./icons/grid.svg";
+import check from "./icons/check.svg";
+import cross from "./icons/cross.svg";
+import thumb from "./icons/thumb.svg";
 
 export {
   logo,
@@ -40,4 +45,9 @@ export {
   profile_large,
   location,
   upload,
+  AZ,
+  grid,
+  check,
+  cross,
+  thumb,
 };

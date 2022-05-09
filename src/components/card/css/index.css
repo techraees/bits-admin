@@ -1,0 +1,13 @@
+.cardContainer {
+    width: 240px;
+    background-color: #191919 !important;
+    border: none !important;
+    border-radius: 20px !important;
+}
+
+.thumbView {
+    width: 60px;
+    border-radius: 30px;
+    height: 40px;
+    align-items: center;
+}

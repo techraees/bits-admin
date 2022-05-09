@@ -2,7 +2,7 @@ import React from "react";
 import "./css/index.css";
 import { Button } from "antd";
 
-const ButtonComponent = ({ text, onClick, simple }) => {
+const ButtonComponent = ({ text, onClick, simple, height }) => {
   return (
     <>
       {simple ? (
@@ -10,7 +10,11 @@ const ButtonComponent = ({ text, onClick, simple }) => {
           {text}
         </Button>
       ) : (
-        <Button onClick={onClick} className="btnDesign red-gradient">
+        <Button
+          onClick={onClick}
+          style={{ height: height ? height : 50 }}
+          className="btnDesign red-gradient"
+        >
           {text}
         </Button>
       )}
