@@ -34,6 +34,7 @@ import paypal from "./icons/paypal.svg";
 import metamask from "./icons/metamask.svg";
 import down_arrow from "./icons/down_arrow.svg";
 import up_arrow from "./icons/up_arrow.svg";
+import profile2 from "./images/profile2.png";
 
 export {
   logo,
@@ -72,4 +73,5 @@ export {
   metamask,
   up_arrow,
   down_arrow,
+  profile2,
 };

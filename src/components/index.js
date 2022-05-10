@@ -3,6 +3,7 @@ import ButtonComponent from "./button";
 import NavbarComponent from "./navbar";
 import MenuComponent from "./menu";
 import CardCompnent from "./card";
+import Transactions from "./transactions";
 
 export {
   InputComponent,
@@ -10,4 +11,5 @@ export {
   NavbarComponent,
   MenuComponent,
   CardCompnent,
+  Transactions,
 };

@@ -73,6 +73,8 @@ const MenuComponent = ({ menuHandle, selectedKey }) => {
         onSelect={(item) => {
           item.key === "1" && navigate("/collections");
           item.key === "6" && navigate("/transaction-history");
+          item.key === "7" && navigate("/selling-history");
+          item.key === "8" && navigate("/purchase-history");
         }}
       />
     </div>

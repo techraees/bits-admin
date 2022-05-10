@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login, Collections, TransactionHistory } from "../../containers/index";
+import {
+  Login,
+  Collections,
+  TransactionHistory,
+  SellingHistory,
+  PurchaseHistory,
+} from "../../containers/index";
 import { useSelector } from "react-redux";
 
 const Router = () => {
@@ -16,6 +22,8 @@ const Router = () => {
         <Route path="/" element={<Login />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/transaction-history" element={<TransactionHistory />} />
+        <Route path="/selling-history" element={<SellingHistory />} />
+        <Route path="/purchase-history" element={<PurchaseHistory />} />
         {/* {(Object.keys(data).length > 0 || userData) && (
           <>
           </>

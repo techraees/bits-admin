@@ -1,0 +1,17 @@
+.shadowBorder {
+    -webkit-box-shadow: 0 0 10px rgba(255, 255, 255, .2);
+    box-shadow: 0 0 10px rgba(255, 255, 255, .2);
+    border-radius: 20px;
+}
+
+.cardsPadding {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+@media only screen and (max-width: 600px) {
+    .cardsPadding {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+}
