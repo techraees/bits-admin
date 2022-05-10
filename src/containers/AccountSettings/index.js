@@ -6,8 +6,10 @@ import {
   LabelInput,
   NavbarComponent,
 } from "../../components";
+import { useNavigate } from "react-router-dom";
 
 const AccountSettings = () => {
+  let navigate = useNavigate();
   return (
     <div className="black-background pb-4">
       <NavbarComponent selectedKey={"11"} headerText={"Account Settings"} />
@@ -25,7 +27,12 @@ const AccountSettings = () => {
             style={{ alignItems: "center", marginTop: 40 }}
           >
             <h5 className="m-0 white semi-regular">Account Information</h5>
-            <h5 className="red-gradient-color cursor">Edit</h5>
+            <h5
+              className="red-gradient-color cursor"
+              onClick={() => navigate("/edit-profile")}
+            >
+              Edit
+            </h5>
           </div>
           <LabelInput label={"Full Name"} />
           <LabelInput label={"User name"} />
@@ -46,10 +53,9 @@ const AccountSettings = () => {
           <LabelInput password label={"ReType Password"} />
         </div>
         <div className=" d-flex justify-content-center">
-
-        <div className="mt-4 saveBtn" >
-          <ButtonComponent text={"Save"} height={40} />
-        </div>
+          <div className="mt-4 saveBtn">
+            <ButtonComponent text={"Save"} height={40} />
+          </div>
         </div>
       </div>
     </div>

@@ -36,6 +36,9 @@ import down_arrow from "./icons/down_arrow.svg";
 import up_arrow from "./icons/up_arrow.svg";
 import profile2 from "./images/profile2.png";
 import down_arrow2 from "./icons/down_arrow2.svg";
+import account2 from "./icons/account2.svg";
+import book from "./icons/book.svg";
+import location2 from "./icons/location2.svg";
 
 export {
   logo,
@@ -76,4 +79,7 @@ export {
   down_arrow,
   profile2,
   down_arrow2,
+  account2,
+  book,
+  location2,
 };

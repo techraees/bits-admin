@@ -4,6 +4,7 @@ import TransactionHistory from "./TransactionHistory";
 import SellingHistory from "./SellingHistory";
 import PurchaseHistory from "./PurchaseHistory";
 import AccountSettings from "./AccountSettings";
+import EditProfile from "./EditProfile";
 
 export {
   Login,
@@ -12,4 +13,5 @@ export {
   SellingHistory,
   PurchaseHistory,
   AccountSettings,
+  EditProfile,
 };
