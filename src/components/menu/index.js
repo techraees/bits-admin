@@ -75,6 +75,7 @@ const MenuComponent = ({ menuHandle, selectedKey }) => {
           item.key === "6" && navigate("/transaction-history");
           item.key === "7" && navigate("/selling-history");
           item.key === "8" && navigate("/purchase-history");
+          item.key === "11" && navigate("/account-settings");
         }}
       />
     </div>

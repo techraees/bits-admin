@@ -1,0 +1,17 @@
+.datePickerStyle {
+    border: none !important;
+    /* border-bottom: 2px solid #DCDCDC !important; */
+    color: #b0b0b0 !important;
+}
+
+.datePickerStyle:focus {
+    /* border-bottom: 2px solid #A62828 !important; */
+    /* color: #A62828 !important; */
+}
+
+.datePickerStyle:active{
+}
+
+/* .datePickerStyle:focus::placeholder {
+    color: #A62828 !important;
+} */

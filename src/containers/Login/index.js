@@ -19,7 +19,7 @@ function Login() {
             </div>
             <div className="mb-5">
               <InputComponent placeholder={"E-mail"} />
-              <InputComponent placeholder={"Password"} />
+              <InputComponent password placeholder={"Password"} />
             </div>
             <div className="my-2">
               <Checkbox />
@@ -49,7 +49,7 @@ function Login() {
             <div className="mb-5">
               <InputComponent placeholder={"Full Name"} />
               <InputComponent placeholder={"E-mail"} />
-              <InputComponent placeholder={"Password"} />
+              <InputComponent password placeholder={"Password"} />
               <InputComponent placeholder={"Phone number"} />
             </div>
             <div className="my-2">

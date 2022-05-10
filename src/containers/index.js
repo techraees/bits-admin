@@ -3,6 +3,7 @@ import Collections from "./Collections";
 import TransactionHistory from "./TransactionHistory";
 import SellingHistory from "./SellingHistory";
 import PurchaseHistory from "./PurchaseHistory";
+import AccountSettings from "./AccountSettings";
 
 export {
   Login,
@@ -10,4 +11,5 @@ export {
   TransactionHistory,
   SellingHistory,
   PurchaseHistory,
+  AccountSettings,
 };

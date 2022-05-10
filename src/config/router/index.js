@@ -6,6 +6,7 @@ import {
   TransactionHistory,
   SellingHistory,
   PurchaseHistory,
+  AccountSettings,
 } from "../../containers/index";
 import { useSelector } from "react-redux";
 
@@ -24,6 +25,7 @@ const Router = () => {
         <Route path="/transaction-history" element={<TransactionHistory />} />
         <Route path="/selling-history" element={<SellingHistory />} />
         <Route path="/purchase-history" element={<PurchaseHistory />} />
+        <Route path="/account-settings" element={<AccountSettings />} />
         {/* {(Object.keys(data).length > 0 || userData) && (
           <>
           </>

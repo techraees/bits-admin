@@ -35,6 +35,7 @@ import metamask from "./icons/metamask.svg";
 import down_arrow from "./icons/down_arrow.svg";
 import up_arrow from "./icons/up_arrow.svg";
 import profile2 from "./images/profile2.png";
+import down_arrow2 from "./icons/down_arrow2.svg";
 
 export {
   logo,
@@ -74,4 +75,5 @@ export {
   up_arrow,
   down_arrow,
   profile2,
+  down_arrow2,
 };
