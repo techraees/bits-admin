@@ -5,6 +5,7 @@ import SellingHistory from "./SellingHistory";
 import PurchaseHistory from "./PurchaseHistory";
 import AccountSettings from "./AccountSettings";
 import EditProfile from "./EditProfile";
+import HelpCenter from "./HelpCenter";
 
 export {
   Login,
@@ -14,4 +15,5 @@ export {
   PurchaseHistory,
   AccountSettings,
   EditProfile,
+  HelpCenter,
 };

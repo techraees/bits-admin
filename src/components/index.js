@@ -6,6 +6,7 @@ import CardCompnent from "./card";
 import Transactions from "./transactions";
 import LabelInput from "./labelInput";
 import DatePickerComponent from "./datePicker";
+import AccordianComponent from "./accordian";
 
 export {
   InputComponent,
@@ -16,4 +17,5 @@ export {
   Transactions,
   LabelInput,
   DatePickerComponent,
+  AccordianComponent,
 };

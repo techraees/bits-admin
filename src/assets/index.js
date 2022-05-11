@@ -40,6 +40,8 @@ import account2 from "./icons/account2.svg";
 import book from "./icons/book.svg";
 import location2 from "./icons/location2.svg";
 import left_arrow from "./icons/left_arrow.svg";
+import down_arrow3 from "./icons/down_arrow3.svg";
+import up_arrow2 from "./icons/up_arrow2.svg";
 
 export {
   logo,
@@ -84,4 +86,6 @@ export {
   book,
   location2,
   left_arrow,
+  down_arrow3,
+  up_arrow2,
 };
