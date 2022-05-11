@@ -42,6 +42,13 @@ import location2 from "./icons/location2.svg";
 import left_arrow from "./icons/left_arrow.svg";
 import down_arrow3 from "./icons/down_arrow3.svg";
 import up_arrow2 from "./icons/up_arrow2.svg";
+import about2 from "./icons/about2.svg";
+import connect from "./icons/connect.svg";
+import blue_layer from "./images/blue_layer.png";
+import metamask_tag from "./images/metamask_tag.png";
+import paypal_tag from "./images/paypal_tag.png";
+import pink_layer from "./images/pink_layer.png";
+import white_layer from "./images/white_layer.png";
 
 export {
   logo,
@@ -88,4 +95,11 @@ export {
   left_arrow,
   down_arrow3,
   up_arrow2,
+  about2,
+  connect,
+  blue_layer,
+  metamask_tag,
+  paypal_tag,
+  pink_layer,
+  white_layer,
 };

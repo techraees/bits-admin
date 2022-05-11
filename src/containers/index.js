@@ -7,6 +7,7 @@ import AccountSettings from "./AccountSettings";
 import EditProfile from "./EditProfile";
 import HelpCenter from "./HelpCenter";
 import PrivacySecurity from "./PrivacySecurity";
+import Payment from "./Payment";
 
 export {
   Login,
@@ -18,4 +19,5 @@ export {
   EditProfile,
   HelpCenter,
   PrivacySecurity,
+  Payment,
 };
