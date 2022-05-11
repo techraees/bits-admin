@@ -6,6 +6,7 @@ import PurchaseHistory from "./PurchaseHistory";
 import AccountSettings from "./AccountSettings";
 import EditProfile from "./EditProfile";
 import HelpCenter from "./HelpCenter";
+import PrivacySecurity from "./PrivacySecurity";
 
 export {
   Login,
@@ -16,4 +17,5 @@ export {
   AccountSettings,
   EditProfile,
   HelpCenter,
+  PrivacySecurity,
 };

@@ -3,7 +3,7 @@ import "./css/index.css";
 import { Collapse } from "antd";
 import { down_arrow3, up_arrow2 } from "../../assets";
 
-const AccordianComponent = ({ data }) => {
+const AccordianComponent = ({ data, list }) => {
   const [panelKey, setPanelKey] = useState("");
   const { Panel } = Collapse;
   function callback(key) {
@@ -34,9 +34,13 @@ const AccordianComponent = ({ data }) => {
                   )
                 }
               >
-                <ul>
-                  <li className="py-3 white">{e.description}</li>
-                </ul>
+                {list ? (
+                  <ul>
+                    <li className="py-3 white">{e.description}</li>
+                  </ul>
+                ) : (
+                  <span className="white">{e.description}</span>
+                )}
               </Panel>
             );
           })}

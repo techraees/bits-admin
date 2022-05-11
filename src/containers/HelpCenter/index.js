@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./css/index.css";
 import { NavbarComponent, AccordianComponent } from "../../components/index";
 
@@ -53,7 +53,7 @@ const HelpCenter = () => {
       <div className="container">
         <div className="my-5">
           <h4 className="white">FAQs</h4>
-          <AccordianComponent data={faqsData} />
+          <AccordianComponent list data={faqsData} />
         </div>
       </div>
     </div>
