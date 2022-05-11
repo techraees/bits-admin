@@ -1,4 +1,4 @@
-.editProfileInput{
+.editProfileInput {
     background-color: transparent !important;
     height: 50px;
     border: none !important;
@@ -8,13 +8,18 @@
     width: 90% !important;
 }
 
-.editProfileInput::placeholder{
+.editProfileInput::placeholder {
     font-size: 12px;
     color: #848484 !important;
     background-color: #464646 !important;
 }
 
-.editProfileInput:focus{
+.editProfileInput:focus {
     box-shadow: none !important;
     width: 90% !important;
+}
+
+.cascaderStyle {
+    /* background-color: transparent !important; */
+    width: 100% !important;
 }

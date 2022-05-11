@@ -1,8 +1,6 @@
 .btnDesign {
-    background-color: blue !important;
     color: white !important;
     width: 100% !important;
-    border-radius: 20px !important;
     border: none !important;
 }
 
@@ -11,7 +9,6 @@
 }
 
 .simpleBtnDesign {
-    background-color: blue !important;
     color: white !important;
     width: 100% !important;
     border-radius: 10px !important;
