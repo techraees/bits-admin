@@ -8,6 +8,8 @@ import EditProfile from "./EditProfile";
 import HelpCenter from "./HelpCenter";
 import PrivacySecurity from "./PrivacySecurity";
 import Payment from "./Payment";
+import VideoGallery from "./VideoGallery";
+import NotFound from "./NotFound";
 
 export {
   Login,
@@ -20,4 +22,6 @@ export {
   HelpCenter,
   PrivacySecurity,
   Payment,
+  VideoGallery,
+  NotFound,
 };

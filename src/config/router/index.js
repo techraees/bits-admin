@@ -11,6 +11,8 @@ import {
   HelpCenter,
   PrivacySecurity,
   Payment,
+  VideoGallery,
+  NotFound,
 } from "../../containers/index";
 import { useSelector } from "react-redux";
 
@@ -34,6 +36,8 @@ const Router = () => {
         <Route path="/help-center" element={<HelpCenter />} />
         <Route path="/privacy-security" element={<PrivacySecurity />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/video-gallery" element={<VideoGallery />} />
+        <Route path="*" element={<NotFound />} />
         {/* {(Object.keys(data).length > 0 || userData) && (
           <>
           </>

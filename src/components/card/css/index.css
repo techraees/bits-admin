@@ -11,3 +11,12 @@
     height: 40px;
     align-items: center;
 }
+
+.collectionBtn{
+    border: 1px solid #D54343 !important;
+    background-color: transparent !important;
+    color: #CCCCCC !important;
+    width: 100% !important;
+    height: 40px !important;
+    border-radius: 10px !important;
+}

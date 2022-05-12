@@ -2,30 +2,44 @@ import React from "react";
 import "./css/index.css";
 import { Card } from "antd";
 import ReactPlayer from "react-player";
-import { check, cross, profile, thumb } from "../../assets";
+import { check, cross, thumb } from "../../assets";
+import { Button } from "antd";
 import ButtonComponent from "../button";
 
-const CardCompnent = ({ image, status, name, videoLink }) => {
+const CardCompnent = ({
+  image,
+  status,
+  name,
+  videoLink,
+  topName,
+  collectionBtn,
+}) => {
   return (
     <div className="my-4 col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center">
       <Card
         hoverable
         className="cardContainer"
-        cover={
-          <ReactPlayer
-            width={240}
-            height={190}
-            url={videoLink}
-          />
-        }
+        cover={<ReactPlayer width={240} height={190} url={videoLink} />}
       >
-        <div className="d-flex">
-          <img src={image} alt="" />
-          <span className="ms-2 light-grey2" style={{ fontSize: 10 }}>
-            {status}
-          </span>
-        </div>
-        <h5 className="light-grey2 mt-2">{name}</h5>
+        {topName ? (
+          <div className="d-flex mb-3" style={{ alignItems: "center" }}>
+            <img src={image} style={{ width: 25 }} />
+            <div className="ms-3">
+              <span className="light-grey2 mt-2 fs-5">{name}</span>
+              <div style={{ border: "1px solid #5e2a2a" }}></div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="d-flex">
+              <img src={image} alt="" />
+              <span className="ms-2 light-grey2" style={{ fontSize: 10 }}>
+                {status}
+              </span>
+            </div>
+            <h5 className="light-grey2 mt-2">{name}</h5>
+          </>
+        )}
         <div>
           <img src={cross} style={{ width: 15 }} />
           <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
@@ -44,6 +58,7 @@ const CardCompnent = ({ image, status, name, videoLink }) => {
             <img style={{ width: 25 }} className="mb-1" src={thumb} />
           </div>
         </div>
+        {collectionBtn && <Button className="mt-2 collectionBtn">Go to Collection</Button>}
       </Card>
     </div>
   );
