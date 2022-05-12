@@ -29,7 +29,7 @@ const AccountSettings = () => {
             <h5 className="m-0 white semi-regular">Account Information</h5>
             <h5
               className="red-gradient-color cursor"
-              onClick={() => navigate("/edit-profile")}
+              onClick={() => navigate("edit-profile")}
             >
               Edit
             </h5>

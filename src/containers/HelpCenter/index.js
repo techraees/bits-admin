@@ -48,7 +48,7 @@ const HelpCenter = () => {
     },
   ];
   return (
-    <div className="black-background pb-4">
+    <div className="black-background pb-4" style={{minHeight:"100vh"}}>
       <NavbarComponent selectedKey={"12"} headerText={"Help Center"} />
       <div className="container">
         <div className="my-5">

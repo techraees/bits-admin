@@ -27,7 +27,7 @@ const PrivacySecurity = () => {
       <NavbarComponent selectedKey={"13"} headerText={"Privacy & Security"} />
       <div className="container">
         <div className="my-5">
-          <AccordianComponent data={faqsData} />
+          <AccordianComponent btnKey={'2'} data={faqsData} />
         </div>
       </div>
     </div>

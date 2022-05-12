@@ -7,6 +7,7 @@ import Transactions from "./transactions";
 import LabelInput from "./labelInput";
 import DatePickerComponent from "./datePicker";
 import AccordianComponent from "./accordian";
+import CustomCheckbox from "./customCheckbox";
 
 export {
   InputComponent,
@@ -18,4 +19,5 @@ export {
   LabelInput,
   DatePickerComponent,
   AccordianComponent,
+  CustomCheckbox,
 };

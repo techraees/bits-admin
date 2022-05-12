@@ -1,7 +1,10 @@
 import React from "react";
-import { Checkbox } from "antd";
 import { account, logo } from "../../assets";
-import { ButtonComponent, InputComponent } from "../../components";
+import {
+  ButtonComponent,
+  CustomCheckbox,
+  InputComponent,
+} from "../../components";
 import "./css/index.css";
 import { useNavigate } from "react-router-dom";
 
@@ -21,19 +24,22 @@ function Login() {
               <InputComponent placeholder={"E-mail"} />
               <InputComponent password placeholder={"Password"} />
             </div>
-            <div className="my-2">
-              <Checkbox />
+            <div className="my-2 d-flex" style={{ alignItems: "center" }}>
+              <CustomCheckbox />
               <span className="ms-3 light-grey">
                 I agree to <span className="red">BITS’s</span> Terms &
                 Conditions
               </span>
             </div>
-            <div className="my-2">
-              <Checkbox />
+            <div className="my-2 d-flex" style={{ alignItems: "center" }}>
+              <CustomCheckbox />
               <span className="ms-3 light-grey">Remember me</span>
             </div>
             <div className="my-5">
-              <ButtonComponent onClick={()=>navigate('/collections')} text={"LOGIN"} />
+              <ButtonComponent
+                onClick={() => navigate("/collections")}
+                text={"LOGIN"}
+              />
             </div>
             <div className="d-flex justify-content-center">
               <span>
@@ -52,19 +58,22 @@ function Login() {
               <InputComponent password placeholder={"Password"} />
               <InputComponent placeholder={"Phone number"} />
             </div>
-            <div className="my-2">
-              <Checkbox />
+            <div className="my-2 d-flex" style={{ alignItems: "center" }}>
+              <CustomCheckbox />
               <span className="ms-3 light-grey">
                 I agree to <span className="red">BITS’s</span> Terms &
                 Conditions
               </span>
             </div>
-            <div className="my-2">
-              <Checkbox />
+            <div className="my-2 d-flex" style={{ alignItems: "center" }}>
+              <CustomCheckbox />
               <span className="ms-3 light-grey">Remember me</span>
             </div>
             <div className="my-5">
-              <ButtonComponent onClick={()=>navigate('/collections')} text={"CREATE ACCOUNT"} />
+              <ButtonComponent
+                onClick={() => navigate("/collections")}
+                text={"CREATE ACCOUNT"}
+              />
             </div>
             <div className="d-flex justify-content-center">
               <span>

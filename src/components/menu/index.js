@@ -65,7 +65,6 @@ const MenuComponent = ({ menuHandle, selectedKey }) => {
       <Menu
         className="manuStyle"
         defaultSelectedKeys={[selectedKey]}
-        // defaultOpenKeys={["sub1"]}
         mode="inline"
         theme="dark"
         inlineCollapsed={menuHandle}

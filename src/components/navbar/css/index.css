@@ -2,8 +2,9 @@
     background-color: #000000 !important;
 }
 .logoView{
-    background-color: white;
-    width: 55px;
-    height: 55px;
-    border-radius: 55px;
+    background-color: #CCCCCC;
+    width: 42px;
+    height: 42px;
+    border-radius: 50px;
+    align-items: center;
 }

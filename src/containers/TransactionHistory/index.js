@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   down_arrow,
   metamask,
@@ -19,6 +19,7 @@ import {
 } from "victory";
 
 const TransactionHistory = () => {
+  const [dropdownValue, setDropdownValue] = useState("Last Week");
   let transactionsData = [
     {
       title: "Deposit",
@@ -65,15 +66,19 @@ const TransactionHistory = () => {
   ];
   const menu = (
     <Menu
-      onClick={(e) => console.log(e)}
+      onClick={(e) => setDropdownValue(e.key)}
       items={[
         {
+          label: "Last Week",
+          key: "Last Week",
+        },
+        {
           label: "Last Month",
-          key: "1",
+          key: "Last Month",
         },
         {
           label: "Last Year",
-          key: "2",
+          key: "Last Year",
         },
       ]}
     />
@@ -124,7 +129,7 @@ const TransactionHistory = () => {
           <Dropdown overlay={menu} className="dropdownView mobMargin">
             <Button>
               <Space>
-                Last Week
+                {dropdownValue}
                 <DownOutlined />
               </Space>
             </Button>

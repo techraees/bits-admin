@@ -11,11 +11,11 @@ const LabelInput = ({ label, password }) => {
       <span className="red inputLabel">{label}</span>
       {password ? (
         <Input.Password
-          className="labelInputStyle"
+          className="labelInputStyle me-5"
           visibilityToggle={false}
         />
       ) : (
-        <Input className="labelInputStyle" />
+        <Input className="labelInputStyle me-5" />
       )}
     </div>
   );

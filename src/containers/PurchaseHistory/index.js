@@ -1,50 +1,44 @@
-import React from "react";
-import { profile2, profile_large } from "../../assets";
+import React, { useState } from "react";
+import { profile_large } from "../../assets";
 import { NavbarComponent, Transactions } from "../../components";
 import { Dropdown, Button, Space, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import "./css/index.css";
 
 const PurchaseHistory = () => {
+  const [dropdownValue, setDropdownValue] = useState("Last Week");
   let sellingData = [
     {
-     
       name: "Speedy Walkover",
       date: "10/22/2021",
       price: "$300",
     },
     {
-     
       name: "Speedy Walkover",
       date: "10/22/2021",
       price: "$300",
     },
     {
-     
       name: "Speedy Walkover",
       date: "10/22/2021",
       price: "$300",
     },
     {
-     
       name: "Speedy Walkover",
       date: "10/22/2021",
       price: "$300",
     },
     {
-     
       name: "Speedy Walkover",
       date: "10/22/2021",
       price: "$300",
     },
     {
-     
       name: "Speedy Walkover",
       date: "10/22/2021",
       price: "$300",
     },
     {
-     
       name: "Speedy Walkover",
       date: "10/22/2021",
       price: "$300",
@@ -52,15 +46,19 @@ const PurchaseHistory = () => {
   ];
   const menu = (
     <Menu
-      onClick={(e) => console.log(e)}
+      onClick={(e) => setDropdownValue(e.key)}
       items={[
         {
+          label: "Last Week",
+          key: "Last Week",
+        },
+        {
           label: "Last Month",
-          key: "1",
+          key: "Last Month",
         },
         {
           label: "Last Year",
-          key: "2",
+          key: "Last Year",
         },
       ]}
     />
@@ -69,7 +67,7 @@ const PurchaseHistory = () => {
     <div className="black-background">
       <NavbarComponent selectedKey={"8"} headerText={"Purchase History"} />
       <div className="container">
-      <div
+        <div
           className="d-flex justify-content-between py-5 transactionFirstView"
           style={{ alignItems: "center" }}
         >
@@ -83,7 +81,7 @@ const PurchaseHistory = () => {
           <Dropdown overlay={menu} className="dropdownView mobMargin">
             <Button>
               <Space>
-                Last Week
+                {dropdownValue}
                 <DownOutlined />
               </Space>
             </Button>

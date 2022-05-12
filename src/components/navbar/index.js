@@ -10,7 +10,7 @@ import {
 import MenuComponent from "../menu";
 import "./css/index.css";
 
-const NavbarComponent = ({ headerText,selectedKey }) => {
+const NavbarComponent = ({ headerText, selectedKey }) => {
   const [collapsed, setCollapsed] = useState(true);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -24,8 +24,12 @@ const NavbarComponent = ({ headerText,selectedKey }) => {
             src={menu_icon}
             className="cursor mx-4"
           />
-          <div className="d-flex justify-content-center mx-5 logoView">
-            <img src={logo_small} className="cursor mx-5" />
+          <div className="d-flex justify-content-center me-5 ms-4 logoView">
+            <img
+              src={logo_small}
+              className="cursor mx-5"
+              style={{ width: 50, height: 50 }}
+            />
           </div>
           <button
             className="navbar-toggler"
@@ -72,13 +76,17 @@ const NavbarComponent = ({ headerText,selectedKey }) => {
               </li>
             </ul>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li className="nav-item mx-3">
-                <a className="nav-link  d-flex" aria-current="page" href="/">
+              <li className="nav-item mx-1">
+                <a
+                  className="nav-link d-flex mt-1"
+                  aria-current="page"
+                  href="/"
+                >
                   <img src={search} className="mx-2" alt="" />
                 </a>
               </li>
-              <li className="nav-item mx-3">
-                <a className="nav-link  d-flex" aria-current="page" href="/">
+              <li className="nav-item mx-1">
+                <a className="nav-link d-flex" aria-current="page" href="/">
                   <img src={bell} className="mx-2" alt="" />
                 </a>
               </li>

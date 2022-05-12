@@ -2,6 +2,12 @@
     background-image: linear-gradient(#f45c5c, #7e1c1c) !important;
 }
 
+.red-gradient-border {
+    border-width: 2px;
+    border-style: solid;
+    border-image: linear-gradient(#f45c5c, #7e1c1c) 1;
+}
+
 .green-gradient {
     background-image: linear-gradient(#1AAE17, #46AC43) !important;
 }

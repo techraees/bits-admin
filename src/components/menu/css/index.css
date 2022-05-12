@@ -1,9 +1,6 @@
-.manuStyle   {
+.manuStyle {
     background-color: rgba(0, 0, 0, .7) !important;
     border-top-right-radius: 40px;
     box-shadow: none;
+    min-height: 90.5vh;
 }
-/* 
-.manuStyle:focus{
-    background-color: red !important;
-} */

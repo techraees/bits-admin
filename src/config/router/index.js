@@ -27,16 +27,16 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/collections" element={<Collections />} />
-        <Route path="/transaction-history" element={<TransactionHistory />} />
-        <Route path="/selling-history" element={<SellingHistory />} />
-        <Route path="/purchase-history" element={<PurchaseHistory />} />
-        <Route path="/account-settings" element={<AccountSettings />} />
-        <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/help-center" element={<HelpCenter />} />
-        <Route path="/privacy-security" element={<PrivacySecurity />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/video-gallery" element={<VideoGallery />} />
+        <Route path="collections" element={<Collections />} />
+        <Route path="transaction-history" element={<TransactionHistory />} />
+        <Route path="selling-history" element={<SellingHistory />} />
+        <Route path="purchase-history" element={<PurchaseHistory />} />
+        <Route path="account-settings" element={<AccountSettings />} />
+        <Route path="account-settings/edit-profile" element={<EditProfile />} />
+        <Route path="help-center" element={<HelpCenter />} />
+        <Route path="privacy-security" element={<PrivacySecurity />} />
+        <Route path="payment" element={<Payment />} />
+        <Route path="video-gallery" element={<VideoGallery />} />
         <Route path="*" element={<NotFound />} />
         {/* {(Object.keys(data).length > 0 || userData) && (
           <>
