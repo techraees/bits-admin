@@ -1,5 +1,5 @@
 import React from "react";
-import { check, profile2 } from "../../assets";
+import { check } from "../../assets";
 import "./css/index.css";
 import { useSelector } from "react-redux";
 

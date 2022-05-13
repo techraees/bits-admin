@@ -12,6 +12,54 @@ import { Menu, Dropdown, Button, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+import faker from "faker";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top",
+    },
+  },
+};
+
+const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+export const data = {
+  labels,
+  datasets: [
+    {
+      label: "Metamask",
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 30 })),
+      backgroundColor: "#74F086",
+    },
+    {
+      label: "Paypal",
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 30 })),
+      backgroundColor: "#20ACD8",
+    },
+  ],
+};
+
 const TransactionHistory = () => {
   const [dropdownValue, setDropdownValue] = useState("Last Week");
   let transactionsData = [
@@ -108,6 +156,9 @@ const TransactionHistory = () => {
           </Dropdown>
         </div>
         <div style={{ border: "1px solid #D54343" }}></div>
+        <div className="my-5">
+          <Bar options={options} data={data} />
+        </div>
         <div className={`transactionsList my-5 ${bgColor2}`}>
           <h3 className={`${textColor} pt-4`} style={{ textAlign: "center" }}>
             Transactions
