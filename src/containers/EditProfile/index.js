@@ -4,12 +4,17 @@ import { ButtonComponent, NavbarComponent } from "../../components";
 import { Input } from "antd";
 import {
   account2,
+  account_dark,
   book,
+  book_dark,
   down_arrow2,
+  down_arrow4,
   left_arrow,
   location2,
+  location_dark2,
   profile_large,
 } from "../../assets";
+import { useSelector } from "react-redux";
 
 const EditProfile = () => {
   const [city, setCity] = useState("");
@@ -26,8 +31,14 @@ const EditProfile = () => {
       if (e.includes(city)) return e;
     }
   });
+  const backgroundTheme = useSelector(
+    (state) => state.app.theme.backgroundTheme
+  );
+  const textColor = useSelector((state) => state.app.theme.textColor);
+  const textColor2 = useSelector((state) => state.app.theme.textColor2);
+  const bgColor3 = useSelector((state) => state.app.theme.bgColor3);
   return (
-    <div className="black-background pb-4">
+    <div className={`${backgroundTheme} pb-4`}>
       <NavbarComponent selectedKey={"11"} headerText={"Edit Profile"} />
       <div className="container">
         <div
@@ -44,17 +55,19 @@ const EditProfile = () => {
           className="d-flex justify-content-between mt-4 mb-4"
           style={{ alignItems: "center" }}
         >
-          <h5 className="m-0 white semi-regular">Account Information</h5>
+          <h5 className={`m-0 ${textColor} semi-regular`}>
+            Account Information
+          </h5>
           <h5 className="red-gradient-color cursor">Edit</h5>
         </div>
         <div className="my-3">
-          <p className="light-grey2 ms-3" style={{ marginBottom: -5 }}>
+          <p className={`${textColor2} ms-3`} style={{ marginBottom: -5 }}>
             Name
           </p>
-          <div style={{ backgroundColor: "#464646", borderRadius: 10 }}>
+          <div className={bgColor3} style={{ borderRadius: 10 }}>
             <div className="mt-3">
               <img
-                src={account2}
+                src={textColor === "white" ? account2 : account_dark}
                 className="ms-4 mt-3"
                 style={{ width: 15, position: "absolute", zIndex: 1 }}
               />
@@ -63,11 +76,10 @@ const EditProfile = () => {
           </div>
         </div>
         <div className="my-3">
-          <p className="light-grey2 ms-3">Bio</p>
+          <p className={`${textColor2} ms-3`}>Bio</p>
           <div
-            className="d-flex justify-content-between"
+            className={`d-flex justify-content-between ${bgColor3}`}
             style={{
-              backgroundColor: "#464646",
               borderRadius: 10,
               alignItems: "center",
             }}
@@ -89,11 +101,10 @@ const EditProfile = () => {
           </div>
         </div>
         <div className="my-3">
-          <p className="light-grey2 ms-3">Country</p>
+          <p className={`${textColor2} ms-3`}>Country</p>
           <div
-            className="d-flex justify-content-between"
+            className={`d-flex justify-content-between ${bgColor3}`}
             style={{
-              backgroundColor: "#464646",
               borderRadius: 10,
               alignItems: "center",
             }}
@@ -101,7 +112,7 @@ const EditProfile = () => {
             <div>
               <div>
                 <img
-                  src={location2}
+                  src={textColor === "white" ? location2 : location_dark2}
                   className="ms-4 mt-3"
                   style={{ width: 15, position: "absolute", zIndex: 1 }}
                 />
@@ -112,7 +123,7 @@ const EditProfile = () => {
                 className="editProfileInput"
               />
             </div>
-            <img src={down_arrow2} className="me-3" style={{ width: 20 }} />
+            <img src={textColor === "white" ? down_arrow2 : down_arrow4} className="me-3" style={{ width: 20 }} />
           </div>
         </div>
         <div>

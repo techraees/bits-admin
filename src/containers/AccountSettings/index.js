@@ -7,11 +7,18 @@ import {
   NavbarComponent,
 } from "../../components";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AccountSettings = () => {
+  const backgroundTheme = useSelector(
+    (state) => state.app.theme.backgroundTheme
+  );
+  const textColor = useSelector(
+    (state) => state.app.theme.textColor
+  );
   let navigate = useNavigate();
   return (
-    <div className="black-background pb-4">
+    <div className={`${backgroundTheme} pb-4`}>
       <NavbarComponent selectedKey={"11"} headerText={"Account Settings"} />
       <div className="container">
         <h4
@@ -26,7 +33,7 @@ const AccountSettings = () => {
             className="d-flex justify-content-between"
             style={{ alignItems: "center", marginTop: 40 }}
           >
-            <h5 className="m-0 white semi-regular">Account Information</h5>
+            <h5 className={`m-0 ${textColor} semi-regular`}>Account Information</h5>
             <h5
               className="red-gradient-color cursor"
               onClick={() => navigate("edit-profile")}
@@ -45,7 +52,7 @@ const AccountSettings = () => {
             className="d-flex justify-content-between"
             style={{ alignItems: "center", marginTop: 40 }}
           >
-            <h5 className="m-0 white semi-regular">User Credentials</h5>
+            <h5 className={`m-0 ${textColor} semi-regular`}>User Credentials</h5>
             <h5 className="red-gradient-color cursor">Edit</h5>
           </div>
           <LabelInput label={"Change Email"} />

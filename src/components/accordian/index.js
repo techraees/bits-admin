@@ -3,19 +3,18 @@ import "./css/index.css";
 import { Collapse } from "antd";
 import { down_arrow3, up_arrow2 } from "../../assets";
 import ButtonComponent from "../button";
+import { useSelector } from "react-redux";
 
 const AccordianComponent = ({ data, list, btnKey }) => {
-  const [panelKey, setPanelKey] = useState("");
+  const textColor = useSelector((state) => state.app.theme.textColor);
+  const bgColor3 = useSelector((state) => state.app.theme.bgColor3);
+  const border = useSelector((state) => state.app.theme.border);
   const { Panel } = Collapse;
-  function callback(key) {
-    setPanelKey(key);
-  }
   return (
-    <div className="mt-4" style={{ backgroundColor: "#282828" }}>
+    <div className={`mt-4 ${bgColor3}`} >
       <Collapse
-        onChange={callback}
         expandIconPosition={"right"}
-        className="accordianStyle"
+        className={border}
         ghost={true}
         expandIcon={({ isActive }) =>
           isActive ? (
@@ -28,17 +27,17 @@ const AccordianComponent = ({ data, list, btnKey }) => {
         {data &&
           data.map((e) => {
             return (
-              <Panel className="panelStyle p-2" header={e.title} key={e.key}>
+              <Panel className={`${border} p-2`} header={e.title} key={e.key}>
                 {list ? (
                   <ul>
-                    <li className="py-3 white">{e.description}</li>
+                    <li className={`py-3 ${textColor}`}>{e.description}</li>
                   </ul>
                 ) : (
                   <>
-                    <span className="white">{e.description}</span>
+                    <span className={textColor}>{e.description}</span>
                     {e.key === btnKey && (
                       <div className="d-flex mt-4 justify-content-center">
-                        <div style={{ minWidth: "40%" }}>
+                        <div style={{ minWidth: "20%" }}>
                           <ButtonComponent
                             height={40}
                             text={"Change Password"}

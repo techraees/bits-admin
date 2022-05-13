@@ -1,6 +1,7 @@
 import React from "react";
 import {
   about2,
+  about3,
   blue_layer,
   connect,
   metamask_tag,
@@ -12,33 +13,40 @@ import {
 import { NavbarComponent } from "../../components";
 import "./css/index.css";
 import { Button } from "antd";
+import { useSelector } from "react-redux";
 
 const Payment = () => {
+  const backgroundTheme = useSelector(
+    (state) => state.app.theme.backgroundTheme
+  );
+  const textColor = useSelector((state) => state.app.theme.textColor);
+  const textColor2 = useSelector((state) => state.app.theme.textColor2);
+  const bgColor3 = useSelector((state) => state.app.theme.bgColor3);
   return (
-    <div className="black-background pb-4">
+    <div className={`${backgroundTheme} pb-4`}>
       <NavbarComponent selectedKey={"10"} headerText={"Payment"} />
       <div className="container">
         <div
           className="d-flex justify-content-center my-5"
           style={{ alignItems: "center" }}
         >
-          <img src={about2} />
-          <span className="light-grey ms-3">
+          <img src={textColor === "white" ? about2 : about3} />
+          <span className={`${textColor2} ms-3`}>
             Choose your Payment Method for your Wallet
           </span>
         </div>
         <div className="d-flex my-4">
           <img src={profile_large} style={{ width: 70, height: 70 }} />
           <div className="ms-3">
-            <span className="light-grey">Hi,</span>
-            <p className="white">Snap Boogie</p>
+            <span className={textColor2}>Hi,</span>
+            <p className={textColor}>Snap Boogie</p>
           </div>
         </div>
         <div style={{ border: "1px solid #2d2d2d" }}></div>
         <div
-          className="my-4"
+          className={`my-4 ${bgColor3}`}
           style={{
-            backgroundColor: "#2b2b2b",
+            // backgroundColor: "#2b2b2b",
             width: "100%",
             // flexDirection: "column",
             borderRadius: 20,
@@ -76,7 +84,10 @@ const Payment = () => {
                 </Button>{" "}
               </div>
             </div>
-            <div className="pink-gradient m-4 paymentCards" style={{ borderRadius: 20 }}>
+            <div
+              className="pink-gradient m-4 paymentCards"
+              style={{ borderRadius: 20 }}
+            >
               <div className="d-flex justify-content-between">
                 <div className="tapStyle">
                   <img src={paypal_tag} />

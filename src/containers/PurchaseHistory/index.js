@@ -4,6 +4,7 @@ import { NavbarComponent, Transactions } from "../../components";
 import { Dropdown, Button, Space, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import "./css/index.css";
+import { useSelector } from "react-redux";
 
 const PurchaseHistory = () => {
   const [dropdownValue, setDropdownValue] = useState("Last Week");
@@ -44,6 +45,11 @@ const PurchaseHistory = () => {
       price: "$300",
     },
   ];
+  const backgroundTheme = useSelector(
+    (state) => state.app.theme.backgroundTheme
+  );
+  const textColor = useSelector((state) => state.app.theme.textColor);
+  const textColor2 = useSelector((state) => state.app.theme.textColor2);
   const menu = (
     <Menu
       onClick={(e) => setDropdownValue(e.key)}
@@ -64,7 +70,7 @@ const PurchaseHistory = () => {
     />
   );
   return (
-    <div className="black-background">
+    <div className={`${backgroundTheme}`}>
       <NavbarComponent selectedKey={"8"} headerText={"Purchase History"} />
       <div className="container">
         <div
@@ -74,8 +80,8 @@ const PurchaseHistory = () => {
           <div className="d-flex">
             <img src={profile_large} style={{ width: 70, height: 70 }} />
             <div className="ms-3">
-              <span className="light-grey">Hi,</span>
-              <p className="white">Snap Boogie</p>
+              <span className={textColor2}>Hi,</span>
+              <p className={textColor}>Snap Boogie</p>
             </div>
           </div>
           <Dropdown overlay={menu} className="dropdownView mobMargin">

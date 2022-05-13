@@ -8,13 +8,16 @@ import {
   search,
 } from "../../assets/index";
 import MenuComponent from "../menu";
+import SwitchBtn from "../switchBtn";
 import "./css/index.css";
+import { useSelector } from "react-redux";
 
 const NavbarComponent = ({ headerText, selectedKey }) => {
   const [collapsed, setCollapsed] = useState(true);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
+  const headerTheme = useSelector((state) => state.app.theme.headerTheme);
   return (
     <div>
       <nav className="navbar fixed-top navbar-expand-lg navbarBgColor navbar-dark bg-dark">
@@ -90,11 +93,17 @@ const NavbarComponent = ({ headerText, selectedKey }) => {
                   <img src={bell} className="mx-2" alt="" />
                 </a>
               </li>
-              <li className="nav-item mx-3">
+              <li className="nav-item mx-2">
                 <a className="nav-link d-flex" aria-current="page" href="/">
                   <span className="me-2">Snap</span>
                   <img src={profile} className="mx-2" alt="" />
                 </a>
+              </li>
+              <li
+                className="nav-item mx-2 d-flex"
+                style={{ alignItems: "center" }}
+              >
+                <SwitchBtn />
               </li>
             </ul>
           </div>
@@ -102,7 +111,10 @@ const NavbarComponent = ({ headerText, selectedKey }) => {
       </nav>
       <MenuComponent selectedKey={selectedKey} menuHandle={collapsed} />
       {headerText && (
-        <div className="black-background2 p-2" style={{ textAlign: "center" }}>
+        <div
+          className={`${headerTheme} p-2`}
+          style={{ textAlign: "center", marginTop: 58 }}
+        >
           <span className="light-grey fs-5">{headerText}</span>
         </div>
       )}

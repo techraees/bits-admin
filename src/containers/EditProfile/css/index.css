@@ -11,7 +11,6 @@
 .editProfileInput::placeholder {
     font-size: 12px;
     color: #848484 !important;
-    background-color: #464646 !important;
 }
 
 .editProfileInput:focus {
@@ -20,6 +19,5 @@
 }
 
 .cascaderStyle {
-    /* background-color: transparent !important; */
     width: 100% !important;
 }

@@ -50,6 +50,12 @@ import paypal_tag from "./images/paypal_tag.png";
 import pink_layer from "./images/pink_layer.png";
 import white_layer from "./images/white_layer.png";
 import check2 from "./icons/check2.svg";
+import location_dark from "./icons/location_dark.svg";
+import upload_red from "./icons/upload_red.svg";
+import account_dark from "./icons/account_dark.svg";
+import location_dark2 from "./icons/location_dark2.svg";
+import down_arrow4 from "./icons/down_arrow4.svg";
+import about3 from "./icons/about3.svg";
 
 export {
   logo,
@@ -104,4 +110,10 @@ export {
   pink_layer,
   white_layer,
   check2,
+  location_dark,
+  upload_red,
+  account_dark,
+  location_dark2,
+  down_arrow4,
+  about3,
 };

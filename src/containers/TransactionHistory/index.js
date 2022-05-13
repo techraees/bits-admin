@@ -17,6 +17,7 @@ import {
   VictoryTheme,
   VictoryStack,
 } from "victory";
+import { useSelector } from "react-redux";
 
 const TransactionHistory = () => {
   const [dropdownValue, setDropdownValue] = useState("Last Week");
@@ -64,6 +65,12 @@ const TransactionHistory = () => {
       arrow: down_arrow,
     },
   ];
+  const backgroundTheme = useSelector(
+    (state) => state.app.theme.backgroundTheme
+  );
+  const textColor = useSelector((state) => state.app.theme.textColor);
+  const textColor2 = useSelector((state) => state.app.theme.textColor2);
+  const bgColor2 = useSelector((state) => state.app.theme.bgColor2);
   const menu = (
     <Menu
       onClick={(e) => setDropdownValue(e.key)}
@@ -112,7 +119,7 @@ const TransactionHistory = () => {
   ];
 
   return (
-    <div className="black-background pb-2">
+    <div className={`${backgroundTheme} pb-2`}>
       <NavbarComponent selectedKey={"6"} headerText={"Transaction History"} />
       <div className="container">
         <div
@@ -122,8 +129,8 @@ const TransactionHistory = () => {
           <div className="d-flex">
             <img src={profile_large} style={{ width: 70, height: 70 }} />
             <div className="ms-3">
-              <span className="light-grey">Hi,</span>
-              <p className="white">Snap Boogie</p>
+              <span className={textColor2}>Hi,</span>
+              <p className={textColor}>Snap Boogie</p>
             </div>
           </div>
           <Dropdown overlay={menu} className="dropdownView mobMargin">
@@ -149,8 +156,8 @@ const TransactionHistory = () => {
             <VictoryBar data={data2015} x="quarter" y="earnings" />
           </VictoryStack>
         </VictoryChart> */}
-        <div className="transactionsList my-5">
-          <h3 className="white pt-4" style={{ textAlign: "center" }}>
+        <div className={`transactionsList my-5 ${bgColor2}`}>
+          <h3 className={`${textColor} pt-4`} style={{ textAlign: "center" }}>
             Transactions
           </h3>
           {transactionsData.map((e, i) => {
@@ -164,8 +171,8 @@ const TransactionHistory = () => {
                 }}
               >
                 <div>
-                  <span className="light-grey" style={{ fontSize: 18 }}>
-                    {e.title}
+                  <span className={textColor2} style={{ fontSize: 18 }}>
+                    {e.title} 
                   </span>
                   <div>
                     <img
@@ -178,7 +185,7 @@ const TransactionHistory = () => {
                   </div>
                 </div>
                 <div>
-                  <span className="white me-2">$405</span>
+                  <span className={`${textColor} me-2`}>$405</span>
                   <img src={e.arrow} style={{ width: 10 }} />
                 </div>
               </div>

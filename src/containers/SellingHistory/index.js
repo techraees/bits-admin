@@ -4,9 +4,10 @@ import { NavbarComponent, Transactions } from "../../components";
 import { Dropdown, Button, Space, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import "./css/index.css";
+import { useSelector } from "react-redux";
 
 const SellingHistory = () => {
-  const [dropdownValue, setDropdownValue] = useState('Last Week')
+  const [dropdownValue, setDropdownValue] = useState("Last Week");
   let sellingData = [
     {
       image: profile2,
@@ -58,6 +59,9 @@ const SellingHistory = () => {
       price: "$300",
     },
   ];
+  const backgroundTheme = useSelector(
+    (state) => state.app.theme.backgroundTheme
+  );
   const menu = (
     <Menu
       onClick={(e) => setDropdownValue(e.key)}
@@ -78,7 +82,7 @@ const SellingHistory = () => {
     />
   );
   return (
-    <div className="black-background">
+    <div className={`${backgroundTheme}`}>
       <NavbarComponent selectedKey={"7"} headerText={"Selling History"} />
       <div className="container">
         <div

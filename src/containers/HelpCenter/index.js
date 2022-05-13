@@ -1,8 +1,13 @@
 import React from "react";
 import "./css/index.css";
 import { NavbarComponent, AccordianComponent } from "../../components/index";
+import { useSelector } from "react-redux";
 
 const HelpCenter = () => {
+  const backgroundTheme = useSelector(
+    (state) => state.app.theme.backgroundTheme
+  );
+  const textColor = useSelector((state) => state.app.theme.textColor);
   let faqsData = [
     {
       key: "1",
@@ -48,11 +53,11 @@ const HelpCenter = () => {
     },
   ];
   return (
-    <div className="black-background pb-4" style={{minHeight:"100vh"}}>
+    <div className={`${backgroundTheme} pb-4`} style={{ minHeight: "100vh" }}>
       <NavbarComponent selectedKey={"12"} headerText={"Help Center"} />
       <div className="container">
         <div className="my-5">
-          <h4 className="white">FAQs</h4>
+          <h4 className={textColor}>FAQs</h4>
           <AccordianComponent list data={faqsData} />
         </div>
       </div>
