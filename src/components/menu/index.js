@@ -52,10 +52,11 @@ const items = [
   ]),
 ];
 
-const MenuComponent = ({ menuHandle, selectedKey }) => {
+const MenuComponent = ({ menuHandle, selectedKey,className }) => {
   let navigate = useNavigate();
   return (
     <div
+    className={className}
       style={{
         width: 256,
         // position: "absolute",

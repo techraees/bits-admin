@@ -10,13 +10,6 @@ import { NavbarComponent } from "../../components";
 import "./css/index.css";
 import { Menu, Dropdown, Button, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import {
-  VictoryBar,
-  VictoryChart,
-  VictoryAxis,
-  VictoryTheme,
-  VictoryStack,
-} from "victory";
 import { useSelector } from "react-redux";
 
 const TransactionHistory = () => {
@@ -90,34 +83,6 @@ const TransactionHistory = () => {
       ]}
     />
   );
-  const data2012 = [
-    { quarter: 1, earnings: 13000 },
-    { quarter: 2, earnings: 16500 },
-    { quarter: 3, earnings: 14250 },
-    { quarter: 4, earnings: 19000 },
-  ];
-
-  const data2013 = [
-    { quarter: 1, earnings: 15000 },
-    { quarter: 2, earnings: 12500 },
-    { quarter: 3, earnings: 19500 },
-    { quarter: 4, earnings: 13000 },
-  ];
-
-  const data2014 = [
-    { quarter: 1, earnings: 11500 },
-    { quarter: 2, earnings: 13250 },
-    { quarter: 3, earnings: 20000 },
-    { quarter: 4, earnings: 15500 },
-  ];
-
-  const data2015 = [
-    { quarter: 1, earnings: 18000 },
-    { quarter: 2, earnings: 13250 },
-    { quarter: 3, earnings: 15000 },
-    { quarter: 4, earnings: 12000 },
-  ];
-
   return (
     <div className={`${backgroundTheme} pb-2`}>
       <NavbarComponent selectedKey={"6"} headerText={"Transaction History"} />
@@ -143,19 +108,6 @@ const TransactionHistory = () => {
           </Dropdown>
         </div>
         <div style={{ border: "1px solid #D54343" }}></div>
-        {/* <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
-          <VictoryAxis
-            tickValues={[1, 2, 3, 4]}
-            tickFormat={["Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4"]}
-          />
-          <VictoryAxis dependentAxis tickFormat={(x) => `$${x / 1000}k`} />
-          <VictoryStack>
-            <VictoryBar data={data2012} x="quarter" y="earnings" />
-            <VictoryBar data={data2013} x="quarter" y="earnings" />
-            <VictoryBar data={data2014} x="quarter" y="earnings" />
-            <VictoryBar data={data2015} x="quarter" y="earnings" />
-          </VictoryStack>
-        </VictoryChart> */}
         <div className={`transactionsList my-5 ${bgColor2}`}>
           <h3 className={`${textColor} pt-4`} style={{ textAlign: "center" }}>
             Transactions
@@ -172,7 +124,7 @@ const TransactionHistory = () => {
               >
                 <div>
                   <span className={textColor2} style={{ fontSize: 18 }}>
-                    {e.title} 
+                    {e.title}
                   </span>
                   <div>
                     <img

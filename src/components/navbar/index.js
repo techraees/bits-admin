@@ -14,8 +14,12 @@ import { useSelector } from "react-redux";
 
 const NavbarComponent = ({ headerText, selectedKey }) => {
   const [collapsed, setCollapsed] = useState(true);
+  const [menuBar, setMenuBar] = useState(false);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
+  };
+  const handleMenu = () => {
+    setMenuBar(!menuBar);
   };
   const headerTheme = useSelector((state) => state.app.theme.headerTheme);
   return (
@@ -25,7 +29,12 @@ const NavbarComponent = ({ headerText, selectedKey }) => {
           <img
             onClick={toggleCollapsed}
             src={menu_icon}
-            className="cursor mx-4"
+            className="cursor mx-4 menuBarWebView"
+          />
+          <img
+            onClick={handleMenu}
+            src={menu_icon}
+            className="cursor mx-4 menuBarMobView"
           />
           <div className="d-flex justify-content-center me-5 ms-4 logoView">
             <img
@@ -109,7 +118,18 @@ const NavbarComponent = ({ headerText, selectedKey }) => {
           </div>
         </div>
       </nav>
-      <MenuComponent selectedKey={selectedKey} menuHandle={collapsed} />
+      <MenuComponent
+        selectedKey={selectedKey}
+        menuHandle={collapsed}
+        className="menuBarWebView"
+      />
+      {menuBar && (
+        <MenuComponent
+          selectedKey={selectedKey}
+          menuHandle={false}
+          className="menuBarMobView"
+        />
+      )}
       {headerText && (
         <div
           className={`${headerTheme} p-2`}
