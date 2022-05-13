@@ -15,8 +15,10 @@ import {
 } from "../../components";
 import "./css/index.css";
 import { Input } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const Collections = () => {
+  let navigate = useNavigate();
   let cardsData = [
     {
       image: profile,
@@ -90,7 +92,11 @@ const Collections = () => {
                 (Snap Boggie is a Professional Dancer){" "}
               </span>
               <div style={{ width: "60%" }} className="mt-4">
-                <ButtonComponent simple text={"Edit Profile"} />
+                <ButtonComponent
+                  onClick={() => navigate("/account-settings/edit-profile")}
+                  simple
+                  text={"Edit Profile"}
+                />
               </div>
             </div>
           </div>

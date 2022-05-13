@@ -16,8 +16,8 @@ const NavbarComponent = ({ headerText, selectedKey }) => {
     setCollapsed(!collapsed);
   };
   return (
-    <>
-      <nav className="navbar navbar-expand-lg navbarBgColor navbar-dark bg-dark">
+    <div>
+      <nav className="navbar fixed-top navbar-expand-lg navbarBgColor navbar-dark bg-dark">
         <div className="container-fluid">
           <img
             onClick={toggleCollapsed}
@@ -106,7 +106,7 @@ const NavbarComponent = ({ headerText, selectedKey }) => {
           <span className="light-grey fs-5">{headerText}</span>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

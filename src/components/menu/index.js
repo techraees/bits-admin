@@ -58,8 +58,13 @@ const MenuComponent = ({ menuHandle, selectedKey }) => {
     <div
       style={{
         width: 256,
-        position: "absolute",
+        // position: "absolute",
         zIndex: 1,
+        top:58,
+        overflow: 'auto',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
       }}
     >
       <Menu
