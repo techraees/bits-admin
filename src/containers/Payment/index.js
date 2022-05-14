@@ -24,7 +24,11 @@ const Payment = () => {
   const bgColor3 = useSelector((state) => state.app.theme.bgColor3);
   return (
     <div className={`${backgroundTheme} pb-4`}>
-      <NavbarComponent selectedKey={"10"} headerText={"Payment"} />
+      <NavbarComponent
+        toggleBtn={textColor === "white" ? true : false}
+        selectedKey={"10"}
+        headerText={"Payment"}
+      />
       <div className="container">
         <div
           className="d-flex justify-content-center my-5"

@@ -26,9 +26,14 @@ const PrivacySecurity = () => {
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
+  const textColor = useSelector((state) => state.app.theme.textColor);
   return (
     <div className={`${backgroundTheme} pb-4`} style={{ height: "100vh" }}>
-      <NavbarComponent selectedKey={"13"} headerText={"Privacy & Security"} />
+      <NavbarComponent
+        toggleBtn={textColor === "white" ? true : false}
+        selectedKey={"13"}
+        headerText={"Privacy & Security"}
+      />
       <div className="container">
         <div className="my-5">
           <AccordianComponent btnKey={"2"} data={faqsData} />

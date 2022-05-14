@@ -81,7 +81,7 @@ const Collections = () => {
   ];
   return (
     <div className={`${backgroundTheme}`}>
-      <NavbarComponent selectedKey={"1"} />
+      <NavbarComponent toggleBtn={textColor === 'white' ? true : false } selectedKey={"1"} />
       <div className="container pt-4">
         <div
           style={{ alignItems: "center" }}

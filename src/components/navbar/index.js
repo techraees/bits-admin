@@ -12,7 +12,7 @@ import SwitchBtn from "../switchBtn";
 import "./css/index.css";
 import { useSelector } from "react-redux";
 
-const NavbarComponent = ({ headerText, selectedKey }) => {
+const NavbarComponent = ({ headerText, selectedKey,toggleBtn }) => {
   const [collapsed, setCollapsed] = useState(true);
   const [menuBar, setMenuBar] = useState(false);
   const toggleCollapsed = () => {
@@ -112,7 +112,7 @@ const NavbarComponent = ({ headerText, selectedKey }) => {
                 className="nav-item mx-2 d-flex"
                 style={{ alignItems: "center" }}
               >
-                <SwitchBtn />
+                <SwitchBtn toggleBtn={toggleBtn}/>
               </li>
             </ul>
           </div>

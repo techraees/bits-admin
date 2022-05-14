@@ -133,7 +133,11 @@ const TransactionHistory = () => {
   );
   return (
     <div className={`${backgroundTheme} pb-2`}>
-      <NavbarComponent selectedKey={"6"} headerText={"Transaction History"} />
+      <NavbarComponent
+        toggleBtn={textColor === "white" ? true : false}
+        selectedKey={"6"}
+        headerText={"Transaction History"}
+      />
       <div className="container">
         <div
           className="d-flex justify-content-between py-5 transactionFirstView"

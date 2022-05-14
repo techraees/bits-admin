@@ -59,10 +59,15 @@ const VideoGallery = () => {
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
+  const textColor = useSelector((state) => state.app.theme.textColor);
   const bgColor = useSelector((state) => state.app.theme.bgColor);
   return (
     <div className={`${backgroundTheme} pb-2`}>
-      <NavbarComponent selectedKey={"3"} headerText={"Emote Video Gallery"} />
+      <NavbarComponent
+        toggleBtn={textColor === "white" ? true : false}
+        selectedKey={"3"}
+        headerText={"Emote Video Gallery"}
+      />
       <div className="container">
         <div
           style={{ width: "100%" }}

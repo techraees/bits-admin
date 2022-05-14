@@ -13,13 +13,15 @@ const AccountSettings = () => {
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
-  const textColor = useSelector(
-    (state) => state.app.theme.textColor
-  );
+  const textColor = useSelector((state) => state.app.theme.textColor);
   let navigate = useNavigate();
   return (
     <div className={`${backgroundTheme} pb-4`}>
-      <NavbarComponent selectedKey={"11"} headerText={"Account Settings"} />
+      <NavbarComponent
+        toggleBtn={textColor === "white" ? true : false}
+        selectedKey={"11"}
+        headerText={"Account Settings"}
+      />
       <div className="container">
         <h4
           className="white ms-4 semi-bold red-gradient-color mb-5"
@@ -33,7 +35,9 @@ const AccountSettings = () => {
             className="d-flex justify-content-between"
             style={{ alignItems: "center", marginTop: 40 }}
           >
-            <h5 className={`m-0 ${textColor} semi-regular`}>Account Information</h5>
+            <h5 className={`m-0 ${textColor} semi-regular`}>
+              Account Information
+            </h5>
             <h5
               className="red-gradient-color cursor"
               onClick={() => navigate("edit-profile")}
@@ -52,7 +56,9 @@ const AccountSettings = () => {
             className="d-flex justify-content-between"
             style={{ alignItems: "center", marginTop: 40 }}
           >
-            <h5 className={`m-0 ${textColor} semi-regular`}>User Credentials</h5>
+            <h5 className={`m-0 ${textColor} semi-regular`}>
+              User Credentials
+            </h5>
             <h5 className="red-gradient-color cursor">Edit</h5>
           </div>
           <LabelInput label={"Change Email"} />

@@ -62,6 +62,7 @@ const SellingHistory = () => {
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
+  const textColor = useSelector((state) => state.app.theme.textColor);
   const menu = (
     <Menu
       onClick={(e) => setDropdownValue(e.key)}
@@ -83,7 +84,11 @@ const SellingHistory = () => {
   );
   return (
     <div className={`${backgroundTheme}`}>
-      <NavbarComponent selectedKey={"7"} headerText={"Selling History"} />
+      <NavbarComponent
+        toggleBtn={textColor === "white" ? true : false}
+        selectedKey={"7"}
+        headerText={"Selling History"}
+      />
       <div className="container">
         <div
           className="d-flex justify-content-between py-5 transactionFirstView"

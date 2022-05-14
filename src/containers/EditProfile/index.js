@@ -39,7 +39,11 @@ const EditProfile = () => {
   const bgColor3 = useSelector((state) => state.app.theme.bgColor3);
   return (
     <div className={`${backgroundTheme} pb-4`}>
-      <NavbarComponent selectedKey={"11"} headerText={"Edit Profile"} />
+      <NavbarComponent
+        toggleBtn={textColor === "white" ? true : false}
+        selectedKey={"11"}
+        headerText={"Edit Profile"}
+      />
       <div className="container">
         <div
           className="d-flex mb-4"
@@ -123,7 +127,11 @@ const EditProfile = () => {
                 className="editProfileInput"
               />
             </div>
-            <img src={textColor === "white" ? down_arrow2 : down_arrow4} className="me-3" style={{ width: 20 }} />
+            <img
+              src={textColor === "white" ? down_arrow2 : down_arrow4}
+              className="me-3"
+              style={{ width: 20 }}
+            />
           </div>
         </div>
         <div>

@@ -52,19 +52,18 @@ const items = [
   ]),
 ];
 
-const MenuComponent = ({ menuHandle, selectedKey,className }) => {
+const MenuComponent = ({ menuHandle, selectedKey, className }) => {
   let navigate = useNavigate();
   return (
     <div
-    className={className}
+      className={className}
       style={{
         width: 256,
         // position: "absolute",
         zIndex: 1,
-        top:58,
-        overflow: 'auto',
-        height: '100vh',
-        position: 'fixed',
+        top: 58,
+        overflow: "auto",
+        position: "fixed",
         left: 0,
       }}
     >

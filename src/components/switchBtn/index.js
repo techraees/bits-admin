@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./css/index.css";
 import { Switch } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 
-const SwitchBtn = () => {
-  const data = useSelector((state) => state.app.theme.backgroundTheme);
+const SwitchBtn = ({ toggleBtn }) => {
+  const [toggle, setToggle] = useState(true);
+  const textColor = useSelector((state) => state.app.theme.textColor);
   const dispatch = useDispatch();
-  console.log(data);
+  // useEffect(()=>{
+  //   let theme = localStorage.getItem("theme");
+  //   setToggle(theme)
+  //   console.log("dsa",toggle)
+  // },[])
   function onChange(checked) {
+    // localStorage.setItem("theme", checked);
+    // let theme = localStorage.getItem("theme");
+    // textColor === 'white' ? setToggle(true) : setToggle(false)
+    // setToggle(checked)
     dispatch({
       type: "THEME",
       theme: {
@@ -19,13 +28,17 @@ const SwitchBtn = () => {
         bgColor: `${checked ? "dark-grey-bg" : "white2"}`,
         bgColor2: `${checked ? "" : "light-background2"}`,
         bgColor3: `${checked ? "black-background3" : "light-background3"}`,
-        border: `${checked ? "dark-border" : "light-border"}`
+        border: `${checked ? "dark-border" : "light-border"}`,
       },
     });
     console.log(`switch to ${checked}`);
   }
   return (
-    <Switch defaultChecked className="switchBtnStyle" onChange={onChange} />
+    <Switch
+      checked={toggleBtn}
+      className="switchBtnStyle"
+      onChange={onChange}
+    />
   );
 };
 

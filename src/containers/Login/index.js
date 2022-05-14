@@ -10,6 +10,10 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   let navigate = useNavigate();
+  const handleLogin = () => {
+    // localStorage.setItem('theme', true);
+    navigate("/collections")
+  }
   return (
     <div className="red-gradient">
       <div className="container loginContainer py-4">
@@ -37,7 +41,7 @@ function Login() {
             </div>
             <div className="my-5">
               <ButtonComponent
-                onClick={() => navigate("/collections")}
+                onClick={handleLogin}
                 text={"LOGIN"}
               />
             </div>
@@ -71,7 +75,7 @@ function Login() {
             </div>
             <div className="my-5">
               <ButtonComponent
-                onClick={() => navigate("/collections")}
+                onClick={handleLogin}
                 text={"CREATE ACCOUNT"}
               />
             </div>

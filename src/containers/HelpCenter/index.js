@@ -54,7 +54,11 @@ const HelpCenter = () => {
   ];
   return (
     <div className={`${backgroundTheme} pb-4`} style={{ minHeight: "100vh" }}>
-      <NavbarComponent selectedKey={"12"} headerText={"Help Center"} />
+      <NavbarComponent
+        toggleBtn={textColor === "white" ? true : false}
+        selectedKey={"12"}
+        headerText={"Help Center"}
+      />
       <div className="container">
         <div className="my-5">
           <h4 className={textColor}>FAQs</h4>
