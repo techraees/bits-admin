@@ -1,0 +1,36 @@
+.logoView {
+    background-color: #CCCCCC;
+    width: 42px;
+    height: 42px;
+    border-radius: 50px;
+    align-items: center;
+}
+
+.menuBarWebView {
+    display: block;
+}
+
+.menuBarMobView {
+    display: none;
+}
+
+.searchStyle {
+    border-radius: 10px !important;
+    color: #fff !important;
+    border: none !important;
+    padding-left: 15px !important;
+}
+
+.searchStyle:focus{
+    box-shadow: none !important;
+}
+
+@media only screen and (max-width: 600px) {
+    .menuBarWebView {
+        display: none;
+    }
+
+    .menuBarMobView {
+        display: block;
+    }
+}
