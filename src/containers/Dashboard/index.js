@@ -132,8 +132,8 @@ const Dashboard = () => {
   ];
   return (
     <div className="bg-dark-blue">
-      <NavbarComponent />
-      <div className="container py-3" style={{ marginTop: 60 }}>
+      <NavbarComponent selectedKey={"1"} />
+      <div className="container py-3 dashboardContainer">
         <h5 className="white">Dashboard</h5>
         <div className="row">
           <StatisticsCard

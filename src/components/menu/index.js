@@ -49,7 +49,8 @@ const MenuComponent = ({ menuHandle, selectedKey, className }) => {
       className={`${className}`}
       style={{
         width: 256,
-        // zIndex: 1,
+        // position:"absolute"
+        zIndex: 1,
         top: 58,
         overflow: "auto",
         position: "fixed",
@@ -64,7 +65,8 @@ const MenuComponent = ({ menuHandle, selectedKey, className }) => {
         inlineCollapsed={menuHandle}
         items={items}
         onSelect={(item) => {
-          // item.key === "1" && navigate("/collections");
+          item.key === "1" && navigate("/");
+          item.key === "2" && navigate("/user-information");
         }}
       />
     </div>

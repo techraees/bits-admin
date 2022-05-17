@@ -1,8 +1,4 @@
-const INITIAL_STATE = {
-    user: {
-        name: "Ghous Ahmed"
-    }
-};
+const INITIAL_STATE = {};
 
 const AppReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {

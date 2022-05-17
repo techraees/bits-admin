@@ -1,0 +1,12 @@
+.dashboardContainer{
+    margin-top: 65px;
+    /* width: 100%; */
+    /* margin-left: 265px; */
+}
+
+@media only screen and (max-width: 600px) {
+    .dashboardContainer{
+        margin-top: 50px;
+        margin-left: auto ;
+    }
+}

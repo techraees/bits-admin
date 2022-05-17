@@ -26,6 +26,14 @@
     background-color: #222235 !important;
 }
 
+.blue {
+    color: #428DFF !important;
+}
+
+.bg-blue {
+    background-color: #428DFF !important;
+}
+
 .red {
     color: #b32f2f !important;
 }
@@ -66,7 +74,23 @@
     color: white !important;
 }
 
-.pink{
+.bg-white {
+    background-color: white !important;
+}
+
+.bg-white2 {
+    background-color: #F0F0F0 !important;
+}
+
+.purple {
+    color: #4B506D !important;
+}
+
+.black {
+    color: black !important;
+}
+
+.pink {
     color: #B52269 !important;
 }
 

@@ -19,6 +19,10 @@ import trending_down from "./icons/trending_down.svg";
 import message2 from "./icons/message2.svg";
 import trending_up2 from "./icons/trending_up2.svg";
 import refresh from "./icons/refresh.svg";
+import filter from "./icons/filter.svg";
+import menu_icon2 from "./icons/menu_icon2.svg";
+import plus from "./icons/plus.svg";
+import sort from "./icons/sort.svg";
 
 export {
   logo,
@@ -42,4 +46,8 @@ export {
   message2,
   trending_up2,
   refresh,
+  filter,
+  menu_icon2,
+  plus,
+  sort,
 };
