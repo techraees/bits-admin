@@ -154,10 +154,9 @@ const UserInformation = () => {
         selectedKey={"2"}
       />
       <div
-        className="container py-3"
-        style={{ marginTop: 65, height: "100vh" }}
+        className="container py-3 bg-white radius1"
+        style={{ marginTop: 65 }}
       >
-        <div className="bg-white radius1">
           <div className="d-flex p-4 justify-content-between">
             <h5 className="m-0">Creators</h5>
             <div className="d-flex center">
@@ -190,7 +189,6 @@ const UserInformation = () => {
             <Table columns={mobileviewcolumns} dataSource={data} />
           </div>
         </div>
-      </div>
     </div>
   );
 };

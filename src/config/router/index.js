@@ -5,6 +5,7 @@ import {
   NotFound,
   UserInformation,
   DataSection,
+  AdminSupport
 } from "../../containers/index";
 // import { useSelector } from "react-redux";
 
@@ -21,6 +22,7 @@ const Router = () => {
         <Route path="/" element={<Dashboard />} />
         <Route path="/user-information" element={<UserInformation />} />
         <Route path="/data-section" element={<DataSection />} />
+        <Route path="/admin-support" element={<AdminSupport />} />
         <Route path="*" element={<NotFound />} />
         {/* {(Object.keys(data).length > 0 || userData) && (
           <>

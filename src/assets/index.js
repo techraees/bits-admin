@@ -28,6 +28,10 @@ import video from "./icons/video.svg";
 import upload from "./icons/upload.svg";
 import thumbnail from "./images/thumbnail.png";
 import profile_small from "./images/profile_small.png";
+import ellipse from "./images/ellipse.png";
+import ellipse2 from "./images/ellipse2.png";
+import send from "./icons/send.svg";
+import right_arrow from "./icons/right_arrow.svg";
 
 export {
   logo,
@@ -60,4 +64,8 @@ export {
   upload,
   thumbnail,
   profile_small,
+  ellipse,
+  ellipse2,
+  send,
+  right_arrow,
 };
