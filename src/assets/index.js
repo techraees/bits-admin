@@ -23,6 +23,11 @@ import filter from "./icons/filter.svg";
 import menu_icon2 from "./icons/menu_icon2.svg";
 import plus from "./icons/plus.svg";
 import sort from "./icons/sort.svg";
+import plus2 from "./icons/plus2.svg";
+import video from "./icons/video.svg";
+import upload from "./icons/upload.svg";
+import thumbnail from "./images/thumbnail.png";
+import profile_small from "./images/profile_small.png";
 
 export {
   logo,
@@ -50,4 +55,9 @@ export {
   menu_icon2,
   plus,
   sort,
+  plus2,
+  video,
+  upload,
+  thumbnail,
+  profile_small,
 };

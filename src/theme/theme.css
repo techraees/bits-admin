@@ -46,6 +46,10 @@
     color: #F26464 !important;
 }
 
+.bg-red2 {
+    background-color: #F26464 !important;
+}
+
 .yellow {
     color: #FFB648 !important;
 }
@@ -64,6 +68,10 @@
 
 .grey-border-bottom {
     border-bottom: 1px solid #313148 !important;
+}
+
+.light-grey-border-bottom {
+    border-bottom: 1px solid #BABACC !important;
 }
 
 .grey-border-top {
@@ -90,6 +98,10 @@
     color: black !important;
 }
 
+.bg-black {
+    background-color: black !important;
+}
+
 .pink {
     color: #B52269 !important;
 }
@@ -99,11 +111,11 @@
 }
 
 .radius1 {
-    border-radius: 10px;
+    border-radius: 10px !important;
 }
 
 .radius2 {
-    border-radius: 20px;
+    border-radius: 20px !important;
 }
 
 .semi-bold {
