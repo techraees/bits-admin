@@ -34,6 +34,10 @@
     background-color: #428DFF !important;
 }
 
+.bg-orange {
+    background-color:#E33922 !important;
+}
+
 .bg-light-blue {
     background-color: #DAF2FD !important;
 }
@@ -106,7 +110,7 @@
     background-color: #FDFAFA !important;
 }
 
-.bg-green{
+.bg-green {
     background-color: #3BB447 !important;
 }
 
