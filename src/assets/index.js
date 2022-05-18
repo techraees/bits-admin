@@ -32,6 +32,9 @@ import ellipse from "./images/ellipse.png";
 import ellipse2 from "./images/ellipse2.png";
 import send from "./icons/send.svg";
 import right_arrow from "./icons/right_arrow.svg";
+import plus3 from "./icons/plus3.svg";
+import metamask from "./images/metamask.png";
+import paypal from "./images/paypal.png";
 
 export {
   logo,
@@ -68,4 +71,7 @@ export {
   ellipse2,
   send,
   right_arrow,
+  plus3,
+  metamask,
+  paypal,
 };

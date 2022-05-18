@@ -69,6 +69,7 @@ const MenuComponent = ({ menuHandle, selectedKey, className }) => {
           item.key === "2" && navigate("/user-information");
           item.key === "3" && navigate("/data-section");
           item.key === "4" && navigate("/admin-support");
+          item.key === "5" && navigate("/payment");
         }}
       />
     </div>
