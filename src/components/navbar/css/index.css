@@ -18,6 +18,14 @@
     display: none;
 }
 
+.loginBtn{
+    border: none !important;
+}
+
+.loginBtn:focus{
+    border: none !important;
+}
+
 @media only screen and (max-width: 600px) {
     .menuBarWebView {
         display: none;

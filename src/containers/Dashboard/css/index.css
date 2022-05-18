@@ -1,0 +1,30 @@
+.dashboardCover {
+    background-image: url("../../../assets/images/dashboard_cover.png");
+    object-fit: cover;
+    border-bottom-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+}
+
+.dashboardBtns {
+    border: 1px solid #D54343 !important;
+    border-radius: 20px !important;
+    height: 40px !important;
+}
+
+.dashboardCards {
+    width: 240px;
+    background-color: transparent !important;
+    border: none !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+}
+
+.headingView {
+    width: 50%;
+}
+
+@media only screen and (max-width: 600px) {
+    .headingView {
+        width: 100%;
+    }
+}

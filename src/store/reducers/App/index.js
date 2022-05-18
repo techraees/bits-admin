@@ -8,7 +8,7 @@ const INITIAL_STATE = {
     bgColor: "dark-grey-bg",
     bgColor2: "",
     bgColor3: "black-background3",
-    border: "dark-border"
+    border: "dark-border",
   },
 };
 

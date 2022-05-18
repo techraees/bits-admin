@@ -1,3 +1,4 @@
+import Dashboard from "./Dashboard";
 import Login from "./Login";
 import Collections from "./Collections";
 import TransactionHistory from "./TransactionHistory";
@@ -12,6 +13,7 @@ import VideoGallery from "./VideoGallery";
 import NotFound from "./NotFound";
 
 export {
+  Dashboard,
   Login,
   Collections,
   TransactionHistory,

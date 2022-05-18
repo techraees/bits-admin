@@ -56,6 +56,7 @@ import account_dark from "./icons/account_dark.svg";
 import location_dark2 from "./icons/location_dark2.svg";
 import down_arrow4 from "./icons/down_arrow4.svg";
 import about3 from "./icons/about3.svg";
+import dashboard_cover from "./images/dashboard_cover.png";
 
 export {
   logo,
@@ -116,4 +117,5 @@ export {
   location_dark2,
   down_arrow4,
   about3,
+  dashboard_cover,
 };
