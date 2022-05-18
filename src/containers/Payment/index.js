@@ -34,7 +34,7 @@ const Payment = () => {
   ];
   return (
     <div className="bg-white2">
-      <NavbarComponent lightNav headerTxt={"Payment"} selectedKey={"4"} />
+      <NavbarComponent lightNav headerTxt={"Payment"} selectedKey={"5"} />
       <div className="container radius1 bg-white p-4" style={{ marginTop: 65 }}>
         <div className="row">
           <div className="col-lg-6">

@@ -35,6 +35,8 @@ import right_arrow from "./icons/right_arrow.svg";
 import plus3 from "./icons/plus3.svg";
 import metamask from "./images/metamask.png";
 import paypal from "./images/paypal.png";
+import plus4 from "./icons/plus4.svg";
+import delete_icon from "./icons/delete_icon.svg";
 
 export {
   logo,
@@ -74,4 +76,6 @@ export {
   plus3,
   metamask,
   paypal,
+  plus4,
+  delete_icon,
 };
