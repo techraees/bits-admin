@@ -59,10 +59,7 @@ const PreviousNotes = () => {
         headerTxt={"Previous Notes"}
         selectedKey={"6"}
       />
-      <div
-        className="container radius1 bg-white p-4"
-        style={{ marginTop: 65 }}
-      >
+      <div className="container radius1 bg-white p-4" style={{ marginTop: 65 }}>
         <div className="d-flex justify-content-between">
           <h5>All Previous Notes</h5>
           <Dropdown overlay={menu}>

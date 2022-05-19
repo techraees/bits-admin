@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./css/index.css";
 import ReactPlayer from "react-player";
 import { check, cross, menu_icon3, zoom } from "../../assets";
-import { Dropdown, Menu, Button, Space } from "antd";
+import { Dropdown, Menu, Button, Modal } from "antd";
 
 const UserVideoCard = ({ videoUrl, Name }) => {
   const profileMenu = (
@@ -22,25 +22,47 @@ const UserVideoCard = ({ videoUrl, Name }) => {
       ]}
     />
   );
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   return (
     <div className="col-lg-4 col-md-6 col-12 my-3">
+      <Modal
+        title={false}
+        closeIcon={<></>}
+        footer={null}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <ReactPlayer width={"auto"} height={470} url={videoUrl} />
+      </Modal>
       <div
         className="d-flex justify-content-between px-2"
         style={{ alignItems: "start" }}
       >
         <div className="playerView shadowBorder">
-          <div className="d-flex justify-content-end">
+          <div
+            onClick={() => setIsModalVisible(true)}
+            className="cursor d-flex justify-content-end"
+          >
             <img
               src={zoom}
               style={{ position: "absolute", width: 25 }}
               className="p-2"
             />
           </div>
-          <ReactPlayer
-            width={130}
-            height={110}
-            url={videoUrl}
-          />
+          <ReactPlayer width={130} height={110} url={videoUrl} />
         </div>
         <div>
           <div className="mt-2 ms-3">

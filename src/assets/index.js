@@ -51,6 +51,10 @@ import user3 from "./icons/user3.svg";
 import profile_large from "./images/profile_large.png";
 import location_large from "./icons/location_large.svg";
 import zoom from "./icons/zoom.svg";
+import cross2 from "./icons/cross2.svg";
+import save from "./icons/save.svg";
+import attachment from "./icons/attachment.svg";
+import upload2 from "./icons/upload2.svg";
 
 export {
   logo,
@@ -106,4 +110,8 @@ export {
   profile_large,
   location_large,
   zoom,
+  cross2,
+  save,
+  attachment,
+  upload2,
 };
