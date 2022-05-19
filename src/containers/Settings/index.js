@@ -1,21 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import "./css/index.css";
 import { NavbarComponent } from "../../components";
 import { Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 
 const Settings = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   return (
     <div className="bg-white2 pb-4">
       <NavbarComponent lightNav headerTxt={"Settings"} selectedKey={"7"} />
-      <div
-        className="container radius1 bg-white p-4"
-        style={{ marginTop: 65 }}
-      >
+      <div className="container radius1 bg-white p-4" style={{ marginTop: 65 }}>
+        <Modal
+          title={false}
+          closeIcon={<></>}
+          visible={isModalVisible}
+          onCancel={handleCancel}
+          footer={null}
+          bodyStyle={{
+            backgroundColor: "#10101c",
+            opacity: ".8",
+            height: 230,
+            borderRadius: 20,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          centered
+        >
+          <h3 style={{ color: "#34C943" }}>Admin Request Sent</h3>
+        </Modal>
         <div className="row">
           <div className="col-lg-6">
-            <div className="bg-white2 p-3 radius1" style={{height:500}}>
+            <div className="bg-white2 p-3 radius1" style={{ height: 500 }}>
               <span style={{ fontSize: 18 }} className="semi-bold">
                 Edit Profile
               </span>
@@ -58,7 +81,7 @@ const Settings = () => {
             </div>
           </div>
           <div className="col-lg-6">
-            <div className="bg-white2 p-3 radius1" style={{height:500}}>
+            <div className="bg-white2 p-3 radius1" style={{ height: 500 }}>
               <span style={{ fontSize: 18 }} className="semi-bold">
                 Assign New Admin Role
               </span>
@@ -81,6 +104,7 @@ const Settings = () => {
                 <Button
                   style={{ width: "40%" }}
                   className="bg-black white settingScreenBtns"
+                  onClick={showModal}
                 >
                   Send Request
                 </Button>
