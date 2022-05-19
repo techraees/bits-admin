@@ -6,6 +6,7 @@ import AdminSupport from "./AdminSupport";
 import Payment from "./Payment";
 import PreviousNotes from "./PreviousNotes";
 import Settings from "./Settings";
+import UserProfile from "./UserProfile";
 
 export {
   Dashboard,
@@ -16,4 +17,5 @@ export {
   Payment,
   PreviousNotes,
   Settings,
+  UserProfile,
 };

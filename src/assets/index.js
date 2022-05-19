@@ -37,6 +37,20 @@ import metamask from "./images/metamask.png";
 import paypal from "./images/paypal.png";
 import plus4 from "./icons/plus4.svg";
 import delete_icon from "./icons/delete_icon.svg";
+import calender from "./icons/calender.svg";
+import call from "./icons/call.svg";
+import check from "./icons/check.svg";
+import cross from "./icons/cross.svg";
+import flag from "./icons/flag.svg";
+import left_arrow from "./icons/left_arrow.svg";
+import location from "./icons/location.svg";
+import menu_icon3 from "./icons/menu_icon3.svg";
+import message3 from "./icons/message3.svg";
+import plus5 from "./icons/plus5.svg";
+import user3 from "./icons/user3.svg";
+import profile_large from "./images/profile_large.png";
+import location_large from "./icons/location_large.svg";
+import zoom from "./icons/zoom.svg";
 
 export {
   logo,
@@ -78,4 +92,18 @@ export {
   paypal,
   plus4,
   delete_icon,
+  calender,
+  call,
+  check,
+  cross,
+  flag,
+  left_arrow,
+  location,
+  menu_icon3,
+  message3,
+  plus5,
+  user3,
+  profile_large,
+  location_large,
+  zoom,
 };

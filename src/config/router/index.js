@@ -9,6 +9,7 @@ import {
   Payment,
   PreviousNotes,
   Settings,
+  UserProfile
 } from "../../containers/index";
 // import { useSelector } from "react-redux";
 
@@ -29,6 +30,7 @@ const Router = () => {
         <Route path="/payment" element={<Payment />} />
         <Route path="/previous-notes" element={<PreviousNotes />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/user-information/user-profile" element={<UserProfile />} />
         <Route path="*" element={<NotFound />} />
         {/* {(Object.keys(data).length > 0 || userData) && (
           <>
