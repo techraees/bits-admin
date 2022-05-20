@@ -21,8 +21,8 @@ import { DownOutlined } from "@ant-design/icons";
 import TextEditorModal from "../../components/textEditorModal";
 
 const UserProfile = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [userVideos, setUserVideos] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState("");
+  const [userVideos, setUserVideos] = useState(true);
   const profileDetails = [
     {
       icon: user3,
@@ -91,39 +91,48 @@ const UserProfile = () => {
   );
   let cardsData = [
     {
-      videoUrl: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoUrl:
+        "https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)",
       name: "Speedy Walkovers",
     },
     {
-      videoUrl: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoUrl:
+        "https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)",
       name: "Speedy Walkovers",
     },
     {
-      videoUrl: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoUrl:
+        "https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)",
       name: "Speedy Walkovers",
     },
     {
-      videoUrl: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoUrl:
+        "https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)",
       name: "Speedy Walkovers",
     },
     {
-      videoUrl: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoUrl:
+        "https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)",
       name: "Speedy Walkovers",
     },
     {
-      videoUrl: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoUrl:
+        "https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)",
       name: "Speedy Walkovers",
     },
     {
-      videoUrl: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoUrl:
+        "https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)",
       name: "Speedy Walkovers",
     },
     {
-      videoUrl: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoUrl:
+        "https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)",
       name: "Speedy Walkovers",
     },
     {
-      videoUrl: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoUrl:
+        "https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)",
       name: "Speedy Walkovers",
     },
   ];
@@ -173,34 +182,36 @@ const UserProfile = () => {
           onCancel={() => setIsModalVisible(false)}
         />
         <div className="p-3">
-          <div className="d-flex">
+          <div className="d-flex profileInformationView">
             <h5 className="black m-0 me-4">Profile Information </h5>
             <span
-              className="mx-4"
+              className="me-4 profileInformationBorder"
               style={{ border: "1px solid #D54343" }}
             ></span>
-            <div
-              onClick={() => setIsModalVisible(true)}
-              className="cursor mx-4 d-flex center"
-            >
-              <img src={plus5} />
-              <span className="ms-2">Add a Note</span>
-            </div>
-            <div
-              onClick={() => setUserVideos(!userVideos)}
-              className="cursor mx-4 d-flex center"
-            >
-              <img src={left_arrow} />
-              <span className="ms-2">Previous Notes</span>
+            <div className="optionsView">
+              <div
+                onClick={() => setIsModalVisible(true)}
+                className="cursor  d-flex center"
+              >
+                <img src={plus5} />
+                <span className="ms-2">Add a Note</span>
+              </div>
+              <div
+                onClick={() => setUserVideos(!userVideos)}
+                className="cursor ms-4 d-flex center"
+              >
+                <img src={left_arrow} />
+                <span className="ms-2">Previous Notes</span>
+              </div>
             </div>
           </div>
           <div className="light-grey-border-bottom my-3"></div>
-          <div className="d-flex center justify-content-between">
+          <div className="d-flex center justify-content-between profileContainer">
             <div
               className="d-flex profileImageContainer"
               style={{ alignItems: "center" }}
             >
-              <img src={profile_large} className="collectionImage" />
+              <img src={profile_large} />
               <div className="userNameView">
                 <h3 className="red3 semi-bold">Snap Boogie</h3>
                 <div className="d-flex mb-1">
@@ -230,7 +241,7 @@ const UserProfile = () => {
         <div className="bg-white2 px-5 py-3 row">
           {profileDetails.map((e, i) => {
             return (
-              <div key={i} className="col-lg-4 my-3 profileDetailsMobView">
+              <div key={i} className="col-lg-4 my-3 ">
                 <div className="d-flex center">
                   <div className="profileIconStyle">
                     <img src={e.icon} />
@@ -333,14 +344,6 @@ const UserProfile = () => {
               })} */}
             </>
           )}
-          <iframe
-            width="560"
-            height="315"
-            src="https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)"
-            frameborder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./css/index.css";
-import ReactPlayer from "react-player";
+import Iframe from "react-iframe";
 import { check, cross, menu_icon3, zoom } from "../../assets";
 import { Dropdown, Menu, Button, Modal } from "antd";
 
@@ -22,14 +22,10 @@ const UserVideoCard = ({ videoUrl, Name }) => {
       ]}
     />
   );
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState("");
 
   const showModal = () => {
     setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
@@ -42,10 +38,17 @@ const UserVideoCard = ({ videoUrl, Name }) => {
         closeIcon={<></>}
         footer={null}
         visible={isModalVisible}
-        onOk={handleOk}
         onCancel={handleCancel}
       >
-        <ReactPlayer width={"auto"} height={470} url={videoUrl} />
+        <Iframe
+          url={videoUrl}
+          width="100%"
+          height="470px"
+          id="myId"
+          className="myClassname"
+          display="initial"
+          position="relative"
+        />
       </Modal>
       <div
         className="d-flex justify-content-between px-2"
@@ -53,7 +56,7 @@ const UserVideoCard = ({ videoUrl, Name }) => {
       >
         <div className="playerView shadowBorder">
           <div
-            onClick={() => setIsModalVisible(true)}
+            onClick={showModal}
             className="cursor d-flex justify-content-end"
           >
             <img
@@ -62,7 +65,14 @@ const UserVideoCard = ({ videoUrl, Name }) => {
               className="p-2"
             />
           </div>
-          <ReactPlayer width={130} height={110} url={videoUrl} />
+          <Iframe
+            url={videoUrl}
+            width="130px"
+            height="110px"
+            id="myId"
+            className="myClassname"
+            display="initial"
+          />
         </div>
         <div>
           <div className="mt-2 ms-3">

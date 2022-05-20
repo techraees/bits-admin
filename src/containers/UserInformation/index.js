@@ -1,7 +1,7 @@
 import React from "react";
 import "./css/index.css";
 import { NavbarComponent } from "../../components";
-import { filter, menu_icon2, plus, sort } from "../../assets";
+import { filter, menu_icon2, plus, profile, sort } from "../../assets";
 import { Table, Dropdown, Menu, Button, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,15 @@ const UserInformation = () => {
     {
       title: "Name",
       dataIndex: "name",
+      render: () => (
+        <div className="d-flex center">
+          <img src={profile} />
+          <div className="ms-3">
+            <span className="semi-bold black">Snap</span>
+            <p className="light-grey m-0">Updated 1 day ago</p>
+          </div>
+        </div>
+      ),
     },
     {
       title: "Email",
@@ -42,7 +51,7 @@ const UserInformation = () => {
       dataIndex: "icon",
       render: () => (
         <Dropdown className="ms-4" overlay={profileMenu}>
-          <img style={{ cursor: "pointer" }} src={menu_icon2} />
+          <img style={{ cursor: "pointer" }} className="p-2" src={menu_icon2} />
         </Dropdown>
       ),
     },
@@ -83,31 +92,31 @@ const UserInformation = () => {
       contactInfo: "+1 22330044",
       country: "USA",
     },
-  ]; // rowSelection object indicates the need for row selection
+  ];
   const mobileviewcolumns = [
     {
-      title: "Billing date",
-      dataIndex: "billingDate",
+      title: "Name",
+      dataIndex: "name",
+      render: () => <img src={profile} />,
     },
     {
-      title: "",
-      dataIndex: "download",
+      title: "Details",
+      dataIndex: "details",
       render: () => (
-        <span className="green" style={{ cursor: "pointer" }}>
-          Download
-        </span>
+        <Button
+          className="bg-blue white"
+          style={{ borderRadius: 20, width: "100%" }}
+        >
+          Send Notifications
+        </Button>
       ),
     },
     {
       title: "",
       dataIndex: "icon",
       render: () => (
-        <Dropdown className="ms-4" overlay={menu}>
-          <Button className="dropdowmStyle">
-            <Space>
-              <img style={{ cursor: "pointer" }} src={menu_icon2} />
-            </Space>
-          </Button>
+        <Dropdown className="ms-4" overlay={profileMenu}>
+          <img style={{ cursor: "pointer" }} className="p-2" src={menu_icon2} />
         </Dropdown>
       ),
     },
@@ -162,26 +171,38 @@ const UserInformation = () => {
         className="container py-3 bg-white radius1"
         style={{ marginTop: 65 }}
       >
-        <div className="d-flex p-4 justify-content-between">
+        <div className="d-flex p-4 justify-content-between center">
           <h5 className="m-0">Creators</h5>
           <div className="d-flex center">
             <div>
-              <span className="blue me-2">Add New User</span>
-              <img src={plus} />
+              <div>
+                <span className="blue me-2">Add New User</span>
+                <img src={plus} />
+              </div>
+              <div className="ms-4 mt-1 optionsMobView">
+                <img src={sort} className="me-2" />
+                <span className="purple">Sort</span>
+              </div>
             </div>
-            <Dropdown className="ms-4" overlay={menu}>
-              <Button className="dropdowmStyle">
-                <Space>
-                  Creator
-                  <DownOutlined />
-                </Space>
-              </Button>
-            </Dropdown>
-            <div className="ms-4">
+            <div>
+              <Dropdown className="ms-4" overlay={menu}>
+                <Button className="dropdowmStyle">
+                  <Space>
+                    Creator
+                    <DownOutlined />
+                  </Space>
+                </Button>
+              </Dropdown>
+              <div className="ms-4 mt-1 optionsMobView">
+                <img src={filter} className=" me-2" />
+                <span className="purple">Filter</span>
+              </div>
+            </div>
+            <div className="ms-4 optionsWebView">
               <img src={sort} className="me-2" />
               <span className="purple">Sort</span>
             </div>
-            <div className="ms-4">
+            <div className="ms-4 optionsWebView">
               <img src={filter} className=" me-2" />
               <span className="purple">Filter</span>
             </div>

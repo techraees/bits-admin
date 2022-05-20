@@ -5,12 +5,12 @@ import {
   folder,
   home,
   logo,
-  menu_icon,
   paper,
   pen,
   settings,
   user,
   message,
+  toggle_menu,
 } from "../../assets";
 import { useNavigate } from "react-router-dom";
 
@@ -25,14 +25,6 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-  // getItem(
-  //   <img src={menu_icon}/>,
-  //   "10",
-  //   <>
-  //     <img src={logo} />
-  //     <span>BITS</span>
-  //   </>
-  // ),
   getItem("Dashboard", "1", <img src={home} />),
   getItem("User Information", "2", <img src={user} />),
   getItem("Data Section", "3", <img src={folder} />),
@@ -42,21 +34,44 @@ const items = [
   getItem("Settings", "7", <img src={settings} />),
 ];
 
-const MenuComponent = ({ menuHandle, selectedKey, className }) => {
+const MenuComponent = ({ selectedKey, className }) => {
   let navigate = useNavigate();
+  const [menuHandle, setmenuHandle] = useState(true);
   return (
     <div
-      className={`${className}`}
+      className={`${className} bg-dark-blue2`}
       style={{
-        width: 256,
-        // position:"absolute"
+        width: menuHandle ? 80 : 256,
         zIndex: 1,
-        top: 58,
         overflow: "auto",
         position: "fixed",
         left: 0,
       }}
     >
+      {menuHandle ? (
+        <div
+          style={{ width: 80, height: 55 }}
+          onClick={() => setmenuHandle(false)}
+          className="cursor d-flex center justify-content-center mt-2"
+        >
+          <img src={toggle_menu} />
+        </div>
+      ) : (
+        <div style={{ width: 260, height: 55 }} className="mt-2">
+          <div className="d-flex justify-content-between center ps-2 pe-3">
+            <div className="d-flex center">
+              <img src={logo} />
+              <h5 className="red ms-3 semi-bold m-0">BITS</h5>
+            </div>
+            <img
+              src={toggle_menu}
+              onClick={() => setmenuHandle(true)}
+              className="cursor"
+            />
+          </div>
+        </div>
+      )}
+      <div className="grey-border2 mt-2 mb-4 mx-3"></div>
       <Menu
         className="manuStyle bg-dark-blue2"
         defaultSelectedKeys={[selectedKey]}

@@ -76,7 +76,7 @@ const PreviousNotes = () => {
           return (
             <div
               key={i}
-              className="bg-white2 radius1 p-3 my-1 d-flex justify-content-between center"
+              className="bg-white2 radius1 p-3 my-1 d-flex center notesView"
             >
               <div className="d-flex center">
                 <img src={e.image} style={{ width: 80 }} />
@@ -86,7 +86,7 @@ const PreviousNotes = () => {
                   <Button className="readBtn px-4">Read</Button>
                 </div>
               </div>
-              <div className="d-flex center">
+              <div className="d-flex center addNotes">
                 <Button className="notesBtn px-4 d-flex center">
                   <img src={plus4} />
                   <span className="ms-2">Add New Note</span>

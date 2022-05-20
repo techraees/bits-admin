@@ -55,6 +55,7 @@ import cross2 from "./icons/cross2.svg";
 import save from "./icons/save.svg";
 import attachment from "./icons/attachment.svg";
 import upload2 from "./icons/upload2.svg";
+import toggle_menu from "./icons/toggle_menu.svg";
 
 export {
   logo,
@@ -114,4 +115,5 @@ export {
   save,
   attachment,
   upload2,
+  toggle_menu,
 };

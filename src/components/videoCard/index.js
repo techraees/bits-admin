@@ -5,17 +5,19 @@ import { Button } from "antd";
 
 const VideoCard = ({ videoThumbnail, name, title, image, description }) => {
   return (
-    <div className="light-grey-border-bottom d-flex center py-4">
-      <img src={videoThumbnail} className="me-3" style={{ width: 150 }} />
+    <div
+      className="light-grey-border-bottom d-flex center py-4 videoCardMobView"
+    >
+      <img src={videoThumbnail} className="me-3 videoCardMobAlignment" style={{ width: 150 }} />
       <div>
-        <h5 className="m-0">{title}</h5>
-        <div className="d-flex center">
+        <h5 className="m-0 videoCardMobAlignment">{title}</h5>
+        <div className="d-flex center videoCardMobAlignment">
           <img src={image} />
           <h5 className="m-0 ms-2 red2">{name}</h5>
         </div>
-        <span className="light-grey">{description}</span>
+        <span className="light-grey videoCardMobAlignment">{description}</span>
       </div>
-      <div className="d-block ms-3">
+      <div className="d-block ms-3 videoCardMobAlignment">
         <Button className="videoCardBtns bg-black radius1 mb-2 white">
           Block
         </Button>

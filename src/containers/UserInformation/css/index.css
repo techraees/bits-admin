@@ -13,8 +13,16 @@
     color: #9FA2B4 !important
 }
 
-.dropdowmStyle:hover{
+.dropdowmStyle:hover {
     color: #9FA2B4 !important;
+}
+
+.optionsMobView {
+    display: none;
+}
+
+.optionsWebView {
+    display: block;
 }
 
 @media only screen and (max-width: 600px) {
@@ -24,5 +32,13 @@
 
     .mobtable {
         display: block;
+    }
+
+    .optionsMobView {
+        display: block;
+    }
+
+    .optionsWebView {
+        display: none;
     }
 }

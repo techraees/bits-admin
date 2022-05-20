@@ -133,7 +133,7 @@ const Dashboard = () => {
   return (
     <div className="bg-dark-blue">
       <NavbarComponent selectedKey={"1"} />
-      <div className="container py-3 dashboardContainer">
+      <div className="container py-4 dashboardContainer">
         <h5 className="white">Dashboard</h5>
         <div className="row">
           <StatisticsCard

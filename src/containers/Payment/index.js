@@ -75,8 +75,10 @@ const Payment = () => {
               <div className="p-4">
                 <h5 className="m-0">Payment Methods</h5>
                 <div className="light-grey-border-bottom my-3"></div>
-                <div className="d-flex justify-content-between mt-4">
-                  <div>
+                <div
+                  className="d-flex justify-content-between mt-4 paymentMethodCard"
+                >
+                  <div className="paymentMethodCardContent">
                     <div className="my-4">
                       <img src={metamask} />
                       <p className="red2 m-0 cursor mt-2">Remove x</p>
@@ -109,7 +111,7 @@ const Payment = () => {
               </div>
             </div>
           </div>
-          <div className="col-lg-6">
+          <div className="col-lg-6 withdrawRequest">
             <div className="radius2 shadowBorder p-4">
               <h5>Withdraw Request</h5>
               <div className="light-grey-border-bottom my-3"></div>

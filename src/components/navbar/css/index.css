@@ -6,14 +6,6 @@
     align-items: center;
 }
 
-.menuBarWebView {
-    display: block;
-}
-
-.menuBarMobView {
-    display: none;
-}
-
 .searchStyle {
     border-radius: 10px !important;
     color: #fff !important;
@@ -21,16 +13,37 @@
     padding-left: 15px !important;
 }
 
-.searchStyle:focus{
+.searchStyle:focus {
     box-shadow: none !important;
 }
 
+.toggleBtn {
+    display: none;
+}
+
+.headerStyle {
+    margin-left: 90px;
+}
+
+.mobMenuBar{
+    display: none;
+}
+
 @media only screen and (max-width: 600px) {
-    .menuBarWebView {
+    .webMenuBar {
         display: none;
     }
 
-    .menuBarMobView {
+    .mobMenuBar{
         display: block;
+    }
+
+    .toggleBtn {
+        display: block;
+    }
+
+    .headerStyle {
+        margin-left: 0px;
+        margin-right: 25px;
     }
 }

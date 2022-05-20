@@ -8,3 +8,9 @@
     height: 50px !important;
     border-radius: 10px !important;
 }
+
+@media only screen and (max-width: 600px) {
+    .settingsSecondCard{
+        margin-top: 20px;
+    }
+}

@@ -6,7 +6,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Modal } from "antd";
 
 const Settings = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState("");
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -27,7 +27,6 @@ const Settings = () => {
             backgroundColor: "#10101c",
             opacity: ".8",
             height: 230,
-            borderRadius: 20,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -80,7 +79,7 @@ const Settings = () => {
               </div>
             </div>
           </div>
-          <div className="col-lg-6">
+          <div className="col-lg-6 settingsSecondCard">
             <div className="bg-white2 p-3 radius1" style={{ height: 500 }}>
               <span style={{ fontSize: 18 }} className="semi-bold">
                 Assign New Admin Role

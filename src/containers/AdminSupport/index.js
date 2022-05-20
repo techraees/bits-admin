@@ -163,8 +163,8 @@ const AdminSupport = () => {
                     <img src={right_arrow} />
                     <h5 className="m-0 ms-2">John Smith</h5>
                   </div>
-                  <div className="d-flex center">
-                    <div className="d-flex center">
+                  <div className="center liveChatHeadView">
+                    <div className="d-flex center liveChat">
                       <img src={ellipse2} />
                       <h5 className="m-0 ms-2">Live Chat</h5>
                     </div>

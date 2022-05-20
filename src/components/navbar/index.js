@@ -1,11 +1,18 @@
 import React, { useState } from "react";
-import { bell, menu_icon, profile, search } from "../../assets/index";
+import {
+  bell,
+  menu_icon,
+  profile,
+  search,
+  toggle_menu,
+} from "../../assets/index";
 import MenuComponent from "../menu";
 import { Input } from "antd";
 import "./css/index.css";
+import MobMenuComponent from "../mobMenu";
 
 const NavbarComponent = ({ selectedKey, lightNav, headerTxt }) => {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const [menuBar, setMenuBar] = useState(false);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -16,10 +23,12 @@ const NavbarComponent = ({ selectedKey, lightNav, headerTxt }) => {
   return (
     <div className="d-flex fixed-top">
       <div>
-        <MenuComponent
+        <MenuComponent selectedKey={selectedKey} className="webMenuBar" />
+        <MobMenuComponent
           selectedKey={selectedKey}
-          menuHandle={collapsed}
-          className="menuBarWebView"
+          className="mobMenuBar"
+          showMenu={collapsed}
+          setShowMenu={(e)=>setCollapsed(e)}
         />
       </div>
       <div style={{ width: "100%" }}>
@@ -29,22 +38,20 @@ const NavbarComponent = ({ selectedKey, lightNav, headerTxt }) => {
               ? "bg-white2 navbar-light bg-light"
               : "bg-dark-blue2 navbar-dark bg-dark"
           }`}
+          style={{ height: "auto" }}
         >
           <div className="container-fluid">
             <img
               onClick={toggleCollapsed}
-              src={menu_icon}
-              className="cursor mx-4 menuBarWebView"
-            />
-            <img
-              onClick={handleMenu}
-              src={menu_icon}
-              className="cursor mx-4 menuBarMobView"
+              src={toggle_menu}
+              className="cursor toggleBtn mx-4 menuBarWebView"
             />
             {lightNav ? (
-              <h5 className="black">{headerTxt}</h5>
+              <h5 className="black headerStyle">{headerTxt}</h5>
             ) : (
-              <div className="d-flex searchStyle bg-dark-blue3">
+              <div
+                className="d-flex searchStyle headerStyle bg-dark-blue3"
+              >
                 <img className="cursor" style={{ width: 15 }} src={search} />
                 <Input
                   placeholder="Search ..."
@@ -98,12 +105,11 @@ const NavbarComponent = ({ selectedKey, lightNav, headerTxt }) => {
           </div>
         </nav>
       </div>
-
       {/* {menuBar && (
         <MenuComponent
-        selectedKey={selectedKey}
-        menuHandle={false}
-        className="menuBarMobView"
+          selectedKey={selectedKey}
+          collapsed={false}
+          className="menuBarMobView"
         />
       )} */}
     </div>

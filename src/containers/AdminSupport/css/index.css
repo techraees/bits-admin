@@ -18,3 +18,16 @@
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
 }
+
+.liveChatHeadView{
+    display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+    .liveChatHeadView{
+        display: block;
+    }
+    .liveChat{
+        margin-bottom: 5px;
+    }
+}

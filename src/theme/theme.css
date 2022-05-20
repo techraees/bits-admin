@@ -90,6 +90,10 @@
     border: 1px solid #DFE0EB !important;
 }
 
+.grey-border2 {
+    border: 1px solid #313148 !important;
+}
+
 .grey-border-bottom {
     border-bottom: 1px solid #313148 !important;
 }

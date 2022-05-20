@@ -28,12 +28,16 @@ const TextEditorModal = ({ visible, onCancel }) => {
       footer={
         <div className="d-flex justify-content-between center p-3">
           <span className="red m-0 red-border-bottom cursor">{`See Previous Notes >>`}</span>
-          <Button className="bg-blue white radius1">Submit</Button>
+          <Button className="bg-blue white radius1" onClick={onCancel}>Submit</Button>
         </div>
       }
       centered
+      style={{ height: 400 }}
     >
-      <Input className="modalInputStyle bg-white2 mb-3" placeholder="Write Title here ..." />
+      <Input
+        className="modalInputStyle bg-white2 mb-3"
+        placeholder="Write Title here ..."
+      />
       <Editor
         // editorState={editorState}
         toolbarClassName="toolbarClassName"
