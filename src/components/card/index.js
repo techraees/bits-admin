@@ -1,10 +1,10 @@
 import React from "react";
 import "./css/index.css";
 import { Card } from "antd";
-import ReactPlayer from "react-player";
 import { check, cross, thumb } from "../../assets";
 import { Button } from "antd";
 import ButtonComponent from "../button";
+import Iframe from "react-iframe";
 
 const CardCompnent = ({
   image,
@@ -19,7 +19,17 @@ const CardCompnent = ({
       <Card
         hoverable
         className="cardContainer"
-        cover={<ReactPlayer width={240} height={190} url={videoLink} />}
+        cover={
+          <Iframe
+            url="https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)"
+            width="260px"
+            height="190px"
+            id="myId"
+            className="myClassname"
+            display="initial"
+            position="relative"
+          />
+        }
       >
         {topName ? (
           <div className="d-flex mb-3" style={{ alignItems: "center" }}>
@@ -58,7 +68,9 @@ const CardCompnent = ({
             <img style={{ width: 25 }} className="mb-1" src={thumb} />
           </div>
         </div>
-        {collectionBtn && <Button className="mt-2 collectionBtn">Go to Collection</Button>}
+        {collectionBtn && (
+          <Button className="mt-2 collectionBtn">Go to Collection</Button>
+        )}
       </Card>
     </div>
   );
