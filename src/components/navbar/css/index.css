@@ -46,4 +46,8 @@
         margin-left: 0px;
         margin-right: 25px;
     }
+
+    .searchStyle{
+        width: 50%;
+    }
 }

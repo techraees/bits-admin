@@ -28,7 +28,7 @@ const NavbarComponent = ({ selectedKey, lightNav, headerTxt }) => {
           selectedKey={selectedKey}
           className="mobMenuBar"
           showMenu={collapsed}
-          setShowMenu={(e)=>setCollapsed(e)}
+          setShowMenu={(e) => setCollapsed(e)}
         />
       </div>
       <div style={{ width: "100%" }}>
@@ -49,9 +49,7 @@ const NavbarComponent = ({ selectedKey, lightNav, headerTxt }) => {
             {lightNav ? (
               <h5 className="black headerStyle">{headerTxt}</h5>
             ) : (
-              <div
-                className="d-flex searchStyle headerStyle bg-dark-blue3"
-              >
+              <div className="d-flex searchStyle headerStyle bg-dark-blue3">
                 <img className="cursor" style={{ width: 15 }} src={search} />
                 <Input
                   placeholder="Search ..."
