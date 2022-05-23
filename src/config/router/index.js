@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect, useState, useLayoutEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import {
   Dashboard,
   Login,
@@ -17,6 +17,15 @@ import {
 } from "../../containers/index";
 import { useSelector } from "react-redux";
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 const Router = () => {
   //   const data = useSelector((state) => state.auth.user);
   //   const [userData, setUserData] = useState("");
@@ -26,6 +35,7 @@ const Router = () => {
   //   }, []);
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
