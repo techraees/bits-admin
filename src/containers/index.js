@@ -11,6 +11,7 @@ import PrivacySecurity from "./PrivacySecurity";
 import Payment from "./Payment";
 import VideoGallery from "./VideoGallery";
 import NotFound from "./NotFound";
+import AboutUs from "./AboutUs";
 
 export {
   Dashboard,
@@ -26,4 +27,5 @@ export {
   Payment,
   VideoGallery,
   NotFound,
+  AboutUs,
 };

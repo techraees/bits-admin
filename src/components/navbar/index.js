@@ -95,10 +95,8 @@ const NavbarComponent = ({
                   NFT Marketplace
                 </a>
               </li>
-              <li className="nav-item mx-3">
-                <a className="nav-link" href="/">
+              <li className="nav-item mx-3 nav-link cursor" onClick={()=>navigate("/about-us")}>
                   About
-                </a>
               </li>
               <li className="nav-item mx-3">
                 <a className="nav-link" href="/">

@@ -51,9 +51,12 @@ const Dashboard = () => {
             <h1 className="white m-0 mb-2">Welcome to the</h1>
             <h1 className="red m-0 mb-3">BITS</h1>
             <span className="white">
-              Loreum ipsum Loreum ipsum Loreum ipsum Loreum ipsum Loreum ipsum
-              Loreum ipsum Loreum ipsum Loreum ipsum Loreum ipsum Loreum ipsum
-              Loreum ipsum Loreum ipsum .
+              At BITS we will take your most iconic performances and
+              immortalize them on the blockchain. First, you can provide us with
+              a signature move/moment that you're proud of, then we will turn it
+              into a potential in-game emote so that your fans can use it to
+              express themselves. We'll mint it as an NFT so you can sell it or
+              give it to your most valued supporters.
             </span>
             <div className="mt-4">
               <Button
