@@ -1,8 +1,10 @@
 .dashboardCover {
     background-image: url("../../../assets/images/dashboard_cover.jpg");
-    object-fit: cover;
+    /* object-fit: cover; */
     border-bottom-left-radius: 100px;
     border-bottom-right-radius: 100px;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .dashboardBtns {
