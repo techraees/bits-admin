@@ -1,12 +1,3 @@
-.dashboardCover {
-    background-image: url("../../../assets/images/dashboard_cover.jpg");
-    /* object-fit: cover; */
-    border-bottom-left-radius: 100px;
-    border-bottom-right-radius: 100px;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
 .dashboardBtns {
     border: 1px solid #D54343 !important;
     border-radius: 20px !important;
@@ -21,12 +12,23 @@
     overflow: hidden !important;
 }
 
-.headingView {
+.coverIframe {
+    background-color: transparent !important;
+    border: none !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+}
+
+.dashboardTitle {
     width: 50%;
 }
 
 @media only screen and (max-width: 600px) {
-    .headingView {
+    .dashboardTitle {
         width: 100%;
+        margin-bottom: 30px;
+    }
+    .breakline{
+        display: none;
     }
 }

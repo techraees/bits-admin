@@ -57,6 +57,11 @@ import location_dark2 from "./icons/location_dark2.svg";
 import down_arrow4 from "./icons/down_arrow4.svg";
 import about3 from "./icons/about3.svg";
 import dashboard_cover from "./images/dashboard_cover.jpg";
+import left_arrow_red from "./icons/left_arrow_red.svg";
+import discord_grey from "./icons/discord_grey.svg";
+import meta from "./icons/meta.svg";
+import telegram_grey from "./icons/telegram_grey.svg";
+import twitter_grey from "./icons/twitter_grey.svg";
 
 export {
   logo,
@@ -118,4 +123,9 @@ export {
   down_arrow4,
   about3,
   dashboard_cover,
+  left_arrow_red,
+  discord_grey,
+  meta,
+  telegram_grey,
+  twitter_grey,
 };

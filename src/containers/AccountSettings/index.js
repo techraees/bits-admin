@@ -24,8 +24,8 @@ const AccountSettings = () => {
       />
       <div className="container">
         <h4
-          className="white ms-4 semi-bold red-gradient-color mb-5"
-          style={{ textAlign: "center", marginTop: 60 }}
+          className="white semi-bold red-gradient-color mb-5 mt-3"
+          style={{ textAlign: "center"}}
         >
           Snap Boogie
         </h4>

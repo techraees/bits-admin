@@ -59,9 +59,8 @@ const MenuComponent = ({ menuHandle, selectedKey, className }) => {
       className={className}
       style={{
         width: 256,
-        // position: "absolute",
         zIndex: 1,
-        top: 58,
+        top: 72,
         overflow: "auto",
         position: "fixed",
         left: 0,

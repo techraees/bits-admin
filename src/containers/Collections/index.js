@@ -85,7 +85,7 @@ const Collections = () => {
         toggleBtn={textColor === "white" ? true : false}
         selectedKey={"1"}
       />
-      <div className="container pt-4">
+      <div className="container">
         <div
           style={{ alignItems: "center" }}
           className="d-flex justify-content-between collectionFirstContainer"
