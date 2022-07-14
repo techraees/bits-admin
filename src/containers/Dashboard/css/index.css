@@ -28,7 +28,13 @@
         width: 100%;
         margin-bottom: 30px;
     }
-    .breakline{
+
+    .breakline {
         display: none;
+    }
+
+    .dashboardExploreBtns {
+        display: flex;
+        justify-content: space-between;
     }
 }

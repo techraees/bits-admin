@@ -81,14 +81,14 @@ const Dashboard = () => {
               themselves. We'll mint it as an NFT so you can sell it or give it
               to your most valued supporters.
             </span>
-            <div className="mt-3">
+            <div className="mt-3 dashboardExploreBtns">
               <Button
                 className="red dashboardBtns px-5"
                 style={{ backgroundColor: "transparent" }}
               >
                 Explore
               </Button>
-              <Button className="red-background white dashboardBtns px-5 ms-4">
+              <Button className="red-background white dashboardBtns px-5 ms-2">
                 Create NFT
               </Button>
             </div>
