@@ -5,6 +5,7 @@ import { check, cross, thumb } from "../../assets";
 import { Button } from "antd";
 import ButtonComponent from "../button";
 import Iframe from "react-iframe";
+import ReactPlayer from "react-player";
 
 const CardCompnent = ({
   image,
@@ -20,15 +21,21 @@ const CardCompnent = ({
         hoverable
         className="cardContainer"
         cover={
-          <Iframe
-            url="https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)"
+          <ReactPlayer
+            controls={true}
             width="260px"
             height="190px"
-            id="myId"
-            className="myClassname"
-            display="initial"
-            position="relative"
+            url="https://www.youtube.com/watch?v=9xwazD5SyVg"
           />
+          // <Iframe
+          //   url="https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)"
+          //   width="260px"
+          //   height="190px"
+          //   id="myId"
+          //   className="myClassname"
+          //   display="initial"
+          //   position="relative"
+          // />
         }
       >
         {topName ? (

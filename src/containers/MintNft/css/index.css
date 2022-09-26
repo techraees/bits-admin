@@ -1,0 +1,19 @@
+.borderBottom {
+    border-right: 1px solid #B23232;
+}
+
+.supplyView {
+    margin-left: 80px;
+}
+
+@media only screen and (max-width: 992px) {
+    .borderBottom {
+        border-bottom: 1px solid #B23232;
+        border-right: none;
+        padding-bottom: 20px;
+    }
+    
+.supplyView {
+    margin-left: 0px;
+}
+}

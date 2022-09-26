@@ -62,6 +62,9 @@ import discord_grey from "./icons/discord_grey.svg";
 import meta from "./icons/meta.svg";
 import telegram_grey from "./icons/telegram_grey.svg";
 import twitter_grey from "./icons/twitter_grey.svg";
+import enjin_icon from "./icons/enjin_icon.svg";
+import count_down_icon from "./icons/count_down_icon.svg";
+import count_up_icon from "./icons/count_up_icon.svg";
 
 export {
   logo,
@@ -128,4 +131,7 @@ export {
   meta,
   telegram_grey,
   twitter_grey,
+  enjin_icon,
+  count_down_icon,
+  count_up_icon,
 };
