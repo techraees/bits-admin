@@ -6,6 +6,12 @@
     margin-left: 80px;
 }
 
+.cancelBtn{
+    border-radius: 20px !important;
+    height: 40px !important;
+    /* color: white; */
+}
+
 @media only screen and (max-width: 992px) {
     .borderBottom {
         border-bottom: 1px solid #B23232;

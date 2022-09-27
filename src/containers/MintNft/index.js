@@ -1,28 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  profile_large,
-  location,
-  upload,
-  search,
-  AZ,
-  grid,
-  profile,
-  location_dark,
-  upload_red,
   right_arrow,
   enjin_icon,
   count_down_icon,
   count_up_icon,
 } from "../../assets";
-import {
-  ButtonComponent,
-  CardCompnent,
-  NavbarComponent,
-  InputComponent,
-  LabelInput,
-} from "../../components";
+import { ButtonComponent, NavbarComponent, LabelInput } from "../../components";
 import "./css/index.css";
-import { Input, Row, Col } from "antd";
+import { Row, Col, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ReactPlayer from "react-player";
@@ -124,35 +109,44 @@ const MintNft = () => {
             Based on your linked wallet balance of 102,000 and your reserve of 0
             item(s), you can mint a maximun of 0 item(s).
           </span>
-          <div className="d-flex align-items-center justify-content-between">
-            <div
-              style={{ border: "1px solid  #B23232", width: 100 }}
-              className="p-1 mt-4 text-center rounded-3 d-flex align-items-center justify-content-between"
+          <Row>
+            <Col
+              lg={4}
+              md={10}
+              sm={12}
+              xs={24}
+              className="d-flex align-items-center"
             >
-              <div style={{ width: 80 }}>
-                <span className={`${textColor2}`}>{mintQuantity}</span>
+              <div
+                style={{ border: "1px solid  #B23232", width: 100 }}
+                className="p-1 mt-4 text-center rounded-3 d-flex align-items-center justify-content-between"
+              >
+                <div style={{ width: 80 }}>
+                  <span className={`${textColor2}`}>{mintQuantity}</span>
+                </div>
+                <div className="d-flex flex-column">
+                  <img src={count_up_icon} className="mb-1" />
+                  <img src={count_down_icon} />
+                </div>
               </div>
-              <div className="d-flex flex-column">
-                <img src={count_up_icon} className="mb-1" />
-                <img src={count_down_icon} />
-              </div>
-            </div>
-            <span
-              className={`${textColor2}  fs-6 mx-4`}
-              style={{ marginBottom: -20 }}
-            >
-              OR
-            </span>
-            <LabelInput
-              borderColor={"#B23232"}
-              placeholder={"Type Quantity to Mint"}
-            />
-          </div>
+              <span
+                className={`${textColor2}  fs-6 mx-4`}
+                style={{ marginBottom: -20 }}
+              >
+                OR
+              </span>
+            </Col>
+            <Col lg={20} md={14} sm={12} xs={24}>
+              <LabelInput
+                borderColor={"#B23232"}
+                placeholder={"Type Quantity to Mint"}
+              />
+            </Col>
+          </Row>
           <LabelInput
             borderColor={"#B23232"}
             placeholder={"Recipient Address"}
           />
-          {/* <InputComponent placeholder={"E-mail"} /> */}
           <div className="mt-3">
             <div className="d-flex align-items-center">
               <p className={`${textColor} fs-6 m-0`}>
@@ -161,6 +155,19 @@ const MintNft = () => {
               <img src={enjin_icon} className="ms-3" />
               <p className={`${textColor2} m-0 fs-6 ms-2`}>12.5 </p>
             </div>
+          </div>
+        </div>
+        <div className="d-flex align-items-center justify-content-center">
+          <div className="me-3">
+            <Button
+              className="px-5 cancelBtn"
+              style={{ backgroundColor: "transparent", color: textColor }}
+            >
+              Cancel
+            </Button>
+          </div>
+          <div className="ms-3">
+            <ButtonComponent text={"Mint NFT"} width={150} height={40} />
           </div>
         </div>
       </div>

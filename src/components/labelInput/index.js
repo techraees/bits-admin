@@ -13,14 +13,17 @@ const LabelInput = ({ label, password, borderColor, placeholder }) => {
         alignItems: "end",
       }}
     >
-      <span className="red inputLabel">{label}</span>
+      {label && <span className="red inputLabel">{label}</span>}
       {password ? (
         <Input.Password
           className={`labelInputStyle ${textColor2} me-5`}
           visibilityToggle={false}
         />
       ) : (
-        <Input className={`labelInputStyle ${textColor2} me-5`} placeholder={placeholder}/>
+        <Input
+          className={`labelInputStyle ${textColor2} me-5`}
+          placeholder={placeholder}
+        />
       )}
     </div>
   );
