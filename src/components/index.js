@@ -8,6 +8,7 @@ import LabelInput from "./labelInput";
 import DatePickerComponent from "./datePicker";
 import AccordianComponent from "./accordian";
 import CustomCheckbox from "./customCheckbox";
+import UploadVideoModal from "./uploadVideoModal";
 
 export {
   InputComponent,
@@ -20,4 +21,5 @@ export {
   DatePickerComponent,
   AccordianComponent,
   CustomCheckbox,
+  UploadVideoModal,
 };

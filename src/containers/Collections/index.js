@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import {
   profile_large,
   location,
@@ -14,6 +14,7 @@ import {
   ButtonComponent,
   CardCompnent,
   NavbarComponent,
+  UploadVideoModal,
 } from "../../components";
 import "./css/index.css";
 import { Input } from "antd";
@@ -28,6 +29,7 @@ const Collections = () => {
   const textColor2 = useSelector((state) => state.app.theme.textColor2);
   const textColor3 = useSelector((state) => state.app.theme.textColor3);
   const bgColor = useSelector((state) => state.app.theme.bgColor);
+  const [uploadVideoModal, setUploadVideoModal] = useState(false);
   let navigate = useNavigate();
   let cardsData = [
     {
@@ -85,6 +87,7 @@ const Collections = () => {
         toggleBtn={textColor === "white" ? true : false}
         selectedKey={"1"}
       />
+
       <div className="container">
         <div
           style={{ alignItems: "center" }}
@@ -116,8 +119,18 @@ const Collections = () => {
               </div>
             </div>
           </div>
+          <UploadVideoModal
+            visible={uploadVideoModal}
+            onClose={() => setUploadVideoModal(false)}
+          />
           <div className="d-flex justify-content-center uploadView1">
-            <div className="d-flex py-4 uploadView">
+            <div
+              className="d-flex py-4 uploadView"
+              onClick={() => {
+                // alert("Modal");
+                setUploadVideoModal(true);
+              }}
+            >
               <img src={textColor === "white" ? upload : upload_red} />
               <p className={`${textColor3} m-0 mt-3`}>Upload Emote Video</p>
             </div>

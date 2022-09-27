@@ -4,6 +4,7 @@
     border: 2px dashed #B23232;
     padding-left: 80px;
     padding-right: 80px;
+    cursor: pointer;
 }
 
 .collectionFirstContainer {
