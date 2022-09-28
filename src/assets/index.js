@@ -65,6 +65,7 @@ import twitter_grey from "./icons/twitter_grey.svg";
 import enjin_icon from "./icons/enjin_icon.svg";
 import count_down_icon from "./icons/count_down_icon.svg";
 import count_up_icon from "./icons/count_up_icon.svg";
+import upload_file_icon from "./icons/upload_file_icon.svg";
 
 export {
   logo,
@@ -134,4 +135,5 @@ export {
   enjin_icon,
   count_down_icon,
   count_up_icon,
+  upload_file_icon,
 };

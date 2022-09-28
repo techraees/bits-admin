@@ -14,7 +14,11 @@ const ButtonComponent = ({
   return (
     <>
       {simple ? (
-        <Button onClick={onClick} className="simpleBtnDesign red-background">
+        <Button
+          style={{ width: width ? width : "100%" }}
+          onClick={onClick}
+          className="simpleBtnDesign red-background"
+        >
           {text}
         </Button>
       ) : (

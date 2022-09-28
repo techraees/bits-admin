@@ -1,0 +1,23 @@
+.dragVideoView {
+    flex-direction: column;
+    align-items: center;
+    border: 2px dashed #B23232;
+}
+
+.uploadIconView {
+    background-color: #B23232;
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+}
+
+.greyBgInput {
+    background-color:
+        #343434 !important;
+    border: none !important;
+    color: #535353 !important;
+}
+
+.greyBgInput::placeholder {
+    color: #535353 !important;
+}

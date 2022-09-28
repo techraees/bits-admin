@@ -17,7 +17,7 @@ import {
   UploadVideoModal,
 } from "../../components";
 import "./css/index.css";
-import { Input } from "antd";
+import { Col, Input, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -87,55 +87,48 @@ const Collections = () => {
         toggleBtn={textColor === "white" ? true : false}
         selectedKey={"1"}
       />
-
+      <UploadVideoModal
+        visible={uploadVideoModal}
+        onClose={() => setUploadVideoModal(false)}
+      />
       <div className="container">
-        <div
-          style={{ alignItems: "center" }}
-          className="d-flex justify-content-between collectionFirstContainer"
-        >
-          <div
-            className="d-flex profileImageContainer"
-            style={{ alignItems: "center" }}
-          >
-            <img src={profile_large} className="collectionImage" />
-            <div className="userNameView">
-              <h3 className="red-gradient-color semi-bold">Snap Boogie</h3>
-              <div className="d-flex mb-1">
-                <h5 className={`m-0 ${textColor}`}>Boston, MA (USA)</h5>
-                <img
-                  className="ms-2"
-                  src={textColor === "white" ? location : location_dark}
-                />
-              </div>
-              <span className={`${textColor2}`}>
-                (Snap Boggie is a Professional Dancer){" "}
-              </span>
-              <div style={{ width: "60%" }} className="mt-4">
-                <ButtonComponent
-                  onClick={() => navigate("/account-settings/edit-profile")}
-                  simple
-                  text={"Edit Profile"}
-                />
+        <Row className="my-5">
+          <Col lg={12} md={24} sm={24} xs={24}>
+            <div className="d-flex justify-content-center my-3 align-items-center flex-wrap">
+              <img src={profile_large} className="my-2" />
+              <div className="ms-3">
+                <h3 className="red-gradient-color semi-bold">Snap Boogie</h3>
+                <div className="d-flex mb-1">
+                  <h5 className={`m-0 ${textColor}`}>Boston, MA (USA)</h5>
+                  <img
+                    className="ms-2"
+                    src={textColor === "white" ? location : location_dark}
+                  />
+                </div>
+                <span className={`${textColor2}`}>
+                  (Snap Boggie is a Professional Dancer){" "}
+                </span>
+                <div className="mt-2">
+                  <ButtonComponent
+                    onClick={() => navigate("/account-settings/edit-profile")}
+                    simple
+                    text={"Edit Profile"}
+                    width={150}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <UploadVideoModal
-            visible={uploadVideoModal}
-            onClose={() => setUploadVideoModal(false)}
-          />
-          <div className="d-flex justify-content-center uploadView1">
-            <div
-              className="d-flex py-4 uploadView"
-              onClick={() => {
-                // alert("Modal");
-                setUploadVideoModal(true);
-              }}
-            >
-              <img src={textColor === "white" ? upload : upload_red} />
-              <p className={`${textColor3} m-0 mt-3`}>Upload Emote Video</p>
+          </Col>
+          <Col lg={12} md={24} sm={24} xs={24}>
+            <div className="d-flex justify-content-center my-3">
+              <div className="uploadView">
+                <img src={textColor === "white" ? upload : upload_red} />
+                <p className={`${textColor3}`}>Upload Emote Video</p>
+              </div>
             </div>
-          </div>
-        </div>
+          </Col>
+        </Row>
+
         <div style={{ border: "1px solid #B23232" }}></div>
         <div className="my-4 d-flex justify-content-between">
           <div

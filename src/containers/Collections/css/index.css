@@ -1,19 +1,17 @@
 .uploadView {
+    display: flex;
     flex-direction: column;
     align-items: center;
     border: 2px dashed #B23232;
-    padding-left: 80px;
-    padding-right: 80px;
     cursor: pointer;
+    width: 300px;
+    height: 180px;
+    justify-content: center;
 }
 
 .collectionFirstContainer {
     padding: 70px;
     align-items: center;
-}
-
-.userNameView {
-    margin-left: 50px;
 }
 
 .searchStyle {
@@ -38,23 +36,6 @@
         padding: 0px;
     }
 
-    .profileImageContainer {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .collectionImage {
-        margin-top: 50px;
-        margin-bottom: 25px;
-    }
-
-    .userNameView {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 50px;
-        margin-left: 0px;
-    }
 
     .uploadView {
         justify-content: center;

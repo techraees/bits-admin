@@ -60,60 +60,61 @@ const NavbarComponent = ({
         <Navbar.Brand href="#home">
           <img
             src={logo_small}
-            className="cursor mx-5"
+            className="cursor mx-3"
             style={{ width: 50, height: 50 }}
           />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className="me-3" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className={`${center ? "ms-auto" : "me-auto"}`}>
-            <Nav.Link className="white d-flex mx-3">
-              <img src={home} className="mx-2" alt="" />
+          <Nav className={`d-flex align-items-center justify-content-between`}>
+            <Nav.Link className="white d-flex">
+              <img
+                src={home}
+                className="mx-2"
+                style={{ width: "100%", height: "auto" }}
+              />
               <span>Home</span>
             </Nav.Link>
-            <Nav.Link className="white mx-3">Emote Video Gallery</Nav.Link>
-            <Nav.Link className="white mx-3">NFT Marketplace</Nav.Link>
-            <Nav.Link
-              className="white mx-3"
-              onClick={() => navigate("/about-us")}
-            >
+            <Nav.Link className="white">Emote Video Gallery</Nav.Link>
+            <Nav.Link className="white">NFT Marketplace</Nav.Link>
+            <Nav.Link className="white" onClick={() => navigate("/about-us")}>
               About
             </Nav.Link>
-            <Nav.Link className="white mx-3">Contact</Nav.Link>
+            <Nav.Link className="white">Contact</Nav.Link>
           </Nav>
           <Nav className="ms-auto">
             {login ? (
-              <>
-                <Nav.Link className="white mx-3" onClick={handleLogin}>
+              <div className="d-flex align-items-center justify-content-center">
+                <Nav.Link className="white mx-2" onClick={handleLogin}>
                   Login
                 </Nav.Link>
                 <Nav.Link
-                  className="white mx-3 walletBtn d-flex justify-content-center align-items-center"
+                  className="white mx-2 walletBtn d-flex justify-content-center align-items-center"
                   onClick={handleLogin}
                 >
                   <span>Connect Wallet</span>
                 </Nav.Link>
-              </>
+              </div>
             ) : (
-              <>
-                <Nav.Link className="white mx-2">
+              <div className="d-flex align-items-center justify-content-center">
+                <Nav.Link className="white mx-1">
                   {" "}
-                  <img src={search} className="mx-2" alt="" />
+                  <img src={search} className="" alt="" />
                 </Nav.Link>
-                <Nav.Link className="white mx-2">
+                <Nav.Link className="white mx-1">
                   {" "}
-                  <img src={bell} className="mx-2" alt="" />
+                  <img src={bell} className="" alt="" />
                 </Nav.Link>
-                <Nav.Link className="white mx-2 d-flex">
+                <Nav.Link className="white mx-1 d-flex">
                   {" "}
                   <span className="me-2">Snap</span>
-                  <img src={profile} className="mx-2" alt="" />
+                  <img src={profile} className="" alt="" />
                 </Nav.Link>
-                <Nav.Link className="white mx-2">
+                <Nav.Link className="white mx-1">
                   {" "}
                   <SwitchBtn toggleBtn={toggleBtn} />
                 </Nav.Link>
-              </>
+              </div>
             )}
           </Nav>
         </Navbar.Collapse>
