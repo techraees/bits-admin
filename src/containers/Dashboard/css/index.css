@@ -19,16 +19,7 @@
     overflow: hidden !important;
 }
 
-.dashboardTitle {
-    width: 50%;
-}
-
 @media only screen and (max-width: 600px) {
-    .dashboardTitle {
-        width: 100%;
-        margin-bottom: 30px;
-    }
-
     .breakline {
         display: none;
     }
