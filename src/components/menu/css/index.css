@@ -2,7 +2,7 @@
   background-color: rgba(0, 0, 0, .8) !important;
   border-top-right-radius: 40px;
   box-shadow: none;
-  min-height: 100vh;
+  min-height: 96vh;
 }
 
 .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {

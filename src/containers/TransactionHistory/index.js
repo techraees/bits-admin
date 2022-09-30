@@ -132,7 +132,7 @@ const TransactionHistory = () => {
     />
   );
   return (
-    <div className={`${backgroundTheme} pb-2`}>
+    <div className={`${backgroundTheme} pb-2`} style={{ minHeight: "100vh" }}>
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}
         selectedKey={"6"}

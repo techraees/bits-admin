@@ -16,7 +16,7 @@ const AccountSettings = () => {
   const textColor = useSelector((state) => state.app.theme.textColor);
   let navigate = useNavigate();
   return (
-    <div className={`${backgroundTheme} pb-4`}>
+    <div className={`${backgroundTheme} pb-4`} style={{ minHeight: "100vh" }}>
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}
         selectedKey={"11"}

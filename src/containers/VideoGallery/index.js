@@ -62,7 +62,7 @@ const VideoGallery = () => {
   const textColor = useSelector((state) => state.app.theme.textColor);
   const bgColor = useSelector((state) => state.app.theme.bgColor);
   return (
-    <div className={`${backgroundTheme} pb-2`}>
+    <div className={`${backgroundTheme} pb-2`} style={{ minHeight: "100vh" }}>
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}
         selectedKey={"3"}

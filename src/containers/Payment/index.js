@@ -23,7 +23,7 @@ const Payment = () => {
   const textColor2 = useSelector((state) => state.app.theme.textColor2);
   const bgColor3 = useSelector((state) => state.app.theme.bgColor3);
   return (
-    <div className={`${backgroundTheme} pb-4`}>
+    <div className={`${backgroundTheme} pb-4`} style={{ minHeight: "100vh" }}>
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}
         selectedKey={"10"}

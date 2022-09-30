@@ -67,7 +67,10 @@ const Dashboard = () => {
     <div className="black-background">
       <NavbarComponent login dashboardNav center />
       <div className="container">
-        <Row className="my-5 d-flex align-items-center" gutter={{ xs: 8, sm: 16, md: 20, lg: 32 }} >
+        <Row
+          className="my-5 d-flex align-items-center"
+          gutter={{ xs: 8, sm: 16, md: 20, lg: 32 }}
+        >
           <Col lg={12} md={12} sm={24} xs={24} className="my-2">
             <div>
               <h1 className="white">
@@ -99,7 +102,7 @@ const Dashboard = () => {
               controls={true}
               width="100%"
               height="300px"
-              url="https://www.youtube.com/watch?v=9xwazD5SyVg"
+              url="https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmV6cWbKUq73XiztLUJqTL1ADiuT9gRMGEmpWoF4LjesXP','480':'QmRrMqmQBTGC8cR1EWDMBJqgv7qCr1hZMqp25DWkvruU29','src':'QmahJ1G9mHEE8863mhEh5qmoyQMTHVLgoVazUREjeGrffn'),'img':('spr':'QmPiAJTG1SEKqu7RrTSGchcm59LREQeyDBKN2HLp47m3fJ'),'gw':'https:!!player.d.tube')),'dur':'108','thumbnailUrlExternal':'https:!!i.imgur.com!123uE1D.jpg','thumbnailUrl':'https:!!i.imgur.com!123uE1D.jpg','nsfw':0,'oc':0)"
             />
           </Col>
         </Row>

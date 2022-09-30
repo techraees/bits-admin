@@ -83,7 +83,7 @@ const SellingHistory = () => {
     />
   );
   return (
-    <div className={`${backgroundTheme}`}>
+    <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}
         selectedKey={"7"}
