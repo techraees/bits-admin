@@ -18,6 +18,7 @@ import {
   help_center,
   lock,
   about,
+  menu_icon,
 } from "../../assets";
 import { useNavigate } from "react-router-dom";
 
@@ -52,16 +53,20 @@ const items = [
   ]),
 ];
 
-const MenuComponent = ({ menuHandle, selectedKey, className }) => {
+const MenuComponent = ({
+  menuHandle,
+  selectedKey,
+  className,
+  toggleCollapsed,
+}) => {
   let navigate = useNavigate();
   return (
     <div
-      className={className}
       style={{
-        width: 256,
         zIndex: 1,
-        position: "absolute",
+        position: "fixed",
       }}
+      className={className}
     >
       <Menu
         className="manuStyle"

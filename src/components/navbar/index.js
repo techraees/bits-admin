@@ -42,87 +42,89 @@ const NavbarComponent = ({
         className={`${dashboardNav ? "dashboardNavBgColor" : "navbarBgColor"}`}
         expand="lg"
         sticky="top"
+        style={{ zIndex: 1 }}
       >
-        {!login && (
+        <Navbar.Brand href="#home">
           <img
             onClick={toggleCollapsed}
             src={menu_icon}
-            className="cursor mx-4 menuBarWebView"
-          />
-        )}{" "}
-        {!login && (
-          <img
-            onClick={handleMenu}
-            src={menu_icon}
-            className="cursor mx-4 menuBarMobView"
-          />
-        )}
-        <Navbar.Brand href="#home">
-          <img
-            src={logo_small}
-            className="cursor mx-3"
-            style={{ width: 50, height: 50 }}
+            className="cursor ms-4 menuBarWebView"
           />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" className="me-3" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className={`d-flex align-items-center justify-content-between`}>
-            <NavLink to="/collections" className="white d-flex">
-              <img
-                src={home}
-                className="mx-2"
-                style={{ width: "100%", height: "auto" }}
-              />
-              <span>Home</span>
-            </NavLink>
-            <Nav.Link className="white">Emote Video Gallery</Nav.Link>
-            <Nav.Link className="white">NFT Marketplace</Nav.Link>
-            <Nav.Link className="white" onClick={() => navigate("/about-us")}>
-              About
-            </Nav.Link>
-            <NavLink to="/contact" className="white">
-              Contact
-            </NavLink>
-          </Nav>
-          <Nav className="ms-auto">
-            {login ? (
-              <div className="d-flex align-items-center justify-content-center">
-                <Nav.Link className="white mx-2" onClick={handleLogin}>
-                  Login
-                </Nav.Link>
-                <Nav.Link
-                  className="white mx-2 walletBtn d-flex justify-content-center align-items-center"
-                  onClick={handleLogin}
-                >
-                  <span>Connect Wallet</span>
-                </Nav.Link>
-              </div>
-            ) : (
-              <div className="d-flex align-items-center justify-content-center">
-                <Nav.Link className="white mx-1">
-                  {" "}
-                  <img src={search} className="" alt="" />
-                </Nav.Link>
-                <Nav.Link className="white mx-1">
-                  {" "}
-                  <img src={bell} className="" alt="" />
-                </Nav.Link>
-                <Nav.Link className="white mx-1 d-flex">
-                  {" "}
-                  <span className="me-2">Snap</span>
-                  <img src={profile} className="" alt="" />
-                </Nav.Link>
-                <Nav.Link className="white mx-1">
-                  {" "}
-                  <SwitchBtn toggleBtn={toggleBtn} />
-                </Nav.Link>
-              </div>
-            )}
-          </Nav>
-        </Navbar.Collapse>
+        <Container>
+          {!login && (
+            <img
+              onClick={handleMenu}
+              src={menu_icon}
+              className="cursor ms-4 menuBarMobView"
+            />
+          )}
+          <Navbar.Brand href="#home">
+            <img
+              src={logo_small}
+              className="cursor"
+              style={{ width: 50, height: 50 }}
+            />
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" className="me-3" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav
+              className={`d-flex align-items-center justify-content-between`}
+            >
+              <NavLink to="/collections" className="white d-flex">
+                <img
+                  src={home}
+                  className="mx-2"
+                  style={{ width: "100%", height: "auto" }}
+                />
+                <span>Home</span>
+              </NavLink>
+              <Nav.Link className="white">Emote Video Gallery</Nav.Link>
+              <Nav.Link className="white">NFT Marketplace</Nav.Link>
+              <Nav.Link className="white" onClick={() => navigate("/about-us")}>
+                About
+              </Nav.Link>
+              <NavLink to="/contact" className="white">
+                Contact
+              </NavLink>
+            </Nav>
+            <Nav className="ms-auto">
+              {login ? (
+                <div className="d-flex align-items-center justify-content-center">
+                  <Nav.Link className="white mx-2" onClick={handleLogin}>
+                    Login
+                  </Nav.Link>
+                  <Nav.Link
+                    className="white mx-2 walletBtn d-flex justify-content-center align-items-center"
+                    onClick={handleLogin}
+                  >
+                    <span>Connect Wallet</span>
+                  </Nav.Link>
+                </div>
+              ) : (
+                <div className="d-flex align-items-center justify-content-center">
+                  <Nav.Link className="white mx-1">
+                    <img src={search} className="" alt="" />
+                  </Nav.Link>
+                  <Nav.Link className="white mx-1">
+                    <img src={bell} className="" alt="" />
+                  </Nav.Link>
+                  <Nav.Link className="white mx-1 d-flex">
+                    <span className="me-2">Snap</span>
+                    <img src={profile} className="" alt="" />
+                  </Nav.Link>
+                  <Nav.Link className="white">
+                    <SwitchBtn toggleBtn={toggleBtn} />
+                  </Nav.Link>
+                </div>
+              )}
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
       </Navbar>
       {!login && (
         <MenuComponent
+          toggleCollapsed={toggleCollapsed}
           selectedKey={selectedKey}
           menuHandle={collapsed}
           className="menuBarWebView"
@@ -131,7 +133,8 @@ const NavbarComponent = ({
       {menuBar && (
         <MenuComponent
           selectedKey={selectedKey}
-          menuHandle={false}
+          toggleCollapsed={toggleCollapsed}
+          menuHandle={true}
           className="menuBarMobView"
         />
       )}
