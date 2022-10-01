@@ -121,7 +121,10 @@ const Collections = () => {
           </Col>
           <Col lg={12} md={24} sm={24} xs={24}>
             <div className="d-flex justify-content-center my-3">
-              <div className="uploadView">
+              <div
+                className="uploadView"
+                onClick={() => setUploadVideoModal(true)}
+              >
                 <img src={textColor === "white" ? upload : upload_red} />
                 <p className={`${textColor3}`}>Upload Emote Video</p>
               </div>

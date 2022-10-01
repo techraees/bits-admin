@@ -66,6 +66,15 @@ import enjin_icon from "./icons/enjin_icon.svg";
 import count_down_icon from "./icons/count_down_icon.svg";
 import count_up_icon from "./icons/count_up_icon.svg";
 import upload_file_icon from "./icons/upload_file_icon.svg";
+import map_img from "./images/map_img.png";
+import bits_icon_big from "./images/bits_icon_big.png";
+import location_fill_icon from "./icons/location_fill_icon.svg";
+import mail_fill_icon from "./icons/mail_fill_icon.svg";
+import mail_icon from "./icons/mail_icon.svg";
+import phone_fill_icon from "./icons/phone_fill_icon.svg";
+import phone_icon from "./icons/phone_icon.svg";
+import user_icon from "./icons/user_icon.svg";
+import send_msg_icon from "./icons/send_msg_icon.svg";
 
 export {
   logo,
@@ -136,4 +145,13 @@ export {
   count_down_icon,
   count_up_icon,
   upload_file_icon,
+  map_img,
+  bits_icon_big,
+  location_fill_icon,
+  mail_fill_icon,
+  mail_icon,
+  phone_fill_icon,
+  phone_icon,
+  user_icon,
+  send_msg_icon,
 };

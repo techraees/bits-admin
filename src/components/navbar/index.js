@@ -12,7 +12,7 @@ import SwitchBtn from "../switchBtn";
 import "./css/index.css";
 import { useSelector } from "react-redux";
 import { Button } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 const NavbarComponent = ({
@@ -67,20 +67,22 @@ const NavbarComponent = ({
         <Navbar.Toggle aria-controls="basic-navbar-nav" className="me-3" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className={`d-flex align-items-center justify-content-between`}>
-            <Nav.Link className="white d-flex">
+            <NavLink to="/collections" className="white d-flex">
               <img
                 src={home}
                 className="mx-2"
                 style={{ width: "100%", height: "auto" }}
               />
               <span>Home</span>
-            </Nav.Link>
+            </NavLink>
             <Nav.Link className="white">Emote Video Gallery</Nav.Link>
             <Nav.Link className="white">NFT Marketplace</Nav.Link>
             <Nav.Link className="white" onClick={() => navigate("/about-us")}>
               About
             </Nav.Link>
-            <Nav.Link className="white">Contact</Nav.Link>
+            <NavLink to="/contact" className="white">
+              Contact
+            </NavLink>
           </Nav>
           <Nav className="ms-auto">
             {login ? (

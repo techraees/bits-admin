@@ -13,6 +13,7 @@ import VideoGallery from "./VideoGallery";
 import NotFound from "./NotFound";
 import AboutUs from "./AboutUs";
 import MintNft from "./MintNft";
+import Contact from "./Contact";
 
 export {
   Dashboard,
@@ -30,4 +31,5 @@ export {
   NotFound,
   AboutUs,
   MintNft,
+  Contact,
 };

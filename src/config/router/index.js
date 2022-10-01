@@ -16,6 +16,7 @@ import {
   AboutUs,
   NotFound,
   MintNft,
+  Contact,
 } from "../../containers/index";
 import { useSelector } from "react-redux";
 
@@ -53,6 +54,7 @@ const Router = () => {
         <Route path="video-gallery" element={<VideoGallery />} />
         <Route path="about-us" element={<AboutUs />} />
         <Route path="mint-nft" element={<MintNft />} />
+        <Route path="contact" element={<Contact />} />
         <Route path="*" element={<NotFound />} />
         {/* {(Object.keys(data).length > 0 || userData) && (
           <>
