@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { check2 } from "../../assets";
 import "./css/index.css";
 
-const CustomCheckbox = () => {
-  const [active, setActive] = useState(false);
+const CustomCheckbox = ({ active, setActive }) => {
   const handleCheckbox = () => {
     setActive(!active);
   };

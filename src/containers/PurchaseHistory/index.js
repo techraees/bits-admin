@@ -98,7 +98,7 @@ const PurchaseHistory = () => {
           </Dropdown>
         </div>
         <div style={{ border: "1px solid #D54343" }}></div>
-        <Transactions data={sellingData} />
+        <Transactions checkIcon data={sellingData} />
       </div>
     </div>
   );

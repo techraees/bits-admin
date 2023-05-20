@@ -2,12 +2,17 @@ import React from "react";
 import { check } from "../../assets";
 import "./css/index.css";
 import { useSelector } from "react-redux";
+import { Select } from "antd";
 
 const Transactions = ({ data, checkIcon }) => {
   const textColor = useSelector((state) => state.app.theme.textColor);
   const textColor2 = useSelector((state) => state.app.theme.textColor2);
   const textColor3 = useSelector((state) => state.app.theme.textColor3);
   const bgColor2 = useSelector((state) => state.app.theme.bgColor2);
+
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
   return (
     <div className="py-2">
       <div
@@ -15,9 +20,41 @@ const Transactions = ({ data, checkIcon }) => {
         style={{ alignItems: "center" }}
       >
         <h4 className={`${textColor} m-0`}>Transactions</h4>
-        <div className="cursor" style={{ textDecoration: "underline" }}>
-          <span className="red-gradient-color">View All</span>
-        </div>
+        {/* <div className="d-flex text">
+          <h4 className={`${textColor}`}>
+            Sort by: &nbsp; &nbsp;
+            <Select
+              defaultValue="US Dollar"
+              style={{
+                width: 120,
+              }}
+              className={textColor == "black" && "ant-light"}
+              onChange={handleChange}
+              options={[
+                {
+                  value: "US Dollar",
+                  label: "US Dollar",
+                },
+                {
+                  value: "Etherum",
+                  label: "Etherum",
+                },
+                {
+                  value: "Binanace",
+                  label: "Binanace",
+                },
+              ]}
+            />
+          </h4>
+          <div className="cursor" style={{ marginTop: ".4rem" }}>
+            <span
+              className="red-gradient-color"
+              style={{ borderBottom: "1px solid  #CD3C3C" }}
+            >
+              View All
+            </span>
+          </div>
+        </div> */}
       </div>
       {data &&
         data.map((e, i) => {
@@ -44,7 +81,9 @@ const Transactions = ({ data, checkIcon }) => {
                   </div>
                 </div>
               </div>
-              <h4 className={`m-0 ${textColor3}`}>{e.price}</h4>
+              <h4 className={`m-0`} style={{ color: "#B93232" }}>
+                {e.price}
+              </h4>
             </div>
           );
         })}

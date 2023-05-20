@@ -3,7 +3,14 @@ import "./css/index.css";
 import { Input } from "antd";
 import { useSelector } from "react-redux";
 
-const LabelInput = ({ label, password, borderColor, placeholder }) => {
+const LabelInput = ({
+  label,
+  password,
+  borderColor,
+  placeholder,
+  onChange,
+  disabled
+}) => {
   const textColor2 = useSelector((state) => state.app.theme.textColor2);
   return (
     <div
@@ -18,11 +25,15 @@ const LabelInput = ({ label, password, borderColor, placeholder }) => {
         <Input.Password
           className={`labelInputStyle ${textColor2} me-5`}
           visibilityToggle={false}
+          autoComplete="off"
         />
       ) : (
         <Input
           className={`labelInputStyle ${textColor2} me-5`}
           placeholder={placeholder}
+          onChange={onChange}
+          autoComplete="off"
+          disabled={disabled}
         />
       )}
     </div>

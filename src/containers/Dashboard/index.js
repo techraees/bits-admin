@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./css/index.css";
 import { NavbarComponent, CardCompnent } from "../../components";
 import { Button, Row, Col } from "antd";
@@ -11,8 +11,15 @@ import {
   twitter_grey,
 } from "../../assets";
 import ReactPlayer from "react-player";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { UploadVideoModal } from "../../components";
 
 const Dashboard = () => {
+  const [uploadVideoModal, setUploadVideoModal] = useState(false);
+  let navigate = useNavigate();
+
   let cardsData = [
     {
       image: profile,
@@ -63,9 +70,30 @@ const Dashboard = () => {
       videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
     },
   ];
+
+  const [showChat, setShowChat] = useState(false);
+  const { userData } = useSelector((state) => state.address.userData);
+
+  const isLogged = userData?.isLogged;
+
+  const userProfile = userData?.full_name;
+
+  const handleCreateNFT = () => {
+    if (isLogged) {
+      setUploadVideoModal(true);
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <div className="black-background">
-      <NavbarComponent login dashboardNav center />
+      <UploadVideoModal
+        visible={uploadVideoModal}
+        onClose={() => setUploadVideoModal(false)}
+      />
+      {/* <ZendeskComp showChat={showChat} /> */}
+      <NavbarComponent login dashboardNav center selectedKey={"1"} />
       <div className="container">
         <Row
           className="my-5 d-flex align-items-center"
@@ -85,13 +113,18 @@ const Dashboard = () => {
                 sell it or give it to your most valued supporters.
               </span>
               <div className="mt-3 ">
+                <Link to="video-gallery">
+                  <Button
+                    className="red dashboardBtns px-5"
+                    style={{ backgroundColor: "transparent" }}
+                  >
+                    Explore
+                  </Button>
+                </Link>
                 <Button
-                  className="red dashboardBtns px-5"
-                  style={{ backgroundColor: "transparent" }}
+                  className="red-background white dashboardBtns px-5 ms-2"
+                  onClick={() => handleCreateNFT()}
                 >
-                  Explore
-                </Button>
-                <Button className="red-background white dashboardBtns px-5 ms-2">
                   Create NFT
                 </Button>
               </div>
@@ -126,6 +159,7 @@ const Dashboard = () => {
                   status={e.status}
                   name={e.name}
                   videoLink={e.videoLink}
+                  userProfile={userProfile ? true : false}
                 />
               );
             })}
@@ -141,8 +175,16 @@ const Dashboard = () => {
       </div>
       <div className="red-background">
         <div className="container d-flex justify-content-between py-2 align-items-center">
-          <p className="m-0 white">BITS C 2022 All Rights reserved </p>
-          <img src={meta} className="mx-2" />
+          <p className="m-0 white">
+            BITS C {new Date().getFullYear()} All Rights reserved{" "}
+          </p>
+          <img
+            src={meta}
+            className="mx-2"
+            onClick={() => {
+              setShowChat(!showChat);
+            }}
+          />
         </div>
       </div>
     </div>

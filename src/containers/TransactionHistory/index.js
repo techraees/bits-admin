@@ -8,7 +8,7 @@ import {
 } from "../../assets";
 import { NavbarComponent } from "../../components";
 import "./css/index.css";
-import { Menu, Dropdown, Button, Space } from "antd";
+import { Menu, Dropdown, Button, Space, Select } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 
@@ -109,6 +109,10 @@ const TransactionHistory = () => {
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
+
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
   const textColor = useSelector((state) => state.app.theme.textColor);
   const textColor2 = useSelector((state) => state.app.theme.textColor2);
   const bgColor2 = useSelector((state) => state.app.theme.bgColor2);
@@ -160,13 +164,46 @@ const TransactionHistory = () => {
           </Dropdown>
         </div>
         <div style={{ border: "1px solid #D54343" }}></div>
-        <div className="my-5">
-          <Bar options={options} data={data} />
-        </div>
+
         <div className={`transactionsList my-5 ${bgColor2}`}>
-          <h3 className={`${textColor} pt-4`} style={{ textAlign: "center" }}>
-            Transactions
-          </h3>
+          <div className="transaction-main-Wrapper">
+            <h3 className={`${textColor} pt-4`}>Transactions</h3>
+            {/* <h4 className={`${textColor}`}>
+              Sort by: &nbsp; &nbsp;
+              <Select
+                defaultValue="US Dollar"
+                style={{
+                  width: 120,
+                }}
+                className={textColor == "black" && "ant-light"}
+                onChange={handleChange}
+                options={[
+                  {
+                    value: "US Dollar",
+                    label: "US Dollar",
+                  },
+                  {
+                    value: "Etherum",
+                    label: "Etherum",
+                  },
+                  {
+                    value: "Binanace",
+                    label: "Binanace",
+                  },
+                ]}
+              />
+              <span
+                className="red-gradient-color cursor"
+                style={{
+                  textDecoration: "underline",
+                  marginRight: "1rem",
+                  borderBottom: "1px solid  #CD3C3C",
+                }}
+              >
+                View All
+              </span>
+            </h4> */}
+          </div>
           {transactionsData.map((e, i) => {
             return (
               <div
@@ -182,27 +219,39 @@ const TransactionHistory = () => {
                     {e.title}
                   </span>
                   <div>
-                    <img
+                    {/* <img
                       src={e.category === "Paypal" ? paypal : metamask}
                       style={{ width: 15 }}
-                    />
-                    <span style={{ fontSize: 12 }} className="light-blue ms-2">
+                    /> */}
+                    {/* <span style={{ fontSize: 12 }} className="light-blue ms-2">
                       {e.category}
-                    </span>
+                    </span> */}
                   </div>
                 </div>
                 <div>
+                  {e.title == "Deposit" ? (
+                    <>
+                      <button className="depositeBtn">Deposit</button>
+                    </>
+                  ) : (
+                    <>
+                      <button className="withdrawBtn">Withdraw</button>
+                    </>
+                  )}
+
                   <span className={`${textColor} me-2`}>$405</span>
                   <img src={e.arrow} style={{ width: 10 }} />
                 </div>
               </div>
             );
           })}
-          <div
-            className="d-flex justify-content-center py-3 cursor"
-            style={{ textDecoration: "underline" }}
-          >
-            <span className="red-gradient-color">View All</span>
+          <div className="d-flex justify-content-center py-3 cursor">
+            <span
+              className="red-gradient-color"
+              style={{ borderBottom: "1px solid  #CD3C3C" }}
+            >
+              View All
+            </span>
           </div>
         </div>
       </div>

@@ -10,7 +10,9 @@ const ButtonComponent = ({
   radius,
   green,
   width,
+  disabled,
 }) => {
+  console.log("disa", disabled);
   return (
     <>
       {simple ? (
@@ -30,6 +32,7 @@ const ButtonComponent = ({
             width: width && width,
           }}
           className={`btnDesign ${green ? "green-gradient" : "red-gradient"}`}
+          disabled={disabled && true}
         >
           {text}
         </Button>

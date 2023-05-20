@@ -12,12 +12,17 @@ const PrivacySecurity = () => {
     },
     {
       key: "2",
+      title: "Digital Millennium Copyright Act",
+      description: "Digital Millennium Copyright Act",
+    },
+    {
+      key: "3",
       title: "Security",
       description:
         "To ensure App Security, please keep your account safe please keep your password in a secure place.",
     },
     {
-      key: "3",
+      key: "4",
       title: "Other Safety Practices",
       description:
         "Always practice safe-keep of your private wallet seed phrase and other wallet passwords private and not public to ensure the must security.",
@@ -36,7 +41,7 @@ const PrivacySecurity = () => {
       />
       <div className="container">
         <div className="my-5">
-          <AccordianComponent btnKey={"2"} data={faqsData} />
+          <AccordianComponent btnKey={"3"} data={faqsData} />
         </div>
       </div>
     </div>

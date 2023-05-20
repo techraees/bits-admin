@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./css/index.css";
 import { Collapse } from "antd";
 import { down_arrow3, up_arrow2 } from "../../assets";

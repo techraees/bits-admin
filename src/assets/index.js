@@ -1,4 +1,5 @@
-import logo from "./images/logo.svg";
+import logo from "./images/logo.png";
+import test from "./images/testscreenshot.png";
 import account from "./icons/account.svg";
 import bell from "./icons/bell.svg";
 import home from "./icons/home.svg";
@@ -45,6 +46,7 @@ import up_arrow2 from "./icons/up_arrow2.svg";
 import about2 from "./icons/about2.svg";
 import connect from "./icons/connect.svg";
 import blue_layer from "./images/blue_layer.png";
+import brown_layer from "./images/brown_layer.png";
 import metamask_tag from "./images/metamask_tag.png";
 import paypal_tag from "./images/paypal_tag.png";
 import pink_layer from "./images/pink_layer.png";
@@ -75,7 +77,12 @@ import phone_fill_icon from "./icons/phone_fill_icon.svg";
 import phone_icon from "./icons/phone_icon.svg";
 import user_icon from "./icons/user_icon.svg";
 import send_msg_icon from "./icons/send_msg_icon.svg";
-
+import twitter from "./images/Twitter.png";
+import telegram from "./images/Telegram App.png";
+import discord from "./images/Discord.png";
+import marketcardimg from "./images/marketcard_img.png";
+import eth from "./images/eth.png";
+import polygon from "./images/polygon.png";
 export {
   logo,
   account,
@@ -124,6 +131,7 @@ export {
   about2,
   connect,
   blue_layer,
+  brown_layer,
   metamask_tag,
   paypal_tag,
   pink_layer,
@@ -154,4 +162,11 @@ export {
   phone_icon,
   user_icon,
   send_msg_icon,
+  twitter,
+  discord,
+  telegram,
+  test,
+  marketcardimg,
+  eth,
+  polygon,
 };
