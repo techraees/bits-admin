@@ -1,59 +1,124 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./css/index.css";
 import { NavbarComponent } from "../../components";
-import { filter, menu_icon2, plus, profile, sort } from "../../assets";
+import {
+  filter,
+  menu_icon2,
+  plus,
+  profile,
+  sort,
+  profile2,
+} from "../../assets";
 import { Table, Dropdown, Menu, Button, Space } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "@apollo/client";
+import { GET_ALL_CONTACTS } from "../../gql/queries";
+import {  SEND_EMAIL_MUTATION } from "../../gql/mutations";
+import environment from "../../environment";
+import Loading from "../../components/loaders/loading";
+import ToastMessage from "../../components/toastMessage";
 
 const UserInformation = () => {
+  const {
+    loading,
+    error,
+    data: contactData,
+    refetch,
+  } = useQuery(GET_ALL_CONTACTS);
+
+  const [
+    sendEmail,
+    { data: emailData, loading: emailLoading, error: emailError },
+  ] = useMutation(SEND_EMAIL_MUTATION);
+
   const navigate = useNavigate();
   const columns = [
     {
       title: "Name",
-      dataIndex: "name",
-      render: () => (
-        <div className="d-flex center">
-          <img src={profile} />
-          <div className="ms-3">
-            <span className="semi-bold black">Snap</span>
-            <p className="light-grey m-0">Updated 1 day ago</p>
+      dataIndex: "user_name",
+      render: (values, record) => {
+        const imgPath = environment.BACKEND_BASE_URL + "/" + record?.profileImg;
+
+        return (
+          <div className="d-flex center">
+            <img src={record?.profileImg ? imgPath : profile2} width={50} />
+            <div className="ms-3">
+              <span className="semi-bold black">{record.user_name}</span>
+              <p className="light-grey m-0">Updated 1 day ago</p>
+            </div>
           </div>
-        </div>
-      ),
+        );
+      },
     },
     {
       title: "Email",
       dataIndex: "email",
+      render: (values, record) => {
+        return (
+          <div className="d-flex center">
+            {record.email ? record.email : "-"}
+          </div>
+        );
+      },
     },
     {
       title: "Contact Info",
-      dataIndex: "contactInfo",
+      dataIndex: "phone_number",
+      align: "center",
+
+      render: (values, record) => {
+        return (
+          <p className=" ">{record.phone_number ? record.phone_number : "-"}</p>
+        );
+      },
     },
     {
       title: "Country",
       dataIndex: "country",
+      align: "center",
+      render: (values, record) => {
+        return <p className=" ">{record.country ? record.country : "-"}</p>;
+      },
     },
     {
-      title: "Details",
-      dataIndex: "details",
-      render: () => (
-        <Button
-          className="bg-blue white"
-          style={{ borderRadius: 20, width: "70%" }}
-        >
-          Send Notifications
-        </Button>
-      ),
+      title: "Action",
+      dataIndex: "Action",
+      render: (value, record, index) => {
+        return (
+          <Button
+            className="bg-blue white"
+            style={{ borderRadius: 20, width: "70%" }}
+            onClick={async () => {
+              const result = await sendEmail({
+                variables: {
+                  to: record.email,
+                  from: environment.EMAIL_OWNER,
+                  subject: "Test email",
+                  text: "This is a test email",
+                },
+              });
+            }}
+          >
+            Send Notifications
+          </Button>
+        );
+      },
     },
     {
       title: "",
       dataIndex: "icon",
-      render: () => (
-        <Dropdown className="ms-4" overlay={profileMenu}>
-          <img style={{ cursor: "pointer" }} className="p-2" src={menu_icon2} />
-        </Dropdown>
-      ),
+      render: (value, record) => {
+        return (
+          <Dropdown className="ms-4" overlay={profileMenu(record?.id)}>
+            <img
+              style={{ cursor: "pointer" }}
+              className="p-2"
+              src={menu_icon2}
+            />
+          </Dropdown>
+        );
+      },
     },
   ];
   const data = [
@@ -114,11 +179,18 @@ const UserInformation = () => {
     {
       title: "",
       dataIndex: "icon",
-      render: () => (
-        <Dropdown className="ms-4" overlay={profileMenu}>
-          <img style={{ cursor: "pointer" }} className="p-2" src={menu_icon2} />
-        </Dropdown>
-      ),
+      render: (value, record) => {
+        console.log("value", value, record);
+        return (
+          <Dropdown className="ms-4" overlay={profileMenu(record?.id)}>
+            <img
+              style={{ cursor: "pointer" }}
+              className="p-2"
+              src={menu_icon2}
+            />
+          </Dropdown>
+        );
+      },
     },
   ];
 
@@ -138,10 +210,10 @@ const UserInformation = () => {
     />
   );
 
-  const profileMenu = (
+  const profileMenu = (id) => (
     <Menu
       onClick={(e) => {
-        e.key === "1" && navigate("user-profile");
+        e.key === "1" && navigate(`user-profile/${id}`); // Pass the id to the navigation URL
         console.log(e);
       }}
       items={[
@@ -160,8 +232,27 @@ const UserInformation = () => {
       ]}
     />
   );
+
+  useEffect(() => {
+    if (emailData) {
+      ToastMessage(
+        "Email Send Successfully",
+        "Email Send Successfully",
+        "success"
+      );
+    }
+    if (emailError) {
+      ToastMessage(emailError.message, emailError.message, "error");
+    }
+  }, [emailData, emailError]);
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
   return (
     <div className="bg-white2">
+      {emailLoading && <Loading content="" />}
       <NavbarComponent
         lightNav
         headerTxt={"User Information"}
@@ -175,10 +266,6 @@ const UserInformation = () => {
           <h5 className="m-0">Creators</h5>
           <div className="d-flex center">
             <div>
-              <div>
-                <span className="blue me-2">Add New User</span>
-                <img src={plus} />
-              </div>
               <div className="ms-4 mt-1 optionsMobView">
                 <img src={sort} className="me-2" />
                 <span className="purple">Sort</span>
@@ -209,10 +296,13 @@ const UserInformation = () => {
           </div>
         </div>
         <div className="mx-2 webtable px-3">
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={contactData?.GetAllUsers} />
         </div>
         <div className="mx-2 mobtable">
-          <Table columns={mobileviewcolumns} dataSource={data} />
+          <Table
+            columns={mobileviewcolumns}
+            dataSource={contactData?.GetAllUsers}
+          />
         </div>
       </div>
     </div>

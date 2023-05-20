@@ -7,6 +7,7 @@ import path from "./icons/path.svg";
 import pen from "./icons/pen.svg";
 import user from "./icons/user.svg";
 import profile from "./images/profile.png";
+import profile2 from "./images/profile2.svg";
 import bell from "./icons/bell.svg";
 import search from "./icons/search.svg";
 import menu_icon from "./icons/menu_icon.svg";
@@ -67,6 +68,7 @@ export {
   pen,
   user,
   profile,
+  profile2,
   bell,
   search,
   menu_icon,

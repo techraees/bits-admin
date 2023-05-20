@@ -31,6 +31,12 @@ const UserVideoCard = ({ videoUrl, Name }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const handleVideoClick = (event) => {
+    event.stopPropagation();
+    event.preventDefault(); // Prevent the default behavior of the click event
+  };
+
   return (
     <div className="col-lg-4 col-md-6 col-12 my-3">
       <Modal
@@ -48,6 +54,7 @@ const UserVideoCard = ({ videoUrl, Name }) => {
           className="myClassname"
           display="initial"
           position="relative"
+          onClick={handleVideoClick}
         />
       </Modal>
       <div

@@ -14,21 +14,34 @@ import {
 } from "../../assets";
 import { useNavigate } from "react-router-dom";
 
-function getItem(label, key, icon, children, type) {
+function getItem(label, key, icon, children, type, admin) {
   return {
     key,
     icon,
     children,
     label,
     type,
+    onClick: admin
+      ? () => {
+          window.open("https://bmd9150.zendesk.com/", "_blank");
+        }
+      : undefined,
   };
 }
 
+let admin = true;
 const items = [
   getItem("Dashboard", "1", <img src={home} />),
   getItem("User Information", "2", <img src={user} />),
   getItem("Data Section", "3", <img src={folder} />),
-  getItem("Admin Support", "4", <img src={message} />),
+  getItem(
+    "Admin Support",
+    "4",
+    <img src={message} />,
+    undefined,
+    undefined,
+    true
+  ),
   getItem("Payment", "5", <img src={paper} />),
   getItem("Previous Notes", "6", <img src={pen} />),
   getItem("Settings", "7", <img src={settings} />),
@@ -83,7 +96,8 @@ const MenuComponent = ({ selectedKey, className }) => {
           item.key === "1" && navigate("/");
           item.key === "2" && navigate("/user-information");
           item.key === "3" && navigate("/data-section");
-          item.key === "4" && navigate("/admin-support");
+          // item.key === "4" &&
+          //   window.open("https://bmd9150.zendesk.com/", "_blank");
           item.key === "5" && navigate("/payment");
           item.key === "6" && navigate("/previous-notes");
           item.key === "7" && navigate("/settings");

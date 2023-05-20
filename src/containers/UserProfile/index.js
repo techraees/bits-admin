@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./css/index.css";
 import { NavbarComponent, UserVideoCard } from "../../components";
 import {
@@ -15,46 +15,49 @@ import {
   plus4,
   delete_icon,
   profile,
+  profile2,
 } from "../../assets";
 import { Menu, Dropdown, Button, Space, Collapse } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import TextEditorModal from "../../components/textEditorModal";
+import { useNavigate, useParams } from "react-router-dom";
+import { GET_ALL_NFTS, GET_PROFILE_DETAILS_QUERY } from "../../gql/queries";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import environment from "../../environment";
+import Loading from "../../components/loaders/loading";
+import {
+  ADD_NOTES_MUTATION,
+  DELETE_MUTATION,
+  SEND_EMAIL_MUTATION,
+} from "../../gql/mutations";
+import ToastMessage from "../../components/toastMessage";
+import { Image } from "antd";
+import { CaretRightOutlined } from "@ant-design/icons";
 
 const UserProfile = () => {
+  const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState("");
   const [userVideos, setUserVideos] = useState(true);
-  const profileDetails = [
-    {
-      icon: user3,
-      title: "User name",
-      data: "Snap_Boggie12",
-    },
-    {
-      icon: message3,
-      title: "Email",
-      data: "Snapboggie@johndoe.com",
-    },
-    {
-      icon: call,
-      title: "Contact Number",
-      data: "1 (123) 456 7890",
-    },
-    {
-      icon: location_large,
-      title: "Address",
-      data: "Boston, MA (USA)",
-    },
-    {
-      icon: calender,
-      title: "Date of Birth",
-      data: "01/12/1992",
-    },
-    {
-      icon: flag,
-      title: "Country",
-      data: "United States",
-    },
-  ];
+
+  const [isNotesAdded, setIsNotesAdded] = useState(false);
+
+  function CustomExpandIcon(props) {
+    const { isActive } = props;
+    return (
+      <div>
+        <Button className="notesBtn px-3 d-flex center">
+          <span className="">
+            View{" "}
+            <CaretRightOutlined
+              style={{ transform: "translateY(-3px)" }}
+              rotate={isActive ? 270 : 90}
+            />
+          </span>
+        </Button>
+      </div>
+    );
+  }
+
   const menu = (
     <Menu
       onClick={(e) => console.log(e)}
@@ -72,7 +75,6 @@ const UserProfile = () => {
   );
   const notesMenu = (
     <Menu
-      onClick={(e) => console.log(e)}
       items={[
         {
           label: "1st menu item",
@@ -163,23 +165,131 @@ const UserProfile = () => {
       description: "Loreum ipsum Loreum ipsumLoreum ipsumLoreum ipsum.",
     },
   ];
-  const genExtra = () => (
-    <Button className="notesBtn px-4 d-flex center">
-      <img src={plus4} />
-      <span className="ms-2">Add New Note</span>
-    </Button>
-  );
   const { Panel } = Collapse;
+
+  const { id } = useParams();
+
+  const [getProfile, { loading, error, data, refetch }] = useLazyQuery(
+    GET_PROFILE_DETAILS_QUERY,
+    {
+      variables: { getProfileDetailsId: id },
+    }
+  );
+
+  const [
+    sendEmail,
+    { data: emailData, loading: emailLoading, error: emailError },
+  ] = useMutation(SEND_EMAIL_MUTATION);
+
+  const [getNft, { loading: nftLoading, data: allNfts, error: nftError }] =
+    useLazyQuery(GET_ALL_NFTS, {
+      fetchPolicy: "network-only",
+    });
+
+  const [
+    deleteProfile,
+    { loading: deleteLoading, error: deleteError, data: deleteData },
+  ] = useMutation(DELETE_MUTATION);
+
+  useEffect(() => {
+    if (id) {
+      getProfile({ variables: id });
+    }
+  }, [id]);
+
+  const profileDetails = [
+    {
+      icon: user3,
+      title: "User name",
+      data: data?.GetProfileDetails?.user_name,
+    },
+    {
+      icon: message3,
+      title: "Email",
+      data: data?.GetProfileDetails?.email,
+    },
+    {
+      icon: call,
+      title: "Contact Number",
+      data: data?.GetProfileDetails?.phone_number,
+    },
+    {
+      icon: location_large,
+      title: "Address",
+      data: data?.GetProfileDetails?.country,
+    },
+    {
+      icon: calender,
+      title: "Joining Date",
+      data: new Date(data?.GetProfileDetails?.createdAt)?.toLocaleString(),
+    },
+    {
+      icon: flag,
+      title: "Country",
+      data: data?.GetProfileDetails?.country,
+    },
+  ];
+
+  const imgPath =
+    environment.BACKEND_BASE_URL + "/" + data?.GetProfileDetails?.profileImg;
+
+  useEffect(() => {
+    if (data) {
+      const user_address = data?.GetProfileDetails?.user_address;
+      const variables = {
+        walletAddress: user_address,
+      };
+      getNft({ variables });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (emailData) {
+      ToastMessage("Email Send Successfully", "", "success");
+    }
+    if (emailError) {
+      ToastMessage(emailError.message, emailError.message, "error");
+    }
+  }, [emailData, emailError]);
+
+  const handleDelete = () => {
+    const values = { id }; // Set the values for the DeleteInput object
+    deleteProfile({ variables: { values } });
+  };
+
+  useEffect(() => {
+    if (deleteData?.DeleteProfile?.is_deleted) {
+      ToastMessage("Profile Removed Successfully", "", "success");
+      navigate("/user-information");
+    }
+    if (deleteError) {
+      ToastMessage(deleteError.message, deleteError.message, "error");
+    }
+  }, [deleteData, deleteError]);
+
+  useEffect(() => {
+    if (isNotesAdded) {
+      refetch();
+      setIsNotesAdded(false);
+    }
+  }, [isNotesAdded]);
+
   return (
     <div className="bg-white2">
+      {loading ||
+        deleteLoading ||
+        (nftLoading && <Loading content="Loading..." />)}
+      {emailLoading && <Loading content="Loading..." />}
       <NavbarComponent lightNav headerTxt={"User Profile"} selectedKey={"2"} />
       <div
         className="container py-3 bg-white radius1"
         style={{ marginTop: 65 }}
       >
         <TextEditorModal
+          id={id}
           visible={isModalVisible}
           onCancel={() => setIsModalVisible(false)}
+          setIsNotesAdded={setIsNotesAdded}
         />
         <div className="p-3">
           <div className="d-flex profileInformationView">
@@ -211,18 +321,41 @@ const UserProfile = () => {
               className="d-flex profileImageContainer"
               style={{ alignItems: "center" }}
             >
-              <img src={profile_large} />
+              {data?.GetProfileDetails?.profileImg ? (
+                <Image src={imgPath} width={200} className="mt-4 mb-3" />
+              ) : (
+                <Image src={profile2} width={200} className="mt-4 mb-3" />
+              )}
+              {/* <img src={profile_large} /> */}
               <div className="userNameView">
-                <h3 className="red3 semi-bold">Snap Boogie</h3>
+                <h3 className="red3 semi-bold">
+                  {data?.GetProfileDetails?.user_name}
+                </h3>
+
                 <div className="d-flex mb-1">
-                  <h5 className="m-0 black">Boston, MA (USA)</h5>
-                  <img className="ms-2" src={location} />
+                  <h5 className="m-0 black">
+                    {" "}
+                    {data?.GetProfileDetails?.country}{" "}
+                  </h5>
+                  {data?.GetProfileDetails?.country && (
+                    <img className="ms-2" src={location} />
+                  )}
                 </div>
-                <span className="black">
-                  (Snap Boggie is a Professional Dancer){" "}
-                </span>
+                <span className="black">{data?.GetProfileDetails?.bio}</span>
                 <div style={{ width: "60%" }} className="mt-4">
-                  <Button className="bg-blue radius2 white">
+                  <Button
+                    className="bg-blue radius2 white"
+                    onClick={async () => {
+                      const result = await sendEmail({
+                        variables: {
+                          to: data?.GetProfileDetails?.email,
+                          from: environment.EMAIL_OWNER,
+                          subject: "Notification email from BITS",
+                          text: "This is email from BITS platform for testing purpose",
+                        },
+                      });
+                    }}
+                  >
                     Send Notifications
                   </Button>
                 </div>
@@ -232,7 +365,10 @@ const UserProfile = () => {
               <Button className="videoCardBtns bg-black radius1 mb-2 white">
                 Block
               </Button>
-              <Button className="videoCardBtns bg-orange radius1 white">
+              <Button
+                className="videoCardBtns bg-orange radius1 white"
+                onClick={handleDelete}
+              >
                 Remove
               </Button>
             </div>
@@ -259,7 +395,7 @@ const UserProfile = () => {
           {userVideos ? (
             <>
               <div className="d-flex justify-content-between">
-                <h5 className="black">User’s videos</h5>
+                <h5 className="black">User NFT's</h5>
                 <Dropdown overlay={menu}>
                   <Button className="dropdownStyle">
                     <Space>
@@ -270,13 +406,9 @@ const UserProfile = () => {
                 </Dropdown>
               </div>
               <div className="row my-4">
-                {cardsData.map((e, i) => {
+                {allNfts?.getAllNfts?.map((e, i) => {
                   return (
-                    <UserVideoCard
-                      key={i}
-                      videoUrl={e.videoUrl}
-                      name={e.name}
-                    />
+                    <UserVideoCard key={i} videoUrl={e.video} name={e.name} />
                   );
                 })}
               </div>
@@ -285,63 +417,57 @@ const UserProfile = () => {
             <>
               <div className="d-flex justify-content-between mb-3">
                 <h5>Previous Notes</h5>
-                <Dropdown overlay={notesMenu}>
-                  <Button className="dropdownStyle">
-                    <Space>
-                      Button
-                      <DownOutlined />
-                    </Space>
-                  </Button>
-                </Dropdown>
+
+                <Button
+                  onClick={() => setIsModalVisible(true)}
+                  className="  bg-black radius1 mb-2 white"
+                >
+                  Add notes
+                </Button>
               </div>
-              <Collapse
-                expandIconPosition={"left"}
-                ghost={false}
-                expandIcon={({ isActive }) =>
-                  isActive ? (
-                    <img src={profile} style={{ width: 60 }} />
-                  ) : (
-                    <img src={profile} style={{ width: 60 }} />
-                  )
-                }
-              >
-                {notesData.map((e, i) => {
+              {data?.GetProfileDetails?.notes
+                .slice()
+                .reverse()
+                .map((item, index) => {
+                  const notesImgPath =
+                    environment.BACKEND_BASE_URL + "/" + item.noteImg;
                   return (
-                    <Panel
-                      className={`p-2`}
-                      header={e.name}
-                      key={i}
-                      extra={genExtra()}
+                    <Collapse
+                      expandIconPosition={"right"}
+                      ghost={false}
+                      expandIcon={CustomExpandIcon}
+                      key={index}
                     >
-                      <span>{e.description}</span>
-                    </Panel>
+                      <Panel
+                        className={`p-2`}
+                        header={
+                          <div>
+                            {item.noteImg ? (
+                              <img
+                                className="me-2"
+                                src={notesImgPath}
+                                style={{ width: 60 }}
+                              />
+                            ) : (
+                              <img
+                                className="me-2"
+                                src={profile}
+                                style={{ width: 60 }}
+                              />
+                            )}
+                            {item.title}
+                          </div>
+                        }
+                        key={index}
+                      >
+                        <span>{item.description}</span>
+                        {item.noteImg && (
+                          <Image src={notesImgPath} style={{ width: 60 }} />
+                        )}
+                      </Panel>
+                    </Collapse>
                   );
                 })}
-              </Collapse>
-              {/* {notesData.map((e, i) => {
-                return (
-                  <div
-                    key={i}
-                    className="bg-white2 radius1 p-3 my-1 d-flex justify-content-between center"
-                  >
-                    <div className="d-flex center">
-                      <img src={e.image} style={{ width: 80 }} />
-                      <div className="ms-2">
-                        <h5 className="m-0">{e.name}</h5>
-                        <p className="light-grey mb-1">{e.description}</p>
-                        <Button className="readBtn px-4">Read</Button>
-                      </div>
-                    </div>
-                    <div className="d-flex center">
-                      <Button className="notesBtn px-4 d-flex center">
-                        <img src={plus4} />
-                        <span className="ms-2">Add New Note</span>
-                      </Button>
-                      <img className="ms-4 me-1 cursor" src={delete_icon} />
-                    </div>
-                  </div>
-                );
-              })} */}
             </>
           )}
         </div>
