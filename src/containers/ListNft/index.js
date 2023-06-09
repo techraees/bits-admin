@@ -64,7 +64,10 @@ const ListNft = () => {
   };
 
   return (
-    <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
+    <div
+      className={`${backgroundTheme}`}
+      style={{ minHeight: "100vh", overflowX: "hidden" }}
+    >
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}
         // selectedKey={"5"}

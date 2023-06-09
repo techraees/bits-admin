@@ -102,3 +102,8 @@
     height: 4rem;
   }
 }
+
+.main {
+  overflow-x: hidden !important;
+  width: 99vw;
+}

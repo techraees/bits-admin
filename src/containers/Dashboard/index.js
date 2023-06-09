@@ -74,6 +74,14 @@ const Dashboard = () => {
   const [showChat, setShowChat] = useState(false);
   const { userData } = useSelector((state) => state.address.userData);
 
+  const backgroundTheme = useSelector(
+    (state) => state.app.theme.backgroundTheme
+  );
+  const textColor = useSelector((state) => state.app.theme.textColor);
+  const textColor2 = useSelector((state) => state.app.theme.textColor2);
+  const textColor3 = useSelector((state) => state.app.theme.textColor3);
+  const bgColor = useSelector((state) => state.app.theme.bgColor);
+
   const isLogged = userData?.isLogged;
 
   const userProfile = userData?.full_name;
@@ -87,13 +95,19 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="black-background">
+    <div className={backgroundTheme}>
       <UploadVideoModal
         visible={uploadVideoModal}
         onClose={() => setUploadVideoModal(false)}
       />
       {/* <ZendeskComp showChat={showChat} /> */}
-      <NavbarComponent login dashboardNav center selectedKey={"1"} />
+      <NavbarComponent
+        login
+        dashboardNav
+        center
+        selectedKey={"1"}
+        toggleBtn={textColor === "white" ? true : false}
+      />
       <div className="container">
         <Row
           className="my-5 d-flex align-items-center"
@@ -101,10 +115,10 @@ const Dashboard = () => {
         >
           <Col lg={12} md={12} sm={24} xs={24} className="my-2">
             <div>
-              <h1 className="white">
+              <h1 className={textColor}>
                 Welcome to <span className="red">BITS</span>{" "}
               </h1>
-              <span style={{ color: "#E8E8E8" }}>
+              <span className={textColor}>
                 At BITS we will take your most iconic performances and
                 immortalize them on the blockchain. First, you can provide us
                 with a signature move/moment that you're proud of, then we will
@@ -141,7 +155,7 @@ const Dashboard = () => {
         </Row>
         <div className="d-flex justify-content-between align-items-center mt-4">
           <h3 className="red m-0">
-            Top <span className="white">NFTs</span>
+            Top <span className={textColor}>NFTs</span>
           </h3>
           <div
             style={{ border: "1px solid #D54343", width: "80%" }}

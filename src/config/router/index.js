@@ -58,15 +58,7 @@ const Router = () => {
       <ScrollToTop />
 
       <div style={{ minHeight: "100vh" }} className={`${backgroundTheme}`}>
-        <div
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "10px",
-            zIndex: 100,
-          }}
-          className="footer-logo"
-        >
+        <div className="footer-logo">
           <img src={logo} width={60} />
         </div>
 

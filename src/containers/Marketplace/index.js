@@ -68,7 +68,12 @@ const Marketplace = () => {
     console.log(`selected ${value}`);
   };
   return (
-    <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
+    <div
+      className={`${backgroundTheme} main`}
+      style={{
+        minHeight: "100vh",
+      }}
+    >
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}
         selectedKey={"4"}

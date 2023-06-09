@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import Timercomp from "../timerComp";
 import { useLocation, useNavigate } from "react-router-dom";
 import profileimg from "../../assets/images/profile1.png";
+import OfferModal from "../offerModal";
 
 const CardCompnent = ({
   image,
@@ -26,14 +27,22 @@ const CardCompnent = ({
 }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBidModalOpen, setIsBidModalOpen] = useState(false);
+  const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
+
   const showModal = () => {
     setIsModalOpen(true);
+  };
+
+  const showOfferModal = () => {
+    setIsOfferModalOpen(true);
   };
   const handleOk = () => {
     setIsModalOpen(false);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsOfferModalOpen(false);
   };
   console.log("userProfile", userProfile, image);
 
@@ -52,6 +61,16 @@ const CardCompnent = ({
         className="stepperModal"
       >
         <StepperModal handleCancel={handleCancel} />
+      </Modal>
+
+      <Modal
+        open={isOfferModalOpen}
+        onCancel={handleCancel}
+        footer={false}
+        centered
+        width={829}
+      >
+        <OfferModal handleCancel={handleCancel} />
       </Modal>
       <Card
         hoverable
@@ -89,7 +108,7 @@ const CardCompnent = ({
                 </Tooltip>
               </>
             ) : (
-              <button className="buybtn">
+              <button className="buybtn" onClick={showOfferModal}>
                 {location.pathname === "/marketplace" ? "Bid Now" : "Buy Now"}
               </button>
             )}

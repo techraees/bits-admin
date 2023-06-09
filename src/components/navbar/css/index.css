@@ -7,6 +7,12 @@
   color: white !important;
 }
 
+@media only screen and (max-width: 992px) {
+  .first-nav {
+    margin-top: 1rem;
+  }
+}
+
 /* 
 .dashboardNavBgColor {
     background-color: yellow !important;
@@ -53,7 +59,9 @@
   .loginbtn {
     margin-left: -2.5rem;
   }
+}
 
+@media only screen and (max-width: 992px) {
   .connentbtn {
     display: none;
   }
@@ -102,6 +110,12 @@
   margin-left: 2rem;
 }
 
+@media only screen and (max-width: 992px) {
+  .chainDiv {
+    margin-bottom: 1rem;
+  }
+}
+
 .leftChainDiv {
   background-color: #141414;
   border-radius: 17px 0px 0px 17px;
@@ -136,7 +150,7 @@
 }
 
 @media (max-width: 990px) {
-  .navbar-nav {
+  .bottom-nav {
     display: none !important;
   }
 

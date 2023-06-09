@@ -169,12 +169,12 @@ const NavbarComponent = ({
           )}
           <Navbar.Brand>
             <div className="nav-logo">
-            <NavLink to="/" className="white d-flex">
-              <img
-                src={logo}
-                className="cursor"
-                style={{ width: 50, height: 50 }}
-              />
+              <NavLink to="/" className="white d-flex">
+                <img
+                  src={logo}
+                  className="cursor"
+                  style={{ width: 50, height: 50 }}
+                />
               </NavLink>
             </div>
           </Navbar.Brand>
@@ -208,6 +208,9 @@ const NavbarComponent = ({
                         Connect Wallet
                       </span>
                     </Nav.Link>
+                    <div style={{ margin: "5px 0 0 1rem" }}>
+                      <SwitchBtn toggleBtn={toggleBtn} />
+                    </div>
                   </div>
                 </>
               ) : (
@@ -242,7 +245,7 @@ const NavbarComponent = ({
           <Navbar.Toggle aria-controls="basic-navbar-nav" className="me-3" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav
-              className={`d-flex align-items-center justify-content-between`}
+              className={`d-flex align-items-center justify-content-between first-nav`}
             >
               <NavLink to="/" className="white d-flex">
                 <img
@@ -278,7 +281,7 @@ const NavbarComponent = ({
                 <img className="ethIcon" src={polygon} />
               </div>
             </div>
-            <Nav className="ms-auto">
+            <Nav className="ms-auto bottom-nav">
               {!full_name ? (
                 <div className="d-flex align-items-center justify-content-center navbar-menu1">
                   <Nav.Link className="white mx-2" onClick={handleLogin}>
@@ -290,6 +293,7 @@ const NavbarComponent = ({
                   >
                     <span>Connect Wallet</span>
                   </Nav.Link>
+                  <SwitchBtn toggleBtn={toggleBtn} />
                 </div>
               ) : (
                 <div className="d-flex align-items-center justify-content-center">
