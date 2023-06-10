@@ -114,6 +114,26 @@ const GET_ALL_NFTS_WITHOUT_ADDRESS = gql`
   }
 `;
 
+const GET_PROFILE_DETAILS_QUERY = gql`
+  query GetProfileDetails($getProfileDetailsId: String!) {
+    GetProfileDetails(id: $getProfileDetailsId) {
+      country
+      id
+      profileImg
+      bio
+      user_address
+      user_name
+      bio
+      profileImg
+      full_name
+      createdAt
+      email
+      phone_number
+      notes
+    }
+  }
+`;
+
 export {
   GET_ALL_NFTS,
   LOGIN_USER,
@@ -121,4 +141,5 @@ export {
   UPDATE_USER_PROFILE,
   GET_PROFILE,
   GET_ALL_NFTS_WITHOUT_ADDRESS,
+  GET_PROFILE_DETAILS_QUERY
 };

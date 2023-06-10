@@ -67,9 +67,9 @@ const Router = () => {
 
           <Route path="/login" element={<Login />} />
 
-          <Route path="/collections" element={<PrivateRoute />}>
-            <Route path="/collections" element={<Collections />} />
-          </Route>
+          {/* <Route path="/collections" element={<PrivateRoute />}> */}
+            <Route path="/collections/:userId" element={<Collections />} />
+          {/* </Route> */}
 
           <Route path="transaction-history" element={<TransactionHistory />} />
           <Route path="selling-history" element={<SellingHistory />} />

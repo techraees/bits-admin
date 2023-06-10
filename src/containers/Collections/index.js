@@ -19,10 +19,10 @@ import {
 import profileimg from "../../assets/images/profile1.svg";
 import "./css/index.css";
 import { Col, Input, Pagination, Row, Select, Tabs } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { gql, useQuery, useLazyQuery, useMutation } from "@apollo/client";
-import { GET_ALL_NFTS } from "../../gql/queries";
+import { GET_ALL_NFTS, GET_PROFILE_DETAILS_QUERY } from "../../gql/queries";
 import environment from "../../environment";
 import { MINT_ASSET_MUTATION } from "../../gql/mutations";
 
@@ -30,6 +30,7 @@ const Collections = () => {
   const pageSize = 20;
   const [mintAsset, { loading: mintingLoading, error: mintingError, data }] =
     useMutation(MINT_ASSET_MUTATION);
+    const { userId } = useParams();
 
   const handleMintAsset = async (walletAddress) => {
     try {
@@ -48,24 +49,37 @@ const Collections = () => {
       fetchPolicy: "network-only",
     }
   );
-
-  const { userData } = useSelector((state) => state.address.userData);
-  const userProfile = userData?.profileImg;
-
-  const address = userData?.address;
-  const full_name = userData?.full_name;
-  const country = userData?.country;
-  const bio = userData?.bio;
+  const [getProfile, { loading: profileLoadeing, error: profileError, data: profileData, refetch }] = useLazyQuery(
+    GET_PROFILE_DETAILS_QUERY,
+    {
+      variables: { getProfileDetailsId: userId },
+    }
+  );
+  console.log("userId",userId)
 
   useEffect(() => {
-    if (address) {
+    if (userId) {
+      getProfile({ variables: userId });
+    }
+  }, [userId]);
+
+  const { userData } = useSelector((state) => state.address.userData);
+  const userProfile = profileData?.GetProfileDetails?.profileImg;
+
+  const address = profileData?.GetProfileDetails?.address;
+  const full_name = profileData?.GetProfileDetails?.full_name;
+  const country = profileData?.GetProfileDetails?.country;
+  const bio = profileData?.GetProfileDetails?.bio;
+
+  useEffect(() => {
+    if (profileData?.GetProfileDetails) {
       const variables = {
-        walletAddress: address,
+        walletAddress: profileData?.GetProfileDetails?.user_address,
       };
 
       getNft({ variables });
     }
-  }, [address]);
+  }, [profileData]);
 
   const [nfts, setNfts] = useState(null);
   const [nftsAll, setAllNfts] = useState(null);
@@ -130,57 +144,7 @@ const Collections = () => {
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
-  let cardsData = [
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-  ];
-
+ 
   const { web3, account } = useSelector((state) => state.web3.walletData);
 
   const imgPath = environment.BACKEND_BASE_URL + "/" + userProfile;
@@ -228,6 +192,7 @@ const Collections = () => {
     }
   }
   console.log(currentNfts, "currentNfts");
+  console.log("profileData",profileData, userData)
 
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
@@ -274,12 +239,16 @@ const Collections = () => {
 
                 <span className={`${textColor2}`}>{bio}</span>
                 <div className="mt-2">
-                  <ButtonComponent
-                    onClick={() => navigate("/account-settings/edit-profile")}
-                    simple
-                    text={"Edit Profile"}
-                    width={150}
-                  />
+                  {
+                    profileData?.GetProfileDetails?.id === userData?.id &&
+                    <ButtonComponent
+                      onClick={() => navigate("/account-settings/edit-profile")}
+                      simple
+                      text={"Edit Profile"}
+                      width={150}
+                    />
+                  }
+
                 </div>
               </div>
             </div>
@@ -376,6 +345,7 @@ const Collections = () => {
                 navigateTo={() =>
                   navigate(`/list-nft/${extractIPFSHash(e.video)}`)
                 }
+                isOwner={profileData?.GetProfileDetails?.id === userData?.id}
               />
             ))
           ) : (

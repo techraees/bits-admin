@@ -43,7 +43,7 @@ const MenuComponent = ({
 }) => {
   const { userData } = useSelector((state) => state.address.userData);
   const [uploadVideoModal, setUploadVideoModal] = useState(false);
-
+  console.log("userData",userData)
   const isLogged = userData?.isLogged;
 
   let navigate = useNavigate();
@@ -134,7 +134,7 @@ const MenuComponent = ({
         items={items}
         onClick={(item) => {
           item.key === "1" && navigate("/");
-          item.key === "2" && navigate("/collections");
+          item.key === "2" && navigate(`/collections/${userData?.id}`);
           item.key === "3" && navigate("/video-gallery");
           item.key === "4" && navigate("/marketplace");
           item.key === "5" && navigate("/mint-nft");
@@ -152,7 +152,7 @@ const MenuComponent = ({
         }}
         onSelect={(item) => {
           item.key === "1" && navigate("/");
-          item.key === "2" && navigate("/collections");
+          item.key === "2" && navigate(`/collections/${userData?.id}`);
           item.key === "3" && navigate("/video-gallery");
           item.key === "4" && navigate("/marketplace");
           item.key === "5" && navigate("/mint-nft");

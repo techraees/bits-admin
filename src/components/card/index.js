@@ -24,10 +24,11 @@ const CardCompnent = ({
   artistName,
   userProfile,
   navigateTo,
+  userId,
+  isOwner
 }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isBidModalOpen, setIsBidModalOpen] = useState(false);
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
 
   const showModal = () => {
@@ -45,8 +46,8 @@ const CardCompnent = ({
     setIsOfferModalOpen(false);
   };
   console.log("userProfile", userProfile, image);
-
   const location = useLocation();
+  console.log("userId", userId, location.pathname)
 
   return (
     <div className="my-4 col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center">
@@ -204,7 +205,7 @@ const CardCompnent = ({
                     height={40}
                     text={"Sell NFT"}
                     onClick={() => {
-                      if (location.pathname === "/collections") {
+                      if (location.pathname.includes("/collections") && isOwner) {
                         navigateTo();
                       }
                     }}
@@ -216,7 +217,7 @@ const CardCompnent = ({
                 {collectionBtn && (
                   <Button
                     className="mt-2 collectionBtn"
-                    onClick={() => navigate("/collections")}
+                    onClick={() => navigate(`/collections/${userId}`)}
                   >
                     Go to Collection
                   </Button>
@@ -255,14 +256,20 @@ const CardCompnent = ({
                     <ButtonComponent
                       height={40}
                       text={
-                        location.pathname === "/collections"
+                        location.pathname.includes("/collections") && isOwner
                           ? "Sell NFT"
                           : "Buy NFT"
                       }
                       onClick={() => {
-                        if (location.pathname === "/collections") {
+                        if (location.pathname.includes("/collections") && isOwner) {
                           navigateTo();
                         }
+                        else if (location.pathname.includes("/")) {
+                          console.log("handle ok")
+                          showModal()
+                        }
+                        
+
                       }}
                     />
                   )}
@@ -274,7 +281,7 @@ const CardCompnent = ({
                 {collectionBtn && (
                   <Button
                     className="mt-2 collectionBtn"
-                    onClick={() => navigate("/collections")}
+                    onClick={() => navigate(`/collections/${userId}`)}
                   >
                     Go to Collection
                   </Button>

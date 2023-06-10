@@ -77,7 +77,7 @@ const VideoGallery = () => {
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
-
+  console.log("data",data)
   useEffect(() => {
     refetch();
   }, []);
@@ -169,6 +169,7 @@ const VideoGallery = () => {
                 topName
                 collectionBtn
                 userProfile={userProfile ? true : false}
+                userId={e?.user_id?.id}
               />
             );
           })}

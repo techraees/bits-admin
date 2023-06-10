@@ -54,7 +54,6 @@ const NavbarComponent = ({
   const [profile, { loading, error, data }] = useLazyQuery(GET_PROFILE, {
     fetchPolicy: "network-only",
   });
-  console.log("data", data);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -129,7 +128,7 @@ const NavbarComponent = ({
   console.log("err", error?.message);
   useEffect(() => {
     if (error?.message == "jwt expired") {
-      navigate("/login");
+      // navigate("/login");
     }
   }, [error]);
 

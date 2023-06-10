@@ -79,8 +79,6 @@ const SellsNft = () => {
         let data = nfts?.filter((item) =>
           item.name.toLowerCase().startsWith(isSearching)
         );
-        console.log("data", data);
-
         setIsSearch(data);
       } else {
         setAllNfts(allNfts?.getAllNfts);
@@ -229,7 +227,6 @@ const SellsNft = () => {
                 let data = nfts?.filter((item) =>
                   item.name.toLowerCase().startsWith(e.target.value)
                 );
-                console.log("data", data);
 
                 setIsSearch(data);
               }}
