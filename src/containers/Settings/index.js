@@ -7,12 +7,32 @@ import { Button, Modal } from "antd";
 
 const Settings = () => {
   const [isModalVisible, setIsModalVisible] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
   const showModal = () => {
     setIsModalVisible(true);
   };
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const handleCheckboxChange = (event) => {
+    const value = event.target.value;
+
+    if (event.target.checked) {
+      setSelectedOptions((prevSelectedOptions) => [
+        ...prevSelectedOptions,
+        value,
+      ]);
+    } else {
+      setSelectedOptions((prevSelectedOptions) =>
+        prevSelectedOptions.filter((option) => option !== value)
+      );
+    }
+  };
+
+  console.log("selectedOptions", selectedOptions); // Log the selected options onChange
+
   return (
     <div className="bg-white2 pb-4">
       <NavbarComponent lightNav headerTxt={"Settings"} selectedKey={"7"} />
@@ -99,6 +119,70 @@ const Settings = () => {
                   className="mt-1 inputStyle"
                 />
               </div>
+
+              <div className="my-4">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="settings"
+                    value="/settings"
+                    onChange={handleCheckboxChange}
+                  />
+                  Settings
+                </label>
+                <br />
+                <label>
+                  <input
+                    type="checkbox"
+                    name="dashboard"
+                    value="/"
+                    onChange={handleCheckboxChange}
+                  />
+                  Dashboard
+                </label>
+                <br />
+                <label>
+                  <input
+                    type="checkbox"
+                    name="user-information"
+                    value="user-information"
+                    onChange={handleCheckboxChange}
+                  />
+                  User Information
+                </label>
+                <br />
+                <label>
+                  <input
+                    type="checkbox"
+                    name="data-section"
+                    value="/data-section"
+                    onChange={handleCheckboxChange}
+                  />
+                  Data Section
+                </label>
+                <br />
+                <label>
+                  <input
+                    type="checkbox"
+                    name="payment"
+                    value="payment"
+                    onChange={handleCheckboxChange}
+                  />
+                  Payment
+                </label>
+                <br />
+                <label>
+                  <input
+                    type="checkbox"
+                    name="previous-notes"
+                    value="/previous-notes"
+                    onChange={handleCheckboxChange}
+                  />
+                  Previous Notes
+                </label>
+                <br />
+              </div>
+
               <div className="d-flex justify-content-center">
                 <Button
                   style={{ width: "40%" }}

@@ -31,4 +31,17 @@ const ADD_NOTES_MUTATION = gql`
   }
 `;
 
-export { SEND_EMAIL_MUTATION, DELETE_MUTATION ,ADD_NOTES_MUTATION};
+const UPDATE_NFT_STATUS = gql`
+  mutation UpdateNftStatus($id: String!) {
+    UpdateNftStatus(id: $id) {
+      is_blocked
+    }
+  }
+`;
+
+export {
+  SEND_EMAIL_MUTATION,
+  DELETE_MUTATION,
+  ADD_NOTES_MUTATION,
+  UPDATE_NFT_STATUS,
+};

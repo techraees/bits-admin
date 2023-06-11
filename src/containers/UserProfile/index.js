@@ -26,7 +26,6 @@ import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import environment from "../../environment";
 import Loading from "../../components/loaders/loading";
 import {
-  ADD_NOTES_MUTATION,
   DELETE_MUTATION,
   SEND_EMAIL_MUTATION,
 } from "../../gql/mutations";

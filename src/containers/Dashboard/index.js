@@ -23,6 +23,8 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import faker from "faker";
+import { GET_USERS_COUNT } from "../../gql/queries";
+import { useQuery } from "@apollo/client";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -130,6 +132,14 @@ const Dashboard = () => {
       status: "Registered on BITS",
     },
   ];
+
+  const {
+    loading,
+    error,
+    data: totalRegistered,
+    refetch,
+  } = useQuery(GET_USERS_COUNT);
+  console.log("totalRegistered",totalRegistered?.GetAllUsersCount?.registered)
   return (
     <div className="bg-dark-blue">
       <NavbarComponent selectedKey={"1"} />
@@ -138,7 +148,7 @@ const Dashboard = () => {
         <div className="row">
           <StatisticsCard
             icon={bar_chart}
-            count={"347K"}
+            count={totalRegistered?.GetAllUsersCount?.totalVisits}
             status={"Total Visits"}
             trendingIcon={trending_up}
             trendingPer={"0.24"}
@@ -148,8 +158,8 @@ const Dashboard = () => {
           />
           <StatisticsCard
             icon={user2}
-            count={"45K"}
-            status={"Total Users"}
+            count={totalRegistered?.GetAllUsersCount?.uniqueVisitors}
+            status={"Unique Visitors"}
             trendingIcon={trending_up}
             trendingPer={"0.24"}
             duration={"Last month"}
@@ -158,7 +168,7 @@ const Dashboard = () => {
           />
           <StatisticsCard
             icon={message2}
-            count={"154 872"}
+            count={totalRegistered?.GetAllUsersCount?.registered}
             status={"Total Registered users"}
             trendingIcon={trending_down}
             trendingPer={"20"}
@@ -168,7 +178,7 @@ const Dashboard = () => {
           />
           <StatisticsCard
             icon={users}
-            count={"167"}
+            count={totalRegistered?.GetAllUsersCount?.active}
             status={"Active users"}
             trendingIcon={trending_up2}
             trendingPer={"20"}

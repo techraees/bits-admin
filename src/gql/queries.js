@@ -47,9 +47,51 @@ const GET_ALL_NFTS = gql`
       token_id
       supply
       name
-      user_id
     }
   }
 `;
 
-export { GET_ALL_CONTACTS, GET_PROFILE_DETAILS_QUERY, GET_ALL_NFTS };
+// dashboard
+
+const GET_USERS_COUNT = gql`
+  query GetAllUsersCount {
+    GetAllUsersCount {
+      registered
+      active
+      totalVisits
+      uniqueVisitors
+    }
+  }
+`;
+
+const GET_ALL_NFTS_FOR_ADMIN = gql`
+  query GetAllNftsWithoutAddress {
+    getAllNftsWithoutAddress {
+      _id
+      artist_name1
+      description
+      name
+      royalty
+      status
+      token_id
+      video
+      wallet_address
+      is_blocked
+      user_id {
+        id
+        user_name
+        user_address
+        profileImg
+      }
+    }
+  }
+`;
+
+export {
+  GET_ALL_CONTACTS,
+  GET_PROFILE_DETAILS_QUERY,
+  GET_ALL_NFTS,
+  GET_USERS_COUNT,
+  GET_ALL_NFTS_FOR_ADMIN,
+};
+// count={totalRegistered?.GetAllUsersCount?.registered}
