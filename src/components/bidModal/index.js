@@ -18,7 +18,7 @@ const BidModal = () => {
         </div>
 
         <div>
-          <h5>0.076365 WETH</h5>
+          <h5>0.076365 ETH</h5>
           <p>$140.49</p>
         </div>
       </div>

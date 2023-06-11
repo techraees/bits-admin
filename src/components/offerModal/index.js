@@ -24,7 +24,7 @@ const OfferModal = () => {
   const dataSource = [
     {
       key: "1",
-      price: "0.001 WETH",
+      price: "0.001 ETH",
       uprice: "$20.24",
       quantity: "1",
       fdifference: "12% above",
@@ -33,7 +33,7 @@ const OfferModal = () => {
     },
     {
       key: "2",
-      price: "0.001 WETH",
+      price: "0.001 ETH",
       uprice: "$20.24",
       quantity: "1",
       fdifference: "12% above",
@@ -42,7 +42,7 @@ const OfferModal = () => {
     },
     // {
     //   key: "3",
-    //   price: "0.001 WETH",
+    //   price: "0.001 ETH",
     //   uprice: "$20.24",
     //   quantity: "1",
     //   fdifference: "12% above",
@@ -51,7 +51,7 @@ const OfferModal = () => {
     // },
     // {
     //   key: "4",
-    //   price: "0.001 WETH",
+    //   price: "0.001 ETH",
     //   uprice: "$20.24",
     //   quantity: "1",
     //   fdifference: "12% above",
@@ -123,14 +123,14 @@ const OfferModal = () => {
           </div>
 
           <div>
-            <h5>0.0001 WETH</h5>
+            <h5>0.0001 ETH</h5>
             <p>$0.18</p>
           </div>
         </div>
         <div className="balance-info">
           {/* <div className="d-flex justify-content-between align-items-center">
             <h5>Balance</h5>
-            <p>0.001 WETH</p>
+            <p>0.001 ETH</p>
           </div> */}
           <div className="d-flex justify-content-between align-items-center mt-2">
             <h5>Floor Price</h5>
@@ -165,11 +165,11 @@ const OfferModal = () => {
 
         <div className="input-field-div">
           <input type="text" placeholder="0.001" />
-          <h5>WETH</h5>
+          <h5>ETH</h5>
         </div>
         <div className="d-flex justify-content-between mt-2">
           <p>$0.18 Total</p>
-          <p>Total Offer amount: 0.001 WETH ($0.18)</p>
+          <p>Total Offer amount: 0.001 ETH ($0.18)</p>
         </div>
         <div>
           <button className="bid-btn" onClick={showModal}>
