@@ -86,3 +86,6 @@ export const updateAccount = (account) => async (
     throw err;
   }
 };
+
+
+//loading the contract instances
