@@ -60,6 +60,7 @@ const Marketplace = () => {
   const textColor = useSelector((state) => state.app.theme.textColor);
   const bgColor = useSelector((state) => state.app.theme.bgColor);
   const { userData } = useSelector((state) => state.address.userData);
+  
   const userProfile = userData?.full_name;
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme

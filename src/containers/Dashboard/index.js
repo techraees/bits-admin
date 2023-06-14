@@ -74,6 +74,16 @@ const Dashboard = () => {
   const [showChat, setShowChat] = useState(false);
   const { userData } = useSelector((state) => state.address.userData);
 
+  const contractIns = useSelector((state) => state.contract);
+
+  const checkContract = async()=>{
+    // console.log(contractIns);
+    const auctions = await contractIns.methods.auctions(0).call();
+    console.log(auctions);
+  }
+
+  checkContract();
+
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );

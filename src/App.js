@@ -7,6 +7,7 @@ import "./App.css";
 import ZendeskComp from "./containers/zendesk";
 import { useState } from "react";
 import { useEffect } from "react";
+import { loadEthContractIns } from "./store/actions";
 
 function App() {
   const [showChat, setShowChat] = useState(false);
@@ -16,6 +17,8 @@ function App() {
     localStorage.removeItem("WALLETCONNECT_DEEPLINK_CHOICE");
     // localStorage.clear()
   }, []);
+
+  store.dispatch(loadEthContractIns());
 
   return (
     <Provider store={store}>

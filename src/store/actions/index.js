@@ -1,6 +1,7 @@
 import Web3 from "web3";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import ActionTypes from "../contants/ActionTypes";
+import ethContractAbi from "../../abis/ethContractAbi.json"
 
 export const loadBlockchainAction = () => async (dispatch) => {
   try {
@@ -89,3 +90,16 @@ export const updateAccount = (account) => async (
 
 
 //loading the contract instances
+export const loadEthContractIns = () => async (dispatch) => {
+  try {
+    const ethContract = "0xf16c5d540AC5A485404a26363b2138E6a79c04E5";
+    const infuraIns = "https://goerli.infura.io/v3/db1427c3f86f4a95a2dfde7849404077";
+    const web3 = new Web3(new Web3.providers.HttpProvider(infuraIns));
+    var contract = new web3.eth.Contract(ethContractAbi, ethContract);
+    const auctions = await contract.methods.auctions(0).call();
+    console.log(auctions.initialPrice);
+    dispatch({ type: ActionTypes.LOAD_CONTRACT, payload: contract });
+  } catch (err) {
+    console.log("errr", err);
+  }
+};
