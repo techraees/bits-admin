@@ -1,23 +1,37 @@
 import Web3 from "web3";
+import { ethers } from "ethers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import ActionTypes from "../contants/ActionTypes";
-import ethContractAbi from "../../abis/ethContractAbi.json"
-
+import ethContractAbi from "../../abis/ethContractAbi.json";
+import ethMintingContractAbi from "../../abis/ethMintingContractAbi.json";
+import polygonContractAbi from "../../abis/polygonContractAbi.json";
+import polygonMintingContractAbi from "../../abis/polygonMintingContractAbi.json";
+import { extractNFTImage } from "../../utills/extractNftImage";
 export const loadBlockchainAction = () => async (dispatch) => {
-  try {
-    await Web3.givenProvider.enable();
-    const web3 = new Web3(Web3.givenProvider);
-    await web3.currentProvider.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: "0x5" }],
-    });
-    let account = await web3.eth.getAccounts();
-    account = account[0];
-    let chainId = await web3.eth.getChainId();
+  // try {
+  //   await Web3.givenProvider.enable();
+  //   const web3 = new Web3(Web3.givenProvider);
+  //   await web3.currentProvider.request({
+  //     method: "wallet_switchEthereumChain",
+  //     params: [{ chainId: "0x13881" }],
+  //   });
+    
+  //   let account = await web3.eth.getAccounts();
+  //   account = account[0];
+  //   let chainId = await web3.eth.getChainId();
+
+  try{
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    const signer = await provider.getSigner();
+    const { chainId } = await provider.getNetwork();
+    const account = signer.address;
+    const web3 = provider;
     const data = {
       web3,
       account,
       chainId,
+      signer
     };
     dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
   } catch (err) {
@@ -90,15 +104,77 @@ export const updateAccount = (account) => async (
 
 
 //loading the contract instances
+// export const loadEthContractIns = () => async (dispatch) => {
+//   const ethInfuraIns = "https://goerli.infura.io/v3/e556d22112e34e3baab9760f1864493a";
+//   const polygonInfuraIns = "https://polygon-mumbai.infura.io/v3/e556d22112e34e3baab9760f1864493a";
+//   try {
+//     let web3;
+//     if(ethInfuraIns){
+//       web3 = new Web3(new Web3.providers.HttpProvider(ethInfuraIns));
+//     }else if(polygonInfuraIns){
+//       web3 = new Web3(new Web3.providers.HttpProvider(polygonInfuraIns));
+//     }
+//     //ethereum
+//     const ethMarketPlaceContract = "0xf16c5d540AC5A485404a26363b2138E6a79c04E5";
+//     const ethMintingConract = "0x6E44f2d0249514e88b34242fc8Ff5C80697df495";
+//     const ethContractIns = new web3.eth.Contract(ethContractAbi, ethMarketPlaceContract);
+//     const ethMintingContractIns = new web3.eth.Contract(ethMintingContractAbi, ethMintingConract);
+
+//     //polygon
+//     const polygonMarketPlaceContract = "0x96d02fcCaC1aa96432347824D42754b5266B4D6c";
+//     const polygonMintingConract = "0x630656827C8Ceaff3580823a8fD757E298cBfAAf";
+//     const polygonContractIns = new web3.eth.Contract(polygonContractAbi, polygonMarketPlaceContract);
+//     const polygonMintingContractIns = new web3.eth.Contract(polygonMintingContractAbi,polygonMintingConract);
+
+
+//     // const imguri = extractNFTImage(ethMintingContract, 0)
+//     // console.log(imguri);
+//     // const auctions = await contract.methods.auctions(0).call();
+//     dispatch({ type: ActionTypes.LOAD_CONTRACT, payload: {ethContractIns, ethMintingContractIns,polygonContractIns, polygonMintingContractIns} });
+//     dispatch({
+//       type: "MATIC_CHAIN",
+//       contractData: {
+//         marketContract:polygonContractIns,
+//         mintContract:polygonMintingContractIns,
+//       },
+//     })
+//   } catch (err) {
+//     console.log("errr", err);
+//   }
+// };
+
+
 export const loadEthContractIns = () => async (dispatch) => {
+  const ethInfuraIns = "https://goerli.infura.io/v3/e556d22112e34e3baab9760f1864493a";
+  const polygonInfuraIns = "https://polygon-mumbai.infura.io/v3/e556d22112e34e3baab9760f1864493a";
   try {
-    const ethContract = "0xf16c5d540AC5A485404a26363b2138E6a79c04E5";
-    const infuraIns = "https://goerli.infura.io/v3/db1427c3f86f4a95a2dfde7849404077";
-    const web3 = new Web3(new Web3.providers.HttpProvider(infuraIns));
-    var contract = new web3.eth.Contract(ethContractAbi, ethContract);
-    const auctions = await contract.methods.auctions(0).call();
-    console.log(auctions.initialPrice);
-    dispatch({ type: ActionTypes.LOAD_CONTRACT, payload: contract });
+
+    //ethereum
+    const ethProvider = new ethers.providers.JsonRpcProvider(ethInfuraIns);
+    const ethMarketPlaceContract = "0xf16c5d540AC5A485404a26363b2138E6a79c04E5";
+    const ethMintingConract = "0x6E44f2d0249514e88b34242fc8Ff5C80697df495";
+    const ethContractIns = new ethers.Contract(ethMarketPlaceContract, ethContractAbi, ethProvider);
+    const ethMintingContractIns = new ethers.Contract(ethMintingConract, ethMintingContractAbi, ethProvider);
+
+    //polygon
+    const polygonProvider = new ethers.providers.JsonRpcProvider(polygonInfuraIns);
+    const polygonMarketPlaceContract = "0x96d02fcCaC1aa96432347824D42754b5266B4D6c";
+    const polygonMintingConract = "0x630656827C8Ceaff3580823a8fD757E298cBfAAf";
+    const polygonContractIns = new ethers.Contract(polygonMarketPlaceContract, polygonContractAbi,polygonProvider);
+    const polygonMintingContractIns = new ethers.Contract(polygonMintingConract, polygonMintingContractAbi, polygonProvider);
+
+
+    // const imguri = extractNFTImage(ethMintingContract, 0)
+    // console.log(imguri);
+    // const auctions = await contract.methods.auctions(0).call();
+    dispatch({ type: ActionTypes.LOAD_CONTRACT, payload: {ethContractIns, ethMintingContractIns,polygonContractIns, polygonMintingContractIns} });
+    dispatch({
+      type: "MATIC_CHAIN",
+      contractData: {
+        marketContract:polygonContractIns,
+        mintContract:polygonMintingContractIns,
+      },
+    })
   } catch (err) {
     console.log("errr", err);
   }

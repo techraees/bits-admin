@@ -12,49 +12,49 @@ const Marketplace = () => {
       image: profile,
       name: "Snap Boogie",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoLink: "https://infura-ipfs.io/ipfs/QmWtamFodC3w7JtMrPXZmEDwEDhZo6w4E24jpHjMnzM9sK",
     },
     {
       image: profile,
       name: "Snap Boogie",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoLink: "https://infura-ipfs.io/ipfs/QmWtamFodC3w7JtMrPXZmEDwEDhZo6w4E24jpHjMnzM9sK",
     },
     {
       image: profile,
       name: "Snap Boogie",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoLink: "https://infura-ipfs.io/ipfs/QmWtamFodC3w7JtMrPXZmEDwEDhZo6w4E24jpHjMnzM9sK",
     },
     {
       image: profile,
       name: "Snap Boogie",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoLink: "https://infura-ipfs.io/ipfs/QmWtamFodC3w7JtMrPXZmEDwEDhZo6w4E24jpHjMnzM9sK",
     },
     {
       image: profile,
       name: "Snap Boogie",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoLink: "https://infura-ipfs.io/ipfs/QmWtamFodC3w7JtMrPXZmEDwEDhZo6w4E24jpHjMnzM9sK",
     },
     {
       image: profile,
       name: "Snap Boogie",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoLink: "https://infura-ipfs.io/ipfs/QmWtamFodC3w7JtMrPXZmEDwEDhZo6w4E24jpHjMnzM9sK",
     },
     {
       image: profile,
       name: "Snap Boogie",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoLink: "https://infura-ipfs.io/ipfs/QmWtamFodC3w7JtMrPXZmEDwEDhZo6w4E24jpHjMnzM9sK",
     },
     {
       image: profile,
       name: "Snap Boogie",
       status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
+      videoLink: "https://infura-ipfs.io/ipfs/QmWtamFodC3w7JtMrPXZmEDwEDhZo6w4E24jpHjMnzM9sK",
     },
   ];
   const textColor = useSelector((state) => state.app.theme.textColor);
@@ -243,6 +243,7 @@ const Marketplace = () => {
         ></div>
         <div className="row my-3">
           {cardsData.map((e, i) => {
+            console.log(e.videoLink);
             return (
               <CardCompnent
                 key={i}

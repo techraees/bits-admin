@@ -19,6 +19,7 @@ export const sendFileToIPFS = async (file) => {
       // console.log("ImgHash", res)
       const ImgHash = `${env.IPFS_PATH}/${result.path}`;
       return ImgHash;
+      console.log(ImgHash);
     } catch (error) {
       console.log("Error sending File to IPFS: ");
       console.log(error);

@@ -69,6 +69,7 @@ const VideoGallery = () => {
         <div style={{ border: "1px solid #5e2a2a" }}></div>
         <div className="row my-3">
           {data?.getAllNftsWithoutAddress?.map((e, i) => {
+            console.log(e.video);
             if (!e.is_blocked) {
               return (
                 <CardCompnent

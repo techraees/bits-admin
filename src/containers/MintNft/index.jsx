@@ -22,11 +22,17 @@ import { gql, useMutation } from "@apollo/client";
 import { useFormik } from "formik";
 import { mintValidation } from "../../components/validations";
 import ErrorMessage from "../../components/error";
+import ConnectModal from "../../components/connectModal";
 
 const MintNft = () => {
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
+  const { web3, account, signer } = useSelector((state) => state.web3.walletData);
+  const [connectModal, setConnectModal] = useState(false);
+
+  const {contractData} = useSelector((state) => state.chain.contractData);
+ 
   const textColor = useSelector((state) => state.app.theme.textColor);
   const textColor2 = useSelector((state) => state.app.theme.textColor2);
   const textColor3 = useSelector((state) => state.app.theme.textColor3);
@@ -61,6 +67,22 @@ const MintNft = () => {
     }
   }, [data, error]);
 
+
+  const closeConnectModel = () => {
+    setConnectModal(false);
+  };
+  const connectWalletHandle = () => {
+    if (!web3) {
+      setConnectModal(true);
+    }
+  };
+
+  const contCall = async()=>{
+    const contractWithsigner = contractData.mintContract.connect(signer);
+    const tx = await contractWithsigner.mint(address, 1, 10, createNft.video, []);
+    console.log(tx);
+  }
+
   const {
     handleSubmit,
     handleChange,
@@ -72,26 +94,29 @@ const MintNft = () => {
   } = useFormik({
     initialValues: {
       walletAddress: "",
-      supply: "",
+      supply: 0,
       royalty: "",
       user_id: "",
     },
     validate: mintValidation,
-    onSubmit: (values) => {
-      CreateNft({
-        variables: {
-          name: createNft && createNft.name,
-          artistName1: createNft && createNft.artist_name1,
-          video: createNft && createNft.video,
-          description: createNft && createNft.description,
-          tokenId: "dff",
-          supply: Number(values.supply),
-          walletAddress: values.walletAddress,
-          status: true,
-          royalty: Number(values.royalty),
-          user_id: values.id,
-        },
-      });
+    onSubmit: (values) =>{
+      connectWalletHandle();
+      contCall();
+    
+      // CreateNft({
+      //   variables: {
+      //     name: createNft && createNft.name,
+      //     artistName1: createNft && createNft.artist_name1,
+      //     video: createNft && createNft.video,
+      //     description: createNft && createNft.description,
+      //     tokenId: "dff",
+      //     supply: Number(values.supply),
+      //     walletAddress: values.walletAddress,
+      //     status: true,
+      //     royalty: Number(values.royalty),
+      //     user_id: values.id,
+      //   },
+      // });
     },
   });
 
@@ -106,8 +131,15 @@ const MintNft = () => {
   }, [address, id]);
   console.log("addressaddress", address, values?.walletAddress);
 
+  useEffect(() => {
+    if (web3) {
+      setConnectModal(false);
+    }
+  }, [web3]);
+
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
+      <ConnectModal visible={connectModal} onClose={closeConnectModel} />
       {loading && <Loader content="Uploading" />}
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}
@@ -164,7 +196,7 @@ const MintNft = () => {
                   </div>
                   <div className="my-3">
                     <div className="d-flex label-input">
-                      <p className={`${textColor} m-0 fs-5`}>Royalties </p>
+                      <p className={`${textColor} m-0 fs-5`}>Royalty % </p>
                       <span
                         style={{ marginTop: "-2.3rem", marginLeft: "1rem" }}
                       >
@@ -212,13 +244,13 @@ const MintNft = () => {
             <div className="supplyView">
               <div className="my-3">
                 <p className={`${textColor} mb-1 fs-5`}>Circulating Supply</p>
-                <p className={`${textColor2} m-0 fs-6`}>2</p>
+                <p className={`${textColor2} m-0 fs-6`}>{values.supply}</p>
               </div>
               <div className="my-3">
                 <p className={`${textColor} mb-1 fs-5`}>
                   Maximum Total Supply Supply
                 </p>
-                <p className={`${textColor2} m-0 fs-6`}>2</p>
+                <p className={`${textColor2} m-0 fs-6`}>{values.supply}</p>
               </div>
               <div className="my-3">
                 <p className={`${textColor} mb-1 fs-5`}>Supply Type</p>
@@ -233,8 +265,7 @@ const MintNft = () => {
         </div>
         <div style={{ width: "100%" }} className={` ${bgColor} my-4 p-5`}>
           <span className={`${textColor} fs-6 mb-3`}>
-            Based on your linked wallet balance of 102,000 and your reserve of 0
-            item(s), you can mint a maximun of 0 item(s).
+          How many NFTs would you like to mint?
           </span>
           <Row>
             <Col

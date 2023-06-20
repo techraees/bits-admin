@@ -143,7 +143,7 @@ const CardCompnent = ({
                   style={{ alignItems: "center", marginTop: "-1rem" }}
                 >
                   <img
-                    src={image ? image : profileimg}
+                    src={image}
                     style={{ width: 25 }}
                     onError={(e) => {
                       e.target.src = profileimg;
@@ -160,7 +160,7 @@ const CardCompnent = ({
               <>
                 <div className="d-flex">
                   <img
-                    src={image ? image : profileimg}
+                    src={image }
                     alt=""
                     onError={(e) => {
                       e.target.src = profileimg;

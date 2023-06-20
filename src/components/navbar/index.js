@@ -67,13 +67,26 @@ const NavbarComponent = ({
     setIsModalOpen(false);
   };
 
+
   const { userData } = useSelector((state) => state.address.userData);
+  const contracts = useSelector((state) => state.contract);
+
 
   const full_name = userData?.full_name;
   const userProfile = userData?.profileImg;
   const imgPath = environment.BACKEND_BASE_URL + "/" + userProfile;
 
   const dispatch = useDispatch();
+
+  const handleChain = ()=>{
+    dispatch({
+      type: "ETH_CHAIN",
+      contractData: {
+        marketContract:contracts.ethContractIns,
+        mintContract:contracts.ethMintingContractIns,
+      },
+    })
+  }
 
   useEffect(() => {
     if (data) {
@@ -276,7 +289,7 @@ const NavbarComponent = ({
             <div className="chainDiv">
               <div className="leftChainDiv">Chains</div>
               <div className="rightChainDiv">
-                <FaEthereum cursor="pointer" />
+                <FaEthereum cursor="pointer"  onClick={handleChain}/>
                 <img className="ethIcon" src={polygon} />
               </div>
             </div>

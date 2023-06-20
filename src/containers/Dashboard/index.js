@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { UploadVideoModal } from "../../components";
+import { WeiToETH } from "../../utills/convertWeiAndBnb";
 
 const Dashboard = () => {
   const [uploadVideoModal, setUploadVideoModal] = useState(false);
@@ -74,15 +75,18 @@ const Dashboard = () => {
   const [showChat, setShowChat] = useState(false);
   const { userData } = useSelector((state) => state.address.userData);
 
-  const contractIns = useSelector((state) => state.contract);
+  const {contractData} = useSelector((state) => state.chain.contractData);
 
-  const checkContract = async()=>{
-    // console.log(contractIns);
-    const auctions = await contractIns.methods.auctions(0).call();
-    console.log(auctions);
-  }
+  console.log(contractData.mintContract);
 
-  checkContract();
+  // const checkContract = async()=>{
+  //   // console.log(contractIns);
+  //   const auctions = await contractIns.methods.auctions(0).call();
+  //   console.log(auctions);
+  // }
+
+  // checkContract();
+
 
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
