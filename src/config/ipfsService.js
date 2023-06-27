@@ -27,6 +27,35 @@ export const sendFileToIPFS = async (file) => {
   }
 };
 
+
+export const sendMetaToIPFS = async (data) => {
+  console.log("file", data);
+  if (data) {
+    try {
+      const authorization =
+        "Basic " + btoa(env.PROJECT_ID + ":" + env.PROJECT_SECRET);
+      const ipfs = ipfsHttpClient({
+        url: env.INFURA,
+        headers: {
+          authorization,
+        },
+      });
+
+      const finalData = JSON.stringify(data);
+      const result = await ipfs.add(finalData);
+      
+      console.log("result", result);
+      // console.log("ImgHash", res)
+      const metaHash = `${env.IPFS_PATH}/${result.path}`;
+      return metaHash;
+      console.log(metaHash);
+    } catch (error) {
+      console.log("Error sending File to IPFS: ");
+      console.log(error);
+    }
+  }
+};
+
 // export const sendFileToIPFS = async (fileImg) => {
 
 //     if (fileImg) {

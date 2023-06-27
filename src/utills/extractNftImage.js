@@ -1,6 +1,6 @@
 export const extractNFTImage = (contract, tokenId)=>{
     const getNFTMetadata = async ()=>{
-        const result = await contract.methods.uri(tokenId).call()
+        const result = await contract.uri(tokenId);
 
         console.log(result);
     

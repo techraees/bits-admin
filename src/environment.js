@@ -14,6 +14,9 @@ const environment = {
   ZENDESK_KEY: "ae0b0d3c-8b13-45fc-b02a-e1a5fa4f2370",
   PLATFORM_OWNER: "therealsnapboogie@gmail.com",
   EMAIL_OWNER: "therealsnapboogie@gmail.com",
+
+  INFURA_API_KEY: "e556d22112e34e3baab9760f1864493a",
+  INFURA_SECRET: "9f553aaec3d14471892aaf9b9daa1ad2",
 };
 
 export default environment;

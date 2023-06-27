@@ -11,6 +11,7 @@ const GET_ALL_NFTS = gql`
       wallet_address
       token_id
       supply
+      royalty
       name
       user_id {
         id

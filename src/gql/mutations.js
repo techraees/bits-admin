@@ -5,6 +5,7 @@ const CREATE_NFT = gql`
     $name: String!
     $artistName1: String!
     $video: String!
+    $meta: String!
     $description: String!
     $tokenId: String!
     $supply: Int!
@@ -17,6 +18,7 @@ const CREATE_NFT = gql`
       name: $name
       artist_name1: $artistName1
       video: $video
+      meta: $meta
       description: $description
       token_id: $tokenId
       supply: $supply
@@ -29,6 +31,7 @@ const CREATE_NFT = gql`
       description
       artist_name1
       name
+      meta
       supply
       token_id
       status

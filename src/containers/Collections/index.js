@@ -343,7 +343,14 @@ const Collections = () => {
                 topName
                 userProfile={full_name ? true : false}
                 navigateTo={() =>
-                  navigate(`/list-nft/${extractIPFSHash(e.video)}`)
+                  navigate(`/list-nft/${extractIPFSHash(e.video)}`, 
+                  {state:{
+                    name:e.name,
+                    royalty: e.royalty,
+                    artistName: e.artist_name1,
+                    tokenId: e.token_id
+                  }
+                  })
                 }
                 isOwner={profileData?.GetProfileDetails?.id === userData?.id}
               />

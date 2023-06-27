@@ -12,7 +12,7 @@ import { DatePicker, Space } from "antd";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import "./css/index.css";
 import { test } from "../../assets";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 const ListNft = () => {
   const { Option } = Select;
@@ -21,11 +21,28 @@ const ListNft = () => {
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("fixed Price");
+  const [fixedPrice, setFixedPrice] = useState(0);
+  const [auctionStartPrice, setAuctionStartPrice] = useState(0);
   const { hash } = useParams();
+
+  const {state}= useLocation();
+
+  const {name, royalty, artistName} = state;
+
+  console.log(name, royalty, artistName);
 
   const handleRadioChange = (e) => {
     setSelectedOption(e.target.value);
   };
+
+  const handlePriceChange = (e)=>{
+    const value = e.target.value;
+    if(selectedOption === "fixed Price"){
+      setFixedPrice(value);
+    }else if(selectedOption === "auction price"){
+      setAuctionStartPrice(value);
+    }
+  }
 
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
@@ -40,6 +57,14 @@ const ListNft = () => {
     console.log(`selected ${value}`);
   };
 
+  const handleListing= ()=>{
+    if(selectedOption === "fixed Price"){
+      console.log("fixed price selected");
+    }else if(selectedOption === "auction price"){
+      console.log("auction selected");
+    }
+  };
+
   const selectAfter = (
     <Select defaultValue="Usd">
       <Option value="Usd">USD</Option>
@@ -48,20 +73,22 @@ const ListNft = () => {
     </Select>
   );
 
-  const calenderRef = useRef();
+  // const calenderRef = useRef();
 
-  useEffect(() => {
-    window.addEventListener("click", clickOutside);
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("click", clickOutside);
+  // }, []);
 
-  const clickOutside = (e) => {
-    console.log("eddd", calenderRef?.current.contains(e.target));
-    if (calenderRef?.current.contains(e.target)) {
-      setOpen(true);
-    } else if (!calenderRef?.current?.contains(e.target)) {
-      setOpen(false);
-    }
-  };
+  // const clickOutside = (e) => {
+  //   console.log("eddd", calenderRef?.current.contains(e.target));
+  //   if (calenderRef?.current.contains(e.target)) {
+  //     setOpen(true);
+  //   } else if (!calenderRef?.current?.contains(e.target)) {
+  //     setOpen(false);
+  //   }
+  // };
+
+  console.log(fixedPrice, auctionStartPrice);
 
   return (
     <div
@@ -86,11 +113,11 @@ const ListNft = () => {
                     url={`https://infura-ipfs.io/ipfs/${hash}`}
                   />
                   <div className="d-flex justify-content-between mt-1 px-2">
-                    <p className="name">Snap Boogie</p>
+                    <p className="name">{name}</p>
                     <span className="value">Price</span>
                   </div>
                   <div className="d-flex justify-content-between px-2 pb-3">
-                    <p className="name2">Speedy Walkover</p>
+                    <p className="name2">{artistName}</p>
                     <span className="value2">4 ETH</span>
                   </div>
                 </div>
@@ -179,6 +206,7 @@ const ListNft = () => {
             >
               <Input
                 className={textColor == "black" && "ant-light"}
+                onChange={handlePriceChange}
                 // addonBefore={selectBefore}
                 addonAfter={selectAfter}
                 defaultValue="Amount"
@@ -274,7 +302,7 @@ const ListNft = () => {
               <p className={`${textColor}`}> --- USD</p>
             </div>
             <div className="btn-wrapper red-gradient">
-              <button>COMPLETE LISTING</button>
+              <button onClick={handleListing}>COMPLETE LISTING</button>
             </div>
           </>
         )}
@@ -390,7 +418,7 @@ const ListNft = () => {
                 textColor == "black" ? "ant-light-input" : "priceinput-field"
               }
             >
-              <Input addonAfter={selectAfter} defaultValue="Amount" />
+              <Input addonAfter={selectAfter} defaultValue="Amount" onChange={handlePriceChange} />
             </div>
             {/* <div className="auction-length">
               <h5 className={`${textColor}`}>Auction Length</h5>
@@ -486,7 +514,7 @@ const ListNft = () => {
               <p className={`${textColor}`}> --- USD</p>
             </div>
             <div className="btn-wrapper red-gradient">
-              <button>COMPLETE LISTING</button>
+              <button onClick={handleListing}>COMPLETE LISTING</button>
             </div>
           </>
         )}

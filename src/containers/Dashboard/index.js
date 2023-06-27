@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { UploadVideoModal } from "../../components";
 import { WeiToETH } from "../../utills/convertWeiAndBnb";
+import { getOwnersOfTokenId } from "../../config/infura";
 
 const Dashboard = () => {
   const [uploadVideoModal, setUploadVideoModal] = useState(false);
@@ -76,6 +77,7 @@ const Dashboard = () => {
   const { userData } = useSelector((state) => state.address.userData);
 
   const {contractData} = useSelector((state) => state.chain.contractData);
+  const { web3, account, signer } = useSelector((state) => state.web3.walletData);
 
   console.log(contractData.mintContract);
 
@@ -107,6 +109,8 @@ const Dashboard = () => {
       navigate("/login");
     }
   };
+
+  getOwnersOfTokenId(0, 80001,"0x630656827c8ceaff3580823a8fd757e298cbfaaf");
 
   return (
     <div className={backgroundTheme}>

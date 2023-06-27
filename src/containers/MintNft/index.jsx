@@ -77,10 +77,13 @@ const MintNft = () => {
     }
   };
 
-  const contCall = async()=>{
+  const mintCall = async()=>{
     const contractWithsigner = contractData.mintContract.connect(signer);
-    const tx = await contractWithsigner.mint(address, 1, 10, createNft.video, []);
-    console.log(tx);
+    const tx = await contractWithsigner.mint(address, 5, 10, createNft.video, []);
+    const res = await tx.wait();
+    if(res){
+      return true;
+    }
   }
 
   const {
@@ -97,26 +100,32 @@ const MintNft = () => {
       supply: 0,
       royalty: "",
       user_id: "",
+      meta:"",
     },
     validate: mintValidation,
-    onSubmit: (values) =>{
+    onSubmit: async(values) =>{
       connectWalletHandle();
-      contCall();
-    
-      // CreateNft({
-      //   variables: {
-      //     name: createNft && createNft.name,
-      //     artistName1: createNft && createNft.artist_name1,
-      //     video: createNft && createNft.video,
-      //     description: createNft && createNft.description,
-      //     tokenId: "dff",
-      //     supply: Number(values.supply),
-      //     walletAddress: values.walletAddress,
-      //     status: true,
-      //     royalty: Number(values.royalty),
-      //     user_id: values.id,
-      //   },
-      // });
+      const res = await mintCall();
+      console.log(res);
+      if(res == true){
+        CreateNft({
+          variables: {
+            name: createNft && createNft.name,
+            artistName1: createNft && createNft.artist_name1,
+            video: createNft && createNft.video,
+            meta: createNft && createNft.meta,
+            description: createNft && createNft.description,
+            tokenId: "dff",
+            supply: Number(values.supply),
+            walletAddress: values.walletAddress,
+            status: true,
+            royalty: Number(values.royalty),
+            user_id: values.id,
+          },
+        });
+      }else{
+        console.log("Minting is not gone through");
+      }
     },
   });
 
@@ -196,7 +205,7 @@ const MintNft = () => {
                   </div>
                   <div className="my-3">
                     <div className="d-flex label-input">
-                      <p className={`${textColor} m-0 fs-5`}>Royalty % </p>
+                      <p className={`${textColor} m-0 fs-5`}>Royalty%: </p>
                       <span
                         style={{ marginTop: "-2.3rem", marginLeft: "1rem" }}
                       >
