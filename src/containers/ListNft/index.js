@@ -46,10 +46,10 @@ const ListNft = () => {
     console.log("Formatted Selected Time: ", dateString);
   };
 
-  const onChange = (value, dateString) => {
-    console.log("Selected Time: ", value);
-    console.log("Formatted Selected Time: ", dateString);
-  };
+  // const onChange = (value, dateString) => {
+  //   console.log("Selected Time: ", value);
+  //   console.log("Formatted Selected Time: ", dateString);
+  // };
 
   const handleRadioChange = (e) => {
     setSelectedOption(e.target.value);
