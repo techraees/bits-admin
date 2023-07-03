@@ -15,10 +15,11 @@ import { test } from "../../assets";
 import { useParams, useLocation } from "react-router-dom";
 import ConnectModal from "../../components/connectModal";
 import { ETHToWei } from "../../utills/convertWeiAndBnb";
+import { Form } from "react-bootstrap";
 
 const ListNft = () => {
   const { Option } = Select;
-  const { RangePicker } = DatePicker;
+
   const dateFormat = "MMM DD, YYYY HH:mm:ss A";
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +40,16 @@ const ListNft = () => {
   const {name, royalty, artistName} = state;
 
   console.log(name, royalty, artistName);
+
+  const onChange = (value, dateString) => {
+    console.log("Selected Time: ", value);
+    console.log("Formatted Selected Time: ", dateString);
+  };
+
+  const onChange = (value, dateString) => {
+    console.log("Selected Time: ", value);
+    console.log("Formatted Selected Time: ", dateString);
+  };
 
   const handleRadioChange = (e) => {
     setSelectedOption(e.target.value);
@@ -226,41 +237,6 @@ const ListNft = () => {
               <h5 className={`${textColor}`}>
                 Price <AiOutlineInfoCircle />
               </h5>
-              {/* <div className="d-flex text">
-                <h4 className={`${textColor}`}>
-                  Sort by: &nbsp; &nbsp;
-                  <Select
-                    defaultValue="US Dollar"
-                    style={{
-                      width: 120,
-                    }}
-                    className={textColor == "black" && "ant-light"}
-                    onChange={handleChange}
-                    options={[
-                      {
-                        value: "US Dollar",
-                        label: "US Dollar",
-                      },
-                      {
-                        value: "Etherum",
-                        label: "Etherum",
-                      },
-                      {
-                        value: "Binanace",
-                        label: "Binanace",
-                      },
-                    ]}
-                  />
-                </h4>
-                <div className="cursor" style={{ marginTop: ".4rem" }}>
-                  <span
-                    className="red-gradient-color"
-                    style={{ borderBottom: "1px solid  #CD3C3C" }}
-                  >
-                    View All
-                  </span>
-                </div>
-              </div> */}
             </div>
             <div
               style={{ width: "100%", marginTop: "1rem" }}
@@ -276,26 +252,25 @@ const ListNft = () => {
                 defaultValue="Amount"
               />
             </div>
-            {/* <div className="auction-length">
-              <h5 className={`${textColor}`}>Auction Length</h5>
+
+            <div className="PriceWrapper  d-flex justify-content-between">
+              <h5 className={`${textColor}`}>Number Copies To Sell</h5>
             </div>
             <div
+              style={{ width: "100%", marginTop: "1rem" }}
               className={
-                textColor == "black" ? "auction-light" : "auction-length-field"
+                textColor == "black" ? "ant-light-input" : "priceinput-field"
               }
             >
-              <div ref={calenderRef}>
-                <BsCalendarDate
-                  className={`${textColor}`}
-                  style={{
-                    fontSize: "2rem",
-                    color: "white",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => setOpen(!open)}
-                />
-              </div>
-            </div> */}
+              <Form.Control
+                type="number"
+                id="number"
+                aria-describedby="number"
+                placeholder="0000"
+                min="0"
+              />
+            </div>
+
             <div
               className="option-wrapper d-flex justify-content-between"
               onClick={() => setIsOpen(!isOpen)}
@@ -376,41 +351,6 @@ const ListNft = () => {
               <h5 className={`${textColor}`}>
                 Choose a method <AiOutlineInfoCircle />
               </h5>
-              {/* <div className="d-flex text">
-                <h4 className={`${textColor}`}>
-                  Sort by: &nbsp; &nbsp;
-                  <Select
-                    defaultValue="US Dollar"
-                    style={{
-                      width: 120,
-                    }}
-                    className={textColor == "black" && "ant-light"}
-                    onChange={handleChange}
-                    options={[
-                      {
-                        value: "US Dollar",
-                        label: "US Dollar",
-                      },
-                      {
-                        value: "Etherum",
-                        label: "Etherum",
-                      },
-                      {
-                        value: "Binanace",
-                        label: "Binanace",
-                      },
-                    ]}
-                  />
-                </h4>
-                <div className="cursor" style={{ marginTop: ".4rem" }}>
-                  <span
-                    className="red-gradient-color"
-                    style={{ borderBottom: "1px solid  #CD3C3C" }}
-                  >
-                    View All
-                  </span>
-                </div>
-              </div> */}
             </div>
             <div
               className={textColor == "black" ? "ant-light-select" : "select"}
@@ -427,14 +367,6 @@ const ListNft = () => {
                     value: "jack",
                     label: "Sell To Highest Bidder",
                   },
-                  // {
-                  //   value: "lucy",
-                  //   label: "Lucy",
-                  // },
-                  // {
-                  //   value: "Yiminghe",
-                  //   label: "yiminghe",
-                  // },
                 ]}
               />
             </div>
@@ -442,39 +374,6 @@ const ListNft = () => {
               <h5 className={`${textColor}`}>
                 Starting Price <AiOutlineInfoCircle />
               </h5>
-              {/* <div className="d-flex text">
-                <h4 className={`${textColor}`}>
-                  Sort by: &nbsp; &nbsp;
-                  <Select
-                    defaultValue="US Dollar"
-                    style={{
-                      width: 120,
-                    }}
-                    className={textColor == "black" && "ant-light"}
-                    onChange={handleChange}
-                    options={[
-                      {
-                        value: "US Dollar",
-                        label: "US Dollar",
-                      },
-                      {
-                        value: "Etherum",
-                        label: "Etherum",
-                      },
-                      {
-                        value: "Binanace",
-                        label: "Binanace",
-                      },
-                    ]}
-                  />
-                </h4>
-                <div
-                  className="cursor"
-                  style={{ textDecoration: "underline", marginTop: ".4rem" }}
-                >
-                  <span className="red-gradient-color">View All</span>
-                </div>
-              </div> */}
             </div>
             <div
               style={{ width: "100%", marginTop: "1rem" }}
@@ -484,29 +383,58 @@ const ListNft = () => {
             >
               <Input addonAfter={selectAfter} defaultValue="Amount" onChange={handlePriceChange} />
             </div>
-            {/* <div className="auction-length">
-              <h5 className={`${textColor}`}>Auction Length</h5>
+
+            <Row gutter={{ xs: 8, sm: 16, md: 30, lg: 50 }}>
+              <Col lg={12} md={12} xs={24}>
+                <div className="PriceWrapper  d-flex justify-content-between">
+                  <h5 className={`${textColor}`}>Auction Start Time</h5>
+                </div>
+                <div
+                  style={{ width: "100%", marginTop: "1rem" }}
+                  className={
+                    textColor == "black"
+                      ? "ant-light-input"
+                      : "priceinput-field"
+                  }
+                >
+                  <DatePicker showTime onChange={onChange} />
+                </div>
+              </Col>
+              <Col lg={12} md={12} xs={24}>
+                <div className="PriceWrapper  d-flex justify-content-between">
+                  <h5 className={`${textColor}`}>Auction End Time</h5>
+                </div>
+                <div
+                  style={{ width: "100%", marginTop: "1rem" }}
+                  className={
+                    textColor == "black"
+                      ? "ant-light-input"
+                      : "priceinput-field"
+                  }
+                >
+                  <DatePicker showTime onChange={onChange} />
+                </div>
+              </Col>
+            </Row>
+
+            <div className="PriceWrapper  d-flex justify-content-between">
+              <h5 className={`${textColor}`}>Number Copies To Sell</h5>
             </div>
             <div
               style={{ width: "100%", marginTop: "1rem" }}
               className={
-                textColor == "black" ? "auction-light" : "auction-length-field"
+                textColor == "black" ? "ant-light-input" : "priceinput-field"
               }
             >
-              <div ref={calenderRef}>
-                <BsCalendarDate
-                  className={`${textColor}`}
-                  style={{
-                    fontSize: "2rem",
-                 
-                    color: "white",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => setOpen(!open)}
-                />
+              <Form.Control
+                type="number"
+                id="number"
+                aria-describedby="number"
+                placeholder="0000"
+                min="0"
+              />
+            </div>
 
-              </div>
-            </div> */}
             <div
               className="option-wrapper d-flex justify-content-between"
               onClick={() => setIsOpen(!isOpen)}

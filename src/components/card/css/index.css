@@ -68,6 +68,20 @@
   margin-bottom: 0.5rem;
 }
 
+.detail-btn {
+  border-radius: 20px;
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+  border: none;
+  color: #ffffff;
+  padding: 8px 20px;
+  background: linear-gradient(180deg, #df4747 0%, #8a1818 100%);
+}
+
 @media only screen and (max-width: 600px) {
   .cardContainer {
     width: auto;

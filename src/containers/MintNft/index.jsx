@@ -60,7 +60,7 @@ const MintNft = () => {
   useEffect(() => {
     if (data) {
       ToastMessage("Minted Successfully", "", "success");
-      navigate("/collections");
+      navigate(`/collections/${userData?.id}`);
     }
     if (error) {
       ToastMessage(error, "", "error");

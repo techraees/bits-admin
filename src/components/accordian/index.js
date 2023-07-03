@@ -5,14 +5,26 @@ import { down_arrow3, up_arrow2 } from "../../assets";
 import ButtonComponent from "../button";
 import { useSelector } from "react-redux";
 
-const AccordianComponent = ({ data, list, btnKey }) => {
+import TermAndConditionComp from "../policies/termAndCondition";
+import CopyRightComp from "../policies/copyRight";
+import PrivacyPolicyComp from "../policies/privacyPolicy";
+
+const AccordianComponent = ({
+  data,
+  list,
+  btnKey,
+  termKey,
+  copyrightKey,
+  privacyKey,
+}) => {
   const textColor = useSelector((state) => state.app.theme.textColor);
   const bgColor3 = useSelector((state) => state.app.theme.bgColor3);
   const border = useSelector((state) => state.app.theme.border);
   const { Panel } = Collapse;
   return (
-    <div className={`mt-4 ${bgColor3}`} >
+    <div className={`mt-4 ${bgColor3}`}>
       <Collapse
+        accordion
         expandIconPosition={"right"}
         className={border}
         ghost={true}
@@ -45,6 +57,10 @@ const AccordianComponent = ({ data, list, btnKey }) => {
                         </div>
                       </div>
                     )}
+
+                    {e.key === termKey && <TermAndConditionComp />}
+                    {e.key === copyrightKey && <CopyRightComp />}
+                    {e.key === privacyKey && <PrivacyPolicyComp />}
                   </>
                 )}
               </Panel>

@@ -392,3 +392,54 @@ p {
   padding: 10px;
   margin-top: 1rem;
 }
+
+.ant-picker-focused {
+  box-shadow: none !important;
+  border: 2px solid #c4c4c4 !important;
+}
+
+.ant-picker {
+  background: transparent !important;
+  padding: 10px 20px !important;
+  border: 2px solid #c4c4c4 !important;
+  border-radius: 12px !important;
+  opacity: 0.3 !important;
+  width: 100% !important;
+}
+
+.ant-light-input .ant-picker {
+  border: 2px solid #bf3535 !important;
+  opacity: 1 !important;
+}
+
+.ant-picker-input > input {
+  color: #ffffff !important;
+}
+
+.ant-light-input .ant-picker-input > input {
+  color: #000000 !important;
+}
+
+.form-control {
+  background-color: transparent !important;
+  padding: 10px 20px !important;
+  border: 2px solid #c4c4c4 !important;
+  border-radius: 12px !important;
+  opacity: 0.3 !important;
+  width: 100% !important;
+  color: #ffffff !important;
+}
+
+.form-control:focus {
+  box-shadow: none !important;
+}
+
+.form-control::placeholder {
+  color: #cccccc !important;
+}
+
+.ant-light-input .form-control {
+  border: 2px solid #bf3535 !important;
+  opacity: 1 !important;
+  color: #000000 !important;
+}

@@ -204,3 +204,12 @@
     left: 0%;
   }
 }
+
+.red {
+  filter: invert(28%) sepia(95%) saturate(5744%) hue-rotate(343deg)
+    brightness(101%) contrast(98%);
+}
+
+.hidden {
+  display: none;
+}

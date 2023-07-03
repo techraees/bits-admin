@@ -39,7 +39,7 @@ function Login() {
 
   
   let navigate = useNavigate();
-
+  
   //login
   const {
     register,
@@ -160,7 +160,7 @@ function Login() {
           isLogged: true,
         },
       });
-      navigate("/collections");
+      navigate(`/collections/${id}`);
 
       signUpResetValue();
       signUpSetValue("full_name", "");

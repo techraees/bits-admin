@@ -80,6 +80,7 @@ const VideoGallery = () => {
                   videoLink={e.video}
                   topName
                   collectionBtn
+                  detailBtn
                   userProfile={userProfile ? true : false}
                   userId={e?.user_id?.id}
                 />
