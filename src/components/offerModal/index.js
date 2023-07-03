@@ -6,7 +6,7 @@ import { Modal, Table } from "antd";
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
-} from "react-icons/md";
+} from "react-icons/all";
 const OfferModal = () => {
   const [isBidModalOpen, setIsBidModalOpen] = useState(false);
   const [isTableOpen, setIsTableOpen] = useState(false);

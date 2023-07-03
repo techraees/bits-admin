@@ -156,6 +156,16 @@ const SEND_EMAIL_MUTATION = gql`
   }
 `;
 
+const RECORD_VISIT_MUTATION = gql`
+  mutation RecordVisit($ip_adress: String!) {
+    RecordVisit(ip_adress: $ip_adress) {
+      id
+      ip_adress
+      timestamp
+    }
+  }
+`;
+
 export {
   CREATE_NFT,
   CREATE_USER,
@@ -166,4 +176,5 @@ export {
   MINT_ASSET_MUTATION,
   MINT_ASSET,
   SEND_EMAIL_MUTATION,
+  RECORD_VISIT_MUTATION
 };

@@ -9,6 +9,7 @@ import {
   search,
   eth,
   polygon,
+  redPolygon,
 } from "../../assets/index";
 import MenuComponent from "../menu";
 import SwitchBtn from "../switchBtn";
@@ -131,6 +132,18 @@ const NavbarComponent = ({
       // navigate("/login");
     }
   }, [error]);
+  const [showRedImage, setShowRedImage] = useState(false);
+  const [iconClicked, setIconClicked] = useState(true);
+
+  const toggleIconColor = () => {
+    setIconClicked(!iconClicked);
+    setShowRedImage(false);
+  };
+
+  const toggleImage = () => {
+    setShowRedImage(!showRedImage);
+    setIconClicked(false);
+  };
 
   return (
     <>
@@ -276,8 +289,27 @@ const NavbarComponent = ({
             <div className="chainDiv">
               <div className="leftChainDiv">Chains</div>
               <div className="rightChainDiv">
-                <FaEthereum cursor="pointer" />
-                <img className="ethIcon" src={polygon} />
+                <FaEthereum
+                  cursor="pointer"
+                  onClick={toggleIconColor}
+                  className={iconClicked ? "red" : ""}
+                />
+                <img
+                  className={`ethIcon ${showRedImage ? "hidden" : ""}`}
+                  src={polygon}
+                  alt="Polygon"
+                  onClick={toggleImage}
+                  width={15}
+                  height={15}
+                />
+                <img
+                  className={`ethIcon red ${showRedImage ? "" : "hidden"}`}
+                  src={redPolygon}
+                  alt="Red Polygon"
+                  onClick={toggleImage}
+                  width={15}
+                  height={15}
+                />
               </div>
             </div>
             <Nav className="ms-auto bottom-nav">

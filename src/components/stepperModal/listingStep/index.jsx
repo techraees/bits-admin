@@ -2,9 +2,17 @@ import React from "react";
 import "./css/index.css";
 import { test } from "../../../assets";
 
-function ListingStep() {
+function ListingStep({ setCurrent }) {
   const contentDivData = [
     { id: 1 },
+    {
+      id: 2,
+      bottom: true,
+    },
+    {
+      id: 2,
+      bottom: true,
+    },
     {
       id: 2,
       bottom: true,
@@ -23,10 +31,15 @@ function ListingStep() {
         <div
           className={item.bottom ? "bottomContentDiv" : "contentDiv"}
           key={item.id}
+          onClick={() => setCurrent(1)}
         >
           <div className="leftDiv">
             <img className="divImg" src={test} />
-            <h4 className="leftDivText">Speedy Walkover </h4>
+            <div>
+              <h4 className="leftDivText">Speedy Walkover </h4>
+              <p>20 NFTs Available</p>
+            </div>
+
             <h6 className="leftDivSubText"> (From Snap Boogie)</h6>
           </div>
           <div className="rightDiv">

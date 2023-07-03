@@ -83,6 +83,8 @@ import discord from "./images/Discord.png";
 import marketcardimg from "./images/marketcard_img.png";
 import eth from "./images/eth.png";
 import polygon from "./images/polygon.png";
+import redPolygon from "./images/redpolygon.png";
+
 export {
   logo,
   account,
@@ -169,4 +171,5 @@ export {
   marketcardimg,
   eth,
   polygon,
+  redPolygon,
 };

@@ -3,7 +3,7 @@ import { test } from "../../../assets";
 import "./css/index.css";
 import { AiFillCheckCircle } from "react-icons/ai";
 
-function QuantityStep() {
+function QuantityStep({setCurrent={setCurrent}}) {
   return (
     <div className="quantityStep">
       <div className="quantityStepMainWrapper">
@@ -28,7 +28,7 @@ function QuantityStep() {
             <input type="number" className="numberField" placeholder="1" />
           </div>
           <div className="quanitityBottomRightDiv">
-            <button className="goBtn">Go</button>
+            <button className="goBtn" onClick={() => setCurrent(2)}>Go</button>
           </div>
         </div>
 

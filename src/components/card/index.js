@@ -1,6 +1,6 @@
 import "./css/index.css";
 import { Card, Tooltip } from "antd";
-import { check, cross, marketcardimg, thumb } from "../../assets";
+import { check, cross, marketcardimg, profile, thumb } from "../../assets";
 import { Button } from "antd";
 import ButtonComponent from "../button";
 import ReactPlayer from "react-player";
@@ -8,7 +8,7 @@ import { StepperModal } from "../index";
 import { Modal } from "antd";
 import React, { useState } from "react";
 import Timercomp from "../timerComp";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import profileimg from "../../assets/images/profile1.png";
 import OfferModal from "../offerModal";
 
@@ -19,13 +19,14 @@ const CardCompnent = ({
   videoLink,
   topName,
   collectionBtn,
+  detailBtn,
   marketplacecard,
   sellnft,
   artistName,
   userProfile,
   navigateTo,
   userId,
-  isOwner
+  isOwner,
 }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,7 +48,7 @@ const CardCompnent = ({
   };
   console.log("userProfile", userProfile, image);
   const location = useLocation();
-  console.log("userId", userId, location.pathname)
+  console.log("userId", userId, location.pathname);
 
   return (
     <div className="my-4 col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center">
@@ -114,6 +115,20 @@ const CardCompnent = ({
               </button>
             )}
 
+            <button
+              className="buybtn"
+              onClick={() => window.open("https://polygonscan.com/")}
+            >
+              Nft Detail
+            </button>
+
+            <div>
+              <img src={profile} style={{ width: 15 }} />
+              <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+                Speedy walkover
+              </span>
+            </div>
+
             <div>
               <img src={cross} style={{ width: 15 }} />
               <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
@@ -138,18 +153,35 @@ const CardCompnent = ({
           <>
             {topName ? (
               <>
-                <div
-                  className="d-flex gap-2"
-                  style={{ alignItems: "center", marginTop: "-1rem" }}
-                >
-                  <img
-                    src={image ? image : profileimg}
-                    style={{ width: 25 }}
-                    onError={(e) => {
-                      e.target.src = profileimg;
-                    }}
-                  />
-                  <span className="light-grey2 mt-2 fs-5">{artistName}</span>
+                <div className="d-flex justify-content-between align-items-center pb-2">
+                  <div>
+                    <div
+                      className="d-flex gap-2"
+                      style={{ alignItems: "center", marginTop: "-1rem" }}
+                    >
+                      <img
+                        src={image ? image : profileimg}
+                        style={{ width: 25 }}
+                        onError={(e) => {
+                          e.target.src = profileimg;
+                        }}
+                      />
+                      <span className="light-grey2 mt-2 fs-5">
+                        {artistName}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div>
+                    {detailBtn && (
+                      <button
+                        className="detail-btn"
+                        onClick={() => window.open("https://polygonscan.com/")}
+                      >
+                        Nft Detail
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div>
                   <span className="light-grey2  fs-5">{name}</span>
@@ -205,7 +237,10 @@ const CardCompnent = ({
                     height={40}
                     text={"Sell NFT"}
                     onClick={() => {
-                      if (location.pathname.includes("/collections") && isOwner) {
+                      if (
+                        location.pathname.includes("/collections") &&
+                        isOwner
+                      ) {
                         navigateTo();
                       }
                     }}
@@ -261,15 +296,15 @@ const CardCompnent = ({
                           : "Buy NFT"
                       }
                       onClick={() => {
-                        if (location.pathname.includes("/collections") && isOwner) {
+                        if (
+                          location.pathname.includes("/collections") &&
+                          isOwner
+                        ) {
                           navigateTo();
+                        } else if (location.pathname.includes("/")) {
+                          console.log("handle ok");
+                          showModal();
                         }
-                        else if (location.pathname.includes("/")) {
-                          console.log("handle ok")
-                          showModal()
-                        }
-                        
-
                       }}
                     />
                   )}

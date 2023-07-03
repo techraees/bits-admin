@@ -7,14 +7,40 @@ import "./App.css";
 import ZendeskComp from "./containers/zendesk";
 import { useState } from "react";
 import { useEffect } from "react";
+import axios from "axios";
+import { useMutation } from "@apollo/client";
+import { RECORD_VISIT_MUTATION } from "./gql/mutations";
 
 function App() {
   const [showChat, setShowChat] = useState(false);
+  const [recordVisit] = useMutation(RECORD_VISIT_MUTATION);
 
   useEffect(() => {
     localStorage.removeItem("walletconnect");
     localStorage.removeItem("WALLETCONNECT_DEEPLINK_CHOICE");
     // localStorage.clear()
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get("https://geolocation-db.com/json/");
+        console.log("res.data", res.data?.IPv4);
+        if (res.data?.IPv4) {
+          const { data } = await recordVisit({
+            variables: {
+              ip_adress: res.data?.IPv4,
+            },
+          });
+
+          // Handle the response data
+          const { id, ip_adress, timestamp } = data?.RecordVisit;
+          console.log("Visit recorded:", { id, ip_adress, timestamp });
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+    })();
   }, []);
 
   return (

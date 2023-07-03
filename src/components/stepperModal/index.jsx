@@ -14,23 +14,29 @@ function StepperModal({ handleCancel }) {
     console.log("onChange:", current);
     setCurrent(value);
   };
-
+  console.log("current",current)
   return (
     <div>
       <div className="mainWrapper">
-        <Steps current={current} onChange={onChange}>
+        <Steps
+        
+        current={current} 
+        // onChange={onChange}
+        
+        >
           <Step title="Listing" />
           <Step title="Quantity" />
           <Step title="Purchase" />
         </Steps>
       </div>
       <div className="subWrapper">
-        {current === 0 && <ListingStep />}
-        {current === 1 && <QuantityStep />}
+        {current === 0 && <ListingStep  setCurrent={setCurrent}/>}
+        {current === 1 && <QuantityStep setCurrent={setCurrent}/>}
         {current === 2 && <PurchaseStep />}
-        <button className="closeButton" onClick={handleCancel}>
-          Close <AiOutlineClose className="closeIcon" />
-        </button>
+        <button className="closeButton" onClick={() => {handleCancel(); setCurrent(0)}}>
+  Close <AiOutlineClose className="closeIcon" />
+</button>
+
       </div>
     </div>
   );
