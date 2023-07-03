@@ -13,6 +13,8 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import "./css/index.css";
 import { test } from "../../assets";
 import { useParams, useLocation } from "react-router-dom";
+import ConnectModal from "../../components/connectModal";
+import { ETHToWei } from "../../utills/convertWeiAndBnb";
 
 const ListNft = () => {
   const { Option } = Select;
@@ -24,8 +26,15 @@ const ListNft = () => {
   const [fixedPrice, setFixedPrice] = useState(0);
   const [auctionStartPrice, setAuctionStartPrice] = useState(0);
   const { hash } = useParams();
+  const [currency, setCurrency] = useState("USD");
+  const [potentialEarning, setPotentialEarning] = useState(0);
+  const [connectModal, setConnectModal] = useState(false);
 
   const {state}= useLocation();
+
+  const { web3, account, signer } = useSelector((state) => state.web3.walletData);
+  const {contractData} = useSelector((state) => state.chain.contractData);
+
 
   const {name, royalty, artistName} = state;
 
@@ -33,14 +42,20 @@ const ListNft = () => {
 
   const handleRadioChange = (e) => {
     setSelectedOption(e.target.value);
+    setPotentialEarning(0);
+    setCurrency("USD");
+    setFixedPrice(0);
+    setAuctionStartPrice(0);
   };
 
   const handlePriceChange = (e)=>{
     const value = e.target.value;
     if(selectedOption === "fixed Price"){
       setFixedPrice(value);
+      setPotentialEarning(calculateEarning(value, 2.5, royalty));
     }else if(selectedOption === "auction price"){
       setAuctionStartPrice(value);
+      setPotentialEarning(calculateEarning(value, 2.5, royalty));
     }
   }
 
@@ -57,19 +72,50 @@ const ListNft = () => {
     console.log(`selected ${value}`);
   };
 
-  const handleListing= ()=>{
+  const handleListing= async()=>{
+    connectWalletHandle();
+
+    const contractWithsigner = contractData.marketContract.connect(signer);
+    const mintContractWithsigner = contractData.mintContract.connect(signer);
+
     if(selectedOption === "fixed Price"){
+      const polygonMintingConract = "0x630656827C8Ceaff3580823a8fD757E298cBfAAf";
+      const polygonMarketPlaceContract = "0x96d02fcCaC1aa96432347824D42754b5266B4D6c";
+      const amount = ETHToWei(fixedPrice);
+      const approveTx = await mintContractWithsigner.setApprovalForAll(polygonMarketPlaceContract, true);
+      const resp = await approveTx.wait();
+      if(resp){
+        const tx = await contractWithsigner.listItemForFixedPrice(0, 5, amount, polygonMintingConract);
+        const res = await tx.wait();
+        if(res){
+          console.log("Listing Successful");
+        }
+      }else{
+        console.log("error");
+      }
+
       console.log("fixed price selected");
     }else if(selectedOption === "auction price"){
       console.log("auction selected");
     }
   };
 
+  const handleCurrency = (value)=>{
+    setCurrency(value);
+  }
+
+  const calculateEarning =(amount, fee, royalty)=>{
+    const totalFee = (Number(fee) + Number(royalty))/100
+    const totalFeeAmount = amount * totalFee;
+    const earning = amount- totalFeeAmount;
+    return earning;
+  }
+
   const selectAfter = (
-    <Select defaultValue="Usd">
-      <Option value="Usd">USD</Option>
-      <Option value="Eth">ETH</Option>
-      <Option value="Bin">BIN</Option>
+    <Select defaultValue="USD" onChange={handleCurrency}>
+      <Option value="USD">USD</Option>
+      <Option value="ETH">ETH</Option>
+      <Option value="MATIC">MATIC</Option>
     </Select>
   );
 
@@ -88,13 +134,31 @@ const ListNft = () => {
   //   }
   // };
 
+  
+  const closeConnectModel = () => {
+    setConnectModal(false);
+  };
+  const connectWalletHandle = () => {
+    if (!web3) {
+      setConnectModal(true);
+    }
+  };
+
+  useEffect(() => {
+    if (web3) {
+      setConnectModal(false);
+    }
+  }, [web3]);
+
   console.log(fixedPrice, auctionStartPrice);
 
   return (
+    
     <div
       className={`${backgroundTheme}`}
       style={{ minHeight: "100vh", overflowX: "hidden" }}
     >
+      <ConnectModal visible={connectModal} onClose={closeConnectModel} />
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}
         // selectedKey={"5"}
@@ -280,7 +344,7 @@ const ListNft = () => {
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Listing Price</h5>
-              <p>ETH</p>
+              <p>{fixedPrice} {currency}</p>
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Service Fee</h5>
@@ -288,7 +352,7 @@ const ListNft = () => {
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Creator Fee</h5>
-              <p>10%</p>
+              <p>{royalty}%</p>
             </div>
             <div
               style={{
@@ -299,7 +363,7 @@ const ListNft = () => {
             ></div>
             <div className="footer-text d-flex justify-content-between mt-5">
               <h5>Total Potential Earning</h5>
-              <p className={`${textColor}`}> --- USD</p>
+              <p className={`${textColor}`}> {potentialEarning} {currency}</p>
             </div>
             <div className="btn-wrapper red-gradient">
               <button onClick={handleListing}>COMPLETE LISTING</button>
@@ -492,7 +556,7 @@ const ListNft = () => {
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Listing Price</h5>
-              <p>ETH</p>
+              <p>{auctionStartPrice} {currency}</p>
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Service Fee</h5>
@@ -500,7 +564,7 @@ const ListNft = () => {
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Creator Fee</h5>
-              <p>10%</p>
+              <p>{royalty}%</p>
             </div>
             <div
               style={{
@@ -511,7 +575,7 @@ const ListNft = () => {
             ></div>
             <div className="footer-text d-flex justify-content-between mt-5">
               <h5>Total Potential Earning</h5>
-              <p className={`${textColor}`}> --- USD</p>
+              <p className={`${textColor}`}> {potentialEarning} {currency}</p>
             </div>
             <div className="btn-wrapper red-gradient">
               <button onClick={handleListing}>COMPLETE LISTING</button>
