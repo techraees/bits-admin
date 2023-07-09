@@ -16,6 +16,7 @@ import { useParams, useLocation } from "react-router-dom";
 import ConnectModal from "../../components/connectModal";
 import { ETHToWei } from "../../utills/convertWeiAndBnb";
 import { Form } from "react-bootstrap";
+import {timeToTimeStamp} from "../../utills/timeToTimestamp";
 
 const ListNft = () => {
   const { Option } = Select;
@@ -25,11 +26,15 @@ const ListNft = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("fixed Price");
   const [fixedPrice, setFixedPrice] = useState(0);
+  const [fixedPriceCopies, setFixedPriceCopies] = useState(0);
   const [auctionStartPrice, setAuctionStartPrice] = useState(0);
+  const [auctionCopies, setAuctionCopies] = useState(0);
   const { hash } = useParams();
   const [currency, setCurrency] = useState("USD");
   const [potentialEarning, setPotentialEarning] = useState(0);
   const [connectModal, setConnectModal] = useState(false);
+  const [startTimeStamp, setStartTimeStamp] = useState(0);
+  const [endTimeStamp, setEndTimeStamp] = useState(0);
 
   const {state}= useLocation();
 
@@ -37,14 +42,25 @@ const ListNft = () => {
   const {contractData} = useSelector((state) => state.chain.contractData);
 
 
-  const {name, royalty, artistName} = state;
+  const {name, royalty, artistName, tokenId} = state;
 
   console.log(name, royalty, artistName);
 
-  const onChange = (value, dateString) => {
-    console.log("Selected Time: ", value);
-    console.log("Formatted Selected Time: ", dateString);
-  };
+  // const onChange = (value, dateString) => {
+  //   console.log("Selected Time: ", value[0]);
+  //   console.log("Formatted Selected Time: ", dateString);
+  //   timeToTimeStamp(dateString);
+  // };
+
+  const handleStartTimeStamp = (value, dateString)=>{
+    const time = timeToTimeStamp(dateString);
+    setStartTimeStamp(time);
+  }
+
+  const handleEndTimeStamp = (value, dateString)=>{
+    const time = timeToTimeStamp(dateString);
+    setEndTimeStamp(time);
+  }
 
   // const onChange = (value, dateString) => {
   //   console.log("Selected Time: ", value);
@@ -70,6 +86,15 @@ const ListNft = () => {
     }
   }
 
+  const handleCopyChange = (e)=>{
+    const value = e.target.value;
+    if(selectedOption === "fixed Price"){
+      setFixedPriceCopies(value);
+    }else if(selectedOption === "auction price"){
+      setAuctionCopies(value);
+    }
+  }
+
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
@@ -83,20 +108,20 @@ const ListNft = () => {
     console.log(`selected ${value}`);
   };
 
+  console.log(contractData.marketContract.address);
+
   const handleListing= async()=>{
     connectWalletHandle();
 
-    const contractWithsigner = contractData.marketContract.connect(signer);
+    const marketContractWithsigner = contractData.marketContract.connect(signer);
     const mintContractWithsigner = contractData.mintContract.connect(signer);
 
     if(selectedOption === "fixed Price"){
-      const polygonMintingConract = "0x630656827C8Ceaff3580823a8fD757E298cBfAAf";
-      const polygonMarketPlaceContract = "0x96d02fcCaC1aa96432347824D42754b5266B4D6c";
-      const amount = ETHToWei(fixedPrice);
-      const approveTx = await mintContractWithsigner.setApprovalForAll(polygonMarketPlaceContract, true);
+      const price = ETHToWei(fixedPrice);
+      const approveTx = await mintContractWithsigner.setApprovalForAll(contractData.marketContract.address, true);
       const resp = await approveTx.wait();
       if(resp){
-        const tx = await contractWithsigner.listItemForFixedPrice(0, 5, amount, polygonMintingConract);
+        const tx = await marketContractWithsigner.listItemForFixedPrice(tokenId, fixedPriceCopies, price, contractData.mintContract.address);
         const res = await tx.wait();
         if(res){
           console.log("Listing Successful");
@@ -104,8 +129,6 @@ const ListNft = () => {
       }else{
         console.log("error");
       }
-
-      console.log("fixed price selected");
     }else if(selectedOption === "auction price"){
       console.log("auction selected");
     }
@@ -125,8 +148,9 @@ const ListNft = () => {
   const selectAfter = (
     <Select defaultValue="USD" onChange={handleCurrency}>
       <Option value="USD">USD</Option>
-      <Option value="ETH">ETH</Option>
-      <Option value="MATIC">MATIC</Option>
+      { contractData.chain == 5 ?
+      <Option value="ETH">ETH</Option> :
+      <Option value="MATIC">MATIC</Option>}
     </Select>
   );
 
@@ -161,7 +185,7 @@ const ListNft = () => {
     }
   }, [web3]);
 
-  console.log(fixedPrice, auctionStartPrice);
+
 
   return (
     
@@ -189,11 +213,11 @@ const ListNft = () => {
                   />
                   <div className="d-flex justify-content-between mt-1 px-2">
                     <p className="name">{name}</p>
-                    <span className="value">Price</span>
+                    {/* <span className="value">Price</span> */}
                   </div>
                   <div className="d-flex justify-content-between px-2 pb-3">
                     <p className="name2">{artistName}</p>
-                    <span className="value2">4 ETH</span>
+                    {/* <span className="value2">4 ETH</span> */}
                   </div>
                 </div>
               </Col>
@@ -268,6 +292,7 @@ const ListNft = () => {
                 aria-describedby="number"
                 placeholder="0000"
                 min="0"
+                onChange={handleCopyChange}
               />
             </div>
 
@@ -397,7 +422,7 @@ const ListNft = () => {
                       : "priceinput-field"
                   }
                 >
-                  <DatePicker showTime onChange={onChange} />
+                  <DatePicker showTime onChange={handleStartTimeStamp} />
                 </div>
               </Col>
               <Col lg={12} md={12} xs={24}>
@@ -412,7 +437,7 @@ const ListNft = () => {
                       : "priceinput-field"
                   }
                 >
-                  <DatePicker showTime onChange={onChange} />
+                  <DatePicker showTime onChange={handleEndTimeStamp} />
                 </div>
               </Col>
             </Row>
@@ -432,6 +457,7 @@ const ListNft = () => {
                 aria-describedby="number"
                 placeholder="0000"
                 min="0"
+                onChange={handleCopyChange}
               />
             </div>
 

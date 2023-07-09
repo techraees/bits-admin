@@ -25,6 +25,7 @@ import { gql, useQuery, useLazyQuery, useMutation } from "@apollo/client";
 import { GET_ALL_NFTS, GET_PROFILE_DETAILS_QUERY } from "../../gql/queries";
 import environment from "../../environment";
 import { MINT_ASSET_MUTATION } from "../../gql/mutations";
+import { USDTOETH } from "../../utills/currencyConverter";
 
 const Collections = () => {
   const pageSize = 20;
@@ -42,6 +43,12 @@ const Collections = () => {
       console.log(error);
     }
   };
+
+const [val, setVal] = useState(0);
+USDTOETH(10).then(function(result){
+  setVal(result);
+})
+  console.log(val);
 
   const [getNft, { loading, data: allNfts, error }] = useLazyQuery(
     GET_ALL_NFTS,
@@ -64,6 +71,7 @@ const Collections = () => {
   }, [userId]);
 
   const { userData } = useSelector((state) => state.address.userData);
+  const {contractData} = useSelector((state) => state.chain.contractData);
   const userProfile = profileData?.GetProfileDetails?.profileImg;
 
   const address = profileData?.GetProfileDetails?.address;
@@ -192,7 +200,8 @@ const Collections = () => {
     }
   }
   console.log(currentNfts, "currentNfts");
-  console.log("profileData",profileData, userData)
+  console.log("profileData",profileData, userData);
+
 
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
@@ -333,6 +342,7 @@ const Collections = () => {
         <div className="row">
           {currentNfts && currentNfts?.length > 0 ? (
             currentNfts?.map((e, i) => (
+              contractData.chain == e.chainId ?
               <CardCompnent
                 key={i}
                 image={imgPaths + e?.user_id?.profileImg}
@@ -353,7 +363,7 @@ const Collections = () => {
                   })
                 }
                 isOwner={profileData?.GetProfileDetails?.id === userData?.id}
-              />
+              />:<p className="text-white">No results found</p>
             ))
           ) : (
             <p className="text-white">No results found</p>

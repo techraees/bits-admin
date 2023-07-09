@@ -79,12 +79,24 @@ const NavbarComponent = ({
 
   const dispatch = useDispatch();
 
-  const handleChain = ()=>{
+  const handleEthChain = ()=>{
     dispatch({
       type: "ETH_CHAIN",
       contractData: {
         marketContract:contracts.ethContractIns,
         mintContract:contracts.ethMintingContractIns,
+        chain: 5
+      },
+    })
+  }
+
+  const handleMaticChain = ()=>{
+    dispatch({
+      type: "MATIC_CHAIN",
+      contractData: {
+        marketContract:contracts.polygonContractIns,
+        mintContract:contracts.polygonMintingContractIns,
+        chain: 80001
       },
     })
   }
@@ -146,14 +158,16 @@ const NavbarComponent = ({
     }
   }, [error]);
   const [showRedImage, setShowRedImage] = useState(false);
-  const [iconClicked, setIconClicked] = useState(true);
+  const [iconClicked, setIconClicked] = useState(false);
 
   const toggleIconColor = () => {
+    handleEthChain();
     setIconClicked(!iconClicked);
-    setShowRedImage(false);
+    setShowRedImage(true);
   };
 
   const toggleImage = () => {
+    handleMaticChain();
     setShowRedImage(!showRedImage);
     setIconClicked(false);
   };
@@ -302,15 +316,15 @@ const NavbarComponent = ({
             <div className="chainDiv">
               <div className="leftChainDiv">Chains</div>
               <div className="rightChainDiv">
-                <FaEthereum cursor="pointer"  onClick={handleChain}/>
-                <img className="ethIcon" src={polygon} />
+                {/* <FaEthereum cursor="pointer"  onClick={handleChain}/>
+                <img className="ethIcon" src={polygon} /> */}
                 <FaEthereum
                   cursor="pointer"
                   onClick={toggleIconColor}
                   className={iconClicked ? "red" : ""}
                 />
                 <img
-                  className={`ethIcon ${showRedImage ? "hidden" : ""}`}
+                  className={`ethIcon ${showRedImage ? "" : "hidden"}`}
                   src={polygon}
                   alt="Polygon"
                   onClick={toggleImage}
@@ -318,7 +332,7 @@ const NavbarComponent = ({
                   height={15}
                 />
                 <img
-                  className={`ethIcon red ${showRedImage ? "" : "hidden"}`}
+                  className={`ethIcon red ${showRedImage ? "hidden" : ""}`}
                   src={redPolygon}
                   alt="Red Polygon"
                   onClick={toggleImage}

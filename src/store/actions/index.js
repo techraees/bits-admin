@@ -7,7 +7,9 @@ import ethMintingContractAbi from "../../abis/ethMintingContractAbi.json";
 import polygonContractAbi from "../../abis/polygonContractAbi.json";
 import polygonMintingContractAbi from "../../abis/polygonMintingContractAbi.json";
 import { extractNFTImage } from "../../utills/extractNftImage";
-export const loadBlockchainAction = () => async (dispatch) => {
+import { numToHex } from "../../utills/numberToHex";
+
+export const loadBlockchainAction = (chain) => async (dispatch) => {
   // try {
   //   await Web3.givenProvider.enable();
   //   const web3 = new Web3(Web3.givenProvider);
@@ -23,17 +25,34 @@ export const loadBlockchainAction = () => async (dispatch) => {
   try{
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
+    const accounts = await provider.listAccounts();
+    let account = accounts[0];
     const signer = await provider.getSigner();
     const { chainId } = await provider.getNetwork();
-    const account = signer.address;
-    const web3 = provider;
-    const data = {
-      web3,
-      account,
-      chainId,
-      signer
-    };
-    dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
+    if(chain == chainId){
+      const web3 = provider;
+      const data = {
+        account,
+        web3,
+        chainId,
+        signer
+      };
+      dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
+    }else{
+      await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId:  numToHex(chain)}],
+        });
+        const web3 = provider;
+        const data = {
+          account,
+          web3,
+          chainId,
+          signer
+        };
+        dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
+    }
+
   } catch (err) {
     console.log("errr", err);
   }
@@ -159,7 +178,7 @@ export const loadEthContractIns = () => async (dispatch) => {
     //polygon
     const polygonProvider = new ethers.providers.JsonRpcProvider(polygonInfuraIns);
     const polygonMarketPlaceContract = "0x96d02fcCaC1aa96432347824D42754b5266B4D6c";
-    const polygonMintingConract = "0x630656827C8Ceaff3580823a8fD757E298cBfAAf";
+    const polygonMintingConract = "0x3E2C2662b5b640DfDE71d47ed10106F19271309b";
     const polygonContractIns = new ethers.Contract(polygonMarketPlaceContract, polygonContractAbi,polygonProvider);
     const polygonMintingContractIns = new ethers.Contract(polygonMintingConract, polygonMintingContractAbi, polygonProvider);
 
@@ -173,9 +192,37 @@ export const loadEthContractIns = () => async (dispatch) => {
       contractData: {
         marketContract:polygonContractIns,
         mintContract:polygonMintingContractIns,
+        chain: 80001
       },
     })
   } catch (err) {
     console.log("errr", err);
   }
 };
+
+
+const getEmoteItems = ()=>{
+  const combined = {};
+
+    const length = 6;
+    let tokenID = "tokenId";
+
+    for (let i = 0; i < length; i++) {
+      const obj = array[i];
+      const id = obj[tokenID];
+
+      if (combined[id]) {
+        combined[id].owners.push({
+          owner: obj.owner,
+          copies: obj.copies
+        });
+      } else {
+        combined[id] = {
+          id: id,
+          owners: [{ owner: obj.owner, copies: obj.copies }]
+        };
+      }
+    }
+
+    return Object.values(combined);
+}

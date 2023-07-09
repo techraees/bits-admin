@@ -17,12 +17,19 @@ const VideoGallery = () => {
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
+
+  const {contractData} = useSelector((state) => state.chain.contractData);
+
   const textColor = useSelector((state) => state.app.theme.textColor);
   const bgColor = useSelector((state) => state.app.theme.bgColor);
 
   const { userData } = useSelector((state) => state.address.userData);
   const userProfile = userData?.full_name;
   const imgPaths = environment.BACKEND_BASE_URL + "/";
+
+  const getAllFixedItems = async()=>{
+
+  }
 
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -31,6 +38,8 @@ const VideoGallery = () => {
   useEffect(() => {
     refetch();
   }, []);
+
+
   return (
     <div
       className={`${backgroundTheme} pb-2`}

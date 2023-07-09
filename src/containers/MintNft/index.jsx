@@ -67,6 +67,7 @@ const MintNft = () => {
     }
   }, [data, error]);
 
+  console.log(Number(contractData.chain));
 
   const closeConnectModel = () => {
     setConnectModal(false);
@@ -77,12 +78,17 @@ const MintNft = () => {
     }
   };
 
-  const mintCall = async()=>{
+  const mintCall = async(supply, royalty)=>{
     const contractWithsigner = contractData.mintContract.connect(signer);
-    const tx = await contractWithsigner.mint(address, 5, 10, createNft.video, []);
+    const tx = await contractWithsigner.mint(address,supply, createNft.meta, royalty, []);
     const res = await tx.wait();
     if(res){
-      return true;
+      const token_ID = await contractWithsigner.mintedTokenId();
+      if(token_ID){
+        return token_ID;
+      }else{
+        console.log("no tokenId");
+      }
     }
   }
 
@@ -100,22 +106,25 @@ const MintNft = () => {
       supply: 0,
       royalty: "",
       user_id: "",
-      meta:"",
+      metauri:"",
+      chainId: 0,
     },
     validate: mintValidation,
     onSubmit: async(values) =>{
       connectWalletHandle();
-      const res = await mintCall();
-      console.log(res);
-      if(res == true){
+      const tokenid = await mintCall(Number(values.supply), Number(values.royalty));
+      console.log(Number(tokenid));
+      
+      if(Number(tokenid)){
         CreateNft({
           variables: {
             name: createNft && createNft.name,
             artistName1: createNft && createNft.artist_name1,
             video: createNft && createNft.video,
-            meta: createNft && createNft.meta,
+            metauri: createNft && createNft.meta,
             description: createNft && createNft.description,
-            tokenId: "dff",
+            tokenId: `${Number(tokenid)}`,
+            chainId: Number(contractData.chain),
             supply: Number(values.supply),
             walletAddress: values.walletAddress,
             status: true,

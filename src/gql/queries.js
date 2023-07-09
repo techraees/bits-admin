@@ -6,10 +6,12 @@ const GET_ALL_NFTS = gql`
       _id
       artist_name1
       description
+      metauri
       status
       video
       wallet_address
       token_id
+      chainId
       supply
       royalty
       name
