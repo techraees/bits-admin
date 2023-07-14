@@ -12,6 +12,7 @@ const ConnectModal = ({ visible, onClose }) => {
   const dispatch = useDispatch();
 
   const { web3, account } = useSelector((state) => state.web3.walletData);
+  const { userData } = useSelector((state) => state.address.userData);
   const {contractData} = useSelector((state) => state.chain.contractData);
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme

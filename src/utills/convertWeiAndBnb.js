@@ -1,12 +1,12 @@
-import Web3 from "web3";
+import { ethers } from "ethers";
 
 
 export const WeiToETH = (number) => {
-    let newVal =  Web3.utils.fromWei(number);
+    let newVal = ethers.utils.formatEther(number);
     return newVal;
 }
 
 export const ETHToWei = (number) => {
-    let newVal = Web3.utils.toWei(number);
+    let newVal = ethers.utils.parseEther(number);
     return newVal;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./css/index.css";
 import { NavbarComponent, CardCompnent } from "../../components";
 import { Input, Select } from "antd";
@@ -18,7 +18,10 @@ const VideoGallery = () => {
     (state) => state.app.theme.backgroundTheme
   );
 
+  const [tokenData, setTokenData] = useState({});
+
   const {contractData} = useSelector((state) => state.chain.contractData);
+  const {fixedItemData} = useSelector((state) => state.fixedItemDatas.fixedItemData);
 
   const textColor = useSelector((state) => state.app.theme.textColor);
   const bgColor = useSelector((state) => state.app.theme.bgColor);
@@ -27,9 +30,6 @@ const VideoGallery = () => {
   const userProfile = userData?.full_name;
   const imgPaths = environment.BACKEND_BASE_URL + "/";
 
-  const getAllFixedItems = async()=>{
-
-  }
 
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -38,6 +38,7 @@ const VideoGallery = () => {
   useEffect(() => {
     refetch();
   }, []);
+
 
 
   return (
@@ -77,9 +78,10 @@ const VideoGallery = () => {
         </div>
         <div style={{ border: "1px solid #5e2a2a" }}></div>
         <div className="row my-3">
-          {data?.getAllNftsWithoutAddress?.map((e, i) => {
-            console.log(e.video);
-            if (!e.is_blocked) {
+          {
+          fixedItemData?.map((item)=>{
+          return (data?.getAllNftsWithoutAddress?.map((e, i) => {
+            if (!e.is_blocked && item.tokenid == e.token_id) {
               return (
                 <CardCompnent
                   key={i}
@@ -92,10 +94,11 @@ const VideoGallery = () => {
                   detailBtn
                   userProfile={userProfile ? true : false}
                   userId={e?.user_id?.id}
+                  owners = {item.owners}
                 />
               );
             }
-          })}
+          }))})}
         </div>
       </div>
     </div>

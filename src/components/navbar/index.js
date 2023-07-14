@@ -71,6 +71,7 @@ const NavbarComponent = ({
 
   const { userData } = useSelector((state) => state.address.userData);
   const contracts = useSelector((state) => state.contract);
+  const fixedItems = useSelector((state) => state.fixedItems);
 
 
   const full_name = userData?.full_name;
@@ -87,7 +88,12 @@ const NavbarComponent = ({
         mintContract:contracts.ethMintingContractIns,
         chain: 5
       },
-    })
+    });
+
+    dispatch({
+      type: "ETH_CHAIN_FIXED",
+      fixedItemData: fixedItems.ethList,
+    });
   }
 
   const handleMaticChain = ()=>{
@@ -98,7 +104,11 @@ const NavbarComponent = ({
         mintContract:contracts.polygonMintingContractIns,
         chain: 80001
       },
-    })
+    });
+    dispatch({
+      type: "MATIC_CHAIN_FIXED",
+      fixedItemData: fixedItems.maticList,
+    });
   }
 
   useEffect(() => {

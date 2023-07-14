@@ -1,7 +1,7 @@
 import { Card, Col, Radio, Row, Select } from "antd";
 import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { NavbarComponent } from "../../components";
 import { IoLogoUsd } from "react-icons/io";
 import { BiTimeFive } from "react-icons/bi";
@@ -17,6 +17,7 @@ import ConnectModal from "../../components/connectModal";
 import { ETHToWei } from "../../utills/convertWeiAndBnb";
 import { Form } from "react-bootstrap";
 import {timeToTimeStamp} from "../../utills/timeToTimestamp";
+import { loadContractIns } from "../../store/actions";
 
 const ListNft = () => {
   const { Option } = Select;
@@ -37,6 +38,7 @@ const ListNft = () => {
   const [endTimeStamp, setEndTimeStamp] = useState(0);
 
   const {state}= useLocation();
+  const dispatch = useDispatch();
 
   const { web3, account, signer } = useSelector((state) => state.web3.walletData);
   const {contractData} = useSelector((state) => state.chain.contractData);
@@ -118,19 +120,71 @@ const ListNft = () => {
 
     if(selectedOption === "fixed Price"){
       const price = ETHToWei(fixedPrice);
-      const approveTx = await mintContractWithsigner.setApprovalForAll(contractData.marketContract.address, true);
-      const resp = await approveTx.wait();
-      if(resp){
-        const tx = await marketContractWithsigner.listItemForFixedPrice(tokenId, fixedPriceCopies, price, contractData.mintContract.address);
-        const res = await tx.wait();
-        if(res){
-          console.log("Listing Successful");
+      const isApproved = await mintContractWithsigner.isApprovedForAll(account, contractData.marketContract.address);
+      if(!isApproved){
+        const approveTx = await mintContractWithsigner.setApprovalForAll(contractData.marketContract.address, true);
+        const resp = await approveTx.wait();
+        if(resp){
+          try {
+            const tx = await marketContractWithsigner.listItemForFixedPrice(tokenId, fixedPriceCopies, price, contractData.mintContract.address);
+            const res = await tx.wait();
+            if(res){
+              console.log("Listing Successful");
+              dispatch(loadContractIns());
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }else{
+          console.log("error");
         }
       }else{
-        console.log("error");
+        try {
+          const tx = await marketContractWithsigner.listItemForFixedPrice(tokenId, fixedPriceCopies, price, contractData.mintContract.address);
+          const res = await tx.wait();
+          if(res){
+            console.log("Listing Successful");
+            dispatch(loadContractIns());
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
+
+    // Auction listing
     }else if(selectedOption === "auction price"){
-      console.log("auction selected");
+      const price = ETHToWei(auctionStartPrice);
+      const isApproved = await mintContractWithsigner.isApprovedForAll(account, contractData.marketContract.address);
+
+      if(!isApproved){
+        const approveTx = await mintContractWithsigner.setApprovalForAll(contractData.marketContract.address, true);
+        const resp = await approveTx.wait();
+        if(resp){
+          try {
+            const tx = await marketContractWithsigner.listItemForAuction(price,startTimeStamp, endTimeStamp, tokenId, auctionCopies, contractData.mintContract.address);
+            const res = await tx.wait();
+            if(res){
+              console.log("Aunction Listing Successful");
+              // dispatch(loadContractIns());
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }else{
+          console.log("error");
+        }
+      }else{
+        try {
+          const tx = await marketContractWithsigner.listItemForAuction(price,startTimeStamp, endTimeStamp, tokenId, auctionCopies, contractData.mintContract.address);
+          const res = await tx.wait();
+          if(res){
+            console.log("Aunction Listing Successful");
+            // dispatch(loadContractIns());
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
   };
 

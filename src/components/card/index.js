@@ -27,6 +27,7 @@ const CardCompnent = ({
   navigateTo,
   userId,
   isOwner,
+  owners,
 }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -62,7 +63,7 @@ const CardCompnent = ({
         closable={false}
         className="stepperModal"
       >
-        <StepperModal handleCancel={handleCancel} />
+        <StepperModal handleCancel={handleCancel} owners={owners} name={name} />
       </Modal>
 
       <Modal

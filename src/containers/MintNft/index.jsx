@@ -112,7 +112,7 @@ const MintNft = () => {
     validate: mintValidation,
     onSubmit: async(values) =>{
       connectWalletHandle();
-      const tokenid = await mintCall(Number(values.supply), Number(values.royalty));
+      const tokenid = await mintCall(Number(values.supply), Number(values.royalty * 100));
       console.log(Number(tokenid));
       
       if(Number(tokenid)){
@@ -128,7 +128,7 @@ const MintNft = () => {
             supply: Number(values.supply),
             walletAddress: values.walletAddress,
             status: true,
-            royalty: Number(values.royalty),
+            royalty: Number(values.royalty * 100),
             user_id: values.id,
           },
         });
