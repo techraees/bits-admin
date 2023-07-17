@@ -76,11 +76,19 @@ const MenuComponent = ({
     isLogged &&
       getItem("Transaction History", "sub1", <img src={history} />, [
         isLogged &&
-          getItem(
-            "Transaction History",
-            "6",
-            <img src={transaction_history} />
-          ),
+        getItem(
+          "Transaction History(Coming Soon)",
+          "6",
+          <img src={transaction_history} />,
+          [],
+          true
+        ),
+        // isLogged &&
+        //   getItem(
+        //     "Transaction History",
+        //     "6",
+        //     <img src={transaction_history} />
+        //   ),
         isLogged &&
           getItem("Selling History", "7", <img src={selling_history} />),
         isLogged &&

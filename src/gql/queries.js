@@ -107,6 +107,7 @@ const GET_ALL_NFTS_WITHOUT_ADDRESS = gql`
       token_id
       video
       wallet_address
+      supply
       is_blocked
       user_id {
         id

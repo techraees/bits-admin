@@ -15,5 +15,5 @@ export const timeToTimeStamp = (time) =>{
     // ✅ Get timestamp
     const timestamp = date.getTime();
     console.log(timestamp); // 👉️ 1650080712000
-    return timestamp;
+    return timestamp/1000;
 }

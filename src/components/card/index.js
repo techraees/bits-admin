@@ -6,11 +6,14 @@ import ButtonComponent from "../button";
 import ReactPlayer from "react-player";
 import { StepperModal } from "../index";
 import { Modal } from "antd";
+import {NftDetailsModal} from "../index";
 import React, { useState } from "react";
 import Timercomp from "../timerComp";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import profileimg from "../../assets/images/profile1.png";
 import OfferModal from "../offerModal";
+import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
+import { useSelector } from "react-redux";
 
 const CardCompnent = ({
   image,
@@ -28,14 +31,45 @@ const CardCompnent = ({
   userId,
   isOwner,
   owners,
+  auctionStartTime,
+  auctionEndTime,
+  initialPrice,
+  auctionid,
+  numberofcopies,
+  currentBidAmount,
+  nftOwner,
+  royalty,
+  tokenId,
+  fixtokenId,
+  fixOwner,
+  fixRoyalty,
+  fixCopies
 }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
+  const [isNftModalOpen, setIsNftModalOpen] = useState(false);
+  const [ethBal, setEthBal] = useState(0);
+  const [maticBal, setMaticBal] = useState(0);
+  const {contractData} = useSelector((state) => state.chain.contractData);
+
+  ETHTOUSD(1).then((result)=>{
+    setEthBal(result);
+  });
+
+  MATICTOUSD(1).then((result)=>{
+    setMaticBal(result);
+  });
+
+
 
   const showModal = () => {
     setIsModalOpen(true);
   };
+
+  const showNftModal = ()=>{
+    setIsNftModalOpen(true);
+  }
 
   const showOfferModal = () => {
     setIsOfferModalOpen(true);
@@ -46,10 +80,13 @@ const CardCompnent = ({
   const handleCancel = () => {
     setIsModalOpen(false);
     setIsOfferModalOpen(false);
+    setIsNftModalOpen(false);
   };
   console.log("userProfile", userProfile, image);
   const location = useLocation();
   console.log("userId", userId, location.pathname);
+
+  console.log(  fixOwner, fixRoyalty, fixCopies);
 
   return (
     <div className="my-4 col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center">
@@ -73,8 +110,35 @@ const CardCompnent = ({
         centered
         width={829}
       >
-        <OfferModal handleCancel={handleCancel} />
+        <OfferModal 
+        handleCancel={handleCancel} 
+        name ={name}
+        price = {contractData.chain == 5 ? (initialPrice * ethBal).toFixed(4) : (initialPrice * maticBal).toFixed(4)}
+        initialPrice = {initialPrice}
+        currentBidAmount={contractData.chain == 5 ? (currentBidAmount * ethBal).toFixed(4) : (currentBidAmount * maticBal).toFixed(4)}
+        nftOwner={nftOwner}
+        auctionid={auctionid}
+        />
       </Modal>
+
+      <Modal
+        open={isNftModalOpen}
+        onCancel={handleCancel}
+        footer={false}
+        centered
+        width={1000}
+      >
+      <NftDetailsModal 
+        handleCancel={handleCancel} 
+        video = {videoLink} 
+        name={name}
+        royalty = {marketplacecard? royalty : fixRoyalty}
+        nftOwner = {marketplacecard? nftOwner : fixOwner}
+        numberofcopies = {marketplacecard? numberofcopies : fixCopies}
+        tokenId = {marketplacecard? tokenId : fixtokenId}
+      />
+      </Modal>
+
       <Card
         hoverable
         className="cardContainer"
@@ -92,7 +156,7 @@ const CardCompnent = ({
             <div className="price-wrapper d-flex justify-content-between">
               <h5>Price</h5>
               <p>
-                <span>$</span>19.3
+                <span>$</span> {contractData.chain == 5 ? (initialPrice * ethBal).toFixed(4) : (initialPrice * maticBal).toFixed(4)}
               </p>
             </div>
 
@@ -118,7 +182,7 @@ const CardCompnent = ({
 
             <button
               className="buybtn"
-              onClick={() => window.open("https://polygonscan.com/")}
+              onClick={showNftModal}
             >
               Nft Detail
             </button>
@@ -126,7 +190,7 @@ const CardCompnent = ({
             <div>
               <img src={profile} style={{ width: 15 }} />
               <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
-                Speedy walkover
+                {name}
               </span>
             </div>
 
@@ -145,10 +209,10 @@ const CardCompnent = ({
             <div className="my-1">
               <img src={marketcardimg} style={{ width: 15 }} />
               <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
-                Supply : <span style={{ color: "#AD2B2B" }}>102</span>
+                Supply : <span style={{ color: "#AD2B2B" }}>{numberofcopies}</span>
               </span>
             </div>
-            <Timercomp />
+            <Timercomp   auctionStartTime= {auctionStartTime} auctionEndTime={auctionEndTime} />
           </>
         ) : (
           <>
@@ -177,7 +241,7 @@ const CardCompnent = ({
                     {detailBtn && (
                       <button
                         className="detail-btn"
-                        onClick={() => window.open("https://polygonscan.com/")}
+                        onClick={showNftModal}
                       >
                         Nft Detail
                       </button>

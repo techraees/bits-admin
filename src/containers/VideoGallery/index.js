@@ -95,6 +95,10 @@ const VideoGallery = () => {
                   userProfile={userProfile ? true : false}
                   userId={e?.user_id?.id}
                   owners = {item.owners}
+                  fixtokenId = {item.tokenid}
+                  fixOwner = {e.wallet_address}
+                  fixRoyalty = {e.royalty}
+                  fixCopies  = {e.supply}
                 />
               );
             }

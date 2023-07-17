@@ -169,7 +169,11 @@ export const loadContractIns = () => async (dispatch) => {
    });
 
    getAuctions(ethMarketContractIns, polygonMarketContractIns).then((result)=>{
-      console.log(result);
+      const {maticAuctionsList, ethAuctionsList} = result;
+      dispatch({
+        type: "MATIC_CHAIN_AUCTION",
+        auctionItemData: maticAuctionsList,
+      });
    })
 
 

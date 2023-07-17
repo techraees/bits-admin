@@ -7,7 +7,9 @@ import web3Reducer from "../slices/web3ConnectSlice";
 import contractReducer from "./Contract";
 import chainReducer from "./Chain";
 import fixedItemReducer from "./fixedItems";
-import fixedItemDataReducer from "./fixedItemsData.js";
+import fixedItemDataReducer from "./fixedItemsData";
+import auctionItemReducer from "./auctionItems";
+import auctionItemDataReducer from "./auctionItemsData";
 
 export default combineReducers({
   contract: contractReducer,
@@ -19,4 +21,6 @@ export default combineReducers({
   chain : chainReducer,
   fixedItems:fixedItemReducer,
   fixedItemDatas: fixedItemDataReducer,
+  auctionItems:auctionItemReducer,
+  auctionItemDatas: auctionItemDataReducer,
 });
