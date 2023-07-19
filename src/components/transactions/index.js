@@ -1,15 +1,30 @@
-import React from "react";
+import React, {useState} from "react";
 import { check } from "../../assets";
 import "./css/index.css";
 import { useSelector } from "react-redux";
 import { Select } from "antd";
+import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
+import { trimWallet } from "../../utills/trimWalletAddr";
 
 const Transactions = ({ data, checkIcon }) => {
   const textColor = useSelector((state) => state.app.theme.textColor);
   const textColor2 = useSelector((state) => state.app.theme.textColor2);
   const textColor3 = useSelector((state) => state.app.theme.textColor3);
   const bgColor2 = useSelector((state) => state.app.theme.bgColor2);
+
+  const {contractData} = useSelector((state) => state.chain.contractData);
+
   
+  const [ethBal, setEthBal] = useState(0);
+  const [maticBal, setMaticBal] = useState(0);
+
+  ETHTOUSD(1).then((result)=>{
+    setEthBal(result);
+  });
+
+  MATICTOUSD(1).then((result)=>{
+    setMaticBal(result);
+  });
 
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -75,7 +90,7 @@ const Transactions = ({ data, checkIcon }) => {
                     {checkIcon && <img src={check} className="me-2" />}
                     {e.buyerName && (
                       <span className={textColor2}>
-                        Sold to {e.buyerName} on{" "}
+                        Sold to {trimWallet(e.buyerName)} on{" "}
                       </span>
                     )}
                     <span className="red">{e.date}</span>
@@ -83,7 +98,7 @@ const Transactions = ({ data, checkIcon }) => {
                 </div>
               </div>
               <h4 className={`m-0`} style={{ color: "#B93232" }}>
-                {e.price}
+                $ {contractData.chain == 5 ? (e.price * ethBal).toFixed(4) : (e.price * maticBal).toFixed(4)}
               </h4>
             </div>
           );

@@ -23,43 +23,7 @@ const PurchaseHistory = () => {
   const [transactionHistory, setTransactionHistory] = useState([]);
 
   const [dropdownValue, setDropdownValue] = useState("Last Week");
-  let sellingData = [
-    {
-      name: "Speedy Walkover",
-      date: "10/22/2021",
-      price: "$300",
-    },
-    {
-      name: "Speedy Walkover",
-      date: "10/22/2021",
-      price: "$300",
-    },
-    {
-      name: "Speedy Walkover",
-      date: "10/22/2021",
-      price: "$300",
-    },
-    {
-      name: "Speedy Walkover",
-      date: "10/22/2021",
-      price: "$300",
-    },
-    {
-      name: "Speedy Walkover",
-      date: "10/22/2021",
-      price: "$300",
-    },
-    {
-      name: "Speedy Walkover",
-      date: "10/22/2021",
-      price: "$300",
-    },
-    {
-      name: "Speedy Walkover",
-      date: "10/22/2021",
-      price: "$300",
-    },
-  ];
+
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
@@ -78,32 +42,36 @@ const PurchaseHistory = () => {
 
         const history = (await provider.getHistory(`${userData?.address}`)).filter(item => item.to == contractData.marketContract.address);
 
-        // const inputData = history[2].data || '0x';
-
         history.map(async(item)=>{
           const inputData = item.data || '0x';
           const decodedMethod = contractInterface.parseTransaction({ data: inputData });
 
           if(decodedMethod.name == "BuyFixedPriceItem"){
-            const price = WeiToETH(`${Number(item.value)}`);
-            const date = timestampToDate((item.timestamp) * 1000);
-            const decodeData = contractData.marketContract.interface.decodeFunctionData('BuyFixedPriceItem', inputData);
-            if(decodeData){
-              const fixedDet =  await contractData.marketContract.Fixedprices(Number(decodeData.fixedid));
-              data?.getAllNftsWithoutAddress?.map((e,i)=>{
-              if (Number(fixedDet[9]) == e.token_id){
-                let obj ={
-                  name: e.name,
-                  date: date,
-                  price: price
+            const {chainId} = await provider.getTransaction(item.hash);
+            const recp = await provider.getTransactionReceipt(item.hash);
+            
+            if(recp.status === 1){
+              const price = WeiToETH(`${Number(item.value)}`);
+              const date = timestampToDate((item.timestamp) * 1000);
+              console.log(price);
+              const decodeData = contractData.marketContract.interface.decodeFunctionData('BuyFixedPriceItem', inputData);
+              if(decodeData){
+                const fixedDet =  await contractData.marketContract.Fixedprices(Number(decodeData.fixedid));
+                data?.getAllNftsWithoutAddress?.map((e,i)=>{
+                if (Number(fixedDet[9]) == e.token_id){
+                  let obj ={
+                    name: e.name,
+                    date: date,
+                    price: price
+                  }
+  
+                  setTransactionHistory((prev)=>{
+                    return [...prev, obj]
+                  });
+                
                 }
-
-                setTransactionHistory((prev)=>{
-                  return [...prev, obj]
-                });
-              
+              })
               }
-            })
             }
           }
 
@@ -127,8 +95,13 @@ const PurchaseHistory = () => {
       }
     };
 
-    getTransactionHistory();
-  }, [userData?.address]);
+    const fetchData = async () => {
+      await getTransactionHistory();
+    };
+    
+    fetchData();
+
+  }, [contractData, userData]);
 
 
   console.log(transactionHistory);
@@ -169,7 +142,7 @@ const PurchaseHistory = () => {
             {/* <img src={profile2} style={{ width: 70, height: 70 }} /> */}
             <div className="ms-3">
               <span className={textColor2}>Hi,</span>
-              <p className={textColor}>{userData.full_name}</p>
+              <p className={textColor}>{userData?.full_name}</p>
             </div>
           </div>
           <Dropdown overlay={menu} className="dropdownView mobMargin">

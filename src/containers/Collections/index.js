@@ -62,6 +62,8 @@ USDTOETH(10).then(function(result){
       fetchPolicy: "network-only",
     }
   );
+
+ 
   const [getProfile, { loading: profileLoadeing, error: profileError, data: profileData, refetch }] = useLazyQuery(
     GET_PROFILE_DETAILS_QUERY,
     {
