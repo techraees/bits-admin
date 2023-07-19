@@ -110,7 +110,7 @@ const ListNft = () => {
     console.log(`selected ${value}`);
   };
 
-  console.log(contractData.marketContract.address);
+  // console.log(contractData?.marketContract.address);
 
   const handleListing= async()=>{
     connectWalletHandle();

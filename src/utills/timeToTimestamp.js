@@ -17,3 +17,12 @@ export const timeToTimeStamp = (time) =>{
     console.log(timestamp); // 👉️ 1650080712000
     return timestamp/1000;
 }
+
+export const timestampToDate = (timestamp)=>{
+    const dateFormat= new Date(timestamp);
+    const fulldate =(dateFormat.getMonth()+1)+
+    "/"+dateFormat.getDate()+
+    "/"+dateFormat.getFullYear()
+    console.log(fulldate);
+    return fulldate;
+}

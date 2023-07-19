@@ -2,7 +2,7 @@ import env from "../../environment";
 
 const auth ="Basic " + Buffer.from(env.INFURA_API_KEY + ":" + env.INFURA_SECRET).toString('base64');
 
-export const getAllNfts = async(address, networkId, contract)=>{
+export const getAllNftsByAddress = async(address, networkId, contract)=>{
     const infura_url = `https://nft.api.infura.io/networks/${networkId}/`;
 
     const request_url = infura_url + 'accounts/' + address + '/assets/nfts/';
@@ -14,8 +14,6 @@ export const getAllNfts = async(address, networkId, contract)=>{
       }});
 
     const accountDetails = (await response.json()).assets;
-
-    console.log(accountDetails);
 
     let tokenIds = [];
 

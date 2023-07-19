@@ -22,16 +22,22 @@ import { Col, Input, Pagination, Row, Select, Tabs } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { gql, useQuery, useLazyQuery, useMutation } from "@apollo/client";
-import { GET_ALL_NFTS, GET_PROFILE_DETAILS_QUERY } from "../../gql/queries";
+import { GET_ALL_NFTS, GET_PROFILE_DETAILS_QUERY, GET_ALL_NFTS_WITHOUT_ADDRESS } from "../../gql/queries";
 import environment from "../../environment";
 import { MINT_ASSET_MUTATION } from "../../gql/mutations";
 import { USDTOETH } from "../../utills/currencyConverter";
+import { getAllNftsByAddress } from "../../config/infura";
+
 
 const Collections = () => {
   const pageSize = 20;
   const [mintAsset, { loading: mintingLoading, error: mintingError, data }] =
     useMutation(MINT_ASSET_MUTATION);
     const { userId } = useParams();
+
+    const { loading:nftLoading, error: nftError, data:allNftsWithoutAddr, refetch: nftsRefetch} = useQuery(
+      GET_ALL_NFTS_WITHOUT_ADDRESS
+    );
 
   const handleMintAsset = async (walletAddress) => {
     try {
@@ -64,6 +70,10 @@ USDTOETH(10).then(function(result){
   );
   console.log("userId",userId)
 
+  // useEffect(()=>{
+  //   nftsRefetch();
+  // }, [])
+
   useEffect(() => {
     if (userId) {
       getProfile({ variables: userId });
@@ -78,6 +88,7 @@ USDTOETH(10).then(function(result){
   const full_name = profileData?.GetProfileDetails?.full_name;
   const country = profileData?.GetProfileDetails?.country;
   const bio = profileData?.GetProfileDetails?.bio;
+
 
   useEffect(() => {
     if (profileData?.GetProfileDetails) {
@@ -94,6 +105,18 @@ USDTOETH(10).then(function(result){
   const [searchTerm, setSearchTerm] = useState("");
 
   const [isSorting, setIsSorting] = useState(false);
+
+  const [tokenIdsByOwner, setTokenIdsByOwner] = useState([]);
+
+  //get all tokenIds by an address
+  useEffect(()=>{
+    async function getTokenIds(){
+      const tokens = await getAllNftsByAddress(userData?.address, contractData.chain, contractData.mintContract.address);
+      console.log(tokens);
+      setTokenIdsByOwner(tokens);
+    }
+    getTokenIds();
+  },[])
 
   useEffect(() => {
     if (allNfts) {
@@ -201,7 +224,12 @@ USDTOETH(10).then(function(result){
   }
   console.log(currentNfts, "currentNfts");
   console.log("profileData",profileData, userData);
+  useEffect(() => {
+    nftsRefetch();
+  }, []);
 
+  console.log("All NFTS WITHOUT", allNftsWithoutAddr);
+  console.log("tokenIdsByAddress", tokenIdsByOwner);
 
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
@@ -320,12 +348,78 @@ USDTOETH(10).then(function(result){
         </div>
         <div className="tabsWrapper">
           <Tabs defaultActiveKey="1">
-            <Tabs.TabPane tab="NFT’s Created" key="1"></Tabs.TabPane>
+            <Tabs.TabPane tab="NFT’s Created" key="1">
+          <div className="row">
+            {currentNfts && currentNfts?.length > 0 ? (
+              currentNfts?.map((e, i) => (
+                contractData.chain == e.chainId ?
+                <CardCompnent
+                  key={i}
+                  image={imgPaths + e?.user_id?.profileImg}
+                  status={e.status}
+                  name={e.name}
+                  artistName={e.artist_name1}
+                  videoLink={e.video}
+                  topName
+                  userProfile={full_name ? true : false}
+                  navigateTo={() =>
+                    navigate(`/list-nft/${extractIPFSHash(e.video)}`, 
+                    {state:{
+                      name:e.name,
+                      royalty: e.royalty,
+                      artistName: e.artist_name1,
+                      tokenId: e.token_id
+                    }
+                    })
+                  }
+                  isOwner={profileData?.GetProfileDetails?.id === userData?.id}
+                />:<p className="text-white">No results found</p>
+              ))
+            ) : (
+              <p className="text-white">No results found</p>
+            )}
+          </div>
+            </Tabs.TabPane>
             <Tabs.TabPane
               tab="NFT’s Owned"
               key="2"
               className={textColor == "black" && "ant-light"}
-            ></Tabs.TabPane>
+            >
+          <div className="row">
+          { tokenIdsByOwner && tokenIdsByOwner?.length > 0 ? (
+            tokenIdsByOwner?.map((item)=>{
+            return (allNftsWithoutAddr?.getAllNftsWithoutAddress?.map((e, i) => {
+            console.log(e.chainId);
+            if (!e.is_blocked && item == e.token_id ) {
+              return (
+                <CardCompnent
+                  key={i}
+                  image={imgPaths + e?.user_id?.profileImg}
+                  status={e.status}
+                  name={e.name}
+                  artistName={e.artist_name1}
+                  videoLink={e.video}
+                  topName
+                  userProfile={full_name ? true : false}
+                  navigateTo={() =>
+                    navigate(`/list-nft/${extractIPFSHash(e.video)}`, 
+                    {state:{
+                      name:e.name,
+                      royalty: e.royalty,
+                      artistName: e.artist_name1,
+                      tokenId: e.token_id
+                    }
+                    })
+                  }
+                  isOwner={profileData?.GetProfileDetails?.id === userData?.id}
+                />
+              );
+            }
+          }))})):(
+            <p className="text-white">No results found</p>
+          )}
+          </div>
+            </Tabs.TabPane>
           </Tabs>
           <div className="d-flex gap-4 align-items-center">
             <div className="d-flex gap-2 align-items-center mb-2 pagination-wrapper">
@@ -338,36 +432,6 @@ USDTOETH(10).then(function(result){
               />
             </div>
           </div>
-        </div>
-        <div className="row">
-          {currentNfts && currentNfts?.length > 0 ? (
-            currentNfts?.map((e, i) => (
-              contractData.chain == e.chainId ?
-              <CardCompnent
-                key={i}
-                image={imgPaths + e?.user_id?.profileImg}
-                status={e.status}
-                name={e.name}
-                artistName={e.artist_name1}
-                videoLink={e.video}
-                topName
-                userProfile={full_name ? true : false}
-                navigateTo={() =>
-                  navigate(`/list-nft/${extractIPFSHash(e.video)}`, 
-                  {state:{
-                    name:e.name,
-                    royalty: e.royalty,
-                    artistName: e.artist_name1,
-                    tokenId: e.token_id
-                  }
-                  })
-                }
-                isOwner={profileData?.GetProfileDetails?.id === userData?.id}
-              />:<p className="text-white">No results found</p>
-            ))
-          ) : (
-            <p className="text-white">No results found</p>
-          )}
         </div>
       </div>
     </div>

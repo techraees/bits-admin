@@ -9,6 +9,7 @@ const Transactions = ({ data, checkIcon }) => {
   const textColor2 = useSelector((state) => state.app.theme.textColor2);
   const textColor3 = useSelector((state) => state.app.theme.textColor3);
   const bgColor2 = useSelector((state) => state.app.theme.bgColor2);
+  
 
   const handleChange = (value) => {
     console.log(`selected ${value}`);
