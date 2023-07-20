@@ -348,6 +348,7 @@ USDTOETH(10).then(function(result){
             <img src={grid} style={{ width: 20, height: 20 }} />
           </div>
         </div>
+        {/* <div className="tabsWrapper"> */}
         <div className="tabsWrapper">
           <Tabs defaultActiveKey="1">
             <Tabs.TabPane tab="NFT’s Created" key="1">
@@ -389,8 +390,8 @@ USDTOETH(10).then(function(result){
             >
           <div className="row">
           { tokenIdsByOwner && tokenIdsByOwner?.length > 0 ? (
-            tokenIdsByOwner?.map((item)=>{
-            return (allNftsWithoutAddr?.getAllNftsWithoutAddress?.map((e, i) => {
+            tokenIdsByOwner?.map((item, i)=>{
+            return(allNftsWithoutAddr?.getAllNftsWithoutAddress?.map((e, i) => {
             console.log(e.chainId);
             if (!e.is_blocked && item == e.token_id ) {
               return (

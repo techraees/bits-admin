@@ -130,15 +130,15 @@ export const loadContractIns = () => async (dispatch) => {
 
     //ethereum
     const ethProvider = new ethers.providers.JsonRpcProvider(ethInfuraIns);
-    const ethMarketPlaceContract = "0xf16c5d540AC5A485404a26363b2138E6a79c04E5";
-    const ethMintingConract = "0x6E44f2d0249514e88b34242fc8Ff5C80697df495";
+    const ethMarketPlaceContract = "0x1E15394A6D3b642d9e06a4238D1EC70baC4ae1d5";
+    const ethMintingConract = "0x8A59905976bD8D8C9A7D273909A93281a51A4842";
     const ethMarketContractIns = new ethers.Contract(ethMarketPlaceContract, ethMarketContractAbi, ethProvider);
     const ethMintingContractIns = new ethers.Contract(ethMintingConract, ethMintingContractAbi, ethProvider);
 
     //polygon
     const polygonProvider = new ethers.providers.JsonRpcProvider(polygonInfuraIns);
     const polygonMarketPlaceContract = "0xfB90db0b920E56913a3a9E31E4Bce000DCA52249";
-    const polygonMintingConract = "0x3E2C2662b5b640DfDE71d47ed10106F19271309b";
+    const polygonMintingConract = "0x97C49dFeB7ff0bD5006B02fD59912Ab63f5D4216";
     const polygonMarketContractIns = new ethers.Contract(polygonMarketPlaceContract, polygonMarketContractAbi,polygonProvider);
     const polygonMintingContractIns = new ethers.Contract(polygonMintingConract, polygonMintingContractAbi, polygonProvider);
 

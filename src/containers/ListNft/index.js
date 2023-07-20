@@ -2,7 +2,7 @@ import { Card, Col, Radio, Row, Select } from "antd";
 import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 import { useSelector, useDispatch } from "react-redux";
-import { NavbarComponent } from "../../components";
+import { NavbarComponent, ToastMessage } from "../../components";
 import { IoLogoUsd } from "react-icons/io";
 import { BiTimeFive } from "react-icons/bi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
@@ -18,6 +18,7 @@ import { ETHToWei } from "../../utills/convertWeiAndBnb";
 import { Form } from "react-bootstrap";
 import {timeToTimeStamp} from "../../utills/timeToTimestamp";
 import { loadContractIns } from "../../store/actions";
+import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
 
 const ListNft = () => {
   const { Option } = Select;
@@ -36,6 +37,20 @@ const ListNft = () => {
   const [connectModal, setConnectModal] = useState(false);
   const [startTimeStamp, setStartTimeStamp] = useState(0);
   const [endTimeStamp, setEndTimeStamp] = useState(0);
+  const [usdVal, setUsdVal] = useState(0);
+  const [showVal, setShowVal] = useState(0);
+
+  const [ethBal, setEthBal] = useState(0);
+  const [maticBal, setMaticBal] = useState(0);
+
+  ETHTOUSD(1).then((result)=>{
+    setEthBal(result);
+  });
+
+  MATICTOUSD(1).then((result)=>{
+    setMaticBal(result);
+  });
+  
 
   const {state}= useLocation();
   const dispatch = useDispatch();
@@ -75,15 +90,28 @@ const ListNft = () => {
     setCurrency("USD");
     setFixedPrice(0);
     setAuctionStartPrice(0);
+    setShowVal(0);
   };
 
   const handlePriceChange = (e)=>{
+    let finalVal;
     const value = e.target.value;
+    console.log("currency", currency);
+    if(currency === "USD"){
+      finalVal = contractData.chain == 5 ? (value / ethBal) : (value / maticBal);
+    }else{
+      finalVal = value;
+    }
+
+    setShowVal(value);
+
+    console.log("finalValue", finalVal);
+
     if(selectedOption === "fixed Price"){
-      setFixedPrice(value);
+      setFixedPrice(finalVal);
       setPotentialEarning(calculateEarning(value, 2.5, royalty));
     }else if(selectedOption === "auction price"){
-      setAuctionStartPrice(value);
+      setAuctionStartPrice(finalVal);
       setPotentialEarning(calculateEarning(value, 2.5, royalty));
     }
   }
@@ -119,7 +147,7 @@ const ListNft = () => {
     const mintContractWithsigner = contractData.mintContract.connect(signer);
 
     if(selectedOption === "fixed Price"){
-      const price = ETHToWei(fixedPrice);
+      const price = ETHToWei(`${fixedPrice}`);
       const isApproved = await mintContractWithsigner.isApprovedForAll(account, contractData.marketContract.address);
       if(!isApproved){
         const approveTx = await mintContractWithsigner.setApprovalForAll(contractData.marketContract.address, true);
@@ -129,8 +157,8 @@ const ListNft = () => {
             const tx = await marketContractWithsigner.listItemForFixedPrice(tokenId, fixedPriceCopies, price, contractData.mintContract.address);
             const res = await tx.wait();
             if(res){
-              console.log("Listing Successful");
               dispatch(loadContractIns());
+              ToastMessage("Listing Successful", "", "success");
             }
           } catch (error) {
             console.log(error);
@@ -143,8 +171,8 @@ const ListNft = () => {
           const tx = await marketContractWithsigner.listItemForFixedPrice(tokenId, fixedPriceCopies, price, contractData.mintContract.address);
           const res = await tx.wait();
           if(res){
-            console.log("Listing Successful");
             dispatch(loadContractIns());
+            ToastMessage("Listing Successful", "", "success");
           }
         } catch (error) {
           console.log(error);
@@ -153,7 +181,7 @@ const ListNft = () => {
 
     // Auction listing
     }else if(selectedOption === "auction price"){
-      const price = ETHToWei(auctionStartPrice);
+      const price = ETHToWei(`${auctionStartPrice}`);
       const isApproved = await mintContractWithsigner.isApprovedForAll(account, contractData.marketContract.address);
 
       if(!isApproved){
@@ -165,7 +193,8 @@ const ListNft = () => {
             const res = await tx.wait();
             if(res){
               console.log("Aunction Listing Successful");
-              // dispatch(loadContractIns());
+              dispatch(loadContractIns());
+              ToastMessage("Aunction Listing Successful", "", "success");
             }
           } catch (error) {
             console.log(error);
@@ -179,7 +208,8 @@ const ListNft = () => {
           const res = await tx.wait();
           if(res){
             console.log("Aunction Listing Successful");
-            // dispatch(loadContractIns());
+            dispatch(loadContractIns());
+            ToastMessage("Aunction Listing Successful", "", "success");
           }
         } catch (error) {
           console.log(error);
@@ -193,7 +223,7 @@ const ListNft = () => {
   }
 
   const calculateEarning =(amount, fee, royalty)=>{
-    const totalFee = (Number(fee) + Number(royalty))/100
+    const totalFee = (Number(fee) + Number(royalty))/10000
     const totalFeeAmount = amount * totalFee;
     const earning = amount- totalFeeAmount;
     return earning;
@@ -398,7 +428,7 @@ const ListNft = () => {
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Listing Price</h5>
-              <p>{fixedPrice} {currency}</p>
+              <p>{showVal} {currency}</p>
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Service Fee</h5>
@@ -406,7 +436,7 @@ const ListNft = () => {
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Creator Fee</h5>
-              <p>{royalty}%</p>
+              <p>{royalty/100}%</p>
             </div>
             <div
               style={{
@@ -564,7 +594,7 @@ const ListNft = () => {
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Listing Price</h5>
-              <p>{auctionStartPrice} {currency}</p>
+              <p>{showVal} {currency}</p>
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Service Fee</h5>
@@ -572,7 +602,7 @@ const ListNft = () => {
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Creator Fee</h5>
-              <p>{royalty}%</p>
+              <p>{royalty/100}%</p>
             </div>
             <div
               style={{

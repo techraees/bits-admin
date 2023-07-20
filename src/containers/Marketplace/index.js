@@ -22,6 +22,7 @@ const Marketplace = () => {
   const bgColor = useSelector((state) => state.app.theme.bgColor);
   const { userData } = useSelector((state) => state.address.userData);
   const {auctionItemData} = useSelector((state) => state.auctionItemDatas.auctionItemData);
+  const {contractData} = useSelector((state) => state.chain.contractData);
   
   const userProfile = userData?.full_name;
   const backgroundTheme = useSelector(
@@ -215,7 +216,7 @@ console.log("data", data);
         {
           auctionItemData?.map((item)=>{
           return (data?.getAllNftsWithoutAddress?.map((e, i) => {
-            if (!e.is_blocked && Number(item.tokenId) == e.token_id) {
+            if (!e.is_blocked && Number(item.tokenId) == e.token_id && contractData.chain == e.chainId) {
               return (
                 <CardCompnent
                   key={i}

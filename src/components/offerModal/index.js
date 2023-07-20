@@ -11,7 +11,7 @@ import {
 } from "react-icons/md";
 import { trimWallet } from "../../utills/trimWalletAddr";
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
-import { ETHToWei } from "../../utills/convertWeiAndBnb";
+import { ETHToWei, WeiToETH } from "../../utills/convertWeiAndBnb";
 
 const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auctionid}) => {
   const [isBidModalOpen, setIsBidModalOpen] = useState(false);
@@ -23,8 +23,17 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
   const [maticBal, setMaticBal] = useState(0);
   const [connectModal, setConnectModal] = useState(false);
 
+  const [dataSource, setDataSource] = useState([]);
+
   const { web3, account, signer } = useSelector((state) => state.web3.walletData);
   const {contractData} = useSelector((state) => state.chain.contractData);
+
+  const getPriceDiff = (initialPrice, latestprice)=>{
+      const diff = latestprice - initialPrice;
+      const val = (diff/initialPrice);
+      return val;
+  }
+
 
   const handleDropDownClick = () => {
     setIsTableOpen(!isTableOpen);
@@ -47,44 +56,61 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
     setOfferAmount(value);
   }
 
-  const dataSource = [
-    {
-      key: "1",
-      price: "0.001 ETH",
-      uprice: "$20.24",
-      quantity: "1",
-      fdifference: "12% above",
-      expiration: "in 9 days",
-      from: "you",
-    },
-    {
-      key: "2",
-      price: "0.001 ETH",
-      uprice: "$20.24",
-      quantity: "1",
-      fdifference: "12% above",
-      expiration: "in 9 days",
-      from: "you",
-    },
-    // {
-    //   key: "3",
-    //   price: "0.001 ETH",
-    //   uprice: "$20.24",
-    //   quantity: "1",
-    //   fdifference: "12% above",
-    //   expiration: "in 9 days",
-    //   from: "you",
-    // },
-    // {
-    //   key: "4",
-    //   price: "0.001 ETH",
-    //   uprice: "$20.24",
-    //   quantity: "1",
-    //   fdifference: "12% above",
-    //   expiration: "in 9 days",
-    //   from: "you",
-    // },
-  ];
+  const getPrice = (val)=>{
+    if(contractData.chain == 5){
+      return (WeiToETH(`${val}`)) * ethBal
+    }else{
+      return (WeiToETH(`${val}`)) * maticBal
+    } 
+  }
+
+  useEffect(()=>{
+    async function getbids(){
+      const data = await contractData.marketContract.getAllBids(auctionid);
+      console.log(data);
+      data && data?.bidAmount.length > 0 ?
+      data?.bidAmount.map((item, i)=>{
+        let obj = {
+          key: i+1,
+          price: WeiToETH(`${Number(item)}`),
+          uprice: getPrice(Number(item)),
+          quantity: "1",
+          fdifference: `${getPriceDiff(initialPrice,WeiToETH(`${Number(item)}`))} % above`,
+          expiration: "in 9 days",
+          from: "you"
+        }
+
+        console.log(obj);
+      setDataSource((prev)=>{
+        return [...prev, obj];
+      })
+      }): "no data"
+    }
+
+    getbids();
+  }, [contractData])
+
+  // const dataSource = [
+  //   {
+  //     key: "1",
+  //     price: "0.001 ETH",
+  //     uprice: "$20.24",
+  //     quantity: "1",
+  //     fdifference: "12% above",
+  //     expiration: "in 9 days",
+  //     from: "you",
+  //   },
+  //   {
+  //     key: "2",
+  //     price: "0.001 ETH",
+  //     uprice: "$20.24",
+  //     quantity: "1",
+  //     fdifference: "12% above",
+  //     expiration: "in 9 days",
+  //     from: "you",
+  //   },
+  // ];
+ 
 
   const columns = [
     {
@@ -97,26 +123,26 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
       dataIndex: "uprice",
       key: "uprice",
     },
-    {
-      title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
-    },
+    // {
+    //   title: "Quantity",
+    //   dataIndex: "quantity",
+    //   key: "quantity",
+    // },
     {
       title: "Floor Difference",
       dataIndex: "fdifference",
       key: "fdifference",
     },
-    {
-      title: "Expiration",
-      dataIndex: "expiration",
-      key: "expiration",
-    },
-    {
-      title: "From",
-      dataIndex: "from",
-      key: "from",
-    },
+    // {
+    //   title: "Expiration",
+    //   dataIndex: "expiration",
+    //   key: "expiration",
+    // },
+    // {
+    //   title: "From",
+    //   dataIndex: "from",
+    //   key: "from",
+    // },
     // {
     //   title: "",
     //   dataIndex: "action",
@@ -146,7 +172,7 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
           setIsBidModalOpen(true);
         }
       } catch (error) {
-        console.log(error);
+        console.log(error.data.message);
       }
     }else{
       alert("Please provide amount");

@@ -758,9 +758,41 @@
     "name": "getAllBids",
     "outputs": [
       {
-        "internalType": "uint256[]",
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "tokenid",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "bidCount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "addressCount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "addedAt",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "address[]",
+            "name": "bidder",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "bidAmount",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct MarketplaceV3.bidStruct",
         "name": "",
-        "type": "uint256[]"
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",

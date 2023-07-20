@@ -80,15 +80,20 @@ const MintNft = () => {
 
   const mintCall = async(supply, royalty)=>{
     const contractWithsigner = contractData.mintContract.connect(signer);
-    const tx = await contractWithsigner.mint(address,supply, createNft.meta, royalty, []);
-    const res = await tx.wait();
-    if(res){
-      const token_ID = await contractWithsigner.mintedTokenId();
-      if(token_ID){
-        return token_ID;
-      }else{
-        console.log("no tokenId");
+    try{
+      const tx = await contractWithsigner.mint(address,supply, createNft.meta, royalty, []);
+      const res = await tx.wait();
+      if(res){
+        const token_ID = await contractWithsigner.mintedTokenId();
+        if(token_ID){
+          return token_ID;
+        }else{
+          console.log("no tokenId");
+        }
       }
+    }catch(error){
+      console.log(error);
+      ToastMessage(error, "", "error");
     }
   }
 

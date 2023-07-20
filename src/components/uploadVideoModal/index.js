@@ -169,7 +169,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
           Upload Emote/Video
         </p>
         <Row
-          className="dragVideoView py-4 mt-4 mx-2"
+          className="dragVideoView py-4 mt-4 mx-2 flex-column"
           gutter={{ xs: 8, sm: 16, md: 20, lg: 32 }}
         >
           <Col lg={10} md={10} sm={24} xs={24}>

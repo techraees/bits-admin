@@ -81,7 +81,7 @@ const VideoGallery = () => {
           {
           fixedItemData?.map((item)=>{
           return (data?.getAllNftsWithoutAddress?.map((e, i) => {
-            if (!e.is_blocked && item.tokenid == e.token_id) {
+            if (!e.is_blocked && item.tokenid == e.token_id && contractData.chain == e.chainId) {
               return (
                 <CardCompnent
                   key={i}

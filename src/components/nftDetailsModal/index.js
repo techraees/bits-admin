@@ -70,7 +70,7 @@ const NftDetailsModal = ({video, name, royalty, nftOwner, numberofcopies, tokenI
               </div>
               <div className="my-3">
                 <div className="d-flex label-input">
-                  <p className={`${textColor} m-0 fs-5`}>Royalty % : {royalty} </p>
+                  <p className={`${textColor} m-0 fs-5`}>Royalty % : {royalty/100} </p>
                 </div>
               </div>
             </div>
