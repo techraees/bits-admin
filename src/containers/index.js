@@ -7,6 +7,7 @@ import Payment from "./Payment";
 import PreviousNotes from "./PreviousNotes";
 import Settings from "./Settings";
 import UserProfile from "./UserProfile";
+import TopNFTs from "./topNFTs";
 
 export {
   Dashboard,
@@ -18,4 +19,5 @@ export {
   PreviousNotes,
   Settings,
   UserProfile,
+  TopNFTs,
 };

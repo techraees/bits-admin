@@ -1,18 +1,15 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import "./css/index.css";
 import { Modal } from "antd";
-import { attachment, cross, cross2, save, upload2 } from "../../assets";
-// import { EditorState } from 'draft-js';
+import { attachment, cross2, save, upload2 } from "../../assets";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Button, Input } from "antd";
 import { useMutation } from "@apollo/client";
 import { ADD_NOTES_MUTATION } from "../../gql/mutations";
-import { EditorState } from "draft-js";
 import environment from "../../environment";
-import { useFormik, ErrorMessage } from "formik";
+import { useFormik } from "formik";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import Loading from "../loaders/loading";
 import ToastMessage from "../toastMessage";
 
@@ -25,9 +22,6 @@ const TextEditorModal = ({ id, visible, onCancel, setIsNotesAdded }) => {
   const [editorData, setEditorData] = useState(null);
   const [imageLoader, setImageLoader] = useState(false);
 
-  const handleEditorChange = (data) => {
-    setEditorData(data);
-  };
 
   const [file, setFile] = useState(null);
 

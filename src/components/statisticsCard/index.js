@@ -27,7 +27,7 @@ const StatisticsCard = ({
           <span className="light-grey">{status}</span>
           <div>
             <img src={trendingIcon} />
-            <span className={`${perColor} ms-2`}>{trendingPer}%</span>
+            <span className={`${perColor} ms-2`}>{trendingPer}</span>
             <span className="light-grey ms-2">{duration}</span>
           </div>
         </div>

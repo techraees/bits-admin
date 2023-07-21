@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import "./css/index.css";
 import { Menu } from "antd";
 import {
   folder,
   home,
-  logo,
+  logo2,
   paper,
   pen,
   settings,
@@ -13,14 +13,20 @@ import {
   toggle_menu,
 } from "../../assets";
 import { useNavigate } from "react-router-dom";
+import { LogoutOutlined } from "@ant-design/icons";
+import environment from "../../environment";
+import ToastMessage from "../toastMessage";
+import { useSelector } from "react-redux";
+import { AiOutlineSend } from "react-icons/ai";
 
-function getItem(label, key, icon, children, type, admin) {
+function getItem(label, key, icon, navigate, children, type, admin) {
   return {
     key,
     icon,
     children,
     label,
     type,
+    navigate,
     onClick: admin
       ? () => {
           window.open("https://bmd9150.zendesk.com/", "_blank");
@@ -31,9 +37,9 @@ function getItem(label, key, icon, children, type, admin) {
 
 let admin = true;
 const items = [
-  getItem("Dashboard", "1", <img src={home} />),
-  getItem("User Information", "2", <img src={user} />),
-  getItem("Data Section", "3", <img src={folder} />),
+  getItem("Dashboard", "1", <img src={home} />, "/"),
+  getItem("User Information", "2", <img src={user} />, "/user-information"),
+  getItem("Data Section", "3", <img src={folder} />, "/data-section"),
   getItem(
     "Admin Support",
     "4",
@@ -42,14 +48,38 @@ const items = [
     undefined,
     true
   ),
-  getItem("Payment", "5", <img src={paper} />),
-  getItem("Previous Notes", "6", <img src={pen} />),
-  getItem("Settings", "7", <img src={settings} />),
+  getItem("Payment", "5", <img src={paper} />, "/payment"),
+  getItem("Previous Notes", "6", <img src={pen} />, "/previous-notes"),
+  getItem("Settings", "7", <img src={settings} />, "/settings"),
+  getItem("Logout", "8", <LogoutOutlined />, "/logout"),
+  getItem("Top NFTs", "9", <AiOutlineSend />, "/top-nfts"),
 ];
 
-const MenuComponent = ({ selectedKey, className }) => {
+const MenuComponent = ({ selectedKey, routeAccess, className }) => {
   let navigate = useNavigate();
   const [menuHandle, setmenuHandle] = useState(true);
+
+  const handleLogout = () => {
+    localStorage.removeItem(environment.ADMIN_TOKEN);
+    localStorage.removeItem(environment.ADMIN_EMAIL);
+    navigate("/login");
+    ToastMessage("Logout Successfully", "", "success");
+  };
+
+  const filteredItems = useMemo(() => {
+    if (routeAccess) {
+      let arr = routeAccess;
+      if (!arr.includes("/logout")) {
+        arr.push("/logout");
+      }
+      return items.filter((item) => arr?.includes(item.navigate));
+    }
+  }, [routeAccess]);
+
+  console.log("filteredItems", filteredItems);
+
+  console.log("menuItems", filteredItems);
+
   return (
     <div
       className={`${className} bg-dark-blue2`}
@@ -73,7 +103,7 @@ const MenuComponent = ({ selectedKey, className }) => {
         <div style={{ width: 260, height: 55 }} className="mt-2">
           <div className="d-flex justify-content-between center ps-2 pe-3">
             <div className="d-flex center">
-              <img src={logo} />
+              <img src={logo2}  width="60px"/>
               <h5 className="red ms-3 semi-bold m-0">BITS</h5>
             </div>
             <img
@@ -85,22 +115,23 @@ const MenuComponent = ({ selectedKey, className }) => {
         </div>
       )}
       <div className="grey-border2 mt-2 mb-4 mx-3"></div>
+
       <Menu
         className="manuStyle bg-dark-blue2"
         defaultSelectedKeys={[selectedKey]}
         mode="inline"
         theme="dark"
         inlineCollapsed={menuHandle}
-        items={items}
+        items={filteredItems}
         onSelect={(item) => {
-          item.key === "1" && navigate("/");
-          item.key === "2" && navigate("/user-information");
-          item.key === "3" && navigate("/data-section");
-          // item.key === "4" &&
-          //   window.open("https://bmd9150.zendesk.com/", "_blank");
-          item.key === "5" && navigate("/payment");
-          item.key === "6" && navigate("/previous-notes");
-          item.key === "7" && navigate("/settings");
+          const selectedItem = filteredItems.find(
+            (filteredItem) => filteredItem.key === item.key
+          );
+          if (selectedItem.navigate !== "/logout") {
+            navigate(selectedItem.navigate);
+          } else {
+            handleLogout();
+          }
         }}
       />
     </div>

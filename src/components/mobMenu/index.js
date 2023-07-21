@@ -4,7 +4,7 @@ import { Menu } from "antd";
 import {
   folder,
   home,
-  logo,
+  logo2,
   paper,
   pen,
   settings,
@@ -30,8 +30,9 @@ const items = [
   getItem("Data Section", "3", <img src={folder} />),
   getItem("Admin Support", "4", <img src={message} />),
   getItem("Payment", "5", <img src={paper} />),
-  getItem("Previous Notes", "6", <img src={pen} />),
+  getItem("Previous Notesss", "6", <img src={pen} />),
   getItem("Settings", "7", <img src={settings} />),
+  
 ];
 
 const MobMenuComponent = ({ selectedKey, className, showMenu, setShowMenu }) => {
@@ -51,7 +52,7 @@ const MobMenuComponent = ({ selectedKey, className, showMenu, setShowMenu }) => 
         <div style={{ width: 260, height: 55 }} className="mt-2">
           <div className="d-flex justify-content-between center ps-2 pe-3">
             <div className="d-flex center">
-              <img src={logo} />
+            <img src={logo2}  width="60px"/>
               <h5 className="red ms-3 semi-bold m-0">BITS</h5>
             </div>
             <img src={toggle_menu} onClick={()=>setShowMenu(false)} className="cursor" />

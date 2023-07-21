@@ -1,4 +1,6 @@
 import logo from "./images/logo.png";
+import logo2 from "./images/logo2.png";
+
 import folder from "./icons/folder.svg";
 import home from "./icons/home.svg";
 import message from "./icons/message.svg";
@@ -60,6 +62,7 @@ import toggle_menu from "./icons/toggle_menu.svg";
 
 export {
   logo,
+  logo2,
   folder,
   home,
   message,

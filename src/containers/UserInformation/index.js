@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./css/index.css";
 import { NavbarComponent } from "../../components";
 import {
@@ -8,18 +8,24 @@ import {
   profile,
   sort,
   profile2,
+  search,
 } from "../../assets";
-import { Table, Dropdown, Menu, Button, Space } from "antd";
+import { Table, Dropdown, Menu, Button, Space, Input } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_ALL_CONTACTS } from "../../gql/queries";
-import {  SEND_EMAIL_MUTATION } from "../../gql/mutations";
+import { SEND_EMAIL_MUTATION } from "../../gql/mutations";
 import environment from "../../environment";
 import Loading from "../../components/loaders/loading";
 import ToastMessage from "../../components/toastMessage";
+import { useSelector } from "react-redux";
 
 const UserInformation = () => {
+  const [searchUser, setSearchUser] = useState(null);
+  const [users, setUsers] = useState([]);
+  const {viewOnly } = useSelector((state) => state.adminDetails.adminDetails);
+
   const {
     loading,
     error,
@@ -89,6 +95,7 @@ const UserInformation = () => {
           <Button
             className="bg-blue white"
             style={{ borderRadius: 20, width: "70%" }}
+            disabled={viewOnly}
             onClick={async () => {
               const result = await sendEmail({
                 variables: {
@@ -110,7 +117,10 @@ const UserInformation = () => {
       dataIndex: "icon",
       render: (value, record) => {
         return (
-          <Dropdown className="ms-4" overlay={profileMenu(record?.id)}>
+          <Dropdown
+          disabled={viewOnly}
+
+          className="ms-4" overlay={profileMenu(record?.id)}>
             <img
               style={{ cursor: "pointer" }}
               className="p-2"
@@ -250,6 +260,19 @@ const UserInformation = () => {
     refetch();
   }, []);
 
+  useEffect(() => {
+    if (contactData?.GetAllUsers) {
+      let temp = contactData?.GetAllUsers;
+
+      if (searchUser) {
+        temp = temp.filter((x) =>
+          x?.user_name?.toLowerCase()?.startsWith(searchUser?.toLowerCase())
+        );
+      }
+      setUsers(temp);
+    }
+  }, [searchUser, contactData?.GetAllUsers]);
+
   return (
     <div className="bg-white2">
       {emailLoading && <Loading content="" />}
@@ -258,10 +281,22 @@ const UserInformation = () => {
         headerTxt={"User Information"}
         selectedKey={"2"}
       />
+
       <div
         className="container py-3 bg-white radius1"
         style={{ marginTop: 65 }}
       >
+        <div className="d-flex searchStyle headerStyle bg-dark-blue3">
+          <img className="cursor" style={{ width: 15 }} src={search} />
+          <Input
+            value={searchUser}
+            onChange={(e) => {
+              setSearchUser(e.target.value);
+            }}
+            placeholder="Search ..."
+            className={`searchStyle bg-dark-blue3`}
+          />
+        </div>
         <div className="d-flex p-4 justify-content-between center">
           <h5 className="m-0">Creators</h5>
           <div className="d-flex center">
@@ -295,14 +330,12 @@ const UserInformation = () => {
             </div>
           </div>
         </div>
+
         <div className="mx-2 webtable px-3">
-          <Table columns={columns} dataSource={contactData?.GetAllUsers} />
+          <Table columns={columns} dataSource={users} />
         </div>
         <div className="mx-2 mobtable">
-          <Table
-            columns={mobileviewcolumns}
-            dataSource={contactData?.GetAllUsers}
-          />
+          <Table columns={mobileviewcolumns} dataSource={users} />
         </div>
       </div>
     </div>

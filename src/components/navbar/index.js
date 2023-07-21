@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   bell,
   menu_icon,
@@ -10,8 +10,21 @@ import MenuComponent from "../menu";
 import { Input } from "antd";
 import "./css/index.css";
 import MobMenuComponent from "../mobMenu";
+import { useLazyQuery } from "@apollo/client";
+import { ADMIN_BY_EMAIL } from "../../gql/queries";
+import environment from "../../environment";
+import { useDispatch, useSelector } from "react-redux";
+import { loadAdminDetailsAction } from "../../store/actions/index";
 
 const NavbarComponent = ({ selectedKey, lightNav, headerTxt }) => {
+  const dispatch = useDispatch();
+
+  const adminEmail = localStorage.getItem(environment.ADMIN_EMAIL);
+  const adminToken = localStorage.getItem(environment.ADMIN_TOKEN);
+  const { name, email, superUser, routeAccess } = useSelector(
+    (state) => state.adminDetails.adminDetails
+  );
+
   const [collapsed, setCollapsed] = useState(false);
   const [menuBar, setMenuBar] = useState(false);
   const toggleCollapsed = () => {
@@ -20,10 +33,37 @@ const NavbarComponent = ({ selectedKey, lightNav, headerTxt }) => {
   const handleMenu = () => {
     setMenuBar(!menuBar);
   };
+
+  const [getAdmin, { loading, error: loginError, data: adminData }] =
+    useLazyQuery(ADMIN_BY_EMAIL, {
+      fetchPolicy: "network-only",
+    });
+
+  console.log("adminData", adminData);
+  useEffect(() => {
+    if (adminEmail && adminToken) {
+      console.log("adminEmail", adminEmail);
+      getAdmin({
+        variables: {
+          email: adminEmail,
+        },
+      });
+    }
+  }, [adminEmail, adminToken]);
+
+  useEffect(() => {
+    if (adminData) {
+      dispatch(loadAdminDetailsAction(adminData?.GetAdminByEmail));
+    }
+  }, [adminData]);
   return (
     <div className="d-flex fixed-top">
       <div>
-        <MenuComponent selectedKey={selectedKey} className="webMenuBar" />
+        <MenuComponent
+          selectedKey={selectedKey}
+          routeAccess={routeAccess}
+          className="webMenuBar"
+        />
         <MobMenuComponent
           selectedKey={selectedKey}
           className="mobMenuBar"
@@ -94,7 +134,9 @@ const NavbarComponent = ({ selectedKey, lightNav, headerTxt }) => {
                     aria-current="page"
                     href="/"
                   >
-                    <span className={`me-2 ${lightNav && "black"}`}>Admin</span>
+                    <span className={`me-2 ${lightNav && "black"}`}>
+                      {name || "Admin"}
+                    </span>
                     <img src={profile} className="mx-2" style={{ width: 35 }} />
                   </a>
                 </li>
@@ -103,13 +145,6 @@ const NavbarComponent = ({ selectedKey, lightNav, headerTxt }) => {
           </div>
         </nav>
       </div>
-      {/* {menuBar && (
-        <MenuComponent
-          selectedKey={selectedKey}
-          collapsed={false}
-          className="menuBarMobView"
-        />
-      )} */}
     </div>
   );
 };

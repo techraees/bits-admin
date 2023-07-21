@@ -8,11 +8,12 @@ const VideoCard = ({
   videoThumbnail,
   name,
   title,
-  image,
+  video,
   description,
   updateNftStatus,
   isBlocked,
-  refetch
+  refetch,
+  viewOnly
 }) => {
   console.log("ididid", id);
 
@@ -27,27 +28,24 @@ const VideoCard = ({
 
   return (
     <div className="light-grey-border-bottom d-flex center py-4 videoCardMobView">
-      <img
-        src={videoThumbnail}
-        className="me-3 videoCardMobAlignment"
-        style={{ width: 150 }}
-      />
-      <div>
+      <video src={video} height={150} width={150} />
+
+      <div style={{ marginLeft: "10px" }}>
         <h5 className="m-0 videoCardMobAlignment">{title}</h5>
         <div className="d-flex center videoCardMobAlignment">
-          <img src={image} />
+          {/* <img src={image} /> */}
           <h5 className="m-0 ms-2 red2">{name}</h5>
         </div>
         <span className="light-grey videoCardMobAlignment">{description}</span>
       </div>
       <div className="d-block ms-3 videoCardMobAlignment">
         <Button
+        disabled={viewOnly}
           className="videoCardBtns bg-black radius1 mb-2 white"
           onClick={() => handleClick()}
         >
           {isBlocked ? "Unblock" : "Block"}
         </Button>
-        {/* <Button className="videoCardBtns bg-red2 radius1 white">Remove</Button> */}
       </div>
     </div>
   );
