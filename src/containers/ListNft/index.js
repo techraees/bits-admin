@@ -2,7 +2,7 @@ import { Card, Col, Radio, Row, Select } from "antd";
 import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 import { useSelector, useDispatch } from "react-redux";
-import { NavbarComponent, ToastMessage } from "../../components";
+import { NavbarComponent, ToastMessage, Loader } from "../../components";
 import { IoLogoUsd } from "react-icons/io";
 import { BiTimeFive } from "react-icons/bi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
@@ -19,6 +19,7 @@ import { Form } from "react-bootstrap";
 import {timeToTimeStamp} from "../../utills/timeToTimestamp";
 import { loadContractIns } from "../../store/actions";
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
+import { set } from "react-hook-form";
 
 const ListNft = () => {
   const { Option } = Select;
@@ -39,6 +40,8 @@ const ListNft = () => {
   const [endTimeStamp, setEndTimeStamp] = useState(0);
   const [usdVal, setUsdVal] = useState(0);
   const [showVal, setShowVal] = useState(0);
+  const [loadingStatus, setLoadingStatus] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("");
 
   const [ethBal, setEthBal] = useState(0);
   const [maticBal, setMaticBal] = useState(0);
@@ -155,10 +158,17 @@ const ListNft = () => {
         if(resp){
           try {
             const tx = await marketContractWithsigner.listItemForFixedPrice(tokenId, fixedPriceCopies, price, contractData.mintContract.address);
+            
+            setLoadingStatus(true);
+            setLoadingMessage("Listing...");
+
             const res = await tx.wait();
             if(res){
-              dispatch(loadContractIns());
+              setLoadingStatus(false);
+              setLoadingMessage("");
+              console.log("respnse", res);
               ToastMessage("Listing Successful", "", "success");
+              dispatch(loadContractIns());
             }
           } catch (error) {
             console.log(error);
@@ -169,10 +179,17 @@ const ListNft = () => {
       }else{
         try {
           const tx = await marketContractWithsigner.listItemForFixedPrice(tokenId, fixedPriceCopies, price, contractData.mintContract.address);
+
+          setLoadingStatus(true);
+          setLoadingMessage("Listing...");
+
           const res = await tx.wait();
           if(res){
-            dispatch(loadContractIns());
+            setLoadingStatus(false);
+            setLoadingMessage("");
+            console.log("respnse", res);
             ToastMessage("Listing Successful", "", "success");
+            dispatch(loadContractIns());
           }
         } catch (error) {
           console.log(error);
@@ -190,11 +207,17 @@ const ListNft = () => {
         if(resp){
           try {
             const tx = await marketContractWithsigner.listItemForAuction(price,startTimeStamp, endTimeStamp, tokenId, auctionCopies, contractData.mintContract.address);
+
+            setLoadingStatus(true);
+            setLoadingMessage("Listing...");
+
             const res = await tx.wait();
             if(res){
-              console.log("Aunction Listing Successful");
-              dispatch(loadContractIns());
+              setLoadingStatus(false);
+              setLoadingMessage("");
+              console.log(res);
               ToastMessage("Aunction Listing Successful", "", "success");
+              dispatch(loadContractIns());
             }
           } catch (error) {
             console.log(error);
@@ -205,11 +228,17 @@ const ListNft = () => {
       }else{
         try {
           const tx = await marketContractWithsigner.listItemForAuction(price,startTimeStamp, endTimeStamp, tokenId, auctionCopies, contractData.mintContract.address);
+
+          setLoadingStatus(true);
+          setLoadingMessage("Listing...");
+
           const res = await tx.wait();
           if(res){
-            console.log("Aunction Listing Successful");
-            dispatch(loadContractIns());
+            setLoadingStatus(false);
+            setLoadingMessage("");
+            console.log(res);
             ToastMessage("Aunction Listing Successful", "", "success");
+            dispatch(loadContractIns());
           }
         } catch (error) {
           console.log(error);
@@ -270,13 +299,13 @@ const ListNft = () => {
   }, [web3]);
 
 
-
   return (
     
     <div
       className={`${backgroundTheme}`}
       style={{ minHeight: "100vh", overflowX: "hidden" }}
     >
+      {loadingStatus && <Loader content={loadingMessage} />}
       <ConnectModal visible={connectModal} onClose={closeConnectModel} />
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}

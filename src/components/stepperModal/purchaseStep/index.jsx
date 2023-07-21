@@ -8,6 +8,7 @@ import ConnectModal from "../../connectModal";
 import { Button, Modal } from "antd";
 import { trimWallet } from "../../../utills/trimWalletAddr";
 import { ETHToWei } from "../../../utills/convertWeiAndBnb";
+import { Loader, ToastMessage } from "../../../components";
 
 
 function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
@@ -18,6 +19,9 @@ function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [connectModal, setConnectModal] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("");
+
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -43,8 +47,16 @@ function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
     if(quantity > 0){
       try {
         const tx = await marketContractWithsigner.BuyFixedPriceItem(fixedId, quantity, {value: amount});
+
+        setLoadingStatus(true);
+        setLoadingMessage("Transaction Pending...");
+
         const res = await tx.wait();
         if(res){
+          setLoadingStatus(false);
+          setLoadingMessage("");
+          console.log(res);
+          ToastMessage("Purchase Successful", "", "success");
           showModal();
         }
       } catch (error) {
@@ -73,6 +85,7 @@ function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
 
   return (
     <div className="purchaseStep">
+      {loadingStatus && <Loader content={loadingMessage} />}
       <ConnectModal visible={connectModal} onClose={closeConnectModel} />
       <Modal
         open={isModalOpen}

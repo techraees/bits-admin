@@ -137,7 +137,7 @@ export const loadContractIns = () => async (dispatch) => {
 
     //polygon
     const polygonProvider = new ethers.providers.JsonRpcProvider(polygonInfuraIns);
-    const polygonMarketPlaceContract = "0xfB90db0b920E56913a3a9E31E4Bce000DCA52249";
+    const polygonMarketPlaceContract = "0x7Af5243b7F331217e2D37b19FE773B2C0A5D4301";
     const polygonMintingConract = "0x97C49dFeB7ff0bD5006B02fD59912Ab63f5D4216";
     const polygonMarketContractIns = new ethers.Contract(polygonMarketPlaceContract, polygonMarketContractAbi,polygonProvider);
     const polygonMintingContractIns = new ethers.Contract(polygonMintingConract, polygonMintingContractAbi, polygonProvider);

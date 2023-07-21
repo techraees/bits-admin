@@ -64,7 +64,7 @@ const PurchaseHistory = () => {
                     date: date,
                     price: price
                   }
-  
+                  console.log(obj);
                   setTransactionHistory((prev)=>{
                     return [...prev, obj]
                   });

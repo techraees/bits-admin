@@ -32,6 +32,9 @@ const MintNft = () => {
   const [connectModal, setConnectModal] = useState(false);
 
   const {contractData} = useSelector((state) => state.chain.contractData);
+
+  const [loadingStatus, setLoadingStatus] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("");
  
   const textColor = useSelector((state) => state.app.theme.textColor);
   const textColor2 = useSelector((state) => state.app.theme.textColor2);
@@ -59,8 +62,8 @@ const MintNft = () => {
   const id = userData?.id;
   useEffect(() => {
     if (data) {
-      ToastMessage("Minted Successfully", "", "success");
       navigate(`/collections/${userData?.id}`);
+      ToastMessage("Minted Successfully", "", "success");
     }
     if (error) {
       ToastMessage(error, "", "error");
@@ -82,9 +85,15 @@ const MintNft = () => {
     const contractWithsigner = contractData.mintContract.connect(signer);
     try{
       const tx = await contractWithsigner.mint(address,supply, createNft.meta, royalty, []);
+
+      setLoadingStatus(true);
+      setLoadingMessage("Minting...");
+
       const res = await tx.wait();
       if(res){
         const token_ID = await contractWithsigner.mintedTokenId();
+        setLoadingStatus(false);
+        setLoadingMessage("");
         if(token_ID){
           return token_ID;
         }else{
@@ -163,7 +172,7 @@ const MintNft = () => {
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
       <ConnectModal visible={connectModal} onClose={closeConnectModel} />
-      {loading && <Loader content="Uploading" />}
+      {loadingStatus && <Loader content={loading? "Uploading..." : loadingMessage} />}
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}
         selectedKey={"5"}
