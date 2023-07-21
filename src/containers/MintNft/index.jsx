@@ -300,7 +300,7 @@ const MintNft = () => {
           How many NFTs would you like to mint?
           </span>
           <Row>
-            <Col
+            {/* <Col
               lg={4}
               md={10}
               sm={12}
@@ -325,7 +325,7 @@ const MintNft = () => {
               >
                 OR
               </span>
-            </Col>
+            </Col> */}
             <Col lg={20} md={14} sm={12} xs={24}>
               <Input
                 name="supply"
