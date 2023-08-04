@@ -70,11 +70,7 @@ USDTOETH(10).then(function(result){
       variables: { getProfileDetailsId: userId },
     }
   );
-  console.log("userId",userId)
-
-  // useEffect(()=>{
-  //   nftsRefetch();
-  // }, [])
+  console.log("userId",userId);
 
   useEffect(() => {
     if (userId) {
@@ -86,7 +82,6 @@ USDTOETH(10).then(function(result){
   const {contractData} = useSelector((state) => state.chain.contractData);
   const userProfile = profileData?.GetProfileDetails?.profileImg;
 
-  const address = profileData?.GetProfileDetails?.address;
   const full_name = profileData?.GetProfileDetails?.full_name;
   const country = profileData?.GetProfileDetails?.country;
   const bio = profileData?.GetProfileDetails?.bio;

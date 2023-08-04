@@ -77,17 +77,8 @@ const Dashboard = () => {
   const { userData } = useSelector((state) => state.address.userData);
 
   const {contractData} = useSelector((state) => state.chain.contractData);
-  const { web3, account, signer } = useSelector((state) => state.web3.walletData);
 
   console.log(contractData.mintContract);
-
-  // const checkContract = async()=>{
-  //   // console.log(contractIns);
-  //   const auctions = await contractIns.methods.auctions(0).call();
-  //   console.log(auctions);
-  // }
-
-  // checkContract();
 
 
   const backgroundTheme = useSelector(

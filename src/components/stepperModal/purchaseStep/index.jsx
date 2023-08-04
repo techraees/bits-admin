@@ -14,7 +14,7 @@ import { Loader, ToastMessage } from "../../../components";
 function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
 
   const {contractData} = useSelector((state) => state.chain.contractData);
-  const { web3, account, signer } = useSelector((state) => state.web3.walletData);
+  const { web3, signer } = useSelector((state) => state.web3.walletData);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [connectModal, setConnectModal] = useState(false);

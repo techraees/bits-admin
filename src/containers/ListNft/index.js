@@ -38,7 +38,6 @@ const ListNft = () => {
   const [connectModal, setConnectModal] = useState(false);
   const [startTimeStamp, setStartTimeStamp] = useState(0);
   const [endTimeStamp, setEndTimeStamp] = useState(0);
-  const [usdVal, setUsdVal] = useState(0);
   const [showVal, setShowVal] = useState(0);
   const [loadingStatus, setLoadingStatus] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
@@ -66,12 +65,6 @@ const ListNft = () => {
 
   console.log(name, royalty, artistName);
 
-  // const onChange = (value, dateString) => {
-  //   console.log("Selected Time: ", value[0]);
-  //   console.log("Formatted Selected Time: ", dateString);
-  //   timeToTimeStamp(dateString);
-  // };
-
   const handleStartTimeStamp = (value, dateString)=>{
     const time = timeToTimeStamp(dateString);
     setStartTimeStamp(time);
@@ -82,10 +75,6 @@ const ListNft = () => {
     setEndTimeStamp(time);
   }
 
-  // const onChange = (value, dateString) => {
-  //   console.log("Selected Time: ", value);
-  //   console.log("Formatted Selected Time: ", dateString);
-  // };
 
   const handleRadioChange = (e) => {
     setSelectedOption(e.target.value);
@@ -140,8 +129,6 @@ const ListNft = () => {
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
-
-  // console.log(contractData?.marketContract.address);
 
   const handleListing= async()=>{
     connectWalletHandle();

@@ -70,12 +70,13 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
       console.log(data);
       data && data?.bidAmount.length > 0 ?
       data?.bidAmount.map((item, i)=>{
+        const priceDiff = getPriceDiff(initialPrice, WeiToETH(`${Number(item)}`));
         let obj = {
           key: i+1,
           price: WeiToETH(`${Number(item)}`),
           uprice: getPrice(Number(item)),
           quantity: "1",
-          fdifference: `${getPriceDiff(initialPrice,WeiToETH(`${Number(item)}`))} % above`,
+          fdifference: `${priceDiff}% above`,
           expiration: "in 9 days",
           from: "you"
         }
@@ -88,29 +89,7 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
     }
 
     getbids();
-  }, [contractData])
-
-  // const dataSource = [
-  //   {
-  //     key: "1",
-  //     price: "0.001 ETH",
-  //     uprice: "$20.24",
-  //     quantity: "1",
-  //     fdifference: "12% above",
-  //     expiration: "in 9 days",
-  //     from: "you",
-  //   },
-  //   {
-  //     key: "2",
-  //     price: "0.001 ETH",
-  //     uprice: "$20.24",
-  //     quantity: "1",
-  //     fdifference: "12% above",
-  //     expiration: "in 9 days",
-  //     from: "you",
-  //   },
-  // ];
- 
+  }, [contractData]); 
 
   const columns = [
     {

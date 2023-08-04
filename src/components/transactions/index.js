@@ -26,9 +26,7 @@ const Transactions = ({ data, checkIcon }) => {
     setMaticBal(result);
   });
 
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
+
   return (
     <div className="py-2">
       <div
