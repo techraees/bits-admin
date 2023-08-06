@@ -20,6 +20,8 @@ import {timeToTimeStamp} from "../../utills/timeToTimestamp";
 import { loadContractIns } from "../../store/actions";
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
 import { set } from "react-hook-form";
+import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
+
 
 const ListNft = () => {
   const { Option } = Select;
@@ -57,13 +59,17 @@ const ListNft = () => {
   const {state}= useLocation();
   const dispatch = useDispatch();
 
+  const { userData } = useSelector((state) => state.address.userData);
   const { web3, account, signer } = useSelector((state) => state.web3.walletData);
   const {contractData} = useSelector((state) => state.chain.contractData);
+
+  const [tokens, setTokens] = useState(0);
 
 
   const {name, royalty, artistName, tokenId} = state;
 
   console.log(name, royalty, artistName);
+
 
   const handleStartTimeStamp = (value, dateString)=>{
     const time = timeToTimeStamp(dateString);
@@ -130,6 +136,15 @@ const ListNft = () => {
     console.log(`selected ${value}`);
   };
 
+  useEffect(()=>{
+    async function getTokens(){
+      const data = await contractData.mintContract.balanceOf(userData?.address, tokenId);
+      console.log(Number(data));
+      setTokens(Number(data));
+    }
+    getTokens();
+  },[])
+
   const handleListing= async()=>{
     connectWalletHandle();
 
@@ -158,7 +173,12 @@ const ListNft = () => {
               dispatch(loadContractIns());
             }
           } catch (error) {
-            console.log(error);
+            const parsedEthersError = getParsedEthersError(error);
+            if(parsedEthersError.context == -32603){
+              ToastMessage("Error", `Insufficient Balance`, "error");
+            }else{
+              ToastMessage("Error", `${parsedEthersError.context}`, "error");
+            }
           }
         }else{
           console.log("error");
@@ -179,7 +199,12 @@ const ListNft = () => {
             dispatch(loadContractIns());
           }
         } catch (error) {
-          console.log(error);
+          const parsedEthersError = getParsedEthersError(error);
+          if(parsedEthersError.context == -32603){
+            ToastMessage("Error", `Insufficient Balance`, "error");
+          }else{
+            ToastMessage("Error", `${parsedEthersError.context}`, "error");
+          }
         }
       }
 
@@ -207,7 +232,12 @@ const ListNft = () => {
               dispatch(loadContractIns());
             }
           } catch (error) {
-            console.log(error);
+            const parsedEthersError = getParsedEthersError(error);
+            if(parsedEthersError.context == -32603){
+              ToastMessage("Error", `Insufficient Balance`, "error");
+            }else{
+              ToastMessage("Error", `${parsedEthersError.context}`, "error");
+            }
           }
         }else{
           console.log("error");
@@ -223,12 +253,16 @@ const ListNft = () => {
           if(res){
             setLoadingStatus(false);
             setLoadingMessage("");
-            console.log(res);
             ToastMessage("Aunction Listing Successful", "", "success");
             dispatch(loadContractIns());
           }
         } catch (error) {
-          console.log(error);
+          const parsedEthersError = getParsedEthersError(error);
+          if(parsedEthersError.context == -32603){
+            ToastMessage("Error", `Insufficient Balance`, "error");
+          }else{
+            ToastMessage("Error", `${parsedEthersError.context}`, "error");
+          }
         }
       }
     }
@@ -378,7 +412,7 @@ const ListNft = () => {
             </div>
 
             <div className="PriceWrapper  d-flex justify-content-between">
-              <h5 className={`${textColor}`}>Number Copies To Sell</h5>
+              <h5 className={`${textColor}`}>Number Copies To Sell (Available: {tokens})</h5>
             </div>
             <div
               style={{ width: "100%", marginTop: "1rem" }}

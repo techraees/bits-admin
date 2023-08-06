@@ -9,6 +9,7 @@ import { Button, Modal } from "antd";
 import { trimWallet } from "../../../utills/trimWalletAddr";
 import { ETHToWei } from "../../../utills/convertWeiAndBnb";
 import { Loader, ToastMessage } from "../../../components";
+import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
 
 
 function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
@@ -60,7 +61,12 @@ function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
           showModal();
         }
       } catch (error) {
-        console.log(error);
+        const parsedEthersError = getParsedEthersError(error);
+        if(parsedEthersError.context == -32603){
+          ToastMessage("Error", `Insufficient Balance`, "error");
+        }else{
+          ToastMessage("Error", `${parsedEthersError.context}`, "error");
+        }
       }
     }
   }

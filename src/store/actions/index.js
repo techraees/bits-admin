@@ -9,8 +9,9 @@ import polygonMintingContractAbi from "../../abis/polygonMintingContractAbi.json
 import { extractNFTImage } from "../../utills/extractNftImage";
 import { numToHex } from "../../utills/numberToHex";
 import { WeiToETH } from "../../utills/convertWeiAndBnb";
+import { ToastMessage } from "../../components";
 
-export const loadBlockchainAction = (chain) => async (dispatch) => {
+export const loadBlockchainAction = (chain, address) => async (dispatch) => {
   // try {
   //   await Web3.givenProvider.enable();
   //   const web3 = new Web3(Web3.givenProvider);
@@ -28,30 +29,36 @@ export const loadBlockchainAction = (chain) => async (dispatch) => {
     await provider.send("eth_requestAccounts", []);
     const accounts = await provider.listAccounts();
     let account = accounts[0];
-    const signer = await provider.getSigner();
-    const { chainId } = await provider.getNetwork();
-    if(chain == chainId){
-        const web3 = provider;
-        const data = {
-          account,
-          web3,
-          chainId,
-          signer
-        };
-        dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
+    console.log("accountshere", account, address);
+    if(address.toLowerCase() == account.toLowerCase() || address == undefined){
+      const signer = await provider.getSigner();
+      const { chainId } = await provider.getNetwork();
+      if(chain == chainId){
+          const web3 = provider;
+          const data = {
+            account,
+            web3,
+            chainId,
+            signer
+          };
+          dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
+      }else{
+        await window.ethereum.request({
+              method: "wallet_switchEthereumChain",
+              params: [{ chainId:  numToHex(chain)}],
+          });
+          const web3 = provider;
+          const data = {
+            account,
+            web3,
+            chainId,
+            signer
+          };
+          dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
+      }
     }else{
-      await window.ethereum.request({
-            method: "wallet_switchEthereumChain",
-            params: [{ chainId:  numToHex(chain)}],
-        });
-        const web3 = provider;
-        const data = {
-          account,
-          web3,
-          chainId,
-          signer
-        };
-        dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
+      console.log("Please connect correct wallet");
+      ToastMessage("Error", "Wrong Wallet", "error");
     }
 
   } catch (err) {

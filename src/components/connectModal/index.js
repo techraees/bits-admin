@@ -17,10 +17,10 @@ const ConnectModal = ({ visible, onClose }) => {
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
-  console.log("www", web3, account);
+  console.log("checking www", web3, account, userData?.address||account);
 
   const handleWeb3MetaMask = async () => {
-    dispatch(loadBlockchainAction(contractData.chain));
+    dispatch(loadBlockchainAction(contractData.chain, userData?.address ||account));
   };
 
   const handleWalletConnect = async () => {

@@ -12,6 +12,8 @@ import {
 import { trimWallet } from "../../utills/trimWalletAddr";
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
 import { ETHToWei, WeiToETH } from "../../utills/convertWeiAndBnb";
+import {ToastMessage} from "../../components";
+import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
 
 const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auctionid}) => {
   const [isBidModalOpen, setIsBidModalOpen] = useState(false);
@@ -63,6 +65,7 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
       return (WeiToETH(`${val}`)) * maticBal
     } 
   }
+
 
   useEffect(()=>{
     async function getbids(){
@@ -151,7 +154,12 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
           setIsBidModalOpen(true);
         }
       } catch (error) {
-        console.log(error.data.message);
+        const parsedEthersError = getParsedEthersError(error);
+        if(parsedEthersError.context == -32603){
+          ToastMessage("Error", `Insufficient Balance`, "error");
+        }else{
+          ToastMessage("Error", `${parsedEthersError.context}`, "error");
+        }
       }
     }else{
       alert("Please provide amount");

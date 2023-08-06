@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.1",
+    "@enzoferey/ethers-error-parser": "^0.2.3",
     "@hookform/resolvers": "^2.9.10",
     "@infura/sdk": "^2.4.3",
     "@testing-library/jest-dom": "^5.16.4",

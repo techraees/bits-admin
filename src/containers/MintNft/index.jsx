@@ -23,6 +23,8 @@ import { useFormik } from "formik";
 import { mintValidation } from "../../components/validations";
 import ErrorMessage from "../../components/error";
 import ConnectModal from "../../components/connectModal";
+import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
+
 
 const MintNft = () => {
   const backgroundTheme = useSelector(
@@ -101,8 +103,12 @@ const MintNft = () => {
         }
       }
     }catch(error){
-      console.log(error);
-      ToastMessage(error, "", "error");
+      const parsedEthersError = getParsedEthersError(error);
+      if(parsedEthersError.context == -32603){
+        ToastMessage("Error", `Insufficient Balance`, "error");
+      }else{
+        ToastMessage("Error", `${parsedEthersError.context}`, "error");
+      }
     }
   }
 
