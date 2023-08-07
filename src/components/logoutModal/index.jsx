@@ -12,6 +12,7 @@ function LogoutModal() {
   const address = userData?.address;
   const full_name = userData?.full_name;
 
+
   const logoutHandle = () => {
     console.log("logout", 222);
     dispatch({

@@ -70,6 +70,7 @@ const NavbarComponent = ({
 
 
   const { userData } = useSelector((state) => state.address.userData);
+  const {contractData} = useSelector((state) => state.chain.contractData);
   const contracts = useSelector((state) => state.contract);
   const fixedItems = useSelector((state) => state.fixedItems);
 
@@ -170,15 +171,31 @@ const NavbarComponent = ({
   const [showRedImage, setShowRedImage] = useState(false);
   const [iconClicked, setIconClicked] = useState(false);
 
+
+  useEffect(()=>{
+    if(contractData?.chain){
+      if(contractData.chain == 5){
+        setIconClicked(true);
+        setShowRedImage(true);
+      }else if(contractData.chain == 80001){
+        setShowRedImage(false);
+        setIconClicked(false);
+      }else{
+        setShowRedImage(false);
+        setIconClicked(false);
+      }
+    }
+  }, []);
+
   const toggleIconColor = () => {
     handleEthChain();
-    setIconClicked(!iconClicked);
+    setIconClicked(true);
     setShowRedImage(true);
   };
 
   const toggleImage = () => {
     handleMaticChain();
-    setShowRedImage(!showRedImage);
+    setShowRedImage(false);
     setIconClicked(false);
   };
 

@@ -38,7 +38,6 @@ const ListNft = () => {
   const [currency, setCurrency] = useState("USD");
   const [potentialEarning, setPotentialEarning] = useState(0);
   const [connectModal, setConnectModal] = useState(false);
-  const [startTimeStamp, setStartTimeStamp] = useState(0);
   const [endTimeStamp, setEndTimeStamp] = useState(0);
   const [showVal, setShowVal] = useState(0);
   const [loadingStatus, setLoadingStatus] = useState(false);
@@ -71,16 +70,10 @@ const ListNft = () => {
   console.log(name, royalty, artistName);
 
 
-  const handleStartTimeStamp = (value, dateString)=>{
-    const time = timeToTimeStamp(dateString);
-    setStartTimeStamp(time);
-  }
-
   const handleEndTimeStamp = (value, dateString)=>{
     const time = timeToTimeStamp(dateString);
     setEndTimeStamp(time);
   }
-
 
   const handleRadioChange = (e) => {
     setSelectedOption(e.target.value);
@@ -218,6 +211,7 @@ const ListNft = () => {
         const resp = await approveTx.wait();
         if(resp){
           try {
+            const startTimeStamp = (Math.floor(Date.now() / 1000)) + 150;
             const tx = await marketContractWithsigner.listItemForAuction(price,startTimeStamp, endTimeStamp, tokenId, auctionCopies, contractData.mintContract.address);
 
             setLoadingStatus(true);
@@ -244,6 +238,7 @@ const ListNft = () => {
         }
       }else{
         try {
+          const startTimeStamp = (Math.floor(Date.now() / 1000)) + 150;
           const tx = await marketContractWithsigner.listItemForAuction(price,startTimeStamp, endTimeStamp, tokenId, auctionCopies, contractData.mintContract.address);
 
           setLoadingStatus(true);
@@ -544,7 +539,7 @@ const ListNft = () => {
             </div>
 
             <Row gutter={{ xs: 8, sm: 16, md: 30, lg: 50 }}>
-              <Col lg={12} md={12} xs={24}>
+              {/* <Col lg={12} md={12} xs={24}>
                 <div className="PriceWrapper  d-flex justify-content-between">
                   <h5 className={`${textColor}`}>Auction Start Time</h5>
                 </div>
@@ -558,7 +553,7 @@ const ListNft = () => {
                 >
                   <DatePicker showTime onChange={handleStartTimeStamp} />
                 </div>
-              </Col>
+              </Col> */}
               <Col lg={12} md={12} xs={24}>
                 <div className="PriceWrapper  d-flex justify-content-between">
                   <h5 className={`${textColor}`}>Auction End Time</h5>
@@ -577,7 +572,7 @@ const ListNft = () => {
             </Row>
 
             <div className="PriceWrapper  d-flex justify-content-between">
-              <h5 className={`${textColor}`}>Number Copies To Sell</h5>
+              <h5 className={`${textColor}`}>Number Copies To Sell (Available: {tokens})</h5>
             </div>
             <div
               style={{ width: "100%", marginTop: "1rem" }}

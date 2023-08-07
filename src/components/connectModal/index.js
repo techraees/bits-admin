@@ -24,7 +24,7 @@ const ConnectModal = ({ visible, onClose }) => {
   };
 
   const handleWalletConnect = async () => {
-    dispatch(loadWalletConnectAction());
+    dispatch(loadWalletConnectAction(contractData.chain, userData?.address ||account));
   };
 
   return (

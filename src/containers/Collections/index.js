@@ -56,7 +56,7 @@ USDTOETH(10).then(function(result){
 })
   console.log(val);
 
-  const [getNft, { loading, data: allNfts, error }] = useLazyQuery(
+  const [getNft, { loading, data: allNfts, refetch: allNftRefetch, error }] = useLazyQuery(
     GET_ALL_NFTS,
     {
       fetchPolicy: "network-only",
@@ -223,6 +223,10 @@ USDTOETH(10).then(function(result){
   console.log("profileData",profileData, userData);
   useEffect(() => {
     nftsRefetch();
+  }, []);
+
+  useEffect(() => {
+    allNftRefetch();
   }, []);
 
   console.log("All NFTS WITHOUT", allNftsWithoutAddr);

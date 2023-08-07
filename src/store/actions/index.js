@@ -66,14 +66,21 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
   }
 };
 
-export const loadWalletConnectAction = () => async (dispatch) => {
+export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
   try {
+    let url;
+    if(chain == 5){
+      url = "https://goerli.infura.io/v3/e556d22112e34e3baab9760f1864493a";
+    }else{
+      url = "https://rpc-mumbai.matic.today";
+    }
     const provider = new WalletConnectProvider({
+      infuraId: "e556d22112e34e3baab9760f1864493a",
       rpc: {
-        5: "https://goerli.infura.io/v3/db1427c3f86f4a95a2dfde7849404077",
+        chain : url,
       },
-      rpcUrl: "https://goerli.infura.io/v3/db1427c3f86f4a95a2dfde7849404077",
-      chainId: 5,
+      rpcUrl: url,
+      chainId: chain,
     });
     if (provider) {
       await provider.enable();
@@ -83,12 +90,26 @@ export const loadWalletConnectAction = () => async (dispatch) => {
       let account = await web3.eth.getAccounts();
       account = account[0];
       let chainId = await web3.eth.getChainId();
-      const data = {
-        web3,
-        account,
-        chainId,
-      };
-      dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
+
+      if(address.toLowerCase() == account.toLowerCase() || address == undefined){
+        const signer = await provider.getSigner();
+        if(chain == chainId){
+            const web3 = provider;
+            const data = {
+              account,
+              web3,
+              chainId,
+              signer
+            };
+            dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
+        }else{
+          console.log("Please select correct chain");
+          ToastMessage("Error", "Wrong Chain", "error");
+        }
+      }else{
+        console.log("Please connect correct wallet");
+        ToastMessage("Error", "Wrong Wallet", "error");
+      }
     }
   } catch (err) {
     console.log("errr", err);
@@ -108,6 +129,7 @@ export const logoutWallet = () => async (dispatch) => {
       account,
       chainId,
     };
+
     dispatch({ type: ActionTypes.WEB3DISCONNECT, payload: data });
   } catch (err) {
     console.log("errr", err);
