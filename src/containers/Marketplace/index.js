@@ -41,8 +41,6 @@ console.log("data", data);
 
   const timenow = Math.floor(Date.now()/1000);
 
-  console.log(timenow);
-
 
   return (
     <div
