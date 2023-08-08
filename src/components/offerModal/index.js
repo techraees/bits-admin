@@ -24,6 +24,7 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
   const [ethBal, setEthBal] = useState(0);
   const [maticBal, setMaticBal] = useState(0);
   const [connectModal, setConnectModal] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
 
   const [dataSource, setDataSource] = useState([]);
 
@@ -44,6 +45,10 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
   const handleCancel = () => {
     setIsBidModalOpen(false);
   };
+
+  const handleConnect = ()=>{
+    connectWalletHandle();
+  }
 
   ETHTOUSD(1).then((result)=>{
     setEthBal(result);
@@ -138,27 +143,37 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
   const connectWalletHandle = () => {
     if (!web3) {
       setConnectModal(true);
+      setIsConnected(true);
     }
   };
 
   const handleBid = async() => {
     if(offerAmount > 0){
       const amount = ETHToWei(`${offerAmount}`);
-      connectWalletHandle();
-      const marketContractWithsigner = contractData.marketContract.connect(signer);
-      try {
-        const tx = await marketContractWithsigner.bid(auctionid, {value: amount});
-        const res = await tx.wait();
-        if(res){
+      if(signer){
+        const marketContractWithsigner = contractData.marketContract.connect(signer);
+        try {
           setIsBidModalOpen(true);
+          const tx = await marketContractWithsigner.bid(auctionid, {value: amount});
+          // if(tx){
+          //   setIsBidModalOpen(true);
+          // }
+          const res = await tx.wait();
+          if(res){
+          ToastMessage("Bid Successful", "", "success");
+          }
+          
+        } catch (error) {
+          const parsedEthersError = getParsedEthersError(error);
+          if(parsedEthersError.context == -32603){
+            ToastMessage("Error", `Insufficient Balance`, "error");
+          }else{
+            console.log(error);
+            ToastMessage("Error", `${parsedEthersError.context}`, "error");
+          }
         }
-      } catch (error) {
-        const parsedEthersError = getParsedEthersError(error);
-        if(parsedEthersError.context == -32603){
-          ToastMessage("Error", `Insufficient Balance`, "error");
-        }else{
-          ToastMessage("Error", `${parsedEthersError.context}`, "error");
-        }
+      }else{
+        handleConnect();
       }
     }else{
       alert("Please provide amount");
@@ -255,7 +270,7 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
           <p>Total Offer amount: {offerAmount} {contractData.chain == 5? "ETH": "MATIC"} ($ {contractData.chain == 5 ? (offerAmount * ethBal).toFixed(4) : (offerAmount * maticBal).toFixed(4)})</p>
         </div>
         <div>
-          <button className="bid-btn" onClick={handleBid}>
+          <button className="bid-btn" onClick={isConnected? handleBid: handleConnect}>
             Place Bid
           </button>
         </div>

@@ -18,6 +18,7 @@ import { UploadVideoModal } from "../../components";
 import { WeiToETH } from "../../utills/convertWeiAndBnb";
 import { getOwnersOfTokenId } from "../../config/infura";
 
+
 const Dashboard = () => {
   const [uploadVideoModal, setUploadVideoModal] = useState(false);
   let navigate = useNavigate();
@@ -103,15 +104,6 @@ const Dashboard = () => {
 
   getOwnersOfTokenId(0, 80001,"0x630656827c8ceaff3580823a8fd757e298cbfaaf");
 
-    // Detect change in Metamask account
-  useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum.on("accountsChanged", () => {
-        console.log("Please connect correct wallet");
-        ToastMessage("Error", "Please connect correct wallet", "error");
-      });
-    }
-  },[]);
 
   return (
     <div className={backgroundTheme}>

@@ -40,6 +40,7 @@ function ListingStep({ setCurrent, owners, name, setOwner, setPrice, setFixedId 
         </span>
       </h4>
       {owners.map((item, i) => (
+        item.copies > 0 ?
         <div
           className={item ? "bottomContentDiv" : "contentDiv"}
           key={i}
@@ -59,7 +60,7 @@ function ListingStep({ setCurrent, owners, name, setOwner, setPrice, setFixedId 
               {item.price} <span className="ethText">{contractData.chain == 5? "ETH": "MATIC"}</span>
             </h4>
           </div>
-        </div>
+        </div>: ""
       ))}
     </div>
   );

@@ -43,30 +43,34 @@ function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
     let val = Number(ETHToWei(totalPrice.toString()));
     let amount = val.toString();
 
-    const marketContractWithsigner = contractData.marketContract.connect(signer);
+    if(signer){
+      const marketContractWithsigner = contractData.marketContract.connect(signer);
 
-    if(quantity > 0){
-      try {
-        const tx = await marketContractWithsigner.BuyFixedPriceItem(fixedId, quantity, {value: amount});
-
-        setLoadingStatus(true);
-        setLoadingMessage("Transaction Pending...");
-
-        const res = await tx.wait();
-        if(res){
-          setLoadingStatus(false);
-          setLoadingMessage("");
-          console.log(res);
-          ToastMessage("Purchase Successful", "", "success");
-          showModal();
+      if(quantity > 0){
+        try {
+          const tx = await marketContractWithsigner.BuyFixedPriceItem(fixedId, quantity, {value: amount});
+  
+          setLoadingStatus(true);
+          setLoadingMessage("Transaction Pending...");
+  
+          const res = await tx.wait();
+          if(res){
+            setLoadingStatus(false);
+            setLoadingMessage("");
+            console.log(res);
+            ToastMessage("Purchase Successful", "", "success");
+            showModal();
+          }
+        } catch (error) {
+          const parsedEthersError = getParsedEthersError(error);
+          if(parsedEthersError.context == -32603){
+            ToastMessage("Error", `Insufficient Balance`, "error");
+          }else{
+            ToastMessage("Error", `${parsedEthersError.context}`, "error");
+          }
         }
-      } catch (error) {
-        const parsedEthersError = getParsedEthersError(error);
-        if(parsedEthersError.context == -32603){
-          ToastMessage("Error", `Insufficient Balance`, "error");
-        }else{
-          ToastMessage("Error", `${parsedEthersError.context}`, "error");
-        }
+      }else{
+        handleConnect();
       }
     }
   }
