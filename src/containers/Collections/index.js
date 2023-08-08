@@ -392,7 +392,7 @@ USDTOETH(10).then(function(result){
             tokenIdsByOwner?.map((item, i)=>{
             return(allNftsWithoutAddr?.getAllNftsWithoutAddress?.map((e, i) => {
             console.log(e.chainId);
-            if (!e.is_blocked && item == e.token_id ) {
+            if (!e.is_blocked && item == e.token_id && contractData.chain == e.chainId) {
               return (
                 <CardCompnent
                   key={i}

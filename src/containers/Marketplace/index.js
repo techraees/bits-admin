@@ -39,6 +39,11 @@ console.log("data", data);
   }, []);
 
 
+  const timenow = Math.floor(Date.now()/1000);
+
+  console.log(timenow);
+
+
   return (
     <div
       className={`${backgroundTheme} main`}
@@ -216,7 +221,7 @@ console.log("data", data);
         {
           auctionItemData?.map((item)=>{
           return (data?.getAllNftsWithoutAddress?.map((e, i) => {
-            if (!e.is_blocked && Number(item.tokenId) == e.token_id && contractData.chain == e.chainId) {
+            if (!e.is_blocked && Number(item.tokenId) == e.token_id && contractData.chain == e.chainId && Number(item.auctionEndTime) > timenow && item.isSold == false) {
               return (
                 <CardCompnent
                   key={i}

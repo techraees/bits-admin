@@ -39,8 +39,6 @@ const VideoGallery = () => {
     refetch();
   }, []);
 
-
-
   return (
     <div
       className={`${backgroundTheme} pb-2`}
@@ -81,7 +79,7 @@ const VideoGallery = () => {
           {
           fixedItemData?.map((item)=>{
           return (data?.getAllNftsWithoutAddress?.map((e, i) => {
-            if (!e.is_blocked && item.tokenid == e.token_id && contractData.chain == e.chainId) {
+            if (!e.is_blocked && item.tokenid == e.token_id && contractData.chain == e.chainId && item.isSold == false) {
               return (
                 <CardCompnent
                   key={i}

@@ -58,7 +58,7 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
       }
     }else{
       console.log("Please connect correct wallet");
-      ToastMessage("Error", "Wrong Wallet", "error");
+      ToastMessage("Error", "Please connect correct wallet", "error");
     }
 
   } catch (err) {
@@ -108,7 +108,7 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
         }
       }else{
         console.log("Please connect correct wallet");
-        ToastMessage("Error", "Wrong Wallet", "error");
+        ToastMessage("Error", "Please connect correct wallet", "error");
       }
     }
   } catch (err) {
@@ -228,7 +228,7 @@ const getEmoteItems = async (ethMarketContractIns, polygonMarketContractIns) => 
     if (maticcombined[id]) {
       maticcombined[id].owners.push({
         owner: obj.owner,
-        copies: Number(obj.totalcopies),
+        copies: Number(obj.copiesForSale),
         newOwner: obj.newowner,
         price: WeiToETH(obj.price),
         fixedid: Number(obj.fixedid),
@@ -236,10 +236,11 @@ const getEmoteItems = async (ethMarketContractIns, polygonMarketContractIns) => 
     } else {
       maticcombined[id] = {
         tokenid: id,
+        isSold: obj.isSold,
         owners: [
           {
             owner: obj.owner,
-            copies: Number(obj.totalcopies),
+            copies: Number(obj.copiesForSale),
             newOwner: obj.newowner,
             price: WeiToETH(obj.price),
             fixedid: Number(obj.fixedid),
@@ -262,7 +263,7 @@ const getEmoteItems = async (ethMarketContractIns, polygonMarketContractIns) => 
     if (ethcombined[ethid]) {
       ethcombined[ethid].owners.push({
         owner: ethobj.owner,
-        copies: Number(ethobj.totalcopies),
+        copies: Number(ethobj.copiesForSale),
         newOwner: ethobj.newowner,
         price: WeiToETH(ethobj.price),
         fixedid: Number(ethobj.fixedid),
@@ -270,10 +271,11 @@ const getEmoteItems = async (ethMarketContractIns, polygonMarketContractIns) => 
     } else {
       ethcombined[ethid] = {
         tokenid: ethid,
+        isSold: ethobj.isSold,
         owners: [
           {
             owner: ethobj.owner,
-            copies: Number(ethobj.totalcopies),
+            copies: Number(ethobj.copiesForSale),
             newOwner: ethobj.newowner,
             price: WeiToETH(ethobj.price),
             fixedid: Number(ethobj.fixedid),

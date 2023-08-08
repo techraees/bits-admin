@@ -510,7 +510,7 @@ const ListNft = () => {
               className={textColor == "black" ? "ant-light-select" : "select"}
             >
               <Select
-                defaultValue="lucy"
+                defaultValue="Type of auction"
                 style={{
                   width: "100%",
                 }}

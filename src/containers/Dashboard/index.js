@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./css/index.css";
-import { NavbarComponent, CardCompnent } from "../../components";
+import { NavbarComponent, CardCompnent, ToastMessage } from "../../components";
 import { Button, Row, Col } from "antd";
 import {
   discord_grey,
@@ -102,6 +102,16 @@ const Dashboard = () => {
   };
 
   getOwnersOfTokenId(0, 80001,"0x630656827c8ceaff3580823a8fd757e298cbfaaf");
+
+    // Detect change in Metamask account
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", () => {
+        console.log("Please connect correct wallet");
+        ToastMessage("Error", "Please connect correct wallet", "error");
+      });
+    }
+  },[]);
 
   return (
     <div className={backgroundTheme}>

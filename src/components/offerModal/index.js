@@ -145,7 +145,6 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
     if(offerAmount > 0){
       const amount = ETHToWei(`${offerAmount}`);
       connectWalletHandle();
-  
       const marketContractWithsigner = contractData.marketContract.connect(signer);
       try {
         const tx = await marketContractWithsigner.bid(auctionid, {value: amount});
