@@ -232,6 +232,7 @@ function Login() {
                 <input
                   password
                   placeholder={"Password"}
+                  type="password"
                   name="password"
                   ref={register}
                   onChange={handleChange}
