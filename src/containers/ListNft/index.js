@@ -363,6 +363,7 @@ const ListNft = () => {
                     buttonStyle="solid"
                     className={textColor == "black" && "radio-light"}
                     onChange={handleRadioChange}
+                    
                   >
                     <Radio.Button value="fixed Price">
                       <span>
@@ -403,6 +404,7 @@ const ListNft = () => {
                 // addonBefore={selectBefore}
                 addonAfter={selectAfter}
                 defaultValue="Amount"
+                type="number"
               />
             </div>
 

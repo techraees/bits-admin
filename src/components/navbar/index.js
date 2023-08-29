@@ -399,6 +399,9 @@ const NavbarComponent = ({
                         className=""
                         style={{ borderRadius: "50%" }}
                         alt=""
+                        onError={(e) => {
+                          e.target.src = profileimg;
+                        }}
                       />
                     ) : (
                       <img

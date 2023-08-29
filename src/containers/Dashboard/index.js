@@ -157,10 +157,9 @@ const Dashboard = () => {
           </Col>
           <Col lg={12} md={12} sm={24} xs={24} className="my-2">
             <ReactPlayer
-              controls={true}
               width="100%"
               height="300px"
-              url="https://www.youtube.com/watch?v=FexlThIaGww"
+              url="https://www.youtube.com/watch?v=sXQH-R_0gtQ"
             />
           </Col>
         </Row>

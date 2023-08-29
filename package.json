@@ -7,10 +7,6 @@
     "@enzoferey/ethers-error-parser": "^0.2.3",
     "@hookform/resolvers": "^2.9.10",
     "@infura/sdk": "^2.4.3",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^13.5.0",
-    "@walletconnect/web3-provider": "^1.7.8",
     "antd": "^4.23.3",
     "apollo-upload-client": "^17.0.0",
     "axios": "^0.27.2",
@@ -26,30 +22,41 @@
     "moment": "^2.29.4",
     "multicoin-address-validator": "^0.5.11",
     "prop-types": "^15.8.1",
-    "react": "^18.1.0",
     "react-bootstrap": "^2.4.0",
     "react-chartjs-2": "^4.1.0",
-    "react-dom": "^18.1.0",
     "react-hook-form": "^7.41.5",
     "react-icons": "^4.7.1",
-    "react-player": "^2.11.0",
+    "react-player": "^2.12.0",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "4.0.3",
     "react-timer-hook": "^3.0.5",
     "react-zendesk": "^0.1.13",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
-    "web-vitals": "^2.1.4",
+    "@walletconnect/universal-provider": "2.9.1",
+    "@web3modal/standalone": "^2.3.7",
     "web3": "^1.8.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "set PORT=3006 && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -62,8 +69,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

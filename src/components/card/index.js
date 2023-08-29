@@ -4,14 +4,13 @@ import { check, cross, marketcardimg, profile, thumb } from "../../assets";
 import { Button } from "antd";
 import ButtonComponent from "../button";
 import ReactPlayer from "react-player";
-import { StepperModal } from "../index";
+import { OfferModal, StepperModal } from "../index";
 import { Modal } from "antd";
 import {NftDetailsModal} from "../index";
 import React, { useState } from "react";
 import Timercomp from "../timerComp";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import profileimg from "../../assets/images/profile1.png";
-import OfferModal from "../offerModal";
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
 import { useSelector } from "react-redux";
 

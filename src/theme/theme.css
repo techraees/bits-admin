@@ -1,6 +1,5 @@
 .red-gradient {
   background-image: linear-gradient(#f45c5c, #7e1c1c) !important;
-  /* background-color: #141414; */
 }
 
 .red-gradient-border {
@@ -121,9 +120,8 @@
 }
 
 
-iframe
-{
-  position: absolute !important;
+iframe {
+  /* position: absolute !important; */
   width: none !important;
   top: none !important;
   left: none !important;

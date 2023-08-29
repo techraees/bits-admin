@@ -8,7 +8,7 @@ import {
   ToastMessage,
 } from "../../components";
 import "./css/index.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Loading from "../../components/loaders/loading";
 import { signInSchema, signUpSchema } from "../../components/validations";
@@ -215,6 +215,14 @@ function Login() {
     }
   }, [web3]);
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSubmit(onSubmit)();
+      alert("hello world");
+    }
+    alert("hello world");
+  };
+
   return (
     <div style={{ background: "black" }}>
       <ConnectModal visible={connectModal} onClose={closeConnectModel} />
@@ -242,7 +250,7 @@ function Login() {
                 />
                 {errors.email && <span>{errors.email.message}</span>}
 
-                <InputComponent
+                <input
                   password
                   placeholder={"Password"}
                   name="password"
@@ -250,6 +258,12 @@ function Login() {
                   onChange={handleChange}
                   value={signWatch("password")}
                   autoComplete="new-password"
+                  {...register("password")}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      handleSubmit(onSubmit)();
+                    }
+                  }}
                 />
                 {errors.password && <span>{errors.password.message}</span>}
               </div>
@@ -346,10 +360,12 @@ function Login() {
                   active={signUpAgreeCheckbox}
                   setActive={setSignUpAgreeCheckbox}
                 />
-                <span className="ms-3 light-grey">
-                  I agree to <span className="red">BITS’s</span> Terms &
-                  Conditions
-                </span>
+                <Link to="/privacy-security">
+                  <span className="ms-3 light-grey">
+                    I agree to <span className="red">BITS’s</span>{" "}
+                    <span style={{ color: "blue" }}>Terms & Conditions</span>
+                  </span>
+                </Link>
               </div>
 
               <div className="my-5">
