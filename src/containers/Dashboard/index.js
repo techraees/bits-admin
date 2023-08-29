@@ -308,7 +308,7 @@ const Dashboard = () => {
             >
               <h5 className="white mb-1">Weekly Avg Registrations</h5>
               <h5 className="red m-0">
-                {(newRegistration?.newRegistration?.count / 30).toFixed(4) || 0}
+                {(newRegistration?.newRegistration?.count / 7).toFixed(4) || 0}
               </h5>
             </div>
             <div className="bg-dark-blue3 radius2 p-3 my-3">
