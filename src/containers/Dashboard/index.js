@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./css/index.css";
-import { NavbarComponent, CardCompnent, ToastMessage } from "../../components";
+import { NavbarComponent, CardCompnent } from "../../components";
 import { Button, Row, Col } from "antd";
 import {
   discord_grey,
@@ -15,7 +15,6 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { UploadVideoModal } from "../../components";
-import { WeiToETH } from "../../utills/convertWeiAndBnb";
 import { getOwnersOfTokenId } from "../../config/infura";
 
 
@@ -86,12 +85,7 @@ const Dashboard = () => {
     (state) => state.app.theme.backgroundTheme
   );
   const textColor = useSelector((state) => state.app.theme.textColor);
-  const textColor2 = useSelector((state) => state.app.theme.textColor2);
-  const textColor3 = useSelector((state) => state.app.theme.textColor3);
-  const bgColor = useSelector((state) => state.app.theme.bgColor);
-
   const isLogged = userData?.isLogged;
-
   const userProfile = userData?.full_name;
 
   const handleCreateNFT = () => {
@@ -111,7 +105,6 @@ const Dashboard = () => {
         visible={uploadVideoModal}
         onClose={() => setUploadVideoModal(false)}
       />
-      {/* <ZendeskComp showChat={showChat} /> */}
       <NavbarComponent
         login
         dashboardNav
@@ -171,7 +164,7 @@ const Dashboard = () => {
             style={{ border: "1px solid #D54343", width: "80%" }}
             className="breakline"
           ></div>
-          <img src={left_arrow_red} alt="" />
+          <img src={left_arrow_red} alt="lef-arrow" />
         </div>
         <div>
           <div className="row">
@@ -192,9 +185,9 @@ const Dashboard = () => {
       </div>
       <div className="dark-grey-bg d-flex justify-content-center">
         <div className="py-2" style={{ border: "1px dashed purple" }}>
-          <img src={discord_grey} className="mx-2" />
-          <img src={telegram_grey} className="mx-2" />
-          <img src={twitter_grey} className="mx-2" />
+          <img src={discord_grey} className="mx-2" alt="discord"/>
+          <img src={telegram_grey} className="mx-2" alt="telegram"/>
+          <img src={twitter_grey} className="mx-2" alt="twitter"/>
         </div>
       </div>
       <div className="red-background">
@@ -208,6 +201,7 @@ const Dashboard = () => {
             onClick={() => {
               setShowChat(!showChat);
             }}
+            alt="meta"
           />
         </div>
       </div>

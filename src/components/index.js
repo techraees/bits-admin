@@ -13,7 +13,6 @@ import StepperModal from "./stepperModal";
 import LogoutModal from "./logoutModal";
 import SuccessModal from "./successModal";
 import NftDetailsModal from "./nftDetailsModal";
-import QrCodeModal from "./qrCodeModal";
 import OfferModal from "./offerModal";
 
 import Loader from "./loaders/loading";

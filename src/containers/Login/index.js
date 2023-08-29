@@ -13,8 +13,8 @@ import { useForm } from "react-hook-form";
 import Loading from "../../components/loaders/loading";
 import { signInSchema, signUpSchema } from "../../components/validations";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { LOGIN_USER, GET_PLAYER, GET_PROFILE } from "../../gql/queries";
-import { gql, useQuery, useLazyQuery, useMutation } from "@apollo/client";
+import { LOGIN_USER, GET_PLAYER } from "../../gql/queries";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { CREATE_USER } from "../../gql/mutations";
 import ConnectModal from "../../components/connectModal";
 
@@ -30,13 +30,6 @@ function Login() {
 
   // sign up checkbox
   const [signUpAgreeCheckbox, setSignUpAgreeCheckbox] = useState(false);
- 
-
-  const [profile, { loading: profileLoading, error, data: profileData }] =
-    useLazyQuery(GET_PROFILE, {
-      fetchPolicy: "network-only",
-    });
-
   
   let navigate = useNavigate();
   
@@ -87,7 +80,6 @@ function Login() {
         LoginUser;
       localStorage.setItem("token", token);
 
-      const GetProfile = profileData?.GetProfile;
 
       dispatch({
         type: "NFT_ADDRESS",
@@ -117,13 +109,9 @@ function Login() {
     register: signUpRegister,
     handleSubmit: signUpSubmit,
     setValue: signUpSetValue,
-
     formState: { errors: signUpFormError },
     watch,
     reset: signUpResetValue,
-    resetField,
-
-    getValues,
   } = useForm({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
@@ -194,8 +182,7 @@ function Login() {
 
   // get Player
   const [
-    getPlayer,
-    { loading: playerLoading, error: playerError, data: playerData },
+    { loading: playerLoading },
   ] = useLazyQuery(GET_PLAYER, {
     fetchPolicy: "network-only",
   });
@@ -214,14 +201,6 @@ function Login() {
       setConnectModal(false);
     }
   }, [web3]);
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleSubmit(onSubmit)();
-      alert("hello world");
-    }
-    alert("hello world");
-  };
 
   return (
     <div style={{ background: "black" }}>

@@ -1,16 +1,13 @@
-import Web3 from "web3";
 import { ethers } from "ethers";
 import ActionTypes from "../contants/ActionTypes";
 import ethMarketContractAbi from "../../abis/ethMarketContractAbi.json";
 import ethMintingContractAbi from "../../abis/ethMintingContractAbi.json";
 import polygonMarketContractAbi from "../../abis/polygonMarketContractAbi.json";
 import polygonMintingContractAbi from "../../abis/polygonMintingContractAbi.json";
-import { extractNFTImage } from "../../utills/extractNftImage";
 import { numToHex } from "../../utills/numberToHex";
 import { WeiToETH } from "../../utills/convertWeiAndBnb";
 import { ToastMessage } from "../../components";
 import UniversalProvider from "@walletconnect/universal-provider";
-import { utils } from "ethers";
 import { Web3Modal } from "@web3modal/standalone";
 
 
@@ -33,13 +30,10 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
     await provider.send("eth_requestAccounts", []);
     const accounts = await provider.listAccounts();
     let account = accounts[0];
-    console.log("accountshere", account, address);
-    if (address?.toLowerCase() == account?.toLowerCase() || address == undefined) {
-      console.log("accountshere", account, address);
-
+    if (address?.toLowerCase() === account?.toLowerCase() || address === undefined) {
       const signer = await provider.getSigner();
       const { chainId } = await provider.getNetwork();
-      if (chain == chainId) {
+      if (chain === chainId) {
         const web3 = provider;
         const data = {
           account,
@@ -130,7 +124,7 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
       }
     }
 
-    const session = await connector.connect({
+      await connector.connect({
       namespaces: {
         eip155: {
           methods: [
@@ -158,7 +152,7 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
     const signer = await provider.getSigner();
     const { chainId } = await provider.getNetwork();
 
-    if (chain == chainId) {
+    if (chain === chainId) {
       const web3 = provider;
       const data = {
         account,
@@ -257,7 +251,7 @@ export const loadContractIns = () => async (dispatch) => {
     });
 
     getAuctions(ethMarketContractIns, polygonMarketContractIns).then((result) => {
-      const { maticAuctionsList, ethAuctionsList } = result;
+      const { maticAuctionsList } = result;
       dispatch({
         type: "MATIC_CHAIN_AUCTION",
         auctionItemData: maticAuctionsList,

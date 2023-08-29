@@ -1,17 +1,15 @@
-import { Card, Col, Radio, Row, Select } from "antd";
-import React, { useState, useRef, useEffect } from "react";
+import { Col, Radio, Row, Select } from "antd";
+import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
 import { useSelector, useDispatch } from "react-redux";
 import { NavbarComponent, ToastMessage, Loader } from "../../components";
 import { IoLogoUsd } from "react-icons/io";
 import { BiTimeFive } from "react-icons/bi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { BsCalendarDate } from "react-icons/bs";
 import { Input } from "antd";
-import { DatePicker, Space } from "antd";
+import { DatePicker } from "antd";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import "./css/index.css";
-import { test } from "../../assets";
 import { useParams, useLocation } from "react-router-dom";
 import ConnectModal from "../../components/connectModal";
 import { ETHToWei } from "../../utills/convertWeiAndBnb";
@@ -19,15 +17,12 @@ import { Form } from "react-bootstrap";
 import {timeToTimeStamp} from "../../utills/timeToTimestamp";
 import { loadContractIns } from "../../store/actions";
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
-import { set } from "react-hook-form";
 import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
 
 
 const ListNft = () => {
   const { Option } = Select;
 
-  const dateFormat = "MMM DD, YYYY HH:mm:ss A";
-  const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("fixed Price");
   const [fixedPrice, setFixedPrice] = useState(0);
@@ -89,7 +84,7 @@ const ListNft = () => {
     const value = e.target.value;
     console.log("currency", currency);
     if(currency === "USD"){
-      finalVal = contractData.chain == 5 ? (value / ethBal) : (value / maticBal);
+      finalVal = contractData.chain === 5 ? (value / ethBal) : (value / maticBal);
     }else{
       finalVal = value;
     }
@@ -120,10 +115,6 @@ const ListNft = () => {
     (state) => state.app.theme.backgroundTheme
   );
   const textColor = useSelector((state) => state.app.theme.textColor);
-  const border = useSelector((state) => state.app.theme.border);
-  const bgColor = useSelector((state) => state.app.theme.bgColor);
-
-  console.log("border", textColor == "black");
 
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -167,7 +158,7 @@ const ListNft = () => {
             }
           } catch (error) {
             const parsedEthersError = getParsedEthersError(error);
-            if(parsedEthersError.context == -32603){
+            if(parsedEthersError.context === -32603){
               ToastMessage("Error", `Insufficient Balance`, "error");
             }else{
               ToastMessage("Error", `${parsedEthersError.context}`, "error");
@@ -193,7 +184,7 @@ const ListNft = () => {
           }
         } catch (error) {
           const parsedEthersError = getParsedEthersError(error);
-          if(parsedEthersError.context == -32603){
+          if(parsedEthersError.context === -32603){
             ToastMessage("Error", `Insufficient Balance`, "error");
           }else{
             ToastMessage("Error", `${parsedEthersError.context}`, "error");
@@ -227,7 +218,7 @@ const ListNft = () => {
             }
           } catch (error) {
             const parsedEthersError = getParsedEthersError(error);
-            if(parsedEthersError.context == -32603){
+            if(parsedEthersError.context === -32603){
               ToastMessage("Error", `Insufficient Balance`, "error");
             }else{
               ToastMessage("Error", `${parsedEthersError.context}`, "error");
@@ -253,7 +244,7 @@ const ListNft = () => {
           }
         } catch (error) {
           const parsedEthersError = getParsedEthersError(error);
-          if(parsedEthersError.context == -32603){
+          if(parsedEthersError.context === -32603){
             ToastMessage("Error", `Insufficient Balance`, "error");
           }else{
             ToastMessage("Error", `${parsedEthersError.context}`, "error");
@@ -277,26 +268,11 @@ const ListNft = () => {
   const selectAfter = (
     <Select defaultValue="USD" onChange={handleCurrency}>
       <Option value="USD">USD</Option>
-      { contractData.chain == 5 ?
+      { contractData.chain === 5 ?
       <Option value="ETH">ETH</Option> :
       <Option value="MATIC">MATIC</Option>}
     </Select>
   );
-
-  // const calenderRef = useRef();
-
-  // useEffect(() => {
-  //   window.addEventListener("click", clickOutside);
-  // }, []);
-
-  // const clickOutside = (e) => {
-  //   console.log("eddd", calenderRef?.current.contains(e.target));
-  //   if (calenderRef?.current.contains(e.target)) {
-  //     setOpen(true);
-  //   } else if (!calenderRef?.current?.contains(e.target)) {
-  //     setOpen(false);
-  //   }
-  // };
 
   
   const closeConnectModel = () => {
@@ -361,7 +337,7 @@ const ListNft = () => {
                   <Radio.Group
                     defaultValue="fixed Price"
                     buttonStyle="solid"
-                    className={textColor == "black" && "radio-light"}
+                    className={textColor === "black" && "radio-light"}
                     onChange={handleRadioChange}
                     
                   >
@@ -395,11 +371,11 @@ const ListNft = () => {
             <div
               style={{ width: "100%", marginTop: "1rem" }}
               className={
-                textColor == "black" ? "ant-light-input" : "priceinput-field"
+                textColor === "black" ? "ant-light-input" : "priceinput-field"
               }
             >
               <Input
-                className={textColor == "black" && "ant-light"}
+                className={textColor === "black" && "ant-light"}
                 onChange={handlePriceChange}
                 // addonBefore={selectBefore}
                 addonAfter={selectAfter}
@@ -414,7 +390,7 @@ const ListNft = () => {
             <div
               style={{ width: "100%", marginTop: "1rem" }}
               className={
-                textColor == "black" ? "ant-light-input" : "priceinput-field"
+                textColor === "black" ? "ant-light-input" : "priceinput-field"
               }
             >
               <Form.Control
@@ -509,14 +485,14 @@ const ListNft = () => {
               </h5>
             </div>
             <div
-              className={textColor == "black" ? "ant-light-select" : "select"}
+              className={textColor === "black" ? "ant-light-select" : "select"}
             >
               <Select
                 defaultValue="Type of auction"
                 style={{
                   width: "100%",
                 }}
-                className={textColor == "black" && "ant-light"}
+                className={textColor === "black" && "ant-light"}
                 onChange={handleChange}
                 options={[
                   {
@@ -534,7 +510,7 @@ const ListNft = () => {
             <div
               style={{ width: "100%", marginTop: "1rem" }}
               className={
-                textColor == "black" ? "ant-light-input" : "priceinput-field"
+                textColor === "black" ? "ant-light-input" : "priceinput-field"
               }
             >
               <Input addonAfter={selectAfter} defaultValue="Amount" onChange={handlePriceChange} />
@@ -563,7 +539,7 @@ const ListNft = () => {
                 <div
                   style={{ width: "100%", marginTop: "1rem" }}
                   className={
-                    textColor == "black"
+                    textColor === "black"
                       ? "ant-light-input"
                       : "priceinput-field"
                   }
@@ -579,7 +555,7 @@ const ListNft = () => {
             <div
               style={{ width: "100%", marginTop: "1rem" }}
               className={
-                textColor == "black" ? "ant-light-input" : "priceinput-field"
+                textColor === "black" ? "ant-light-input" : "priceinput-field"
               }
             >
               <Form.Control
