@@ -4,14 +4,13 @@ import { check, cross, marketcardimg, profile, thumb } from "../../assets";
 import { Button } from "antd";
 import ButtonComponent from "../button";
 import ReactPlayer from "react-player";
-import { StepperModal } from "../index";
+import { OfferModal, StepperModal } from "../index";
 import { Modal } from "antd";
-import {NftDetailsModal} from "../index";
+import { NftDetailsModal } from "../index";
 import React, { useState } from "react";
 import Timercomp from "../timerComp";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import profileimg from "../../assets/images/profile1.png";
-import OfferModal from "../offerModal";
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
 import { useSelector } from "react-redux";
 import {ToastMessage} from "../../components";
@@ -52,13 +51,13 @@ const CardCompnent = ({
   const [isNftModalOpen, setIsNftModalOpen] = useState(false);
   const [ethBal, setEthBal] = useState(0);
   const [maticBal, setMaticBal] = useState(0);
-  const {contractData} = useSelector((state) => state.chain.contractData);
+  const { contractData } = useSelector((state) => state.chain.contractData);
 
-  ETHTOUSD(1).then((result)=>{
+  ETHTOUSD(1).then((result) => {
     setEthBal(result);
   });
 
-  MATICTOUSD(1).then((result)=>{
+  MATICTOUSD(1).then((result) => {
     setMaticBal(result);
   });
 
@@ -68,7 +67,7 @@ const CardCompnent = ({
     setIsModalOpen(true);
   };
 
-  const showNftModal = ()=>{
+  const showNftModal = () => {
     setIsNftModalOpen(true);
   }
 
@@ -87,7 +86,7 @@ const CardCompnent = ({
   const location = useLocation();
   console.log("userId", userId, location.pathname);
 
-  console.log(  fixOwner, fixRoyalty, fixCopies);
+  console.log(fixOwner, fixRoyalty, fixCopies);
 
   return (
     <div className="my-4 col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center">
@@ -111,14 +110,14 @@ const CardCompnent = ({
         centered
         width={829}
       >
-        <OfferModal 
-        handleCancel={handleCancel} 
-        name ={name}
-        price = {contractData.chain == 5 ? (initialPrice * ethBal).toFixed(4) : (initialPrice * maticBal).toFixed(4)}
-        initialPrice = {initialPrice}
-        currentBidAmount={contractData.chain == 5 ? (currentBidAmount * ethBal).toFixed(4) : (currentBidAmount * maticBal).toFixed(4)}
-        nftOwner={nftOwner}
-        auctionid={auctionid}
+        <OfferModal
+          handleCancel={handleCancel}
+          name={name}
+          price={contractData.chain === 5 ? (initialPrice * ethBal).toFixed(4) : (initialPrice * maticBal).toFixed(4)}
+          initialPrice={initialPrice}
+          currentBidAmount={contractData.chain === 5 ? (currentBidAmount * ethBal).toFixed(4) : (currentBidAmount * maticBal).toFixed(4)}
+          nftOwner={nftOwner}
+          auctionid={auctionid}
         />
       </Modal>
 
@@ -129,15 +128,15 @@ const CardCompnent = ({
         centered
         width={1000}
       >
-      <NftDetailsModal 
-        handleCancel={handleCancel} 
-        video = {videoLink} 
-        name={name}
-        royalty = {marketplacecard? royalty : fixRoyalty}
-        nftOwner = {marketplacecard? nftOwner : fixOwner}
-        numberofcopies = {marketplacecard? numberofcopies : fixCopies}
-        tokenId = {marketplacecard? tokenId : fixtokenId}
-      />
+        <NftDetailsModal
+          handleCancel={handleCancel}
+          video={videoLink}
+          name={name}
+          royalty={marketplacecard ? royalty : fixRoyalty}
+          nftOwner={marketplacecard ? nftOwner : fixOwner}
+          numberofcopies={marketplacecard ? numberofcopies : fixCopies}
+          tokenId={marketplacecard ? tokenId : fixtokenId}
+        />
       </Modal>
 
       <Card
@@ -157,7 +156,7 @@ const CardCompnent = ({
             <div className="price-wrapper d-flex justify-content-between">
               <h5>Price</h5>
               <p>
-                <span>$</span> {contractData.chain == 5 ? (initialPrice * ethBal).toFixed(4) : (initialPrice * maticBal).toFixed(4)}
+                <span>$</span> {contractData.chain === 5 ? (initialPrice * ethBal).toFixed(4) : (initialPrice * maticBal).toFixed(4)}
               </p>
             </div>
 
@@ -189,31 +188,31 @@ const CardCompnent = ({
             </button>
 
             <div>
-              <img src={profile} style={{ width: 15 }} />
+              <img src={profile} style={{ width: 15 }} alt="profile" />
               <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
                 {name}
               </span>
             </div>
 
             <div>
-              <img src={cross} style={{ width: 15 }} />
+              <img src={cross} style={{ width: 15 }} alt="cross" />
               <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
                 No copyright Transfer
               </span>
             </div>
             <div className="my-1">
-              <img src={check} style={{ width: 15 }} />
+              <img src={check} style={{ width: 15 }} alt="check" />
               <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
                 First Gen Emote
               </span>
             </div>
             <div className="my-1">
-              <img src={marketcardimg} style={{ width: 15 }} />
+              <img src={marketcardimg} style={{ width: 15 }} alt="marketing-card" />
               <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
                 Supply : <span style={{ color: "#AD2B2B" }}>{numberofcopies}</span>
               </span>
             </div>
-            <Timercomp   auctionStartTime= {auctionStartTime} auctionEndTime={auctionEndTime} />
+            <Timercomp auctionStartTime={auctionStartTime} auctionEndTime={auctionEndTime} />
           </>
         ) : (
           <>
@@ -231,6 +230,7 @@ const CardCompnent = ({
                         onError={(e) => {
                           e.target.src = profileimg;
                         }}
+                        alt="profile"
                       />
                       <span className="light-grey2 mt-2 fs-5">
                         {artistName}
@@ -258,11 +258,12 @@ const CardCompnent = ({
               <>
                 <div className="d-flex">
                   <img
-                    src={image }
-                    alt=""
+                    src={image}
+                    alt="profile"
                     onError={(e) => {
                       e.target.src = profileimg;
                     }}
+
                   />
 
                   <span className="ms-2 light-grey2" style={{ fontSize: 10 }}>
@@ -272,28 +273,16 @@ const CardCompnent = ({
                 <h5 className="light-grey2 mt-2">{name}</h5>
               </>
             )}
-            {/* <div>
-              <img src={cross} style={{ width: 15 }} />
-              <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
-                No copyright Transfer
-              </span>
-            </div>
-            <div className="my-1">
-              <img src={check} style={{ width: 15 }} />
-              <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
-                First Gen Emote
-              </span>
-            </div> */}
             {sellnft ? (
               <>
                 <div>
-                  <img src={cross} style={{ width: 15 }} />
+                  <img src={cross} style={{ width: 15 }} alt="cross" />
                   <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
                     No copyright Transfer
                   </span>
                 </div>
                 <div className="my-1">
-                  <img src={check} style={{ width: 15 }} />
+                  <img src={check} style={{ width: 15 }} alt="check" />
                   <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
                     First Gen Emote
                   </span>
@@ -312,7 +301,7 @@ const CardCompnent = ({
                     }}
                   />
                   <div className="red-gradient ms-3 d-flex justify-content-center thumbView">
-                    <img style={{ width: 25 }} className="mb-1" src={thumb} />
+                    <img style={{ width: 25 }} className="mb-1" src={thumb} alt="thumb" />
                   </div>
                 </div>
                 {collectionBtn && (

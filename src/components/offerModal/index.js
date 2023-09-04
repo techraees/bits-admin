@@ -76,7 +76,7 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
     async function getbids(){
       const data = await contractData.marketContract.getAllBids(auctionid);
       console.log(data);
-      data && data?.bidAmount.length > 0 ?
+      if(data && data?.bidAmount.length > 0) { 
       data?.bidAmount.map((item, i)=>{
         const priceDiff = getPriceDiff(initialPrice, WeiToETH(`${Number(item)}`));
         let obj = {
@@ -93,7 +93,8 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
       setDataSource((prev)=>{
         return [...prev, obj];
       })
-      }): "no data"
+      })
+    }
     }
 
     getbids();

@@ -3,11 +3,8 @@ import {
   bell,
   home,
   logo,
-  logo_small,
   menu_icon,
-  profile,
   search,
-  eth,
   polygon,
   redPolygon,
 } from "../../assets/index";
@@ -15,13 +12,11 @@ import MenuComponent from "../menu";
 import SwitchBtn from "../switchBtn";
 import "./css/index.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "antd";
 import { useNavigate, NavLink } from "react-router-dom";
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
 import { FaEthereum } from "react-icons/fa";
-import { CiWallet } from "react-icons/ci";
 import { useLazyQuery } from "@apollo/client";
-import { GET_PROFILE, LOGIN_USER } from "../../gql/queries";
+import { GET_PROFILE } from "../../gql/queries";
 import profileimg from "../../assets/images/profile1.svg";
 import environment from "../../environment";
 import { Modal } from "antd";
@@ -52,7 +47,7 @@ const NavbarComponent = ({
     navigate("/login");
   };
 
-  const [profile, { loading, error, data }] = useLazyQuery(GET_PROFILE, {
+  const [profile, { error, data }] = useLazyQuery(GET_PROFILE, {
     fetchPolicy: "network-only",
   });
 
@@ -164,7 +159,7 @@ const NavbarComponent = ({
   }, []);
   console.log("err", error?.message);
   useEffect(() => {
-    if (error?.message == "jwt expired") {
+    if (error?.message === "jwt expired") {
       // navigate("/login");
     }
   }, [error]);
@@ -174,10 +169,10 @@ const NavbarComponent = ({
 
   useEffect(()=>{
     if(contractData?.chain){
-      if(contractData.chain == 5){
+      if(contractData.chain === 5){
         setIconClicked(true);
         setShowRedImage(true);
-      }else if(contractData.chain == 80001){
+      }else if(contractData.chain === 80001){
         setShowRedImage(false);
         setIconClicked(false);
       }else{
@@ -223,6 +218,7 @@ const NavbarComponent = ({
             onClick={toggleCollapsed}
             src={menu_icon}
             className="cursor ms-4 menuBarWebView"
+            alt="menu-icon"
           />
         </Navbar.Brand>
         <Container>
@@ -231,6 +227,7 @@ const NavbarComponent = ({
               onClick={handleMenu}
               src={menu_icon}
               className="cursor ms-4 menuBarMobView"
+              alt="icon"
             />
           )}
           <Navbar.Brand>
@@ -240,6 +237,7 @@ const NavbarComponent = ({
                   src={logo}
                   className="cursor"
                   style={{ width: 50, height: 50 }}
+                  alt="logo"
                 />
               </NavLink>
             </div>
@@ -289,15 +287,14 @@ const NavbarComponent = ({
                         width={30}
                         className=""
                         style={{ borderRadius: "50%" }}
-                        alt=""
-                      />
+                        alt="imgPath"                      />
                     ) : (
                       <img
                         src={profileimg}
                         width={30}
                         className=""
                         style={{ borderRadius: "50%" }}
-                        alt=""
+                        alt="profileImg"
                       />
                     )}
                   </Nav.Link>
@@ -318,6 +315,7 @@ const NavbarComponent = ({
                   src={home}
                   className="mx-2"
                   style={{ width: "100%", height: "auto" }}
+                  alt="home"
                 />
                 <span>Home</span>
               </NavLink>
@@ -385,10 +383,10 @@ const NavbarComponent = ({
               ) : (
                 <div className="d-flex align-items-center justify-content-center">
                   <Nav.Link className="white mx-1">
-                    <img src={search} className="" alt="" />
+                    <img src={search} className="" alt="search" />
                   </Nav.Link>
                   <Nav.Link className="white mx-1">
-                    <img src={bell} className="" alt="" />
+                    <img src={bell} className="" alt="bell" />
                   </Nav.Link>
                   <Nav.Link className="white mx-1 d-flex" onClick={showModal}>
                     <span className="me-2 mt-1">{full_name}</span>
@@ -398,7 +396,10 @@ const NavbarComponent = ({
                         width={30}
                         className=""
                         style={{ borderRadius: "50%" }}
-                        alt=""
+                        alt="profile"
+                        onError={(e) => {
+                          e.target.src = profileimg;
+                        }}
                       />
                     ) : (
                       <img
@@ -406,8 +407,7 @@ const NavbarComponent = ({
                         width={30}
                         className=""
                         style={{ borderRadius: "50%" }}
-                        alt=""
-                      />
+                        alt="profile"                      />
                     )}
                   </Nav.Link>
                   <Nav.Link className="white">
