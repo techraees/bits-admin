@@ -108,12 +108,12 @@ USDTOETH(10).then(function(result){
   //get all tokenIds by an address
   useEffect(()=>{
     async function getTokenIds(){
-      const tokens = await getAllNftsByAddress(userData?.address, contractData.chain, contractData.mintContract.address);
+      const tokens = await getAllNftsByAddress(profileData?.GetProfileDetails?.user_address, contractData.chain, contractData.mintContract.address);
       console.log(tokens);
       setTokenIdsByOwner(tokens);
     }
     getTokenIds();
-  },[])
+  },[profileData])
 
   useEffect(() => {
     if (allNfts) {

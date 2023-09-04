@@ -14,6 +14,7 @@ import profileimg from "../../assets/images/profile1.png";
 import OfferModal from "../offerModal";
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
 import { useSelector } from "react-redux";
+import {ToastMessage} from "../../components";
 
 const CardCompnent = ({
   image,
@@ -366,9 +367,11 @@ const CardCompnent = ({
                           isOwner
                         ) {
                           navigateTo();
-                        } else if (location.pathname.includes("/")) {
+                        } else if (location.pathname.includes("/video-gallery")) {
                           console.log("handle ok");
                           showModal();
+                        }else if(location.pathname.includes("/")){
+                          ToastMessage("Please contact owner", "", "error");
                         }
                       }}
                     />
