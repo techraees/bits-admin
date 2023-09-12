@@ -1,0 +1,67 @@
+.nfts_card_main{
+    width:50%;
+    margin-right:21px;
+}
+.nfts_card_main:last-child{
+    margin-right: 0;
+}
+
+.nfts_card {
+    border-radius: 8px;
+    height: 227px;
+    width: 100%;
+    background: #222235 url("../images/bg.png") no-repeat bottom;
+}
+
+.nfts_card:last-child {
+    margin-right: 0;
+}
+
+.nfts_text {
+    color: #FFF;
+    text-align: center;
+    font-family: Mulish;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    margin-bottom: 22px;
+}
+
+.nfts_price {
+    color: #B22E2E;
+    text-align: center;
+    font-family: Mulish;
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    letter-spacing: 0.2px;
+}
+
+.nfts_div_sold {
+    border-radius: 8px;
+    background: rgba(34, 34, 53, 0.23);
+    height: 203px;
+    top: 36px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 94%;
+    z-index: 2;
+}
+
+.nfts_other_sold {
+    border-radius: 8px;
+    background: rgba(34, 34, 53, 0.23);
+    height: 203px;
+    top: 47px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 88%;
+    z-index: 1;
+}

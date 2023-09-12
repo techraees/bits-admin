@@ -1,0 +1,87 @@
+.transaction_card {
+    border-radius: 8px;
+    background: #222235;
+    box-shadow: 0 5px 30px 0 rgba(160, 163, 189, 0.10);
+    /*padding: 31px 43px 26px 25px;*/
+    padding: 25px;
+    margin-bottom: 21px;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.transaction_card:last-child {
+    margin-bottom: 0;
+}
+
+.transaction_hash_section{
+    margin-bottom: 14px;
+}
+
+.form_div{
+    width: 145px;
+}
+
+.hash {
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 125% */
+    letter-spacing: 0.2px;
+}
+
+.hash_code {
+    color: #8D8D9D;
+    font-family: Mulish;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    /*padding-left: 16px;*/
+    padding-right: 10px;
+    /*word-break: break-all;*/
+}
+
+.view_transaction {
+    border-radius: 4px;
+    background: #B22E2E;
+    width: 100%;
+    color: #FFF;
+    font-family: Mulish;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    padding: 10px 0;
+    outline: none;
+    border: 1px #B22E2E;
+    margin-top: 36px;
+}
+
+.date_price {
+    margin-top: 24px;
+}
+
+.date {
+    color: #8D8D9D;
+    text-align: center;
+    font-family: Mulish;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16.8px;
+    letter-spacing: -0.4px;
+    margin-left: 10px;
+}
+
+.price {
+    color: #FFF;
+    font-family: Mulish;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 28.8px;
+    letter-spacing: -0.4px;
+}
