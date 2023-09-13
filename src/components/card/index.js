@@ -43,7 +43,8 @@ const CardCompnent = ({
   fixtokenId,
   fixOwner,
   fixRoyalty,
-  fixCopies
+  fixCopies,
+  id,
 }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,15 +62,13 @@ const CardCompnent = ({
     setMaticBal(result);
   });
 
-
-
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const showNftModal = () => {
     setIsNftModalOpen(true);
-  }
+  };
 
   const showOfferModal = () => {
     setIsOfferModalOpen(true);
@@ -113,9 +112,17 @@ const CardCompnent = ({
         <OfferModal
           handleCancel={handleCancel}
           name={name}
-          price={contractData.chain === 5 ? (initialPrice * ethBal).toFixed(4) : (initialPrice * maticBal).toFixed(4)}
+          price={
+            contractData.chain === 5
+              ? (initialPrice * ethBal).toFixed(4)
+              : (initialPrice * maticBal).toFixed(4)
+          }
           initialPrice={initialPrice}
-          currentBidAmount={contractData.chain === 5 ? (currentBidAmount * ethBal).toFixed(4) : (currentBidAmount * maticBal).toFixed(4)}
+          currentBidAmount={
+            contractData.chain === 5
+              ? (currentBidAmount * ethBal).toFixed(4)
+              : (currentBidAmount * maticBal).toFixed(4)
+          }
           nftOwner={nftOwner}
           auctionid={auctionid}
         />
@@ -156,7 +163,10 @@ const CardCompnent = ({
             <div className="price-wrapper d-flex justify-content-between">
               <h5>Price</h5>
               <p>
-                <span>$</span> {contractData.chain === 5 ? (initialPrice * ethBal).toFixed(4) : (initialPrice * maticBal).toFixed(4)}
+                <span>$</span>{" "}
+                {contractData.chain === 5
+                  ? (initialPrice * ethBal).toFixed(4)
+                  : (initialPrice * maticBal).toFixed(4)}
               </p>
             </div>
 
@@ -180,10 +190,7 @@ const CardCompnent = ({
               </button>
             )}
 
-            <button
-              className="buybtn"
-              onClick={showNftModal}
-            >
+            <button className="buybtn" onClick={showNftModal}>
               Nft Detail
             </button>
 
@@ -207,12 +214,20 @@ const CardCompnent = ({
               </span>
             </div>
             <div className="my-1">
-              <img src={marketcardimg} style={{ width: 15 }} alt="marketing-card" />
+              <img
+                src={marketcardimg}
+                style={{ width: 15 }}
+                alt="marketing-card"
+              />
               <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
-                Supply : <span style={{ color: "#AD2B2B" }}>{numberofcopies}</span>
+                Supply :{" "}
+                <span style={{ color: "#AD2B2B" }}>{numberofcopies}</span>
               </span>
             </div>
-            <Timercomp auctionStartTime={auctionStartTime} auctionEndTime={auctionEndTime} />
+            <Timercomp
+              auctionStartTime={auctionStartTime}
+              auctionEndTime={auctionEndTime}
+            />
           </>
         ) : (
           <>
@@ -242,7 +257,9 @@ const CardCompnent = ({
                     {detailBtn && (
                       <button
                         className="detail-btn"
-                        onClick={showNftModal}
+                        onClick={() => {
+                          navigate("/nft-detail/" + id);
+                        }}
                       >
                         Nft Detail
                       </button>
@@ -263,7 +280,6 @@ const CardCompnent = ({
                     onError={(e) => {
                       e.target.src = profileimg;
                     }}
-
                   />
 
                   <span className="ms-2 light-grey2" style={{ fontSize: 10 }}>
@@ -301,7 +317,12 @@ const CardCompnent = ({
                     }}
                   />
                   <div className="red-gradient ms-3 d-flex justify-content-center thumbView">
-                    <img style={{ width: 25 }} className="mb-1" src={thumb} alt="thumb" />
+                    <img
+                      style={{ width: 25 }}
+                      className="mb-1"
+                      src={thumb}
+                      alt="thumb"
+                    />
                   </div>
                 </div>
                 {collectionBtn && (
@@ -344,26 +365,26 @@ const CardCompnent = ({
                     </>
                   ) : (
                     <ButtonComponent
-                      height={40}
-                      text={
-                        location.pathname.includes("/collections") && isOwner
-                          ? "Sell NFT"
-                          : "Buy NFT"
+                    height={40}
+                    text={
+                      location.pathname.includes("/collections") && isOwner
+                        ? "Sell NFT"
+                        : "Buy NFT"
+                    }
+                    onClick={() => {
+                      if (
+                        location.pathname.includes("/collections") &&
+                        isOwner
+                      ) {
+                        navigateTo();
+                      } else if (location.pathname.includes("/video-gallery")) {
+                        console.log("handle ok");
+                        showModal();
+                      }else if(location.pathname.includes("/")){
+                        ToastMessage("Please contact owner", "", "error");
                       }
-                      onClick={() => {
-                        if (
-                          location.pathname.includes("/collections") &&
-                          isOwner
-                        ) {
-                          navigateTo();
-                        } else if (location.pathname.includes("/video-gallery")) {
-                          console.log("handle ok");
-                          showModal();
-                        }else if(location.pathname.includes("/")){
-                          ToastMessage("Please contact owner", "", "error");
-                        }
-                      }}
-                    />
+                    }}
+                  />
                   )}
 
                   <div className="red-gradient ms-3 d-flex justify-content-center thumbView">
