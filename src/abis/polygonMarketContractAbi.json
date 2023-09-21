@@ -220,6 +220,12 @@
       },
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "seller",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "platformfee",
         "type": "uint256"

@@ -42,6 +42,7 @@ async function getPastEvents() {
     // Get past events
     const filter = contractData.marketContract.filters.buyFixedprice(); // Define the event filter
     const events = await contractData.marketContract.queryFilter(filter, 0, "latest");
+    
     // Process events
     events.forEach(async(event) => {
       const block = await provider.getBlock(event.blockHash);

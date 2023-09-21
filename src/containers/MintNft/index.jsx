@@ -103,6 +103,7 @@ const MintNft = () => {
         }
       }
     }catch(error){
+      console.log(error);
       const parsedEthersError = getParsedEthersError(error);
       if(parsedEthersError.context == -32603){
         ToastMessage("Error", `Insufficient Balance`, "error");
