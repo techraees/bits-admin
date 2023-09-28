@@ -51,6 +51,7 @@ const NavbarComponent = ({ selectedKey, lightNav, headerTxt }) => {
     }
   }, [adminEmail, adminToken]);
 
+
   useEffect(() => {
     if (adminData) {
       dispatch(loadAdminDetailsAction(adminData?.GetAdminByEmail));

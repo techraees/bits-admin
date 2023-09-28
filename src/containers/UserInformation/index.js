@@ -273,6 +273,8 @@ const UserInformation = () => {
     }
   }, [searchUser, contactData?.GetAllUsers]);
 
+  console.log("contactData",contactData?.GetAllUsers);
+
   return (
     <div className="bg-white2">
       {emailLoading && <Loading content="" />}

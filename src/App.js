@@ -6,8 +6,10 @@ import store from "./store/index";
 import {useEffect} from "react";
 import {Slide, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { loadContractIns } from "./store/actions";
 
 function App() {
+    store.dispatch(loadContractIns());
     useEffect(() => {
         localStorage.removeItem("walletconnect");
         localStorage.removeItem("WALLETCONNECT_DEEPLINK_CHOICE");
