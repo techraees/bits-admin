@@ -8,9 +8,9 @@ import { trimWallet } from "./trimWalletAddr";
 
 export const grabEvents = async (setContractEvents) => {
   const polyAlchemyUrl =
-    "wss://polygon-mumbai.g.alchemy.com/v2/M-CdefLEbTU2Mp8DWZ2NbtsegnGa1dl4";
+    "wss://polygon-mumbai.g.alchemy.com/v2/9qhN-fG0nY2-R29hT_Unknp_NFVsQHrS";
   const ethAlchemyUrl =
-    "wss://eth-goerli.g.alchemy.com/v2/BwHa-dw_5hX9r-Zf4PQtOJaVEAYtx03B";
+    "wss://eth-goerli.g.alchemy.com/v2/2ctQR62YvzfE34C5AZEObizaks9lfLSF";
   try {
     //ethereum
     const ethProvider = new ethers.WebSocketProvider(ethAlchemyUrl);
