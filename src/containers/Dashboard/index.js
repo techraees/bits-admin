@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import "./css/index.css";
-import { NavbarComponent, CardCompnent } from "../../components";
+import { NavbarComponent, CardCompnent, Loader } from "../../components";
 import { Button, Row, Col } from "antd";
 import {
   discord_grey,
@@ -16,7 +16,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { UploadVideoModal } from "../../components";
 import { getOwnersOfTokenId } from "../../config/infura";
-
+import { GET_TOP_VIEW_NFTS } from "../../gql/queries";
+import { useQuery } from "@apollo/client";
 
 const Dashboard = () => {
   const [uploadVideoModal, setUploadVideoModal] = useState(false);
@@ -75,11 +76,15 @@ const Dashboard = () => {
 
   const [showChat, setShowChat] = useState(false);
   const { userData } = useSelector((state) => state.address.userData);
-
-  const {contractData} = useSelector((state) => state.chain.contractData);
+  const { fixedItemData } = useSelector(
+    (state) => state.fixedItemDatas.fixedItemData
+  );
+  const { contractData } = useSelector((state) => state.chain.contractData);
+  const { auctionItemData } = useSelector(
+    (state) => state.auctionItemDatas.auctionItemData
+  );
 
   console.log(contractData.mintContract);
-
 
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
@@ -96,11 +101,64 @@ const Dashboard = () => {
     }
   };
 
-  getOwnersOfTokenId(0, 80001,"0x630656827c8ceaff3580823a8fd757e298cbfaaf");
+  getOwnersOfTokenId(0, 80001, "0x630656827c8ceaff3580823a8fd757e298cbfaaf");
 
+  const { loading, data } = useQuery(GET_TOP_VIEW_NFTS);
+  const timenow = Math.floor(Date.now() / 1000);
 
+  console.log("auctionItemData",auctionItemData)
+  function getUniqueObjects(arr) {
+    const uniqueObjects = [];
+    const seenIds = new Set();
+  
+    for (const item of arr) {
+      if (!seenIds.has(item._id)) {
+        uniqueObjects.push(item);
+        seenIds.add(item?._id);
+      }
+    }
+  
+    return uniqueObjects;
+  }
+
+  
+  const topNfts = useMemo (() => {
+    let arr = []
+    data?.getTopViewNfts?.map((x) => { 
+      auctionItemData?.map((y)  => {
+          if(
+            !x.is_blocked &&
+            Number(y.tokenId) == x.token_id &&
+            contractData.chain == x.chainId &&
+            Number(y.auctionEndTime) > timenow &&
+            y.isSold == false
+          ) {
+            arr.push(x)
+          }
+      })
+    } )
+
+    data?.getTopViewNfts?.map((x) => { 
+      fixedItemData?.map((y)  => {
+          if(
+            !y.is_blocked &&
+                y.tokenid == x.token_id &&
+                contractData.chain == x.chainId &&
+                y.isSold == false
+          ) {
+            arr.push(x)
+          }
+      })
+    } )
+
+    const uniqueObjects = getUniqueObjects(arr);
+    return uniqueObjects
+    },[auctionItemData, data,fixedItemData])
+
+    console.log("topNfts",topNfts)
   return (
     <div className={backgroundTheme}>
+      {loading && <Loader />}
       <UploadVideoModal
         visible={uploadVideoModal}
         onClose={() => setUploadVideoModal(false)}
@@ -168,26 +226,96 @@ const Dashboard = () => {
         </div>
         <div>
           <div className="row">
-            {cardsData.map((e, i) => {
+          {/* {auctionItemData?.map((item) => {
+            return data?.getTopViewNfts?.map((e, i) => {
+              if (
+                !e.is_blocked &&
+                Number(item.tokenId) == e.token_id &&
+                contractData.chain == e.chainId &&
+                Number(item.auctionEndTime) > timenow &&
+                item.isSold == false
+              ) {
+                return (
+                  <CardCompnent
+                  key={i}
+                  image={e?.user_id?.profileImg ? e.user_id.profileImg : ""}
+                  status={e.status}
+                  name={e.name}
+                  videoLink={e.video}
+                  userProfile={userProfile ? true : false}
+                  id={e._id}
+                  userId={e?.user_id?.id}
+                  />
+                );
+              }
+            });
+          })} */}
+
+
+
+            {
+              topNfts?.map((e, i) => (
+
+                <CardCompnent
+                  key={i}
+                  image={e?.user_id?.profileImg ? e.user_id.profileImg : ""}
+                  status={e.status}
+                  name={e.name}
+                  videoLink={e.video}
+                  userProfile={userProfile ? true : false}
+                  id={e._id}
+                  userId={e?.user_id?.id}
+                />
+              )
+
+              )}
+          
+          {/* {fixedItemData?.map((item) => {
+            return data?.getTopViewNfts?.map((e, i) => {
+              if (
+                !e.is_blocked &&
+                item.tokenid == e.token_id &&
+                contractData.chain == e.chainId &&
+                
+                item.isSold == false
+              ) {
+                return (
+                  <CardCompnent
+                  key={i}
+                  image={e?.user_id?.profileImg ? e.user_id.profileImg : ""}
+                  status={e.status}
+                  name={e.name}
+                  videoLink={e.video}
+                  userProfile={userProfile ? true : false}
+                  id={e._id}
+                  userId={e?.user_id?.id}
+                  />
+                );
+              }
+            });
+          })} */}
+            {/* {data?.getTopViewNfts?.map((e, i) => {
               return (
                 <CardCompnent
                   key={i}
-                  image={e.image}
+                  image={e?.user_id?.profileImg ? e.user_id.profileImg : ""}
                   status={e.status}
                   name={e.name}
-                  videoLink={e.videoLink}
+                  videoLink={e.video}
                   userProfile={userProfile ? true : false}
+                  id={e._id}
+                  userId={e?.user_id?.id}
                 />
               );
-            })}
+            })} */}
           </div>
         </div>
       </div>
       <div className="dark-grey-bg d-flex justify-content-center">
         <div className="py-2" style={{ border: "1px dashed purple" }}>
-          <img src={discord_grey} className="mx-2" alt="discord"/>
-          <img src={telegram_grey} className="mx-2" alt="telegram"/>
-          <img src={twitter_grey} className="mx-2" alt="twitter"/>
+          <img src={discord_grey} className="mx-2" alt="discord" />
+          <img src={telegram_grey} className="mx-2" alt="telegram" />
+          <img src={twitter_grey} className="mx-2" alt="twitter" />
         </div>
       </div>
       <div className="red-background">
