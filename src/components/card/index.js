@@ -13,7 +13,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import profileimg from "../../assets/images/profile1.png";
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
 import { useSelector } from "react-redux";
-import {ToastMessage} from "../../components";
+import { ToastMessage } from "../../components";
 
 const CardCompnent = ({
   image,
@@ -169,7 +169,6 @@ const CardCompnent = ({
                   : (initialPrice * maticBal).toFixed(4)}
               </p>
             </div>
-
             {!userProfile ? (
               <>
                 <Tooltip title="To Purchase NFT's Please Login">
@@ -189,18 +188,20 @@ const CardCompnent = ({
                 {location.pathname === "/marketplace" ? "Bid Now" : "Buy Now"}
               </button>
             )}
-
-            <button className="buybtn" onClick={showNftModal}>
+            <button
+              className="buybtn"
+              onClick={() => {
+                navigate(`/nft-detail/` + id);
+              }}
+            >
               Nft Detail
             </button>
-
             <div>
               <img src={profile} style={{ width: 15 }} alt="profile" />
               <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
                 {name}
               </span>
             </div>
-
             <div>
               <img src={cross} style={{ width: 15 }} alt="cross" />
               <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
@@ -274,14 +275,25 @@ const CardCompnent = ({
             ) : (
               <>
                 <div className="d-flex">
-                  <img
-                    src={image}
-                    alt="profile"
-                    onError={(e) => {
-                      e.target.src = profileimg;
-                    }}
-                  />
+                  <div className="top-btn-div">
+                    <img
+                      src={image}
+                      alt="profile"
+                      onError={(e) => {
+                        e.target.src = profileimg;
+                      }}
+                    />
 
+                    <button
+                      className="buybtn"
+                      style={{ width: "80px" }}
+                      onClick={() => {
+                        navigate(`/nft-detail/` + id);
+                      }}
+                    >
+                      Nft Detail
+                    </button>
+                  </div>
                   <span className="ms-2 light-grey2" style={{ fontSize: 10 }}>
                     {status}
                   </span>
@@ -293,6 +305,7 @@ const CardCompnent = ({
               <>
                 <div>
                   <img src={cross} style={{ width: 15 }} alt="cross" />
+
                   <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
                     No copyright Transfer
                   </span>
@@ -338,6 +351,7 @@ const CardCompnent = ({
               <>
                 <div>
                   <img src={cross} style={{ width: 15 }} />
+
                   <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
                     No copyright Transfer
                   </span>
@@ -348,6 +362,7 @@ const CardCompnent = ({
                     First Gen Emote
                   </span>
                 </div>
+
                 <div className="mt-4 mb-1 d-flex">
                   {!userProfile ? (
                     <>
@@ -364,41 +379,44 @@ const CardCompnent = ({
                       </Tooltip>
                     </>
                   ) : (
-                    <ButtonComponent
-                    height={40}
-                    text={
-                      location.pathname.includes("/collections") && isOwner
-                        ? "Sell NFT"
-                        : "Buy NFT"
-                    }
-                    onClick={() => {
-                      if (
-                        location.pathname.includes("/collections") &&
-                        isOwner
-                      ) {
-                        navigateTo();
-                      } else if (location.pathname.includes("/video-gallery")) {
-                        console.log("handle ok");
-                        showModal();
-                      }else if(location.pathname.includes("/")){
-                        ToastMessage("Please contact owner", "", "error");
-                      }
-                    }}
-                  />
+                    <>
+                      <ButtonComponent
+                        height={40}
+                        text={
+                          location.pathname.includes("/collections") && isOwner
+                            ? "Sell NFT"
+                            : "Buy NFT"
+                        }
+                        onClick={() => {
+                          if (
+                            location.pathname.includes("/collections") &&
+                            isOwner
+                          ) {
+                            navigateTo();
+                          } else if (
+                            location.pathname.includes("/video-gallery")
+                          ) {
+                            console.log("handle ok");
+                            showModal();
+                          } else if (location.pathname.includes("/")) {
+                            ToastMessage("Please contact owner", "", "error");
+                          }
+                        }}
+                      />
+                    </>
                   )}
 
                   <div className="red-gradient ms-3 d-flex justify-content-center thumbView">
                     <img style={{ width: 25 }} className="mb-1" src={thumb} />
                   </div>
                 </div>
-                {collectionBtn && (
-                  <Button
-                    className="mt-2 collectionBtn"
-                    onClick={() => navigate(`/collections/${userId}`)}
-                  >
-                    Go to Collection
-                  </Button>
-                )}
+
+                <Button
+                  className="mt-2 collectionBtn"
+                  onClick={() => navigate(`/collections/${userId}`)}
+                >
+                  Go to Collection
+                </Button>
               </>
             )}
           </>

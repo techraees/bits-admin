@@ -16,22 +16,18 @@ import {
   left_arrow,
   location2,
   location_dark2,
-  
 } from "../../assets";
 import { useDispatch, useSelector } from "react-redux";
 
 import profileimg from "../../assets/images/profile1.svg";
-import {
-  editProfileValidate,
-  
-} from "../../components/validations";
-import { useFormik  } from "formik";
+import { editProfileValidate } from "../../components/validations";
+import { useFormik } from "formik";
 import axios from "axios";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER_PROFILE } from "../../gql/queries";
 import environment from "../../environment";
 import { Link } from "react-router-dom";
- 
+
 const EditProfile = () => {
   const { userData } = useSelector((state) => state.address.userData);
 
@@ -248,12 +244,10 @@ const EditProfile = () => {
               className="red cursor"
               style={{ textDecoration: "underline", cursor: "pointer" }}
             >
-             
               <label
                 htmlFor="uploadFile"
                 style={{ cursor: "pointer", textDecoration: "underline" }}
               >
-               
                 Change Profile Photo
               </label>
               <input
@@ -301,7 +295,6 @@ const EditProfile = () => {
               <p className="text-white">{errors.full_name}</p>
             )}
           </div>
- 
 
           <div className="my-3">
             <p className={`${textColor2} ms-3`}>Bio</p>

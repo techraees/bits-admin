@@ -93,7 +93,7 @@ const Router = () => {
 
           <Route path="help-center" element={<HelpCenter />} />
           <Route path="privacy-security" element={<PrivacySecurity />} />
-          <Route path="payment" element={<Payment />} />
+          {/* <Route path="payment" element={<Payment />} /> */}
           <Route path="video-gallery" element={<VideoGallery />} />
           <Route path="about-us" element={<AboutUs />} />
           <Route path="mint-nft" element={<MintNft />} />

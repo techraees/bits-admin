@@ -22,22 +22,28 @@ import { Col, Input, Pagination, Row, Select, Tabs } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { gql, useQuery, useLazyQuery, useMutation } from "@apollo/client";
-import { GET_ALL_NFTS, GET_PROFILE_DETAILS_QUERY, GET_ALL_NFTS_WITHOUT_ADDRESS } from "../../gql/queries";
+import {
+  GET_ALL_NFTS,
+  GET_PROFILE_DETAILS_QUERY,
+  GET_ALL_NFTS_WITHOUT_ADDRESS,
+} from "../../gql/queries";
 import environment from "../../environment";
 import { MINT_ASSET_MUTATION } from "../../gql/mutations";
 import { USDTOETH } from "../../utills/currencyConverter";
 import { getAllNftsByAddress } from "../../config/infura";
 
-
 const Collections = () => {
   const pageSize = 20;
   const [mintAsset, { loading: mintingLoading, error: mintingError, data }] =
     useMutation(MINT_ASSET_MUTATION);
-    const { userId } = useParams();
+  const { userId } = useParams();
 
-    const { loading:nftLoading, error: nftError, data:allNftsWithoutAddr, refetch: nftsRefetch} = useQuery(
-      GET_ALL_NFTS_WITHOUT_ADDRESS
-    );
+  const {
+    loading: nftLoading,
+    error: nftError,
+    data: allNftsWithoutAddr,
+    refetch: nftsRefetch,
+  } = useQuery(GET_ALL_NFTS_WITHOUT_ADDRESS);
 
   const handleMintAsset = async (walletAddress) => {
     try {
@@ -50,27 +56,29 @@ const Collections = () => {
     }
   };
 
-const [val, setVal] = useState(0);
-USDTOETH(10).then(function(result){
-  setVal(result);
-})
+  const [val, setVal] = useState(0);
+  USDTOETH(10).then(function (result) {
+    setVal(result);
+  });
   console.log(val);
 
-  const [getNft, { loading, data: allNfts, refetch: allNftRefetch, error }] = useLazyQuery(
-    GET_ALL_NFTS,
-    {
+  const [getNft, { loading, data: allNfts, refetch: allNftRefetch, error }] =
+    useLazyQuery(GET_ALL_NFTS, {
       fetchPolicy: "network-only",
-    }
-  );
+    });
 
- 
-  const [getProfile, { loading: profileLoadeing, error: profileError, data: profileData, refetch }] = useLazyQuery(
-    GET_PROFILE_DETAILS_QUERY,
+  const [
+    getProfile,
     {
-      variables: { getProfileDetailsId: userId },
-    }
-  );
-  console.log("userId",userId);
+      loading: profileLoadeing,
+      error: profileError,
+      data: profileData,
+      refetch,
+    },
+  ] = useLazyQuery(GET_PROFILE_DETAILS_QUERY, {
+    variables: { getProfileDetailsId: userId },
+  });
+  console.log("userId", userId);
 
   useEffect(() => {
     if (userId) {
@@ -79,13 +87,12 @@ USDTOETH(10).then(function(result){
   }, [userId]);
 
   const { userData } = useSelector((state) => state.address.userData);
-  const {contractData} = useSelector((state) => state.chain.contractData);
+  const { contractData } = useSelector((state) => state.chain.contractData);
   const userProfile = profileData?.GetProfileDetails?.profileImg;
 
   const full_name = profileData?.GetProfileDetails?.full_name;
   const country = profileData?.GetProfileDetails?.country;
   const bio = profileData?.GetProfileDetails?.bio;
-
 
   useEffect(() => {
     if (profileData?.GetProfileDetails) {
@@ -106,14 +113,18 @@ USDTOETH(10).then(function(result){
   const [tokenIdsByOwner, setTokenIdsByOwner] = useState([]);
 
   //get all tokenIds by an address
-  useEffect(()=>{
-    async function getTokenIds(){
-      const tokens = await getAllNftsByAddress(profileData?.GetProfileDetails?.user_address, contractData.chain, contractData.mintContract.address);
+  useEffect(() => {
+    async function getTokenIds() {
+      const tokens = await getAllNftsByAddress(
+        profileData?.GetProfileDetails?.user_address,
+        contractData.chain,
+        contractData.mintContract.address
+      );
       console.log(tokens);
       setTokenIdsByOwner(tokens);
     }
     getTokenIds();
-  },[profileData])
+  }, [profileData]);
 
   useEffect(() => {
     if (allNfts) {
@@ -172,7 +183,7 @@ USDTOETH(10).then(function(result){
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
- 
+
   const { web3, account } = useSelector((state) => state.web3.walletData);
 
   const imgPath = environment.BACKEND_BASE_URL + "/" + userProfile;
@@ -211,16 +222,17 @@ USDTOETH(10).then(function(result){
     return originalElement;
   };
   function extractIPFSHash(url) {
-    const regex = /(?<=ipfs\/)[a-zA-Z0-9]+/;
+    const regex = /ipfs\/([a-zA-Z0-9]+)/;
     const match = url.match(regex);
     if (match) {
-      return match[0];
+      return match[1]; // Use match[1] to get the captured group (the IPFS hash).
     } else {
       return null;
     }
   }
+
   console.log(currentNfts, "currentNfts");
-  console.log("profileData",profileData, userData);
+  console.log("profileData", profileData, userData);
   useEffect(() => {
     nftsRefetch();
   }, []);
@@ -251,6 +263,9 @@ USDTOETH(10).then(function(result){
                 <img
                   src={imgPath}
                   width={200}
+                  onError={(e) => {
+                    e.target.src = profileimg;
+                  }}
                   style={{ borderRadius: "50%" }}
                   className="my-2"
                 />
@@ -277,16 +292,14 @@ USDTOETH(10).then(function(result){
 
                 <span className={`${textColor2}`}>{bio}</span>
                 <div className="mt-2">
-                  {
-                    profileData?.GetProfileDetails?.id === userData?.id &&
+                  {profileData?.GetProfileDetails?.id === userData?.id && (
                     <ButtonComponent
                       onClick={() => navigate("/account-settings/edit-profile")}
                       simple
                       text={"Edit Profile"}
                       width={150}
                     />
-                  }
-
+                  )}
                 </div>
               </div>
             </div>
@@ -351,76 +364,95 @@ USDTOETH(10).then(function(result){
         <div className="tabsWrapper">
           <Tabs defaultActiveKey="1">
             <Tabs.TabPane tab="NFT’s Created" key="1">
-          <div className="row">
-            {currentNfts && currentNfts?.length > 0 ? (
-              currentNfts?.map((e, i) => (
-                contractData.chain == e.chainId ?
-                <CardCompnent
-                  key={i}
-                  image={imgPaths + e?.user_id?.profileImg}
-                  status={e.status}
-                  name={e.name}
-                  artistName={e.artist_name1}
-                  videoLink={e.video}
-                  topName
-                  userProfile={full_name ? true : false}
-                  navigateTo={() =>
-                    navigate(`/list-nft/${extractIPFSHash(e.video)}`, 
-                    {state:{
-                      name:e.name,
-                      royalty: e.royalty,
-                      artistName: e.artist_name1,
-                      tokenId: e.token_id
-                    }
-                    })
-                  }
-                  isOwner={profileData?.GetProfileDetails?.id === userData?.id}
-                />:<p className="text-white">No results found</p>
-              ))
-            ) : (
-              <p className="text-white">No results found</p>
-            )}
-          </div>
+              <div className="row">
+                {currentNfts && currentNfts?.length > 0 ? (
+                  currentNfts?.map((e, i) =>
+                    contractData.chain == e.chainId ? (
+                      <CardCompnent
+                        key={i}
+                        image={imgPaths + e?.user_id?.profileImg}
+                        status={e.status}
+                        name={e.name}
+                        artistName={e.artist_name1}
+                        videoLink={e.video}
+                        topName
+                        userProfile={full_name ? true : false}
+                        navigateTo={() =>
+                          navigate(`/list-nft/${extractIPFSHash(e.video)}`, {
+                            state: {
+                              name: e.name,
+                              royalty: e.royalty,
+                              artistName: e.artist_name1,
+                              tokenId: e.token_id,
+                            },
+                          })
+                        }
+                        isOwner={
+                          profileData?.GetProfileDetails?.id === userData?.id
+                        }
+                      />
+                    ) : (
+                      <p className="text-white">No results found</p>
+                    )
+                  )
+                ) : (
+                  <p className="text-white">No results found</p>
+                )}
+              </div>
             </Tabs.TabPane>
             <Tabs.TabPane
               tab="NFT’s Owned"
               key="2"
               className={textColor == "black" && "ant-light"}
             >
-          <div className="row">
-          { tokenIdsByOwner && tokenIdsByOwner?.length > 0 ? (
-            tokenIdsByOwner?.map((item, i)=>{
-            return(allNftsWithoutAddr?.getAllNftsWithoutAddress?.map((e, i) => {
-            console.log(e.chainId);
-            if (!e.is_blocked && item == e.token_id && contractData.chain == e.chainId) {
-              return (
-                <CardCompnent
-                  key={i}
-                  image={imgPaths + e?.user_id?.profileImg}
-                  status={e.status}
-                  name={e.name}
-                  artistName={e.artist_name1}
-                  videoLink={e.video}
-                  topName
-                  userProfile={full_name ? true : false}
-                  navigateTo={() =>
-                    navigate(`/list-nft/${extractIPFSHash(e.video)}`, 
-                    {state:{
-                      name:e.name,
-                      royalty: e.royalty,
-                      artistName: e.artist_name1,
-                      tokenId: e.token_id
-                    }
-                    })
-                  }
-                  isOwner={profileData?.GetProfileDetails?.id === userData?.id}
-                />
-              );
-            }
-          }))})):(
-            <p className="text-white">No results found</p>
-          )}
-          </div>
+              <div className="row">
+                {tokenIdsByOwner && tokenIdsByOwner?.length > 0 ? (
+                  tokenIdsByOwner?.map((item, i) => {
+                    return allNftsWithoutAddr?.getAllNftsWithoutAddress?.map(
+                      (e, i) => {
+                        console.log(e.chainId);
+                        if (
+                          !e.is_blocked &&
+                          item == e.token_id &&
+                          contractData.chain == e.chainId
+                        ) {
+                          return (
+                            <CardCompnent
+                              key={i}
+                              image={imgPaths + e?.user_id?.profileImg}
+                              status={e.status}
+                              name={e.name}
+                              artistName={e.artist_name1}
+                              videoLink={e.video}
+                              topName
+                              userProfile={full_name ? true : false}
+                              navigateTo={() =>
+                                navigate(
+                                  `/list-nft/${extractIPFSHash(e.video)}`,
+                                  {
+                                    state: {
+                                      name: e.name,
+                                      royalty: e.royalty,
+                                      artistName: e.artist_name1,
+                                      tokenId: e.token_id,
+                                    },
+                                  }
+                                )
+                              }
+                              isOwner={
+                                profileData?.GetProfileDetails?.id ===
+                                userData?.id
+                              }
+                            />
+                          );
+                        }
+                      }
+                    );
+                  })
+                ) : (
+                  <p className="text-white">No results found</p>
+                )}
+              </div>
             </Tabs.TabPane>
           </Tabs>
           <div className="d-flex gap-4 align-items-center">

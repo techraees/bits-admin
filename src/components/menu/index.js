@@ -110,7 +110,7 @@ const MenuComponent = ({
         true
       ),
 
-    isLogged && getItem("Payment", "10", <img src={payment} />),
+    // isLogged && getItem("Payment", "10", <img src={payment} />),
     getItem("Settings", "sub2", <img src={setting} />, [
       isLogged &&
         getItem("Account Settings", "11", <img src={account_settings} />),
@@ -150,7 +150,7 @@ const MenuComponent = ({
           item.key === "7" && navigate("/selling-history");
           item.key === "8" && navigate("/purchase-history");
           item.key === "9" && handleCreateNFT();
-          item.key === "10" && navigate("/payment");
+          // item.key === "10" && navigate("/payment");
           item.key === "11" && navigate("/account-settings");
           item.key === "12" && navigate("/help-center");
           item.key === "13" && navigate("/privacy-security");
@@ -168,7 +168,7 @@ const MenuComponent = ({
           item.key === "7" && navigate("/selling-history");
           item.key === "8" && navigate("/purchase-history");
           item.key === "9" && handleCreateNFT();
-          item.key === "10" && navigate("/payment");
+          // item.key === "10" && navigate("/payment");
           item.key === "11" && navigate("/account-settings");
           item.key === "12" && navigate("/help-center");
           item.key === "13" && navigate("/privacy-security");
