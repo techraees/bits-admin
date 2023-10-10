@@ -45,6 +45,7 @@ const CardCompnent = ({
   fixRoyalty,
   fixCopies,
   id,
+  isAuction,
 }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -81,11 +82,11 @@ const CardCompnent = ({
     setIsOfferModalOpen(false);
     setIsNftModalOpen(false);
   };
-  console.log("userProfile", userProfile, image);
+  // console.log("userProfile", userProfile, image);
   const location = useLocation();
-  console.log("userId", userId, location.pathname);
+  // console.log("userId", userId, location.pathname);
 
-  console.log(fixOwner, fixRoyalty, fixCopies);
+  // console.log(fixOwner, fixRoyalty, fixCopies);
 
   return (
     <div className="my-4 col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center">
@@ -398,8 +399,17 @@ const CardCompnent = ({
                           ) {
                             console.log("handle ok");
                             showModal();
-                          } else if (location.pathname.includes("/")) {
-                            ToastMessage("Please contact owner", "", "error");
+                          } else if (
+                            location.pathname.includes("/") &&
+                            isAuction
+                          ) {
+                            showOfferModal();
+                            // ToastMessage("Please contact owner", "", "error");
+                          } else if (
+                            location.pathname.includes("/") &&
+                            !isAuction
+                          ) {
+                            showModal();
                           }
                         }}
                       />

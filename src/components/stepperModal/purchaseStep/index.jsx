@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./css/index.css";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { test } from "../../../assets";
@@ -10,11 +10,11 @@ import { trimWallet } from "../../../utills/trimWalletAddr";
 import { ETHToWei } from "../../../utills/convertWeiAndBnb";
 import { Loader, ToastMessage } from "../../../components";
 import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
+import { loadContractIns } from "../../../store/actions";
 
-
-function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
-
-  const {contractData} = useSelector((state) => state.chain.contractData);
+function PurchaseStep({ owner, name, totalPrice, showAmt, quantity, fixedId }) {
+  const dispatch = useDispatch();
+  const { contractData } = useSelector((state) => state.chain.contractData);
   const { web3, signer } = useSelector((state) => state.web3.walletData);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,7 +22,6 @@ function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
   const [isConnected, setIsConnected] = useState(false);
   const [loadingStatus, setLoadingStatus] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
-
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -34,46 +33,51 @@ function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
     setIsModalOpen(false);
   };
 
-  const handleConnect = ()=>{
+  const handleConnect = () => {
     connectWalletHandle();
-  }
+  };
 
-
-  const handlePurchase = async()=>{
+  const handlePurchase = async () => {
     let val = Number(ETHToWei(totalPrice.toString()));
     let amount = val.toString();
 
-    if(signer){
-      const marketContractWithsigner = contractData.marketContract.connect(signer);
+    if (signer) {
+      const marketContractWithsigner =
+        contractData.marketContract.connect(signer);
 
-      if(quantity > 0){
+      if (quantity > 0) {
         try {
-          const tx = await marketContractWithsigner.BuyFixedPriceItem(fixedId, quantity, {value: amount});
-  
+          const tx = await marketContractWithsigner.BuyFixedPriceItem(
+            fixedId,
+            quantity,
+            { value: amount }
+          );
+
           setLoadingStatus(true);
           setLoadingMessage("Transaction Pending...");
-  
+
           const res = await tx.wait();
-          if(res){
+          if (res) {
             setLoadingStatus(false);
             setLoadingMessage("");
             console.log(res);
             ToastMessage("Purchase Successful", "", "success");
             showModal();
+            dispatch(loadContractIns());
           }
         } catch (error) {
           const parsedEthersError = getParsedEthersError(error);
-          if(parsedEthersError.context == -32603){
+          if (parsedEthersError.context == -32603) {
             ToastMessage("Error", `Insufficient Balance`, "error");
-          }else{
+          } else {
             ToastMessage("Error", `${parsedEthersError.context}`, "error");
           }
         }
-      }else{
+      } else {
         handleConnect();
       }
     }
-  }
+  };
 
   const closeConnectModel = () => {
     setConnectModal(false);
@@ -90,8 +94,6 @@ function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
       setIsConnected(true);
     }
   }, [web3]);
-
-
 
   return (
     <div className="purchaseStep">
@@ -116,7 +118,10 @@ function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
             </div>
             <div className="purchasetextWrapper">
               <h4 className="purchaseleftDivText">{name}</h4>
-              <h6 className="purchaseleftDivSubText"> From {trimWallet(owner)}</h6>
+              <h6 className="purchaseleftDivSubText">
+                {" "}
+                From {trimWallet(owner)}
+              </h6>
             </div>
           </div>
           <div className="purchaserightDiv">
@@ -130,12 +135,20 @@ function PurchaseStep({owner, name, totalPrice, showAmt, quantity, fixedId}) {
           </div>
           <div className="purchaseTextRightDiv">
             <h4 className="purchaseNumber">
-              {totalPrice} <span className="purchaseNumberSpan"> {contractData.chain == 5? "ETH": "MATIC"} (${showAmt.toFixed(5)}) </span>
+              {totalPrice}{" "}
+              <span className="purchaseNumberSpan">
+                {" "}
+                {contractData.chain == 5 ? "ETH" : "MATIC"} ($
+                {showAmt.toFixed(5)}){" "}
+              </span>
             </h4>
           </div>
         </div>
-        <button className="purchaseConnectBtn" onClick={isConnected? handlePurchase: handleConnect}>
-         { isConnected? "Buy Now": "Connect Wallet"}
+        <button
+          className="purchaseConnectBtn"
+          onClick={isConnected ? handlePurchase : handleConnect}
+        >
+          {isConnected ? "Buy Now" : "Connect Wallet"}
         </button>
       </div>
     </div>

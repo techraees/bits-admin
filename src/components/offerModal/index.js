@@ -3,7 +3,7 @@ import "./css/index.css";
 import { logo } from "../../assets";
 import BidModal from "../bidModal";
 import { Modal, Table } from "antd";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ConnectModal from "../connectModal";
 import {
   MdOutlineKeyboardArrowDown,
@@ -12,10 +12,20 @@ import {
 import { trimWallet } from "../../utills/trimWalletAddr";
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
 import { ETHToWei, WeiToETH } from "../../utills/convertWeiAndBnb";
-import {ToastMessage} from "../../components";
+import { ToastMessage } from "../../components";
 import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
+import { loadContractIns } from "../../store/actions";
 
-const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auctionid}) => {
+const OfferModal = ({
+  name,
+  price,
+  initialPrice,
+  currentBidAmount,
+  nftOwner,
+  auctionid,
+}) => {
+  const dispatch = useDispatch();
+
   const [isBidModalOpen, setIsBidModalOpen] = useState(false);
   const [isTableOpen, setIsTableOpen] = useState(false);
 
@@ -28,15 +38,16 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
 
   const [dataSource, setDataSource] = useState([]);
 
-  const { web3, account, signer } = useSelector((state) => state.web3.walletData);
-  const {contractData} = useSelector((state) => state.chain.contractData);
+  const { web3, account, signer } = useSelector(
+    (state) => state.web3.walletData
+  );
+  const { contractData } = useSelector((state) => state.chain.contractData);
 
-  const getPriceDiff = (initialPrice, latestprice)=>{
-      const diff = latestprice - initialPrice;
-      const val = (diff/initialPrice);
-      return val;
-  }
-
+  const getPriceDiff = (initialPrice, latestprice) => {
+    const diff = latestprice - initialPrice;
+    const val = diff / initialPrice;
+    return val;
+  };
 
   const handleDropDownClick = () => {
     setIsTableOpen(!isTableOpen);
@@ -46,59 +57,61 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
     setIsBidModalOpen(false);
   };
 
-  const handleConnect = ()=>{
+  const handleConnect = () => {
     connectWalletHandle();
-  }
+  };
 
-  ETHTOUSD(1).then((result)=>{
+  ETHTOUSD(1).then((result) => {
     setEthBal(result);
   });
 
-  MATICTOUSD(1).then((result)=>{
+  MATICTOUSD(1).then((result) => {
     setMaticBal(result);
   });
 
-  const handleOffer = (e)=>{
+  const handleOffer = (e) => {
     const value = e.target.value;
     setOfferAmount(value);
-  }
+  };
 
-  const getPrice = (val)=>{
-    if(contractData.chain == 5){
-      return (WeiToETH(`${val}`)) * ethBal
-    }else{
-      return (WeiToETH(`${val}`)) * maticBal
-    } 
-  }
+  const getPrice = (val) => {
+    if (contractData.chain == 5) {
+      return WeiToETH(`${val}`) * ethBal;
+    } else {
+      return WeiToETH(`${val}`) * maticBal;
+    }
+  };
 
-
-  useEffect(()=>{
-    async function getbids(){
+  useEffect(() => {
+    async function getbids() {
       const data = await contractData.marketContract.getAllBids(auctionid);
       console.log(data);
-      if(data && data?.bidAmount.length > 0) { 
-      data?.bidAmount.map((item, i)=>{
-        const priceDiff = getPriceDiff(initialPrice, WeiToETH(`${Number(item)}`));
-        let obj = {
-          key: i+1,
-          price: WeiToETH(`${Number(item)}`),
-          uprice: getPrice(Number(item)),
-          quantity: "1",
-          fdifference: `${priceDiff}% above`,
-          expiration: "in 9 days",
-          from: "you"
-        }
+      if (data && data?.bidAmount.length > 0) {
+        data?.bidAmount.map((item, i) => {
+          const priceDiff = getPriceDiff(
+            initialPrice,
+            WeiToETH(`${Number(item)}`)
+          );
+          let obj = {
+            key: i + 1,
+            price: WeiToETH(`${Number(item)}`),
+            uprice: getPrice(Number(item)),
+            quantity: "1",
+            fdifference: `${priceDiff}% above`,
+            expiration: "in 9 days",
+            from: "you",
+          };
 
-        console.log(obj);
-      setDataSource((prev)=>{
-        return [...prev, obj];
-      })
-      })
-    }
+          console.log(obj);
+          setDataSource((prev) => {
+            return [...prev, obj];
+          });
+        });
+      }
     }
 
     getbids();
-  }, [contractData]); 
+  }, [contractData]);
 
   const columns = [
     {
@@ -148,35 +161,38 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
     }
   };
 
-  const handleBid = async() => {
-    if(offerAmount > 0){
+  const handleBid = async () => {
+    if (offerAmount > 0) {
       const amount = ETHToWei(`${offerAmount}`);
-      if(signer){
-        const marketContractWithsigner = contractData.marketContract.connect(signer);
+      if (signer) {
+        const marketContractWithsigner =
+          contractData.marketContract.connect(signer);
         try {
           setIsBidModalOpen(true);
-          const tx = await marketContractWithsigner.bid(auctionid, {value: amount});
+          const tx = await marketContractWithsigner.bid(auctionid, {
+            value: amount,
+          });
           // if(tx){
           //   setIsBidModalOpen(true);
           // }
           const res = await tx.wait();
-          if(res){
-          ToastMessage("Bid Successful", "", "success");
+          if (res) {
+            ToastMessage("Bid Successful", "", "success");
+            dispatch(loadContractIns());
           }
-          
         } catch (error) {
           const parsedEthersError = getParsedEthersError(error);
-          if(parsedEthersError.context == -32603){
+          if (parsedEthersError.context == -32603) {
             ToastMessage("Error", `Insufficient Balance`, "error");
-          }else{
+          } else {
             console.log(error);
             ToastMessage("Error", `${parsedEthersError.context}`, "error");
           }
         }
-      }else{
+      } else {
         handleConnect();
       }
-    }else{
+    } else {
       alert("Please provide amount");
     }
   };
@@ -186,7 +202,6 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
       setConnectModal(false);
     }
   }, [web3]);
-
 
   return (
     <div>
@@ -198,13 +213,17 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
         centered
         width={829}
       >
-        <BidModal 
-        handleCancel={handleCancel} 
-        nftOwner ={nftOwner} 
-        name={name} 
-        offerAmount={offerAmount}
-        amount = {contractData.chain == 5 ? (offerAmount * ethBal).toFixed(4) : (offerAmount * maticBal).toFixed(4)}
-        chain = {contractData.chain == 5 ? "ETH" : "MATIC"}
+        <BidModal
+          handleCancel={handleCancel}
+          nftOwner={nftOwner}
+          name={name}
+          offerAmount={offerAmount}
+          amount={
+            contractData.chain == 5
+              ? (offerAmount * ethBal).toFixed(4)
+              : (offerAmount * maticBal).toFixed(4)
+          }
+          chain={contractData.chain == 5 ? "ETH" : "MATIC"}
         />
       </Modal>
       <div className="main-wrapper">
@@ -222,7 +241,9 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
           </div>
 
           <div>
-            <h5>{initialPrice} {contractData.chain == 5? "ETH": "MATIC"}</h5>
+            <h5>
+              {initialPrice} {contractData.chain == 5 ? "ETH" : "MATIC"}
+            </h5>
             <p>$ {price}</p>
           </div>
         </div>
@@ -263,15 +284,31 @@ const OfferModal = ({name, price, initialPrice, currentBidAmount, nftOwner, auct
         </div>
 
         <div className="input-field-div">
-          <input type="text" placeholder="0.001" onChange={handleOffer}/>
-          <h5>{contractData.chain == 5? "ETH": "MATIC"}</h5>
+          <input type="text" placeholder="0.001" onChange={handleOffer} />
+          <h5>{contractData.chain == 5 ? "ETH" : "MATIC"}</h5>
         </div>
         <div className="d-flex justify-content-between mt-2">
-          <p>$ {contractData.chain == 5 ? (offerAmount * ethBal).toFixed(4) : (offerAmount * maticBal).toFixed(4)} Total</p>
-          <p>Total Offer amount: {offerAmount} {contractData.chain == 5? "ETH": "MATIC"} ($ {contractData.chain == 5 ? (offerAmount * ethBal).toFixed(4) : (offerAmount * maticBal).toFixed(4)})</p>
+          <p>
+            ${" "}
+            {contractData.chain == 5
+              ? (offerAmount * ethBal).toFixed(4)
+              : (offerAmount * maticBal).toFixed(4)}{" "}
+            Total
+          </p>
+          <p>
+            Total Offer amount: {offerAmount}{" "}
+            {contractData.chain == 5 ? "ETH" : "MATIC"} (${" "}
+            {contractData.chain == 5
+              ? (offerAmount * ethBal).toFixed(4)
+              : (offerAmount * maticBal).toFixed(4)}
+            )
+          </p>
         </div>
         <div>
-          <button className="bid-btn" onClick={isConnected? handleBid: handleConnect}>
+          <button
+            className="bid-btn"
+            onClick={isConnected ? handleBid : handleConnect}
+          >
             Place Bid
           </button>
         </div>

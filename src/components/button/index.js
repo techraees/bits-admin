@@ -12,7 +12,7 @@ const ButtonComponent = ({
   width,
   disabled,
 }) => {
-  console.log("disa", disabled);
+  // console.log("disa", disabled);
   return (
     <>
       {simple ? (

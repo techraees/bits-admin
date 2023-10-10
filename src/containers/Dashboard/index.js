@@ -18,6 +18,7 @@ import { UploadVideoModal } from "../../components";
 import { getOwnersOfTokenId } from "../../config/infura";
 import { GET_TOP_VIEW_NFTS } from "../../gql/queries";
 import { useQuery } from "@apollo/client";
+import { WeiToETH } from "../../utills/convertWeiAndBnb";
 
 const Dashboard = () => {
   const [uploadVideoModal, setUploadVideoModal] = useState(false);
@@ -106,56 +107,65 @@ const Dashboard = () => {
   const { loading, data } = useQuery(GET_TOP_VIEW_NFTS);
   const timenow = Math.floor(Date.now() / 1000);
 
-  console.log("auctionItemData",auctionItemData)
+  console.log("auctionItemData", auctionItemData);
   function getUniqueObjects(arr) {
     const uniqueObjects = [];
     const seenIds = new Set();
-  
+
     for (const item of arr) {
       if (!seenIds.has(item._id)) {
         uniqueObjects.push(item);
         seenIds.add(item?._id);
       }
     }
-  
+
     return uniqueObjects;
   }
 
-  
-  const topNfts = useMemo (() => {
-    let arr = []
-    data?.getTopViewNfts?.map((x) => { 
-      auctionItemData?.map((y)  => {
-          if(
-            !x.is_blocked &&
-            Number(y.tokenId) == x.token_id &&
-            contractData.chain == x.chainId &&
-            Number(y.auctionEndTime) > timenow &&
-            y.isSold == false
-          ) {
-            arr.push(x)
-          }
-      })
-    } )
+  const topNfts = useMemo(() => {
+    let arr = [];
+    data?.getTopViewNfts?.map((x) => {
+      auctionItemData?.map((y) => {
+        if (
+          !x.is_blocked &&
+          Number(y.tokenId) == x.token_id &&
+          contractData.chain == x.chainId &&
+          Number(y.auctionEndTime) > timenow &&
+          y.isSold == false
+        ) {
+          arr.push({
+            ...x,
+            initialPrice: WeiToETH(`${Number(y.initialPrice)}`),
+            auctionid: Number(y.auctionid),
+            currentBidAmount: WeiToETH(`${Number(y.currentBidAmount)}`),
+          });
+        }
+      });
+    });
 
-    data?.getTopViewNfts?.map((x) => { 
-      fixedItemData?.map((y)  => {
-          if(
-            !y.is_blocked &&
-                y.tokenid == x.token_id &&
-                contractData.chain == x.chainId &&
-                y.isSold == false
-          ) {
-            arr.push(x)
-          }
-      })
-    } )
+    data?.getTopViewNfts?.map((x) => {
+      fixedItemData?.map((y) => {
+        if (
+          !y.is_blocked &&
+          y.tokenid == x.token_id &&
+          contractData.chain == x.chainId &&
+          y.isSold == false
+        ) {
+          arr.push({
+            ...x,
+            owners: y.owners,
+            fixtokenId: y.tokenid,
+            isFixedItem: true,
+          });
+        }
+      });
+    });
 
     const uniqueObjects = getUniqueObjects(arr);
-    return uniqueObjects
-    },[auctionItemData, data,fixedItemData])
+    return uniqueObjects;
+  }, [auctionItemData, data, fixedItemData]);
 
-    console.log("topNfts",topNfts)
+  console.log("topNfts", topNfts);
   return (
     <div className={backgroundTheme}>
       {loading && <Loader />}
@@ -226,7 +236,7 @@ const Dashboard = () => {
         </div>
         <div>
           <div className="row">
-          {/* {auctionItemData?.map((item) => {
+            {/* {auctionItemData?.map((item) => {
             return data?.getTopViewNfts?.map((e, i) => {
               if (
                 !e.is_blocked &&
@@ -251,26 +261,31 @@ const Dashboard = () => {
             });
           })} */}
 
+            {topNfts?.map((e, i) => (
+              <CardCompnent
+                key={i}
+                image={e?.user_id?.profileImg ? e.user_id.profileImg : ""}
+                status={e.status}
+                name={e.name}
+                videoLink={e.video}
+                userProfile={userProfile ? true : false}
+                id={e._id}
+                userId={e?.user_id?.id}
+                owners={e.owners}
+                fixtokenId={e.fixtokenId}
+                fixOwner={e.wallet_address}
+                fixRoyalty={e.royalty}
+                fixCopies={e.supply}
+                numberofcopies={e.supply}
+                initialPrice={e.initialPrice}
+                auctionid={e.auctionid}
+                currentBidAmount={e.currentBidAmount}
+                nftOwner={e.wallet_address}
+                isAuction={e.isFixedItem ? false : true}
+              />
+            ))}
 
-
-            {
-              topNfts?.map((e, i) => (
-
-                <CardCompnent
-                  key={i}
-                  image={e?.user_id?.profileImg ? e.user_id.profileImg : ""}
-                  status={e.status}
-                  name={e.name}
-                  videoLink={e.video}
-                  userProfile={userProfile ? true : false}
-                  id={e._id}
-                  userId={e?.user_id?.id}
-                />
-              )
-
-              )}
-          
-          {/* {fixedItemData?.map((item) => {
+            {/* {fixedItemData?.map((item) => {
             return data?.getTopViewNfts?.map((e, i) => {
               if (
                 !e.is_blocked &&
