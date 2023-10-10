@@ -220,6 +220,12 @@
       },
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "seller",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "platformfee",
         "type": "uint256"
@@ -716,25 +722,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_auctionId",
-        "type": "uint256"
-      }
-    ],
-    "name": "claimNFT",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "getAllAuctions",
     "outputs": [
@@ -790,7 +777,7 @@
             "type": "uint256[]"
           }
         ],
-        "internalType": "struct MarketplaceV3.bidStruct",
+        "internalType": "struct MarketplaceV5.bidStruct",
         "name": "",
         "type": "tuple"
       }
