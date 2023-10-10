@@ -107,7 +107,7 @@ const Dashboard = () => {
   const { loading, data } = useQuery(GET_TOP_VIEW_NFTS);
   const timenow = Math.floor(Date.now() / 1000);
 
-  console.log("auctionItemData", auctionItemData);
+  console.log("fixedItemData", fixedItemData);
   function getUniqueObjects(arr) {
     const uniqueObjects = [];
     const seenIds = new Set();
@@ -147,7 +147,7 @@ const Dashboard = () => {
       fixedItemData?.map((y) => {
         if (
           !y.is_blocked &&
-          y.tokenid == x.token_id &&
+          Number(y.tokenid) == Number(x.token_id) &&
           contractData.chain == x.chainId &&
           y.isSold == false
         ) {
@@ -161,8 +161,9 @@ const Dashboard = () => {
       });
     });
 
-    const uniqueObjects = getUniqueObjects(arr);
-    return uniqueObjects;
+    // console.log("checking_arr", arr);
+    // const uniqueObjects = getUniqueObjects(arr);
+    return arr;
   }, [auctionItemData, data, fixedItemData]);
 
   console.log("topNfts", topNfts);
