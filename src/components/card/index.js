@@ -395,6 +395,11 @@ const CardCompnent = ({
                           ) {
                             navigateTo();
                           } else if (
+                            location.pathname.includes("/collections") &&
+                            !isOwner
+                          ) {
+                            ToastMessage("Please contact owner", "", "error");
+                          } else if (
                             location.pathname.includes("/video-gallery")
                           ) {
                             console.log("handle ok");

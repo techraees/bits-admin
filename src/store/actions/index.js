@@ -10,8 +10,6 @@ import { ToastMessage } from "../../components";
 import UniversalProvider from "@walletconnect/universal-provider";
 import { Web3Modal } from "@web3modal/standalone";
 
-
-
 export const loadBlockchainAction = (chain, address) => async (dispatch) => {
   // try {
   //   await Web3.givenProvider.enable();
@@ -30,7 +28,10 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
     await provider.send("eth_requestAccounts", []);
     const accounts = await provider.listAccounts();
     let account = accounts[0];
-    if (address?.toLowerCase() === account?.toLowerCase() || address === undefined) {
+    if (
+      address?.toLowerCase() === account?.toLowerCase() ||
+      address === undefined
+    ) {
       const signer = await provider.getSigner();
       const { chainId } = await provider.getNetwork();
       if (chain === chainId) {
@@ -39,7 +40,7 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
           account,
           web3,
           chainId,
-          signer
+          signer,
         };
         dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
       } else {
@@ -52,7 +53,7 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
           account,
           web3,
           chainId,
-          signer
+          signer,
         };
         dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
       }
@@ -60,7 +61,6 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
       console.log("Please connect correct wallet");
       ToastMessage("Error", "Please connect correct wallet", "error");
     }
-
   } catch (err) {
     console.log("errr", err);
   }
@@ -68,8 +68,8 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
 
 export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
   try {
-    const DEFAULT_PROJECT_ID = "1eccdcef1fec662a8e65ca062f39ed04"
-    const DEFAULT_RELAY_URL = "wss://relay.walletconnect.com"
+    const DEFAULT_PROJECT_ID = "1eccdcef1fec662a8e65ca062f39ed04";
+    const DEFAULT_RELAY_URL = "wss://relay.walletconnect.com";
 
     const connector = await UniversalProvider.init({
       projectId: DEFAULT_PROJECT_ID,
@@ -81,7 +81,6 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
       projectId: DEFAULT_PROJECT_ID || "",
       walletConnectVersion: 2,
     });
-
 
     connector.on("display_uri", async (uri) => {
       console.log("EVENT", "QR Code Modal open");
@@ -101,12 +100,9 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
     });
 
     // Subscribe to session update
-    connector.on(
-      "session_update",
-      ({ topic, session }) => {
-        console.log("EVENT", "session_updated");
-      },
-    );
+    connector.on("session_update", ({ topic, session }) => {
+      console.log("EVENT", "session_updated");
+    });
 
     // Subscribe to session delete
     connector.on("session_delete", ({ id, topic }) => {
@@ -116,15 +112,14 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
     });
     let rpc;
     if (chain === 5) {
-      rpc = { "5": "https://rpc.goerli.mudit.blog", }
-    }
-    else {
+      rpc = { 5: "https://rpc.goerli.mudit.blog" };
+    } else {
       rpc = {
-        "80001": "https://rpc-mumbai.matic.today",
-      }
+        80001: "https://rpc-mumbai.matic.today",
+      };
     }
 
-      await connector.connect({
+    await connector.connect({
       namespaces: {
         eip155: {
           methods: [
@@ -136,14 +131,14 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
           ],
           chains: [`eip155:1`],
           events: ["chainChanged", "accountsChanged"],
-          rpcMap: rpc
+          rpcMap: rpc,
         },
       },
       // pairingTopic: pairing?.topic,
     });
 
     const accounts = await connector.enable();
-    let account = accounts[0]
+    let account = accounts[0];
     console.log("accounts", accounts);
 
     web3Modal?.closeModal();
@@ -158,18 +153,15 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
         account,
         web3,
         chainId,
-        signer
+        signer,
       };
-      console.log("data", data)
+      console.log("data", data);
       dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
-
     }
   } catch (err) {
     console.log("errr", err);
   }
 };
-
-
 
 export const logoutWallet = () => async (dispatch) => {
   try {
@@ -189,84 +181,112 @@ export const logoutWallet = () => async (dispatch) => {
   }
 };
 
-
-export const updateAccount = (account) => async (
-  dispatch,
-) => {
+export const updateAccount = (account) => async (dispatch) => {
   try {
     const data = {
       account,
     };
     dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
   } catch (err) {
-    console.error('Failed to update account', err);
+    console.error("Failed to update account", err);
     throw err;
   }
 };
 
-
 export const loadContractIns = () => async (dispatch) => {
-  const ethInfuraIns = "https://goerli.infura.io/v3/e556d22112e34e3baab9760f1864493a";
-  const polygonInfuraIns = "https://polygon-mumbai.infura.io/v3/e556d22112e34e3baab9760f1864493a";
+  const ethInfuraIns =
+    "https://goerli.infura.io/v3/e556d22112e34e3baab9760f1864493a";
+  const polygonInfuraIns =
+    "https://polygon-mumbai.infura.io/v3/e556d22112e34e3baab9760f1864493a";
   try {
-
     //ethereum
     const ethProvider = new ethers.providers.JsonRpcProvider(ethInfuraIns);
     const ethMarketPlaceContract = "0x1E15394A6D3b642d9e06a4238D1EC70baC4ae1d5";
     const ethMintingConract = "0x8A59905976bD8D8C9A7D273909A93281a51A4842";
-    const ethMarketContractIns = new ethers.Contract(ethMarketPlaceContract, ethMarketContractAbi, ethProvider);
-    const ethMintingContractIns = new ethers.Contract(ethMintingConract, ethMintingContractAbi, ethProvider);
+    const ethMarketContractIns = new ethers.Contract(
+      ethMarketPlaceContract,
+      ethMarketContractAbi,
+      ethProvider
+    );
+    const ethMintingContractIns = new ethers.Contract(
+      ethMintingConract,
+      ethMintingContractAbi,
+      ethProvider
+    );
 
     //polygon
-    const polygonProvider = new ethers.providers.JsonRpcProvider(polygonInfuraIns);
-    const polygonMarketPlaceContract = "0x7Af5243b7F331217e2D37b19FE773B2C0A5D4301";
+    const polygonProvider = new ethers.providers.JsonRpcProvider(
+      polygonInfuraIns
+    );
+    const polygonMarketPlaceContract =
+      "0x7Af5243b7F331217e2D37b19FE773B2C0A5D4301";
     const polygonMintingConract = "0x97C49dFeB7ff0bD5006B02fD59912Ab63f5D4216";
-    const polygonMarketContractIns = new ethers.Contract(polygonMarketPlaceContract, polygonMarketContractAbi, polygonProvider);
-    const polygonMintingContractIns = new ethers.Contract(polygonMintingConract, polygonMintingContractAbi, polygonProvider);
-
+    const polygonMarketContractIns = new ethers.Contract(
+      polygonMarketPlaceContract,
+      polygonMarketContractAbi,
+      polygonProvider
+    );
+    const polygonMintingContractIns = new ethers.Contract(
+      polygonMintingConract,
+      polygonMintingContractAbi,
+      polygonProvider
+    );
 
     // const imguri = extractNFTImage(ethMintingContract, 0)
     // console.log(imguri);
     // const auctions = await contract.methods.auctions(0).call();
 
-
-    dispatch({ type: ActionTypes.LOAD_CONTRACT, payload: { ethMarketContractIns, ethMintingContractIns, polygonMarketContractIns, polygonMintingContractIns } });
+    dispatch({
+      type: ActionTypes.LOAD_CONTRACT,
+      payload: {
+        ethMarketContractIns,
+        ethMintingContractIns,
+        polygonMarketContractIns,
+        polygonMintingContractIns,
+      },
+    });
     dispatch({
       type: "MATIC_CHAIN",
       contractData: {
         marketContract: polygonMarketContractIns,
         mintContract: polygonMintingContractIns,
-        chain: 80001
+        chain: 80001,
       },
-    })
-
-    getEmoteItems(ethMarketContractIns, polygonMarketContractIns).then((result) => {
-      const { maticList, ethList } = result;
-
-      dispatch({ type: "LOAD_FIXED_ITEMS", payload: { maticList, ethList } });
-      dispatch({
-        type: "MATIC_CHAIN_FIXED",
-        fixedItemData: maticList,
-      });
     });
 
-    getAuctions(ethMarketContractIns, polygonMarketContractIns).then((result) => {
-      const { maticAuctionsList } = result;
-      dispatch({
-        type: "MATIC_CHAIN_AUCTION",
-        auctionItemData: maticAuctionsList,
-      });
-    })
+    getEmoteItems(ethMarketContractIns, polygonMarketContractIns).then(
+      (result) => {
+        const { maticList, ethList } = result;
 
+        console.log("maticList", maticList);
 
+        dispatch({ type: "LOAD_FIXED_ITEMS", payload: { maticList, ethList } });
+        dispatch({
+          type: "MATIC_CHAIN_FIXED",
+          fixedItemData: maticList,
+        });
+      }
+    );
+
+    getAuctions(ethMarketContractIns, polygonMarketContractIns).then(
+      (result) => {
+        const { maticAuctionsList } = result;
+        dispatch({
+          type: "MATIC_CHAIN_AUCTION",
+          auctionItemData: maticAuctionsList,
+        });
+      }
+    );
   } catch (err) {
     console.log("errr", err);
   }
 };
 
-
 // getting fixed prices
-const getEmoteItems = async (ethMarketContractIns, polygonMarketContractIns) => {
+const getEmoteItems = async (
+  ethMarketContractIns,
+  polygonMarketContractIns
+) => {
   const maticcombined = {};
   const ethcombined = {};
 
@@ -278,28 +298,30 @@ const getEmoteItems = async (ethMarketContractIns, polygonMarketContractIns) => 
     const obj = await polygonMarketContractIns.Fixedprices(i);
     const id = Number(obj[tokenID]);
 
-    if (maticcombined[id]) {
-      maticcombined[id].owners.push({
-        owner: obj.owner,
-        copies: Number(obj.copiesForSale),
-        newOwner: obj.newowner,
-        price: WeiToETH(obj.price),
-        fixedid: Number(obj.fixedid),
-      });
-    } else {
-      maticcombined[id] = {
-        tokenid: id,
-        isSold: obj.isSold,
-        owners: [
-          {
-            owner: obj.owner,
-            copies: Number(obj.copiesForSale),
-            newOwner: obj.newowner,
-            price: WeiToETH(obj.price),
-            fixedid: Number(obj.fixedid),
-          }
-        ]
-      };
+    if (obj.isSold == false) {
+      if (maticcombined[id]) {
+        maticcombined[id].owners.push({
+          owner: obj.owner,
+          copies: Number(obj.copiesForSale),
+          newOwner: obj.newowner,
+          price: WeiToETH(obj.price),
+          fixedid: Number(obj.fixedid),
+        });
+      } else {
+        maticcombined[id] = {
+          tokenid: id,
+          isSold: obj.isSold,
+          owners: [
+            {
+              owner: obj.owner,
+              copies: Number(obj.copiesForSale),
+              newOwner: obj.newowner,
+              price: WeiToETH(obj.price),
+              fixedid: Number(obj.fixedid),
+            },
+          ],
+        };
+      }
     }
   }
 
@@ -307,7 +329,7 @@ const getEmoteItems = async (ethMarketContractIns, polygonMarketContractIns) => 
 
   //ethereum
 
-  const ethArray = Number(await polygonMarketContractIns.getAllFixedPrices());;
+  const ethArray = Number(await polygonMarketContractIns.getAllFixedPrices());
 
   for (let i = 0; i < ethArray; i++) {
     const ethobj = await polygonMarketContractIns.Fixedprices(i);
@@ -332,8 +354,8 @@ const getEmoteItems = async (ethMarketContractIns, polygonMarketContractIns) => 
             newOwner: ethobj.newowner,
             price: WeiToETH(ethobj.price),
             fixedid: Number(ethobj.fixedid),
-          }
-        ]
+          },
+        ],
       };
     }
   }
@@ -352,7 +374,6 @@ const getAuctions = async (ethMarketContractIns, polygonMarketContractIns) => {
     const obj = await polygonMarketContractIns.auctions(i);
     maticAuctionsList.push(obj);
   }
-
 
   const ethAuctionsList = [];
   const ethArray = Number(await polygonMarketContractIns.getAllAuctions());
