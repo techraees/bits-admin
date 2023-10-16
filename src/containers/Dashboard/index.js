@@ -16,67 +16,13 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { UploadVideoModal } from "../../components";
 import { getOwnersOfTokenId } from "../../config/infura";
-import {
-  GET_TOP_VIEW_NFTS,
-  GET_ALL_NFTS_WITHOUT_ADDRESS,
-} from "../../gql/queries";
+import { GET_TOP_VIEW_NFTS } from "../../gql/queries";
 import { useQuery } from "@apollo/client";
 import { WeiToETH } from "../../utills/convertWeiAndBnb";
 
 const Dashboard = () => {
   const [uploadVideoModal, setUploadVideoModal] = useState(false);
   let navigate = useNavigate();
-
-  let cardsData = [
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Speedy Walkovers",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-  ];
 
   const [showChat, setShowChat] = useState(false);
   const { userData } = useSelector((state) => state.address.userData);
@@ -107,7 +53,7 @@ const Dashboard = () => {
 
   getOwnersOfTokenId(0, 80001, "0x630656827c8ceaff3580823a8fd757e298cbfaaf");
 
-  const { loading, data } = useQuery(GET_ALL_NFTS_WITHOUT_ADDRESS);
+  const { loading, data } = useQuery(GET_TOP_VIEW_NFTS);
   const timenow = Math.floor(Date.now() / 1000);
 
   console.log("fixedItemData", fixedItemData);
@@ -127,7 +73,7 @@ const Dashboard = () => {
 
   const topNfts = useMemo(() => {
     let arr = [];
-    data?.getAllNftsWithoutAddress?.map((x) => {
+    data?.getTopViewNfts?.map((x) => {
       auctionItemData?.map((y) => {
         if (
           !x.is_blocked &&
@@ -146,7 +92,7 @@ const Dashboard = () => {
       });
     });
 
-    data?.getAllNftsWithoutAddress?.map((x) => {
+    data?.getTopViewNfts?.map((x) => {
       fixedItemData?.map((y) => {
         if (
           !y.is_blocked &&
