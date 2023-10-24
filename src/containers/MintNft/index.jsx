@@ -25,19 +25,20 @@ import ErrorMessage from "../../components/error";
 import ConnectModal from "../../components/connectModal";
 import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
 
-
 const MintNft = () => {
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
-  const { web3, account, signer } = useSelector((state) => state.web3.walletData);
+  const { web3, account, signer } = useSelector(
+    (state) => state.web3.walletData
+  );
   const [connectModal, setConnectModal] = useState(false);
 
-  const {contractData} = useSelector((state) => state.chain.contractData);
+  const { contractData } = useSelector((state) => state.chain.contractData);
 
   const [loadingStatus, setLoadingStatus] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
- 
+
   const textColor = useSelector((state) => state.app.theme.textColor);
   const textColor2 = useSelector((state) => state.app.theme.textColor2);
   const textColor3 = useSelector((state) => state.app.theme.textColor3);
@@ -83,35 +84,41 @@ const MintNft = () => {
     }
   };
 
-  const mintCall = async(supply, royalty)=>{
+  const mintCall = async (supply, royalty) => {
     const contractWithsigner = contractData.mintContract.connect(signer);
-    try{
-      const tx = await contractWithsigner.mint(address,supply, createNft.meta, royalty, []);
+    try {
+      const tx = await contractWithsigner.mint(
+        address,
+        supply,
+        createNft.meta,
+        royalty,
+        []
+      );
 
       setLoadingStatus(true);
       setLoadingMessage("Minting...");
 
       const res = await tx.wait();
-      if(res){
+      if (res) {
         const token_ID = await contractWithsigner.mintedTokenId();
         setLoadingStatus(false);
         setLoadingMessage("");
-        if(token_ID){
+        if (token_ID) {
           return token_ID;
-        }else{
+        } else {
           console.log("no tokenId");
         }
       }
-    }catch(error){
+    } catch (error) {
       console.log(error);
       const parsedEthersError = getParsedEthersError(error);
-      if(parsedEthersError.context == -32603){
+      if (parsedEthersError.context == -32603) {
         ToastMessage("Error", `Insufficient Balance`, "error");
-      }else{
+      } else {
         ToastMessage("Error", `${parsedEthersError.context}`, "error");
       }
     }
-  }
+  };
 
   const {
     handleSubmit,
@@ -127,16 +134,19 @@ const MintNft = () => {
       supply: 0,
       royalty: "",
       user_id: "",
-      metauri:"",
+      metauri: "",
       chainId: 0,
     },
     validate: mintValidation,
-    onSubmit: async(values) =>{
+    onSubmit: async (values) => {
       connectWalletHandle();
-      const tokenid = await mintCall(Number(values.supply), Number(values.royalty * 100));
+      const tokenid = await mintCall(
+        Number(values.supply),
+        Number(values.royalty * 100)
+      );
       console.log(Number(tokenid));
-      
-      if(Number(tokenid)){
+
+      if (Number(tokenid)) {
         CreateNft({
           variables: {
             name: createNft && createNft.name,
@@ -153,7 +163,7 @@ const MintNft = () => {
             user_id: values.id,
           },
         });
-      }else{
+      } else {
         console.log("Minting is not gone through");
       }
     },
@@ -179,7 +189,9 @@ const MintNft = () => {
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
       <ConnectModal visible={connectModal} onClose={closeConnectModel} />
-      {loadingStatus && <Loader content={loading? "Uploading..." : loadingMessage} />}
+      {loadingStatus && (
+        <Loader content={loading ? "Uploading..." : loadingMessage} />
+      )}
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}
         selectedKey={"5"}
@@ -245,7 +257,15 @@ const MintNft = () => {
                             className={`royaltyInputField  me-5`}
                             placeholder={"royalty"}
                             onChange={(e) => {
-                              setFieldValue("royalty", e.target.value);
+                              if (e.target.value < 100) {
+                                setFieldValue("royalty", e.target.value);
+                              } else {
+                                ToastMessage(
+                                  "Error",
+                                  "Royalty should be less than 100",
+                                  "error"
+                                );
+                              }
                             }}
                             onKeyDown={(e) => {
                               if (
@@ -304,7 +324,7 @@ const MintNft = () => {
         </div>
         <div style={{ width: "100%" }} className={` ${bgColor} my-4 p-5`}>
           <span className={`${textColor} fs-6 mb-3`}>
-          How many NFTs would you like to mint?
+            How many NFTs would you like to mint?
           </span>
           <Row>
             {/* <Col
