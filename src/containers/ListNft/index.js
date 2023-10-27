@@ -29,7 +29,6 @@ const ListNft = () => {
   const [auctionStartPrice, setAuctionStartPrice] = useState(0);
   const [auctionCopies, setAuctionCopies] = useState(0);
   const { hash } = useParams();
-  const [currency, setCurrency] = useState("USD");
   const [potentialEarning, setPotentialEarning] = useState(0);
   const [connectModal, setConnectModal] = useState(false);
   const [endTimeStamp, setEndTimeStamp] = useState(0);
@@ -71,22 +70,14 @@ const ListNft = () => {
   const handleRadioChange = (e) => {
     setSelectedOption(e.target.value);
     setPotentialEarning(0);
-    setCurrency("USD");
     setFixedPrice(0);
     setAuctionStartPrice(0);
     setShowVal(0);
   };
 
   const handlePriceChange = (e) => {
-    let finalVal;
     const value = e.target.value;
-    console.log("currency", currency);
-    if (currency === "USD") {
-      finalVal = contractData.chain === 5 ? value / ethBal : value / maticBal;
-    } else {
-      finalVal = value;
-    }
-
+    const finalVal = value;
     setShowVal(value);
 
     console.log("finalValue", finalVal);
@@ -292,10 +283,6 @@ const ListNft = () => {
     }
   };
 
-  const handleCurrency = (value) => {
-    setCurrency(value);
-  };
-
   const calculateEarning = (amount, fee, royalty) => {
     const totalFee = (Number(fee) + Number(royalty)) / 10000;
     const totalFeeAmount = amount * totalFee;
@@ -304,13 +291,13 @@ const ListNft = () => {
   };
 
   const selectAfter = (
-    <Select defaultValue="USD" onChange={handleCurrency}>
-      <Option value="USD">USD</Option>
-      {contractData.chain === 5 ? (
+    <Select value={contractData.chain === 5 ? "ETH" : "MATIC"}>
+      {/* <Option value="USD">USD</Option> */}
+      {/* {contractData.chain === 5 ? (
         <Option value="ETH">ETH</Option>
       ) : (
         <Option value="MATIC">MATIC</Option>
-      )}
+      )} */}
     </Select>
   );
 
@@ -490,7 +477,7 @@ const ListNft = () => {
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Listing Price</h5>
               <p>
-                {showVal} {currency}
+                {showVal} {contractData.chain === 5 ? "ETH" : "MATIC"}
               </p>
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
@@ -512,7 +499,7 @@ const ListNft = () => {
               <h5>Total Potential Earning</h5>
               <p className={`${textColor}`}>
                 {" "}
-                {potentialEarning} {currency}
+                {potentialEarning} {contractData.chain === 5 ? "ETH" : "MATIC"}
               </p>
             </div>
             <div className="btn-wrapper red-gradient">
@@ -667,7 +654,7 @@ const ListNft = () => {
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Listing Price</h5>
               <p>
-                {showVal} {currency}
+                {showVal} {contractData.chain === 5 ? "ETH" : "MATIC"}
               </p>
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
@@ -689,7 +676,7 @@ const ListNft = () => {
               <h5>Total Potential Earning</h5>
               <p className={`${textColor}`}>
                 {" "}
-                {potentialEarning} {currency}
+                {potentialEarning} {contractData.chain === 5 ? "ETH" : "MATIC"}
               </p>
             </div>
             <div className="btn-wrapper red-gradient">
