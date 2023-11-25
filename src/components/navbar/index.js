@@ -323,7 +323,7 @@ const NavbarComponent = ({
                 className="white"
                 onClick={() => navigate("/video-gallery")}
               >
-                Emote-Video gallery
+                Emote/Video gallery
               </Nav.Link>
               <Nav.Link
                 className="white"
