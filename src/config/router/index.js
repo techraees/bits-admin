@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./elements.css";
 import PrivateRoute from "./PrivateRoute";
 import { updateAccount } from "../../store/actions";
+import NdtDetailsScreen from "../../components/nftDetailScreen";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -68,7 +69,7 @@ const Router = () => {
           <Route path="/login" element={<Login />} />
 
           {/* <Route path="/collections" element={<PrivateRoute />}> */}
-            <Route path="/collections/:userId" element={<Collections />} />
+          <Route path="/collections/:userId" element={<Collections />} />
           {/* </Route> */}
 
           <Route path="transaction-history" element={<TransactionHistory />} />
@@ -88,9 +89,11 @@ const Router = () => {
               element={<EditProfile />}
             />
           </Route>
+          <Route path="/nft-detail/:id" element={<NdtDetailsScreen />} />
+
           <Route path="help-center" element={<HelpCenter />} />
           <Route path="privacy-security" element={<PrivacySecurity />} />
-          <Route path="payment" element={<Payment />} />
+          {/* <Route path="payment" element={<Payment />} /> */}
           <Route path="video-gallery" element={<VideoGallery />} />
           <Route path="about-us" element={<AboutUs />} />
           <Route path="mint-nft" element={<MintNft />} />

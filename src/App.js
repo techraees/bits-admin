@@ -7,6 +7,7 @@ import "./App.css";
 import ZendeskComp from "./containers/zendesk";
 import { useState } from "react";
 import { useEffect } from "react";
+import { loadContractIns } from "./store/actions";
 import axios from "axios";
 import { useMutation } from "@apollo/client";
 import { RECORD_VISIT_MUTATION } from "./gql/mutations";
@@ -21,6 +22,7 @@ function App() {
     // localStorage.clear()
   }, []);
 
+  store.dispatch(loadContractIns());
   useEffect(() => {
     (async () => {
       try {

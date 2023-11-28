@@ -92,3 +92,10 @@
   background-color: #fff !important;
   min-height: 569px;
 }
+
+.top-btn-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

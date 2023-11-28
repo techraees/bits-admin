@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { uploadValidation } from "../validations";
 import ErrorMessage from "../error";
-import { sendFileToIPFS } from "../../config/ipfsService";
+import { sendFileToIPFS, sendMetaToIPFS} from "../../config/ipfsService";
 import ToastMessage from "../toastMessage";
 
 const UploadVideoModal = ({ visible, onClose }) => {
@@ -40,9 +40,20 @@ const UploadVideoModal = ({ visible, onClose }) => {
       artist_name1: "",
       description: "",
       video: "",
+      meta:"",
     },
     validate: uploadValidation,
-    onSubmit: (values) => {
+    onSubmit: async(values) => {
+      const data = {
+        name: values.name,
+        description: values.description,
+        image: values.video,
+        properties:{
+          video: values.video,
+        }
+      }
+      const metaUri = await sendMetaToIPFS(data);
+      
       console.log("valuess", values);
       dispatch({
         type: "CREATE_NFT",
@@ -51,6 +62,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
           artist_name1: values.artist_name1,
           description: values.description,
           video: values.video,
+          meta: metaUri,
         },
       });
 
@@ -157,7 +169,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
           Upload Emote/Video
         </p>
         <Row
-          className="dragVideoView py-4 mt-4 mx-2"
+          className="dragVideoView py-4 mt-4 mx-2 flex-column"
           gutter={{ xs: 8, sm: 16, md: 20, lg: 32 }}
         >
           <Col lg={10} md={10} sm={24} xs={24}>

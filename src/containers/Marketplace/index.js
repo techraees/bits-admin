@@ -1,65 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CardCompnent, NavbarComponent } from "../../components";
 import { useSelector } from "react-redux";
 import { Input, Select } from "antd";
 import { AZ, grid, profile, search } from "../../assets";
 import { BsFilterLeft } from "react-icons/bs";
+import { GET_ALL_NFTS_WITHOUT_ADDRESS } from "../../gql/queries";
+import { useQuery } from "@apollo/client";
 import "./css/index.css";
+import environment from "../../environment";
+import { WeiToETH } from "../../utills/convertWeiAndBnb";
 
 const Marketplace = () => {
-  let cardsData = [
-    {
-      image: profile,
-      name: "Snap Boogie",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Snap Boogie",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Snap Boogie",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Snap Boogie",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Snap Boogie",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Snap Boogie",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Snap Boogie",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-    {
-      image: profile,
-      name: "Snap Boogie",
-      status: "First Gen Emote",
-      videoLink: "https://www.youtube.com/watch?v=9xwazD5SyVg",
-    },
-  ];
+  const { loading, error, data, refetch } = useQuery(
+    GET_ALL_NFTS_WITHOUT_ADDRESS
+  );
+
+  const imgPaths = environment.BACKEND_BASE_URL + "/";
+
   const textColor = useSelector((state) => state.app.theme.textColor);
   const bgColor = useSelector((state) => state.app.theme.bgColor);
   const { userData } = useSelector((state) => state.address.userData);
+  const { auctionItemData } = useSelector(
+    (state) => state.auctionItemDatas.auctionItemData
+  );
+  const { contractData } = useSelector((state) => state.chain.contractData);
+
   const userProfile = userData?.full_name;
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
@@ -67,6 +32,15 @@ const Marketplace = () => {
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
+
+  console.log("data", data);
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  const timenow = Math.floor(Date.now() / 1000);
+
   return (
     <div
       className={`${backgroundTheme} main`}
@@ -241,12 +215,50 @@ const Marketplace = () => {
           style={{ borderBottom: "0.5px solid #c23737", marginTop: "3.5rem" }}
         ></div>
         <div className="row my-3">
-          {cardsData.map((e, i) => {
+          {auctionItemData?.map((item) => {
+            return data?.getAllNftsWithoutAddress?.map((e, i) => {
+              if (
+                !e.is_blocked &&
+                Number(item.tokenId) == e.token_id &&
+                contractData.chain == e.chainId &&
+                Number(item.auctionEndTime) > timenow &&
+                item.isSold == false
+              ) {
+                return (
+                  <CardCompnent
+                    key={i}
+                    image={imgPaths + e?.user_id?.profileImg}
+                    status={e.status}
+                    name={e.name}
+                    videoLink={e.video}
+                    marketplacecard
+                    collectionBtn
+                    userProfile={userProfile ? true : false}
+                    auctionStartTime={Number(item.auctionStartTime)}
+                    auctionEndTime={Number(item.auctionEndTime)}
+                    initialPrice={WeiToETH(`${Number(item.initialPrice)}`)}
+                    auctionid={Number(item.auctionid)}
+                    numberofcopies={e.supply}
+                    currentBidAmount={WeiToETH(
+                      `${Number(item.currentBidAmount)}`
+                    )}
+                    nftOwner={e.wallet_address}
+                    royalty={e.royalty}
+                    tokenId={Number(item.tokenId)}
+                    id={e._id}
+                  />
+                );
+              }
+            });
+          })}
+          {/* {cardsData.map((e, i) => {
+            console.log(e.videoLink);
+            // const status = "First Gen Emote";
             return (
               <CardCompnent
                 key={i}
                 image={e.image}
-                status={e.status}
+                status="First Gen Emote"
                 name={e.name}
                 videoLink={e.videoLink}
                 marketplacecard
@@ -254,7 +266,7 @@ const Marketplace = () => {
                 userProfile={userProfile ? true : false}
               />
             );
-          })}
+          })} */}
         </div>
       </div>
     </div>

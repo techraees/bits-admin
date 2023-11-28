@@ -12,7 +12,8 @@ import UploadVideoModal from "./uploadVideoModal";
 import StepperModal from "./stepperModal";
 import LogoutModal from "./logoutModal";
 import SuccessModal from "./successModal";
-import QrCodeModal from "./qrCodeModal";
+import NftDetailsModal from "./nftDetailsModal";
+import OfferModal from "./offerModal";
 
 import Loader from "./loaders/loading";
 import ToastMessage from "./toastMessage";
@@ -34,4 +35,6 @@ export {
   StepperModal,
   SuccessModal,
   LogoutModal,
+  NftDetailsModal,
+  OfferModal
 };

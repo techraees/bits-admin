@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./css/index.css";
 import { NavbarComponent, CardCompnent } from "../../components";
 import { Input, Select } from "antd";
@@ -17,6 +17,14 @@ const VideoGallery = () => {
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
+
+  const [tokenData, setTokenData] = useState({});
+
+  const { contractData } = useSelector((state) => state.chain.contractData);
+  const { fixedItemData } = useSelector(
+    (state) => state.fixedItemDatas.fixedItemData
+  );
+
   const textColor = useSelector((state) => state.app.theme.textColor);
   const bgColor = useSelector((state) => state.app.theme.bgColor);
 
@@ -31,6 +39,7 @@ const VideoGallery = () => {
   useEffect(() => {
     refetch();
   }, []);
+
   return (
     <div
       className={`${backgroundTheme} pb-2`}
@@ -68,23 +77,36 @@ const VideoGallery = () => {
         </div>
         <div style={{ border: "1px solid #5e2a2a" }}></div>
         <div className="row my-3">
-          {data?.getAllNftsWithoutAddress?.map((e, i) => {
-            if (!e.is_blocked) {
-              return (
-                <CardCompnent
-                  key={i}
-                  image={imgPaths + e?.user_id?.profileImg}
-                  status={e.status}
-                  name={e.name}
-                  videoLink={e.video}
-                  topName
-                  collectionBtn
-                  detailBtn
-                  userProfile={userProfile ? true : false}
-                  userId={e?.user_id?.id}
-                />
-              );
-            }
+          {fixedItemData?.map((item) => {
+            return data?.getAllNftsWithoutAddress?.map((e, i) => {
+              if (
+                !e.is_blocked &&
+                item.tokenid == e.token_id &&
+                contractData.chain == e.chainId &&
+                item.isSold == false
+              ) {
+                return (
+                  <CardCompnent
+                    key={i}
+                    image={imgPaths + e?.user_id?.profileImg}
+                    status={e.status}
+                    name={e.name}
+                    videoLink={e.video}
+                    topName
+                    collectionBtn
+                    detailBtn
+                    userProfile={userProfile ? true : false}
+                    userId={e?.user_id?.id}
+                    owners={item.owners}
+                    fixtokenId={item.tokenid}
+                    fixOwner={e.wallet_address}
+                    fixRoyalty={e.royalty}
+                    fixCopies={e.supply}
+                    id={e._id}
+                  />
+                );
+              }
+            });
           })}
         </div>
       </div>

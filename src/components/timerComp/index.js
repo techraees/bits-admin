@@ -28,9 +28,11 @@ function MyTimer({ expiryTimestamp }) {
   );
 }
 
-export default function Timercomp() {
-  const time = new Date();
-  time.setSeconds(time.getSeconds() + 600); // 10 minutes timer
+export default function Timercomp({auctionStartTime, auctionEndTime}) {
+  let time = new Date(auctionStartTime * 1000);
+  let sub =(auctionEndTime - auctionStartTime);
+
+  time.setSeconds(time.getSeconds() + sub); 
   return (
     <div>
       <MyTimer expiryTimestamp={time} />

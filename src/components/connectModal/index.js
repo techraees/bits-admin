@@ -12,17 +12,20 @@ const ConnectModal = ({ visible, onClose }) => {
   const dispatch = useDispatch();
 
   const { web3, account } = useSelector((state) => state.web3.walletData);
+  const { userData } = useSelector((state) => state.address.userData);
+  const {contractData} = useSelector((state) => state.chain.contractData);
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
-  console.log("www", web3, account);
+  console.log("checking www", web3, account, userData?.address||account);
 
   const handleWeb3MetaMask = async () => {
-    dispatch(loadBlockchainAction());
+    dispatch(loadBlockchainAction(contractData.chain, userData?.address ||account));
   };
 
   const handleWalletConnect = async () => {
-    dispatch(loadWalletConnectAction());
+    onClose()
+    dispatch(loadWalletConnectAction(contractData.chain, userData?.address ||account));
   };
 
   return (

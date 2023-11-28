@@ -22,11 +22,23 @@ import { gql, useMutation } from "@apollo/client";
 import { useFormik } from "formik";
 import { mintValidation } from "../../components/validations";
 import ErrorMessage from "../../components/error";
+import ConnectModal from "../../components/connectModal";
+import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
 
 const MintNft = () => {
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
+  const { web3, account, signer } = useSelector(
+    (state) => state.web3.walletData
+  );
+  const [connectModal, setConnectModal] = useState(false);
+
+  const { contractData } = useSelector((state) => state.chain.contractData);
+
+  const [loadingStatus, setLoadingStatus] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("");
+
   const textColor = useSelector((state) => state.app.theme.textColor);
   const textColor2 = useSelector((state) => state.app.theme.textColor2);
   const textColor3 = useSelector((state) => state.app.theme.textColor3);
@@ -53,13 +65,60 @@ const MintNft = () => {
   const id = userData?.id;
   useEffect(() => {
     if (data) {
-      ToastMessage("Minted Successfully", "", "success");
       navigate(`/collections/${userData?.id}`);
+      ToastMessage("Minted Successfully", "", "success");
     }
     if (error) {
       ToastMessage(error, "", "error");
     }
   }, [data, error]);
+
+  console.log(Number(contractData.chain));
+
+  const closeConnectModel = () => {
+    setConnectModal(false);
+  };
+  const connectWalletHandle = () => {
+    if (!web3) {
+      setConnectModal(true);
+    }
+  };
+
+  const mintCall = async (supply, royalty) => {
+    const contractWithsigner = contractData.mintContract.connect(signer);
+    try {
+      const tx = await contractWithsigner.mint(
+        address,
+        supply,
+        createNft.meta,
+        royalty,
+        []
+      );
+
+      setLoadingStatus(true);
+      setLoadingMessage("Minting...");
+
+      const res = await tx.wait();
+      if (res) {
+        const token_ID = await contractWithsigner.mintedTokenId();
+        setLoadingStatus(false);
+        setLoadingMessage("");
+        if (token_ID) {
+          return token_ID;
+        } else {
+          console.log("no tokenId");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      const parsedEthersError = getParsedEthersError(error);
+      if (parsedEthersError.context == -32603) {
+        ToastMessage("Error", `Insufficient Balance`, "error");
+      } else {
+        ToastMessage("Error", `${parsedEthersError.context}`, "error");
+      }
+    }
+  };
 
   const {
     handleSubmit,
@@ -72,26 +131,41 @@ const MintNft = () => {
   } = useFormik({
     initialValues: {
       walletAddress: "",
-      supply: "",
+      supply: 0,
       royalty: "",
       user_id: "",
+      metauri: "",
+      chainId: 0,
     },
     validate: mintValidation,
-    onSubmit: (values) => {
-      CreateNft({
-        variables: {
-          name: createNft && createNft.name,
-          artistName1: createNft && createNft.artist_name1,
-          video: createNft && createNft.video,
-          description: createNft && createNft.description,
-          tokenId: "dff",
-          supply: Number(values.supply),
-          walletAddress: values.walletAddress,
-          status: true,
-          royalty: Number(values.royalty),
-          user_id: values.id,
-        },
-      });
+    onSubmit: async (values) => {
+      connectWalletHandle();
+      const tokenid = await mintCall(
+        Number(values.supply),
+        Number(values.royalty * 100)
+      );
+      console.log(Number(tokenid));
+
+      if (Number(tokenid)) {
+        CreateNft({
+          variables: {
+            name: createNft && createNft.name,
+            artistName1: createNft && createNft.artist_name1,
+            video: createNft && createNft.video,
+            metauri: createNft && createNft.meta,
+            description: createNft && createNft.description,
+            tokenId: `${Number(tokenid)}`,
+            chainId: Number(contractData.chain),
+            supply: Number(values.supply),
+            walletAddress: values.walletAddress,
+            status: true,
+            royalty: Number(values.royalty * 100),
+            user_id: values.id,
+          },
+        });
+      } else {
+        console.log("Minting is not gone through");
+      }
     },
   });
 
@@ -106,9 +180,18 @@ const MintNft = () => {
   }, [address, id]);
   console.log("addressaddress", address, values?.walletAddress);
 
+  useEffect(() => {
+    if (web3) {
+      setConnectModal(false);
+    }
+  }, [web3]);
+
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
-      {loading && <Loader content="Uploading" />}
+      <ConnectModal visible={connectModal} onClose={closeConnectModel} />
+      {loadingStatus && (
+        <Loader content={loading ? "Uploading..." : loadingMessage} />
+      )}
       <NavbarComponent
         toggleBtn={textColor === "white" ? true : false}
         selectedKey={"5"}
@@ -164,7 +247,7 @@ const MintNft = () => {
                   </div>
                   <div className="my-3">
                     <div className="d-flex label-input">
-                      <p className={`${textColor} m-0 fs-5`}>Royalties </p>
+                      <p className={`${textColor} m-0 fs-5`}>Royalty%: </p>
                       <span
                         style={{ marginTop: "-2.3rem", marginLeft: "1rem" }}
                       >
@@ -174,7 +257,15 @@ const MintNft = () => {
                             className={`royaltyInputField  me-5`}
                             placeholder={"royalty"}
                             onChange={(e) => {
-                              setFieldValue("royalty", e.target.value);
+                              if (e.target.value < 100) {
+                                setFieldValue("royalty", e.target.value);
+                              } else {
+                                ToastMessage(
+                                  "Error",
+                                  "Royalty should be less than 100",
+                                  "error"
+                                );
+                              }
                             }}
                             onKeyDown={(e) => {
                               if (
@@ -212,13 +303,13 @@ const MintNft = () => {
             <div className="supplyView">
               <div className="my-3">
                 <p className={`${textColor} mb-1 fs-5`}>Circulating Supply</p>
-                <p className={`${textColor2} m-0 fs-6`}>2</p>
+                <p className={`${textColor2} m-0 fs-6`}>{values.supply}</p>
               </div>
               <div className="my-3">
                 <p className={`${textColor} mb-1 fs-5`}>
                   Maximum Total Supply Supply
                 </p>
-                <p className={`${textColor2} m-0 fs-6`}>2</p>
+                <p className={`${textColor2} m-0 fs-6`}>{values.supply}</p>
               </div>
               <div className="my-3">
                 <p className={`${textColor} mb-1 fs-5`}>Supply Type</p>
@@ -233,11 +324,10 @@ const MintNft = () => {
         </div>
         <div style={{ width: "100%" }} className={` ${bgColor} my-4 p-5`}>
           <span className={`${textColor} fs-6 mb-3`}>
-            Based on your linked wallet balance of 102,000 and your reserve of 0
-            item(s), you can mint a maximun of 0 item(s).
+            How many NFTs would you like to mint?
           </span>
           <Row>
-            <Col
+            {/* <Col
               lg={4}
               md={10}
               sm={12}
@@ -262,7 +352,7 @@ const MintNft = () => {
               >
                 OR
               </span>
-            </Col>
+            </Col> */}
             <Col lg={20} md={14} sm={12} xs={24}>
               <Input
                 name="supply"

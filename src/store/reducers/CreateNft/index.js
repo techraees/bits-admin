@@ -4,6 +4,7 @@ const INITIAL_STATE = {
     artist_name1: "",
     description: "",
     video: "",
+    meta: "",
   },
 };
 

@@ -1,7 +1,9 @@
 import React from "react";
 import { logo } from "../../assets";
 import "./css/index.css";
-const BidModal = () => {
+import { trimWallet } from "../../utills/trimWalletAddr";
+
+const BidModal = ({nftOwner, name, offerAmount, amount, chain}) => {
   return (
     <div className="main-wrapper">
       <div className="top-title">Place your Bid</div>
@@ -11,15 +13,15 @@ const BidModal = () => {
             <img src={logo} width={80} height={100} />
           </div>
           <div>
-            <h5>Xtreeme pixels #15912</h5>
-            <h2>Xtreeme pixels</h2>
-            <p>Chain: Ethereum</p>
+            <h5>{name}</h5>
+            <h2>{trimWallet(nftOwner)}</h2>
+            <p>Chain: {chain}</p>
           </div>
         </div>
 
         <div>
-          <h5>0.076365 ETH</h5>
-          <p>$140.49</p>
+          <h5>{offerAmount} {chain}</h5>
+          <p>$ {amount}</p>
         </div>
       </div>
 
