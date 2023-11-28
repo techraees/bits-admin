@@ -1,15 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { check, upload, upload_file_icon, upload_red } from "../../assets";
 import { ButtonComponent } from "../index";
-import { Button, Modal, Row, Col, Progress, Input } from "antd";
+import { Button, Modal, Row, Col, Progress, Input, Select } from "antd";
 import "./css/index.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { uploadValidation } from "../validations";
 import ErrorMessage from "../error";
-import { sendFileToIPFS, sendMetaToIPFS} from "../../config/ipfsService";
+import { sendFileToIPFS, sendMetaToIPFS } from "../../config/ipfsService";
 import ToastMessage from "../toastMessage";
+import { handleDeepMotionUpload } from "../../config/deepmotion";
 
 const UploadVideoModal = ({ visible, onClose }) => {
   const navigate = useNavigate();
@@ -25,6 +26,8 @@ const UploadVideoModal = ({ visible, onClose }) => {
 
   const [imageUpload, setImageUpload] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState(null);
+  const [isEmote, setIsEmote] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
 
   const {
     handleSubmit,
@@ -40,20 +43,20 @@ const UploadVideoModal = ({ visible, onClose }) => {
       artist_name1: "",
       description: "",
       video: "",
-      meta:"",
+      meta: "",
     },
     validate: uploadValidation,
-    onSubmit: async(values) => {
+    onSubmit: async (values) => {
       const data = {
         name: values.name,
         description: values.description,
         image: values.video,
-        properties:{
+        properties: {
           video: values.video,
-        }
-      }
+        },
+      };
       const metaUri = await sendMetaToIPFS(data);
-      
+
       console.log("valuess", values);
       dispatch({
         type: "CREATE_NFT",
@@ -63,6 +66,8 @@ const UploadVideoModal = ({ visible, onClose }) => {
           description: values.description,
           video: values.video,
           meta: metaUri,
+          isEmote: values.isEmote,
+          download: values.download,
         },
       });
 
@@ -78,23 +83,59 @@ const UploadVideoModal = ({ visible, onClose }) => {
     hiddenFileInput.current.click();
   };
 
-  const uploadHandle = async (event) => {
-    const fileUploaded = event.target.files[0];
-
-    // Check if file type is .avi
-    if (fileUploaded.type === "video/avi") {
-      ToastMessage(
-        "Uploading .avi files is not allowed. Please select another file.",
-        "",
-        "error"
-      );
+  const handleSelect = (value) => {
+    if (value === "Emote") {
+      setIsEmote(true);
+      setIsSelected(true);
     } else {
-      setSelectedFileName(fileUploaded.name);
-      setImageUpload(true);
-      const url = await sendFileToIPFS(fileUploaded);
-      setImageUpload(false);
-      console.log("fileUpload", fileUploaded, url);
-      setFieldValue("video", url);
+      setIsEmote(false);
+      setIsSelected(true);
+    }
+  };
+
+  const uploadHandle = async (event) => {
+    if (isSelected) {
+      const fileUploaded = event.target.files[0];
+
+      // Check if file type is .avi
+      if (fileUploaded.type === "video/avi") {
+        ToastMessage(
+          "Uploading .avi files is not allowed. Please select another file.",
+          "",
+          "error"
+        );
+      } else {
+        if (isEmote) {
+          setSelectedFileName(fileUploaded.name);
+          setImageUpload(true);
+          const response = await handleDeepMotionUpload(
+            fileUploaded,
+            fileUploaded.name
+          );
+          if (response) {
+            console.log("download url", response.mp4);
+            const url = await sendFileToIPFS(response.mp4, isEmote);
+            setImageUpload(false);
+            console.log("fileUpload", fileUploaded, url);
+            setFieldValue("video", url);
+            setFieldValue("isEmote", true);
+            setFieldValue("download", response);
+          } else {
+            ToastMessage("Conversion Error", "", "error");
+          }
+        } else {
+          setSelectedFileName(fileUploaded.name);
+          setImageUpload(true);
+          const url = await sendFileToIPFS(fileUploaded, isEmote);
+          setImageUpload(false);
+          console.log("fileUpload", fileUploaded, url);
+          setFieldValue("video", url);
+          setFieldValue("isEmote", false);
+          setFieldValue("download", {});
+        }
+      }
+    } else {
+      ToastMessage("Please Select a style", "", "error");
     }
   };
 
@@ -109,26 +150,52 @@ const UploadVideoModal = ({ visible, onClose }) => {
     false
   );
   window.addEventListener("drop", async (e) => {
-    e = e;
-    e.preventDefault();
+    if (isSelected) {
+      e = e;
+      e.preventDefault();
 
-    if (e.dataTransfer.files[0]) {
-      const fileUploaded = e.dataTransfer.files[0];
+      if (e.dataTransfer.files[0]) {
+        const fileUploaded = e.dataTransfer.files[0];
 
-      if (fileUploaded.type === "video/avi") {
-        ToastMessage(
-          "Uploading .avi files is not allowed. Please select another file.",
-          "",
-          "error"
-        );
-      } else {
-        setSelectedFileName(fileUploaded.name);
-        setImageUpload(true);
-        const url = await sendFileToIPFS(fileUploaded);
-        setImageUpload(false);
-        console.log("fileUpload", fileUploaded, url);
-        setFieldValue("video", url);
+        if (fileUploaded.type === "video/avi") {
+          ToastMessage(
+            "Uploading .avi files is not allowed. Please select another file.",
+            "",
+            "error"
+          );
+        } else {
+          if (isEmote) {
+            setSelectedFileName(fileUploaded.name);
+            setImageUpload(true);
+            const response = await handleDeepMotionUpload(
+              fileUploaded,
+              fileUploaded.name
+            );
+            if (response) {
+              console.log("download url", response);
+              const url = await sendFileToIPFS(response.mp4, isEmote);
+              setImageUpload(false);
+              console.log("fileUpload", fileUploaded, url);
+              setFieldValue("video", url);
+              setFieldValue("isEmote", true);
+              setFieldValue("download", response);
+            } else {
+              ToastMessage("Conversion Error", "", "error");
+            }
+          } else {
+            setSelectedFileName(fileUploaded.name);
+            setImageUpload(true);
+            const url = await sendFileToIPFS(fileUploaded, isEmote);
+            setImageUpload(false);
+            console.log("fileUpload", fileUploaded, url);
+            setFieldValue("video", url);
+            setFieldValue("isEmote", false);
+            setFieldValue("download", {});
+          }
+        }
       }
+    } else {
+      ToastMessage("Please Select a style", "", "error");
     }
   });
 
@@ -168,6 +235,24 @@ const UploadVideoModal = ({ visible, onClose }) => {
         <p className={`${textColor} fs-5 text-center m-0`}>
           Upload Emote/Video
         </p>
+        <Select
+          className="text-center mt-3"
+          defaultValue="Select style"
+          style={{
+            width: "100%",
+          }}
+          onChange={handleSelect}
+          options={[
+            {
+              value: "Emote",
+              label: "Emote",
+            },
+            {
+              value: "Video",
+              label: "Video",
+            },
+          ]}
+        />
         <Row
           className="dragVideoView py-4 mt-4 mx-2 flex-column"
           gutter={{ xs: 8, sm: 16, md: 20, lg: 32 }}

@@ -144,7 +144,7 @@ const MintNft = () => {
         Number(values.supply),
         Number(values.royalty * 100)
       );
-      console.log(Number(tokenid));
+      console.log("ISEMOTE", createNft.isEmote);
 
       if (Number(tokenid)) {
         CreateNft({
@@ -159,6 +159,11 @@ const MintNft = () => {
             supply: Number(values.supply),
             walletAddress: values.walletAddress,
             status: true,
+            isEmote: createNft.isEmote,
+            rid:
+              createNft && createNft.download.rid
+                ? createNft.download.rid
+                : "rid",
             royalty: Number(values.royalty * 100),
             user_id: values.id,
           },

@@ -375,6 +375,10 @@ const Collections = () => {
                         name={e.name}
                         artistName={e.artist_name1}
                         videoLink={e.video}
+                        isEmote={e.isEmote}
+                        rid={e.rid}
+                        bvh={e.bvh}
+                        fbx={e.fbx}
                         topName
                         userProfile={full_name ? true : false}
                         navigateTo={() =>

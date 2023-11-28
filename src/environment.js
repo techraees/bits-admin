@@ -18,6 +18,11 @@ const environment = {
 
   INFURA_API_KEY: "e556d22112e34e3baab9760f1864493a",
   INFURA_SECRET: "9f553aaec3d14471892aaf9b9daa1ad2",
+
+  //deep motion keys
+  DEEPMOTION_API_URL: "https://service.deepmotion.com",
+  DEEPMOTION_CLIENT_ID: "jRQYA4bh9HpzkGU4RC7PYv",
+  DEEPMOTION_CLIENT_SECRET: "C8EZ2oT4s24HziLPx7kAa",
 };
 
 export default environment;

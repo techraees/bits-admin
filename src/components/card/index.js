@@ -14,6 +14,8 @@ import profileimg from "../../assets/images/profile1.png";
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
 import { useSelector } from "react-redux";
 import { ToastMessage } from "../../components";
+import { getSession } from "../../config/deepmotion";
+import { downloadVideo } from "../../config/deepmotion";
 
 const CardCompnent = ({
   image,
@@ -46,6 +48,8 @@ const CardCompnent = ({
   fixCopies,
   id,
   isAuction,
+  isEmote,
+  rid,
 }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -82,6 +86,20 @@ const CardCompnent = ({
     setIsOfferModalOpen(false);
     setIsNftModalOpen(false);
   };
+
+  //handle download
+  const handleDownloadClick = async () => {
+    const res = await getSession();
+    if (res) {
+      const response = await downloadVideo(rid);
+      if (response) {
+        window.location.href = response.fbx;
+      } else {
+        ToastMessage("There is some Error", "", "error");
+      }
+    }
+  };
+
   // console.log("userProfile", userProfile, image);
   const location = useLocation();
   // console.log("userId", userId, location.pathname);
@@ -432,6 +450,16 @@ const CardCompnent = ({
                 >
                   Go to Collection
                 </Button>
+                {isOwner && isEmote ? (
+                  <Button
+                    className="mt-2 collectionBtn"
+                    onClick={handleDownloadClick}
+                  >
+                    Download Fbx
+                  </Button>
+                ) : (
+                  ""
+                )}
               </>
             )}
           </>
