@@ -93,6 +93,7 @@ const MintNft = () => {
   const handleSplitOwnership = () => {
     if (userData?.isLogged) {
       setCreatorEarningModal(true);
+      console.log(creatorEarningModal)
     } else {
       navigate("/login");
     }
@@ -238,7 +239,7 @@ const MintNft = () => {
                   />
                 </div>
                 <div
-                  style={{ border: "1px solid  #B23232", cursor: 'pointer' }}
+                  style={{ border: "1px solid  #B23232" }}
                   className="p-1 mt-4 text-center rounded-3"
                 >
                   <span className={`${textColor2}`}>View on Etherscan</span>
@@ -260,7 +261,7 @@ const MintNft = () => {
                     <p className={`${textColor} m-0 fs-5`}>NFT ID</p>
                     <p className={`${textColor2} m-0 fs-6`}>#89832823289</p>
                   </div>
-                  <div className="my-4">
+                  <div className="my-3">
                     <div className="d-flex label-input">
                       <p className={`${textColor} m-0 fs-5`}>Royalty%: </p>
                       <span
@@ -313,7 +314,7 @@ const MintNft = () => {
                   style={{ border: "1px solid  #B23232", cursor: 'pointer' }}
                   className="p-1 mt-5 text-center rounded-3 red-background"
                   >
-                    <span className={`${textColor2}`}onClick={() => handleSplitOwnership()}>Split Ownership</span>
+                    <span className={`${textColor2}`}onClick={handleSplitOwnership}>Split Ownership</span>
                   </div>
                 </div>
                 <div style={{ borderRight: "1px solid #B23232" }} />
@@ -336,12 +337,6 @@ const MintNft = () => {
                 <p className={`${textColor} mb-1 fs-5`}>Supply Type</p>
                 <p className={`${textColor2} m-0 fs-6`}>Non Fungible Token</p>
               </div>
-              <div
-                  style={{ border: "1px solid  #B23232", cursor: 'pointer' }}
-                  className="p-1 mt-4 text-center rounded-3"
-                >
-                  <span className={`${textColor2}`} onClick={() => navigate(`/collections/${userData?.id}`)}>Go to Collection</span>
-                </div>
             </div>
           </Col>
         </Row>
