@@ -87,6 +87,8 @@ import marketcardimg from "./images/marketcard_img.png";
 import eth from "./images/eth.png";
 import polygon from "./images/polygon.png";
 import redPolygon from "./images/redpolygon.png";
+import crossIcon from "./images/cross.png";
+import deleteIcon from "./images/delete.png";
 
 export {
   logo,
@@ -178,4 +180,6 @@ export {
   eth,
   polygon,
   redPolygon,
+  crossIcon,
+  deleteIcon
 };
