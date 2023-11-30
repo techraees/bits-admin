@@ -1,7 +1,7 @@
 const environment = {
   // BACKEND_BASE_URL: "https://bits.getcoupanz.com",
-  BACKEND_BASE_URL: "http://localhost:4000",
-  // BACKEND_BASE_URL: "https://bits-backend.onrender.com",
+  // BACKEND_BASE_URL: "http://localhost:4000",
+  BACKEND_BASE_URL: "https://bits-backend.onrender.com",
 
   INFURA: "https://ipfs.infura.io:5001/api/v0",
   // PROJECT_ID: "2EQXENsyHZkKIqRaf2NMNSwTEuk",
