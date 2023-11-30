@@ -22,6 +22,7 @@ import environment from "../../environment";
 import { Modal } from "antd";
 import LogoutModal from "../logoutModal";
 import CookieConsent from "react-cookie-consent";
+import NotificationModal from "../notificationModal";
 
 const NavbarComponent = ({
   headerText,
@@ -386,9 +387,7 @@ const NavbarComponent = ({
                   <Nav.Link className="white mx-1">
                     <img src={search} className="" alt="search" />
                   </Nav.Link>
-                  <Nav.Link className="white mx-1">
-                    <img src={bell} className="" alt="bell" />
-                  </Nav.Link>
+                  <NotificationModal/>
                   <Nav.Link className="white mx-1 d-flex" onClick={showModal}>
                     <span className="me-2 mt-1">{full_name}</span>
                     {profileimg ? (

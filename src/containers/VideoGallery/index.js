@@ -147,31 +147,6 @@ const VideoGallery = () => {
 
               <div className={`marketplace-selct-div ${bgColor}`}>
                 <Select
-                  defaultValue="Auction"
-                  style={{
-                    width: 120,
-                  }}
-                  className={textColor == "black" && "light"}
-                  onChange={handleChange}
-                  options={[
-                    {
-                      value: "Auction",
-                      label: "Auction",
-                    },
-                    {
-                      value: "lucy",
-                      label: "Lucy",
-                    },
-                    {
-                      value: "Yiminghe",
-                      label: "yiminghe",
-                    },
-                  ]}
-                />
-              </div>
-
-              <div className={`marketplace-selct-div ${bgColor}`}>
-                <Select
                   defaultValue="Ranking"
                   style={{
                     width: 120,

@@ -252,19 +252,6 @@ function Login() {
               </div>
               <div className="my-2 d-flex" style={{ alignItems: "center" }}>
                 <CustomCheckbox
-                  active={signUpAgreeCheckbox}
-                  setActive={setSignUpAgreeCheckbox}
-                />
-                <Link to="/privacy-security">
-                  <span className="ms-3 light-grey">
-                    I agree to BITS’s{" "}
-                    <span className="red">Terms & Conditions</span>{" "}and{" "}
-                    <span className="red">Privacy Policy</span>
-                  </span>
-                </Link>
-              </div>
-              <div className="my-2 d-flex" style={{ alignItems: "center" }}>
-                <CustomCheckbox
                   active={rememberCheckbox}
                   setActive={setRememberCheckbox}
                 />

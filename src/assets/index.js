@@ -89,6 +89,8 @@ import polygon from "./images/polygon.png";
 import redPolygon from "./images/redpolygon.png";
 import crossIcon from "./images/cross.png";
 import deleteIcon from "./images/delete.png";
+import likedIcon from "./icons/like_icon.svg";
+import watchedIcon from "./icons/watch_icon.svg";
 
 export {
   logo,
@@ -181,5 +183,7 @@ export {
   polygon,
   redPolygon,
   crossIcon,
-  deleteIcon
+  deleteIcon,
+  likedIcon,
+  watchedIcon
 };

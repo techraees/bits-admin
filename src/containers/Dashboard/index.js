@@ -280,7 +280,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="dark-grey-bg d-flex justify-content-center">
-        <div className="py-2" style={{ border: "1px dashed purple" }}>
+        <div className="py-2" style={{ border: "1px" }}>
           <img src={discord_grey} className="mx-2" alt="discord" />
           <img src={telegram_grey} className="mx-2" alt="telegram" />
           <img src={twitter_grey} className="mx-2" alt="twitter" />
@@ -289,7 +289,7 @@ const Dashboard = () => {
       <div className="red-background">
         <div className="container d-flex justify-content-between py-2 align-items-center">
           <p className="m-0 white">
-            BITS C {new Date().getFullYear()} All Rights reserved{" "}
+            BITS NFT {new Date().getFullYear()} All Rights reserved{" "}
           </p>
           <img
             src={meta}

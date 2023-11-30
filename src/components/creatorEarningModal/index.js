@@ -2,7 +2,8 @@ import { React, useState } from "react";
 import { Modal } from "antd";
 import "./css/index.css";
 import { crossIcon, deleteIcon } from "../../assets";
-export default function CreatorEarningModal({ isOpen, onRequestClose }) {
+const CreatorEarningModal = ({ isOpen, onRequestClose }) => {
+
   const [tableData, setTableData] = useState([]);
 
   const addNewLine = () => {
@@ -19,7 +20,6 @@ export default function CreatorEarningModal({ isOpen, onRequestClose }) {
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      contentLabel="Example Modal"
       className="Modal"
       overlayClassName="Overlay"
     >
@@ -116,4 +116,5 @@ export default function CreatorEarningModal({ isOpen, onRequestClose }) {
       </div>
     </Modal>
   );
-}
+};
+export default CreatorEarningModal;
