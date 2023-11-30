@@ -17,9 +17,11 @@ import plus from "./icons/plus.svg";
 import right_arrow from "./icons/right_arrow.svg";
 import setting from "./icons/setting.svg";
 import profile_large from "./images/profile_large.png";
+import ellipse from "./icons/ellipse.svg";
 import location from "./icons/location.svg";
 import upload from "./icons/upload.svg";
 import AZ from "./icons/AZ.svg";
+import sort from "./icons/sort.svg";
 import grid from "./icons/grid.svg";
 import check from "./icons/check.svg";
 import cross from "./icons/cross.svg";
@@ -48,6 +50,7 @@ import connect from "./icons/connect.svg";
 import blue_layer from "./images/blue_layer.png";
 import brown_layer from "./images/brown_layer.png";
 import metamask_tag from "./images/metamask_tag.png";
+import metamaskwithmascot from "./images/metamaskwithmascot.png";
 import paypal_tag from "./images/paypal_tag.png";
 import pink_layer from "./images/pink_layer.png";
 import white_layer from "./images/white_layer.png";
@@ -84,6 +87,8 @@ import marketcardimg from "./images/marketcard_img.png";
 import eth from "./images/eth.png";
 import polygon from "./images/polygon.png";
 import redPolygon from "./images/redpolygon.png";
+import crossIcon from "./images/cross.png";
+import deleteIcon from "./images/delete.png";
 
 export {
   logo,
@@ -104,9 +109,11 @@ export {
   right_arrow,
   setting,
   profile_large,
+  ellipse,
   location,
   upload,
   AZ,
+  sort,
   grid,
   check,
   cross,
@@ -135,6 +142,7 @@ export {
   blue_layer,
   brown_layer,
   metamask_tag,
+  metamaskwithmascot,
   paypal_tag,
   pink_layer,
   white_layer,
@@ -172,4 +180,6 @@ export {
   eth,
   polygon,
   redPolygon,
+  crossIcon,
+  deleteIcon
 };

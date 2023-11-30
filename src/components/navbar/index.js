@@ -21,6 +21,7 @@ import profileimg from "../../assets/images/profile1.svg";
 import environment from "../../environment";
 import { Modal } from "antd";
 import LogoutModal from "../logoutModal";
+import CookieConsent from "react-cookie-consent";
 
 const NavbarComponent = ({
   headerText,
@@ -323,7 +324,7 @@ const NavbarComponent = ({
                 className="white"
                 onClick={() => navigate("/video-gallery")}
               >
-                Emote-Video gallery
+                Emote/Video gallery
               </Nav.Link>
               <Nav.Link
                 className="white"
@@ -449,6 +450,18 @@ const NavbarComponent = ({
           <span className="light-grey fs-5">{headerText}</span>
         </div>
       )}
+      <div>
+      <CookieConsent
+        location="bottom"
+        buttonText="Got it!"
+        cookieName="cookieConsentCookie"
+        style={{ background: "#2B373B" }}
+        buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+        expires={365}
+      >
+        This website uses cookies to enhance the user experience and tracking the data.
+      </CookieConsent>
+    </div>
     </>
   );
 };

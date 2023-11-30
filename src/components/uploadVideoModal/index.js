@@ -305,6 +305,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
                 <div className="d-flex">
                   <img src={upload_file_icon} className="me-2" />
                   <Progress percent={70} status="exception" />
+                  <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>70% Uploaded</p>
                 </div>
               </>
             ) : (
@@ -316,6 +317,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
                   <div className="d-flex">
                     <img src={upload_file_icon} className="me-2" />
                     <Progress percent={100} />
+                    <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>100% Uploaded</p>
                   </div>
                 </>
               )

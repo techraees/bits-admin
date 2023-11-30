@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { logo } from "../../assets";
+import { logo, account, metamaskwithmascot } from "../../assets";
 import { useSelector, useDispatch } from "react-redux";
 import {
   ButtonComponent,
@@ -21,8 +21,8 @@ import ConnectModal from "../../components/connectModal";
 function Login() {
   const dispatch = useDispatch();
 
-  const { web3, account } = useSelector((state) => state.web3.walletData);
-  console.log(" loginn", web3, account);
+  const { web3, accountv } = useSelector((state) => state.web3.walletData);
+  console.log(" loginn", web3, accountv);
   const [connectModal, setConnectModal] = useState(false);
 
   // sign in checkbox
@@ -168,7 +168,7 @@ function Login() {
       fullName: data.full_name,
       password: data.password,
       phoneNumber: data.phone_number,
-      userAddress: account,
+      userAddress: accountv,
     };
 
     createUser({
@@ -194,6 +194,9 @@ function Login() {
     if (!web3) {
       setConnectModal(true);
     }
+  };
+  const openMetaMaskLink = () => {
+    window.open('https://metamask.io/', '_blank');
   };
 
   useEffect(() => {
@@ -247,7 +250,19 @@ function Login() {
                 />
                 {errors.password && <span>{errors.password.message}</span>}
               </div>
-
+              <div className="my-2 d-flex" style={{ alignItems: "center" }}>
+                <CustomCheckbox
+                  active={signUpAgreeCheckbox}
+                  setActive={setSignUpAgreeCheckbox}
+                />
+                <Link to="/privacy-security">
+                  <span className="ms-3 light-grey">
+                    I agree to BITS’s{" "}
+                    <span className="red">Terms & Conditions</span>{" "}and{" "}
+                    <span className="red">Privacy Policy</span>
+                  </span>
+                </Link>
+              </div>
               <div className="my-2 d-flex" style={{ alignItems: "center" }}>
                 <CustomCheckbox
                   active={rememberCheckbox}
@@ -261,11 +276,20 @@ function Login() {
                   text={"SIGN IN"}
                 />
               </div>
-              <div className="d-flex justify-content-center">
-                <span>
-                  Don't have Account?{" "}
-                  <span className="red cursor">Sign Up</span>
+              <div className="my-4 d-flex justify-content-center">
+                <span className="red cursor">
+                  Forget Password?
                 </span>
+              </div>
+              <div className="my-2 d-flex justify-content-center">
+                <span >
+                  Must have a <span style={{color: "#F5841E", cursor: 'pointer'}}
+                  onClick={openMetaMaskLink}>MetaMask</span> wallet to use the platform
+                </span>
+              </div>
+              <div className="d-flex justify-content-center">
+              <img src={metamaskwithmascot} alt="" style={{ cursor: 'pointer' }}
+          onClick={openMetaMaskLink}/>
               </div>
             </form>
           </div>
@@ -341,13 +365,20 @@ function Login() {
                   setActive={setSignUpAgreeCheckbox}
                 />
                 <Link to="/privacy-security">
-                  <span className="ms-3 light-grey">
-                    I agree to <span className="red">BITS’s</span>{" "}
-                    <span style={{ color: "blue" }}>Terms & Conditions</span>
+                <span className="ms-3 light-grey">
+                    I agree to BITS’s{" "}
+                    <span className="red">Terms & Conditions</span>{" "}and{" "}
+                    <span className="red">Privacy Policy</span>
                   </span>
                 </Link>
               </div>
-
+              <div className="my-2 d-flex" style={{ alignItems: "center" }}>
+                <CustomCheckbox
+                  active={rememberCheckbox}
+                  setActive={setRememberCheckbox}
+                />
+                <span className="ms-3 light-grey">Remember me</span>
+              </div>
               <div className="my-5">
                 {!web3 ? (
                   <ButtonComponent
@@ -364,11 +395,21 @@ function Login() {
                   />
                 )}
               </div>
-              <div className="d-flex justify-content-center">
+              <div className="my-4 d-flex justify-content-center">
                 <span>
                   Already have Account?{" "}
                   <span className="red cursor">Login</span>
                 </span>
+              </div>
+              <div className="my-2 d-flex justify-content-center">
+                <span>
+                  Must have a <span style={{color: "#F5841E", cursor: 'pointer'}} onClick={openMetaMaskLink} >MetaMask</span>  wallet to use the platform
+                </span>
+              </div>
+              <div className="d-flex justify-content-center">
+              <img src={metamaskwithmascot} 
+              style={{ cursor: 'pointer' }}
+              onClick={openMetaMaskLink} alt="" />
               </div>
             </form>
           </div>
