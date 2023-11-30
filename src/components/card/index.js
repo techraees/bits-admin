@@ -178,14 +178,14 @@ const CardCompnent = ({
           />
         }
       >
-        <div class="video-overlay">
-        <Space direction="horizontal" size={8} style={{ width: "100%" }}>
-          <img src={watchedIcon} alt="Watched" style={{color: "#756E6E"}}/>
-          <p>7.1k watched</p>
+        <Space direction="vertical" size={8} style={{ width: "100%" ,top:"10px",left:"10px",position:"absolute" }}>
+        <Space direction="vertical" size={8} style={{ width: "100%" }}>
           <img src={likedIcon} alt="Liked" style={{color: "#756E6E"}} />
           <p>1.5k liked</p>
+          <img src={watchedIcon} alt="Watched" style={{color: "#756E6E"}}/>
+          <p>7.1k watched</p>
         </Space>
-        </div>
+        </Space>
         {marketplacecard ? (
           <>
             <div className="price-wrapper d-flex justify-content-between">
