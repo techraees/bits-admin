@@ -178,14 +178,14 @@ const CardCompnent = ({
           />
         }
       >
-        <Space direction="vertical" size={8} style={{ width: "100%" ,top:"10px",left:"10px",position:"absolute" }}>
-        <Space direction="vertical" style={{ width: "100%" }}>
+        <Space direction="horizontal" style={{ width: "100%" ,top:"10px",left:"10px",position:"absolute" }}>
+        <Space direction="vertical">
           <img src={likedIcon} alt="Liked" style={{color: "#756E6E"}} />
-          <p style={{fontSize: 8}}>1.5k liked</p>
+          <p style={{fontSize: 8}}>1.5k+</p>
         </Space>
-        <Space direction="vertical" style={{ width: "100%" }}>
+        <Space direction="vertical">
           <img src={watchedIcon} alt="Watched" style={{color: "#756E6E"}}/>
-          <p style={{fontSize: 8}}>7.1k watched</p>
+          <p style={{fontSize: 8}}>7.1k+</p>
         </Space>
         </Space>
         {marketplacecard ? (
