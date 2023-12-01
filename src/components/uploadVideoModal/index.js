@@ -363,6 +363,30 @@ const UploadVideoModal = ({ visible, onClose }) => {
               />
             </div>
             <div className="my-4">
+              <p style={{color: "#C44040"}} className="mb-2">
+                Category
+              </p>
+              <Select
+              className="text-center mt-3"
+              defaultValue="Select style"
+              style={{width: "100%"}}
+              options={[
+                {
+                  value: "Dance",
+                  label: "Dance",
+                },
+                {
+                  value: "Emote",
+                  label: "Emote",
+                },
+                {
+                  value: "Moment",
+                  label: "Moment",
+                },
+              ]}
+              />
+            </div>
+            <div className="my-4">
               <p style={{ color: "#C44040" }} className="mb-2">
                 Description
               </p>

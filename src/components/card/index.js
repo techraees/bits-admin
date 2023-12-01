@@ -1,6 +1,6 @@
 import "./css/index.css";
 import { Card, Tooltip } from "antd";
-import { check, cross, marketcardimg, profile, thumb} from "../../assets";
+import { check, cross, marketcardimg, profile, thumb, watchedIcon, likedIcon} from "../../assets";
 import { Button, Space, Typography } from "antd";
 import { EyeOutlined, LikeOutlined } from "@ant-design/icons";
 import ButtonComponent from "../button";
@@ -178,16 +178,16 @@ const CardCompnent = ({
           />
         }
       >
-        <Space direction="vertical" size={8} style={{ width: "100%" }}>
-        <Space>
-          <EyeOutlined style={{ fontSize: 10, color: "#1890ff" }} />
-          <p>7.1k watched</p>
+        <Space direction="vertical" size={8} style={{ width: "100%" ,top:"10px",left:"10px",position:"absolute" }}>
+        <Space direction="vertical" style={{ width: "100%" }}>
+          <img src={likedIcon} alt="Liked" style={{color: "#756E6E"}} />
+          <p style={{fontSize: 8}}>1.5k liked</p>
         </Space>
-        <Space>
-          <LikeOutlined style={{ fontSize: 10, color: "#1890ff" }} />
-          <p>1.5k liked</p>
+        <Space direction="vertical" style={{ width: "100%" }}>
+          <img src={watchedIcon} alt="Watched" style={{color: "#756E6E"}}/>
+          <p style={{fontSize: 8}}>7.1k watched</p>
         </Space>
-      </Space>
+        </Space>
         {marketplacecard ? (
           <>
             <div className="price-wrapper d-flex justify-content-between">
