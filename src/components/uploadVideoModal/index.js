@@ -367,8 +367,8 @@ const UploadVideoModal = ({ visible, onClose }) => {
                 Category
               </p>
               <Select
-              className="text-center mt-3"
-              defaultValue="Select style"
+              className="text-center greyBgInput"
+              defaultValue="Select Category"
               style={{width: "100%"}}
               options={[
                 {
@@ -383,6 +383,70 @@ const UploadVideoModal = ({ visible, onClose }) => {
                   value: "Moment",
                   label: "Moment",
                 },
+              ]}
+              />
+            </div>
+            <div className="my-4">
+              <p style={{color: "#C44040"}} className="mb-2">
+                Pricing
+              </p>
+              <Select
+              className="text-center greyBgInput"
+              defaultValue="Select Pricing"
+              style={{width: "100%"}}
+              options={[
+                {
+                  value: "$0-$10",
+                  label: "$0-$10",
+                },
+                {
+                  value: "$10-$100",
+                  label: "$10-$100",
+                },
+                {
+                  value: "$100-$1000",
+                  label: "$100-$1000",
+                },
+                {
+                  value: "$1000-$10000",
+                  label: "$1000-$10000",
+                },
+                {
+                  value: "$10000+",
+                  label: "$10000+",
+                }
+              ]}
+              />
+            </div>
+            <div className="my-4">
+              <p style={{color: "#C44040"}} className="mb-2">
+                Quantity
+              </p>
+              <Select
+              className="text-center greyBgInput"
+              defaultValue="Select Quantity"
+              style={{width: "100%"}}
+              options={[
+                {
+                  value: "0-10",
+                  label: "0-10",
+                },
+                {
+                  value: "10-100",
+                  label: "10-100",
+                },
+                {
+                  value: "100-1000",
+                  label: "100-1000",
+                },
+                {
+                  value: "1000-10000",
+                  label: "1000-10000",
+                },
+                {
+                  value: "10000+",
+                  label: "10000+",
+                }
               ]}
               />
             </div>
