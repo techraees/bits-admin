@@ -17,11 +17,14 @@ const CreatorEarningModal = ({ isOpen, onRequestClose }) => {
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      className="Modal"
-      overlayClassName="Overlay"
+    <Modal      
+    footer={null}
+    bodyStyle={{ backgroundColor: "#222222" }}
+    open={isOpen}
+    onOk={onRequestClose}
+    onCancel={onRequestClose}
+    className="Modal"
+    overlayClassName="Overlay"
     >
       <div className="p-8">
         <div className=" flex justify-between mx-0 bg-black w-full">
