@@ -80,16 +80,20 @@ const VideoGallery = () => {
                   onChange={handleChange}
                   options={[
                     {
-                      value: "Category",
-                      label: "Category",
+                      value: "Dance",
+                      label: "Dance",
                     },
                     {
-                      value: "lucy",
-                      label: "Lucy",
+                      value: "Emote",
+                      label: "Emote",
                     },
                     {
-                      value: "Yiminghe",
-                      label: "yiminghe",
+                      value: "Moments",
+                      label: "Moments",
+                    },
+                    {
+                      value: "Other",
+                      label: "Other",
                     },
                   ]}
                 />
@@ -105,17 +109,25 @@ const VideoGallery = () => {
                   onChange={handleChange}
                   options={[
                     {
-                      value: "Price",
-                      label: "Price",
+                      value: "$0-$10",
+                      label: "$0-$10",
                     },
                     {
-                      value: "lucy",
-                      label: "Lucy",
+                      value: "$10-$100",
+                      label: "$10-$100",
                     },
                     {
-                      value: "Yiminghe",
-                      label: "yiminghe",
+                      value: "$100-$1000",
+                      label: "$100-$1000",
                     },
+                    {
+                      value: "$1000-$10000",
+                      label: "$1000-$10000",
+                    },
+                    {
+                      value: "$10000+",
+                      label: "$10000+",
+                    }
                   ]}
                 />
               </div>
@@ -130,17 +142,25 @@ const VideoGallery = () => {
                   className={textColor == "black" && "light"}
                   options={[
                     {
-                      value: "Quantity",
-                      label: "Quantity",
+                      value: "0-10",
+                      label: "0-10",
                     },
                     {
-                      value: "lucy",
-                      label: "Lucy",
+                      value: "10-100",
+                      label: "10-100",
                     },
                     {
-                      value: "Yiminghe",
-                      label: "yiminghe",
+                      value: "100-1000",
+                      label: "100-1000",
                     },
+                    {
+                      value: "1000-10000",
+                      label: "1000-10000",
+                    },
+                    {
+                      value: "10000+",
+                      label: "10000+",
+                    }
                   ]}
                 />
               </div>
@@ -155,17 +175,9 @@ const VideoGallery = () => {
                   onChange={handleChange}
                   options={[
                     {
-                      value: "Ranking",
-                      label: "Ranking",
-                    },
-                    {
-                      value: "lucy",
-                      label: "Lucy",
-                    },
-                    {
-                      value: "Yiminghe",
-                      label: "yiminghe",
-                    },
+                      value: "Coming Soon",
+                      label: "Coming Soon",
+                    }
                   ]}
                 />
               </div>
