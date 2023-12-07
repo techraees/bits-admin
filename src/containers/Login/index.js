@@ -17,6 +17,7 @@ import { LOGIN_USER, GET_PLAYER } from "../../gql/queries";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { CREATE_USER } from "../../gql/mutations";
 import ConnectModal from "../../components/connectModal";
+import ForgotPassModal from "../ForgotPassModal";
 
 function Login() {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function Login() {
   const { web3, accountv } = useSelector((state) => state.web3.walletData);
   console.log(" loginn", web3, accountv);
   const [connectModal, setConnectModal] = useState(false);
+  const [forgotPassModal, setForgotPassModal] = useState(false)
 
   // sign in checkbox
   const [rememberCheckbox, setRememberCheckbox] = useState(false);
@@ -205,12 +207,24 @@ function Login() {
     }
   }, [web3]);
 
+
+  const handleOpenForgotPass = () => {
+    setForgotPassModal(true)
+  }
+
+  const handleCloseForgotPass = () => {
+    setForgotPassModal(false)
+  }
   return (
     <div style={{ background: "black" }}>
       <ConnectModal visible={connectModal} onClose={closeConnectModel} />
       {playerLoading ||
         signUpLoading ||
         (loading && <Loading content="Loading" />)}
+
+        {forgotPassModal && (
+          <ForgotPassModal visible={forgotPassModal} onClose={handleCloseForgotPass}/>
+        )}
 
       <div className="container loginContainer py-4">
         <img src={logo} className="logoSize mb-5" />
@@ -264,7 +278,7 @@ function Login() {
                 />
               </div>
               <div className="my-4 d-flex justify-content-center">
-                <span className="red cursor">
+                <span className="red cursor" onClick={handleOpenForgotPass}>
                   Forget Password?
                 </span>
               </div>
