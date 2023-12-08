@@ -1,123 +1,176 @@
-import { React, useState } from "react";
-import { Modal } from "antd";
-import "./css/index.css";
-import { crossIcon, deleteIcon } from "../../assets";
+import { React, useState } from 'react';
+import {
+    Button,
+    Input,
+    InputNumber,
+    Modal,
+    Popconfirm,
+    Space,
+    Table,
+} from 'antd';
+import './css/index.css';
+import { crossIcon, deleteIcon } from '../../assets';
+import { DeleteOutlined } from '@ant-design/icons';
+
 const CreatorEarningModal = ({ isOpen, onRequestClose }) => {
+    const [data, setData] = useState([
+        { key: 1, walletAddress: '', percentage: '' },
+    ]);
+    const [count, setCount] = useState(0);
 
-  const [tableData, setTableData] = useState([]);
-
-  const addNewLine = () => {
-    const newLine = {
-      id: tableData.length + 1,
-      wallet: "New Person",
-      percentage: 0,
-    };
-    setTableData([...tableData, newLine]);
-    console.log(tableData);
-  };
-
-  return (
-    <Modal      
-    footer={null}
-    bodyStyle={{ backgroundColor: "#222222" }}
-    open={isOpen}
-    onOk={onRequestClose}
-    onCancel={onRequestClose}
-    className="Modal"
-    overlayClassName="Overlay"
-    >
-      <div className="p-8">
-        <div className=" flex justify-between mx-0 bg-black w-full">
-          <p className=" text-white text-[20px] font-bold">Creator Earnings</p>
-          <img
-            className=" w-6 h-6"
-            src={crossIcon}
-            alt=""
-            onClick={onRequestClose}
-          />
-        </div>
-
-        <div>
-          <div class="relative w-full mt-2">
-            <table class="w-full text-sm border-b text-left">
-              <thead class="text-xs text-white border-b w-full  bg-black">
-                <tr>
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-white font-semibold text-base"
-                  >
-                    S.no
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-3 py-3 text-white font-semibold text-base"
-                  >
-                    Wallet address
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-0 py-3 text-white font-semibold text-base"
-                  >
-                    Percentage
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-0 py-3 text-white font-semibold text-base"
-                  >
-                    Action
-                  </th>
-                  <div className="w-full h-1 bg-white"></div>
-                </tr>
-              </thead>
-              <tbody>
-                {tableData.map((row) => (
-                  <tr key={row.id} class="bg-black border-b">
-                    <th
-                      scope="row"
-                      class="px-6 py-2 font-light text-[#CCCCCC] whitespace-nowrap dark:text-white"
+    const columns = [
+        {
+            title: 'Sl. No',
+            dataIndex: 'slNo',
+            key: 'slNo',
+            width: '10%',
+            render: (text, record, index) => index + 1,
+        },
+        {
+            title: 'Wallet Address',
+            dataIndex: 'walletAddress',
+            key: 'walletAddress',
+            width: '50%',
+            render: (text, record, index) => (
+                <Input
+                    value={text}
+                    className="creator-input text-white"
+                    onChange={(e) =>
+                        handleInputChange(e, record.key, 'walletAddress')
+                    }
+                />
+            ),
+        },
+        {
+            title: 'Percentage',
+            dataIndex: 'percentage',
+            key: 'percentage',
+            width: '30%',
+            render: (text, record, index) => (
+                <InputNumber
+                    // defaultValue={25}
+                    min={0}
+                    max={100}
+                    className="creator-input w-50 text-white"
+                    formatter={(value) => `${value}%`}
+                    parser={(value) => value.replace('%', '')}
+                    // onChange={(e) =>
+                    //     handleInputChange(e, record.key, 'percentage')
+                    // }
+                />
+            ),
+        },
+        {
+            title: 'Action',
+            dataIndex: 'action',
+            key: 'action',
+            render: (text, record, index) => (
+                <Space size="middle">
+                    <Popconfirm
+                        title="Are you sure to delete this row?"
+                        onConfirm={() => handleDelete(record.key)}
+                        className="custom-popconfirm"
                     >
-                      {row.id}
-                    </th>
-                    <td class="px-0 py-4">
-                      <input
-                        className="border bg-black border-[#cccccc] font-light rounded-lg w-[366px] h-[48px] p-4"
-                        type="text"
-                        placeholder="0xF2F107A8470ccC495E1acD4d4c93aF3A523e3C85"
-                      />
-                    </td>
-                    <td class="px-0 py-4">
-                      <input
-                        className="border bg-black border-[#cccccc] font-light text-[18px] rounded-lg w-[143px] text-center h-[48px] p-4"
-                        type="text"
-                        placeholder="25%"
-                      />
-                    </td>
-                    <td class="px-6 py-2">
-                      <img src={deleteIcon} alt="" className="w-4" />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                        <Button icon={<DeleteOutlined />} type="link" danger />
+                    </Popconfirm>
+                </Space>
+            ),
+        },
+    ];
 
-          <div className=" flex justify-between mt-8">
-            <p
-              className=" text-[#DF4747] font-normal text-base rounded-lg px-2 py-0.5 whitespace-nowrap border border-[#DF4747] cursor-pointer"
-              onClick={addNewLine}
-            >
-              Add adddress
-            </p>
-            <p
-              className=" text-white font-normal text-base rounded-lg px-2 py-0.5 bg-[#DF4747] cursor-pointer"
-              onClick={onRequestClose}
-            >
-              Done
-            </p>
-          </div>
-        </div>
-      </div>
-    </Modal>
-  );
+    const [tableData, setTableData] = useState([]);
+
+    const addNewLine = () => {
+        const newLine = {
+            id: tableData.length + 1,
+            wallet: 'New Person',
+            percentage: 0,
+        };
+        setTableData([...tableData, newLine]);
+        console.log(tableData);
+    };
+
+    const handleInputChange = (e, key, dataIndex) => {
+        const newData = [...data];
+        const index = newData.findIndex((item) => key === item.key);
+        if (index > -1) {
+            newData[index][dataIndex] = e.target.value;
+            setData(newData);
+        }
+    };
+
+    const handleDelete = (key) => {
+        const newData = data.filter((item) => item.key !== key);
+        setData(newData);
+    };
+
+    const handleAddAddress = () => {
+        const newData = [...data];
+        newData.push({
+            key: count,
+            walletAddress: '',
+            percentage: '',
+        });
+        setCount(count + 1);
+        setData(newData);
+    };
+
+    const handleDone = () => {
+        // Handle the "Done" button action
+        console.log('Data:', data);
+        onRequestClose();
+    };
+
+    return (
+        <Modal
+            footer={null}
+            bodyStyle={{ backgroundColor: '#222222' }}
+            headerStyle={{ backgroundColor: 'red' }}
+            open={isOpen}
+            onOk={onRequestClose}
+            onCancel={onRequestClose}
+            className="Modal customized-modal-header"
+            closeIcon={
+                <img
+                    className=""
+                    src={crossIcon}
+                    alt=""
+                    onClick={onRequestClose}
+                    style={{ width: '30px' }}
+                />
+            }
+            title={'Creator Earnings'}
+            width={850}
+        >
+            <div className="py-8 wallet-table-container">
+                
+                <Table
+                    className="creator-earnings-table custom-scrollbar"
+                    columns={columns}
+                    dataSource={data}
+                    pagination={false}
+                    scroll={{ y: '380px' }}
+                />
+            </div>
+
+            <div className="d-flex justify-content-between my-4 px-5">
+                <Button
+                    className="add-address"
+                    style={{ border: '1px solid #9B2C2C' }}
+                    onClick={handleAddAddress}
+                >
+                    Add Address
+                </Button>
+                <Button
+                    type="primary"
+                    onClick={handleDone}
+                    style={{ marginLeft: '10px', border: '1px solid #9B2C2C' }}
+                    className=" red-gradient"
+                >
+                    Done
+                </Button>
+            </div>
+        </Modal>
+    );
 };
 export default CreatorEarningModal;
