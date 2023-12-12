@@ -91,6 +91,7 @@ import crossIcon from "./images/cross.png";
 import deleteIcon from "./images/delete.png";
 import likedIcon from "./icons/like_icon.svg";
 import watchedIcon from "./icons/watch_icon.svg";
+import loader from './images/loader.svg';
 
 export {
   logo,
@@ -185,5 +186,6 @@ export {
   crossIcon,
   deleteIcon,
   likedIcon,
-  watchedIcon
+  watchedIcon,
+  loader
 };
