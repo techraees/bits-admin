@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { check, upload, upload_file_icon, upload_red } from "../../assets";
+import { check, upload, upload_file_icon, upload_red, loader } from "../../assets";
 import { ButtonComponent } from "../index";
 import { Button, Modal, Row, Col, Progress, Input, Select } from "antd";
 import "./css/index.css";
@@ -28,6 +28,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
   const [selectedFileName, setSelectedFileName] = useState(null);
   const [isEmote, setIsEmote] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
+  const [imageUploadLoader, setImageUploadLoader] = useState(false);
 
   const {
     handleSubmit,
@@ -95,6 +96,8 @@ const UploadVideoModal = ({ visible, onClose }) => {
 
   const uploadHandle = async (event) => {
     if (isSelected) {
+      console.log("uploadHandle == isSelected:", isSelected)
+      setImageUploadLoader(true);
       const fileUploaded = event.target.files[0];
 
       // Check if file type is .avi
@@ -137,6 +140,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
     } else {
       ToastMessage("Please Select a style", "", "error");
     }
+    setImageUploadLoader(false)
   };
 
   const [dragActive, setDragActive] = React.useState(false);
@@ -295,30 +299,43 @@ const UploadVideoModal = ({ visible, onClose }) => {
               </div>
             </form>
           </Col>
-          <Col lg={14} md={14} sm={24} xs={24}>
+         {imageUploadLoader && (
+            <Row>
+              <Col span={24}>
+                <img src={loader} alt="loader" style={{width: '80px'}}/>
+              </Col>
+          </Row>
+         )}
+
+          <Col lg={24} md={24} sm={24} xs={24}>
             {selectedFileName && imageUpload ? (
               <>
                 <p className={`${textColor2} m-0 mt-3 mb-2 ms-3`}>
                   {selectedFileName}
                 </p>
+                <Row>
+                  <Col span={4}><img src={upload_file_icon} className="me-2" /></Col>
+                  <Col span={20}><Progress percent={70} status="exception" />
+                  <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>70% Uploaded</p></Col>
+                </Row>
 
-                <div className="d-flex">
+                {/* <div className="">
                   <img src={upload_file_icon} className="me-2" />
                   <Progress percent={70} status="exception" />
                   <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>70% Uploaded</p>
-                </div>
+                </div> */}
               </>
             ) : (
               selectedFileName && (
                 <>
                   <p className={`${textColor2} m-0 mt-3 mb-2 ms-3`}>
-                    {selectedFileName}
-                  </p>
-                  <div className="d-flex">
-                    <img src={upload_file_icon} className="me-2" />
-                    <Progress percent={100} />
-                    <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>100% Uploaded</p>
-                  </div>
+                  {selectedFileName}
+                </p>
+                <Row>
+                  <Col span={4}><img src={upload_file_icon} className="me-2" /></Col>
+                  <Col span={20}><Progress percent={100} />
+                  <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>100% Uploaded</p></Col>
+                </Row>
                 </>
               )
             )}
