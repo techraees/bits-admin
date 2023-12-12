@@ -334,7 +334,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
                 <Row>
                   <Col span={4}><img src={upload_file_icon} className="me-2" /></Col>
                   <Col span={20}><Progress percent={100} />
-                  <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>70% Uploaded</p></Col>
+                  <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>100% Uploaded</p></Col>
                 </Row>
                 </>
               )
