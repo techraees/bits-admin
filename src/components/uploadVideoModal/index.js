@@ -313,24 +313,29 @@ const UploadVideoModal = ({ visible, onClose }) => {
                 <p className={`${textColor2} m-0 mt-3 mb-2 ms-3`}>
                   {selectedFileName}
                 </p>
+                <Row>
+                  <Col span={4}><img src={upload_file_icon} className="me-2" /></Col>
+                  <Col span={20}><Progress percent={70} status="exception" />
+                  <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>70% Uploaded</p></Col>
+                </Row>
 
-                <div className="d-flex">
+                {/* <div className="">
                   <img src={upload_file_icon} className="me-2" />
                   <Progress percent={70} status="exception" />
                   <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>70% Uploaded</p>
-                </div>
+                </div> */}
               </>
             ) : (
               selectedFileName && (
                 <>
                   <p className={`${textColor2} m-0 mt-3 mb-2 ms-3`}>
-                    {selectedFileName}
-                  </p>
-                  <div className="d-flex">
-                    <img src={upload_file_icon} className="me-2" />
-                    <Progress percent={100} />
-                    <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>100% Uploaded</p>
-                  </div>
+                  {selectedFileName}
+                </p>
+                <Row>
+                  <Col span={4}><img src={upload_file_icon} className="me-2" /></Col>
+                  <Col span={20}><Progress percent={100} />
+                  <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>70% Uploaded</p></Col>
+                </Row>
                 </>
               )
             )}
