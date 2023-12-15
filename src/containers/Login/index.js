@@ -279,7 +279,7 @@ function Login() {
               </div>
               <div className="my-4 d-flex justify-content-center">
                 <span className="red cursor" onClick={handleOpenForgotPass}>
-                  Forget Password?
+                  Forgot Password?
                 </span>
               </div>
               <div className="my-2 d-flex justify-content-center">
