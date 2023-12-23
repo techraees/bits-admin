@@ -8,6 +8,8 @@ import { BsFilterLeft } from "react-icons/bs";
 import { GET_ALL_NFTS_WITHOUT_ADDRESS } from "../../gql/queries";
 import { useQuery } from "@apollo/client";
 import environment from "../../environment";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const VideoGallery = () => {
   const { loading, error, data, refetch } = useQuery(
@@ -67,7 +69,8 @@ const VideoGallery = () => {
         <div className="d-flex justify-content-between mt-5">
           <div className="d-flex gap-5 ">
             <div className={`filter-wrapper ${bgColor}`}>
-              <BsFilterLeft style={{ color: "#C93B3B", fontSize: "2rem" }} />
+            <FontAwesomeIcon icon={faFilter} style={{ color: "#C93B3B", fontSize: "2rem" }} />
+              {/* <BsFilterLeft style={{ color: "#C93B3B", fontSize: "2rem" }} /> */}
             </div>
             <div className="marketplace-select-field d-flex gap-2">
               <div className={`marketplace-selct-div ${bgColor}`}>

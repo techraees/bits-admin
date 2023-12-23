@@ -18,6 +18,8 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import { CREATE_USER } from "../../gql/mutations";
 import ConnectModal from "../../components/connectModal";
 import ForgotPassModal from "../ForgotPassModal";
+import Cookies from 'js-cookie';
+
 
 function Login() {
   const dispatch = useDispatch();
@@ -81,6 +83,13 @@ function Login() {
       const { user_address, id, token, full_name, country, bio, profileImg } =
         LoginUser;
       localStorage.setItem("token", token);
+
+      Cookies.set('your-cookie-name', 'cookie-value', {
+        expires: 7,
+        secure: true, 
+        sameSite: 'Lax' 
+        
+    });
 
 
       dispatch({

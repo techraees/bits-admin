@@ -181,11 +181,11 @@ const CardCompnent = ({
         <Space direction="horizontal" style={{ width: "100%" ,top:"10px",left:"10px",position:"absolute" }}>
         <Space direction="vertical">
           <img src={likedIcon} alt="Liked" style={{color: "#756E6E"}} />
-          <p style={{fontSize: 8}}>1.5k+</p>
+          <p style={{fontSize: '0.75rem'}}>1.5k+</p>
         </Space>
         <Space direction="vertical">
           <img src={watchedIcon} alt="Watched" style={{color: "#756E6E"}}/>
-          <p style={{fontSize: 8}}>7.1k+</p>
+          <p style={{fontSize: '0.75rem'}}>7.1k+</p>
         </Space>
         </Space>
         {marketplacecard ? (
@@ -228,19 +228,19 @@ const CardCompnent = ({
             </button>
             <div>
               <img src={profile} style={{ width: 15 }} alt="profile" />
-              <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+              <span className="light-grey2 ms-2" style={{ fontSize: '1rem' }}>
                 {name}
               </span>
             </div>
             <div>
               <img src={cross} style={{ width: 15 }} alt="cross" />
-              <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+              <span className="light-grey2 ms-2" style={{ fontSize: '1rem' }}>
                 No copyright Transfer
               </span>
             </div>
             <div className="my-1">
               <img src={check} style={{ width: 15 }} alt="check" />
-              <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+              <span className="light-grey2 ms-2" style={{ fontSize: '1rem' }}>
                 First Gen Emote
               </span>
             </div>
@@ -250,7 +250,7 @@ const CardCompnent = ({
                 style={{ width: 15 }}
                 alt="marketing-card"
               />
-              <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+              <span className="light-grey2 ms-2" style={{ fontSize: '1rem' }}>
                 Supply :{" "}
                 <span style={{ color: "#AD2B2B" }}>{numberofcopies}</span>
               </span>
@@ -324,7 +324,7 @@ const CardCompnent = ({
                       Nft Detail
                     </button>
                   </div>
-                  <span className="ms-2 light-grey2" style={{ fontSize: 10 }}>
+                  <span className="ms-2 light-grey2" style={{ fontSize: '0.80rem' }}>
                     {status}
                   </span>
                 </div>
@@ -336,13 +336,13 @@ const CardCompnent = ({
                 <div>
                   <img src={cross} style={{ width: 15 }} alt="cross" />
 
-                  <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+                  <span className="light-grey2 ms-2" style={{ fontSize: '1rem' }}>
                     No copyright Transfer
                   </span>
                 </div>
                 <div className="my-1">
                   <img src={check} style={{ width: 15 }} alt="check" />
-                  <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+                  <span className="light-grey2 ms-2" style={{ fontSize: '1rem' }}>
                     First Gen Emote
                   </span>
                 </div>{" "}
@@ -382,13 +382,13 @@ const CardCompnent = ({
                 <div>
                   <img src={cross} style={{ width: 15 }} />
 
-                  <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+                  <span className="light-grey2 ms-2" style={{ fontSize: '0.85rem' }}>
                     No copyright Transfer
                   </span>
                 </div>
                 <div className="my-1">
                   <img src={check} style={{ width: 15 }} />
-                  <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+                  <span className="light-grey2 ms-2" style={{ fontSize: '0.85rem' }}>
                     First Gen Emote
                   </span>
                 </div>

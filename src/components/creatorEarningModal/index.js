@@ -9,7 +9,7 @@ import {
     Table,
 } from 'antd';
 import './css/index.css';
-import { crossIcon, deleteIcon } from '../../assets';
+import { crossIcon } from '../../assets';
 import { DeleteOutlined } from '@ant-design/icons';
 
 const CreatorEarningModal = ({ isOpen, onRequestClose }) => {
@@ -78,17 +78,17 @@ const CreatorEarningModal = ({ isOpen, onRequestClose }) => {
         },
     ];
 
-    const [tableData, setTableData] = useState([]);
+    // const [tableData, setTableData] = useState([]);
 
-    const addNewLine = () => {
-        const newLine = {
-            id: tableData.length + 1,
-            wallet: 'New Person',
-            percentage: 0,
-        };
-        setTableData([...tableData, newLine]);
-        console.log(tableData);
-    };
+    // const addNewLine = () => {
+    //     const newLine = {
+    //         id: tableData.length + 1,
+    //         wallet: 'New Person',
+    //         percentage: 0,
+    //     };
+    //     setTableData([...tableData, newLine]);
+    //     console.log(tableData);
+    // };
 
     const handleInputChange = (e, key, dataIndex) => {
         const newData = [...data];
