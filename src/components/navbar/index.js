@@ -65,12 +65,10 @@ const NavbarComponent = ({
     setIsModalOpen(false);
   };
 
-
   const { userData } = useSelector((state) => state.address.userData);
-  const {contractData} = useSelector((state) => state.chain.contractData);
+  const { contractData } = useSelector((state) => state.chain.contractData);
   const contracts = useSelector((state) => state.contract);
   const fixedItems = useSelector((state) => state.fixedItems);
-
 
   const full_name = userData?.full_name;
   const userProfile = userData?.profileImg;
@@ -78,13 +76,13 @@ const NavbarComponent = ({
 
   const dispatch = useDispatch();
 
-  const handleEthChain = ()=>{
+  const handleEthChain = () => {
     dispatch({
       type: "ETH_CHAIN",
       contractData: {
-        marketContract:contracts.ethContractIns,
-        mintContract:contracts.ethMintingContractIns,
-        chain: 5
+        marketContract: contracts.ethContractIns,
+        mintContract: contracts.ethMintingContractIns,
+        chain: 5,
       },
     });
 
@@ -92,22 +90,22 @@ const NavbarComponent = ({
       type: "ETH_CHAIN_FIXED",
       fixedItemData: fixedItems.ethList,
     });
-  }
+  };
 
-  const handleMaticChain = ()=>{
+  const handleMaticChain = () => {
     dispatch({
       type: "MATIC_CHAIN",
       contractData: {
-        marketContract:contracts.polygonContractIns,
-        mintContract:contracts.polygonMintingContractIns,
-        chain: 80001
+        marketContract: contracts.polygonContractIns,
+        mintContract: contracts.polygonMintingContractIns,
+        chain: 80001,
       },
     });
     dispatch({
       type: "MATIC_CHAIN_FIXED",
       fixedItemData: fixedItems.maticList,
     });
-  }
+  };
 
   useEffect(() => {
     if (data) {
@@ -168,16 +166,15 @@ const NavbarComponent = ({
   const [showRedImage, setShowRedImage] = useState(false);
   const [iconClicked, setIconClicked] = useState(false);
 
-
-  useEffect(()=>{
-    if(contractData?.chain){
-      if(contractData.chain === 5){
+  useEffect(() => {
+    if (contractData?.chain) {
+      if (contractData.chain === 5) {
         setIconClicked(true);
         setShowRedImage(true);
-      }else if(contractData.chain === 80001){
+      } else if (contractData.chain === 80001) {
         setShowRedImage(false);
         setIconClicked(false);
-      }else{
+      } else {
         setShowRedImage(false);
         setIconClicked(false);
       }
@@ -289,7 +286,8 @@ const NavbarComponent = ({
                         width={30}
                         className=""
                         style={{ borderRadius: "50%" }}
-                        alt="imgPath"                      />
+                        alt="imgPath"
+                      />
                     ) : (
                       <img
                         src={profileimg}
@@ -387,7 +385,7 @@ const NavbarComponent = ({
                   <Nav.Link className="white mx-1">
                     <img src={search} className="" alt="search" />
                   </Nav.Link>
-                  <NotificationModal/>
+                  <NotificationModal />
                   <Nav.Link className="white mx-1 d-flex" onClick={showModal}>
                     <span className="me-2 mt-1">{full_name}</span>
                     {profileimg ? (
@@ -407,7 +405,8 @@ const NavbarComponent = ({
                         width={30}
                         className=""
                         style={{ borderRadius: "50%" }}
-                        alt="profile"                      />
+                        alt="profile"
+                      />
                     )}
                   </Nav.Link>
                   <Nav.Link className="white">
@@ -450,17 +449,21 @@ const NavbarComponent = ({
         </div>
       )}
       <div>
-      <CookieConsent
-        location="bottom"
-        buttonText="Got it!"
-        cookieName="cookieConsentCookie"
-        style={{ background: "#2B373B" }}
-        buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
-        expires={365}
-      >
-        This website uses cookies to enhance the user experience and tracking the data.
-      </CookieConsent>
-    </div>
+        <CookieConsent
+          location="bottom"
+          buttonText="Got it!"
+          cookieName="cookieConsentCookie"
+          style={{ background: "#2B373B" }}
+          buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+          expires={365}
+          secure={true}
+          sameSite="Strict"
+          httpOnly={true}
+        >
+          This website uses cookies to enhance the user experience and tracking
+          the data.
+        </CookieConsent>
+      </div>
     </>
   );
 };

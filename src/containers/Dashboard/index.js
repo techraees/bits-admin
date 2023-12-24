@@ -37,7 +37,7 @@ const Dashboard = () => {
     (state) => state.auctionItemDatas.auctionItemData
   );
 
-  console.log(contractData.mintContract);
+  console.log("Contract Data", contractData.mintContract);
 
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
@@ -54,7 +54,7 @@ const Dashboard = () => {
     }
   };
 
-  getOwnersOfTokenId(0, 80001, "0x630656827c8ceaff3580823a8fd757e298cbfaaf");
+  // getOwnersOfTokenId(0, 80001, contractData.mintContract.address);
 
   const { loading, data } = useQuery(GET_ALL_NFTS_WITHOUT_ADDRESS);
   const timenow = Math.floor(Date.now() / 1000);

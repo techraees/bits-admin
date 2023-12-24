@@ -121,7 +121,7 @@ const Collections = () => {
         contractData.chain,
         contractData.mintContract.address
       );
-      console.log(tokens);
+      console.log("tokens", tokens);
       setTokenIdsByOwner(tokens);
     }
     getTokenIds();
@@ -278,12 +278,12 @@ const Collections = () => {
                   className="my-2"
                 />
               )}
-              <div style={{position: 'absolute',width: 540}}>
+              <div style={{ position: "absolute", width: 540 }}>
                 <img
-                src={ellipse}
-                style={{ borderRadius: "50%" }}
-                width={200}
-                className="my-2"
+                  src={ellipse}
+                  style={{ borderRadius: "50%" }}
+                  width={200}
+                  className="my-2"
                 />
               </div>
               <div className="ms-3">
@@ -467,7 +467,10 @@ const Collections = () => {
               </div>
             </Tabs.TabPane>
           </Tabs>
-          <div className="d-flex gap-4 align-items-center" style={{ position:'absolute',left:1100}}>
+          <div
+            className="d-flex gap-4 align-items-center"
+            style={{ position: "absolute", left: 1100 }}
+          >
             <div className="d-flex gap-2 align-items-center mb-5 pagination-wrapper">
               <Pagination
                 total={nfts?.length}
