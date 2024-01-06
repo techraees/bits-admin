@@ -1,8 +1,6 @@
 import React from 'react';
 import Confirm from "../../assets/images/ok.png";
 import DownLoad from "../../assets/images/download.png";
-import {TfiDownload} from "react-icons/tfi";
-import {GiConfirmed} from "react-icons/gi";
 
 const PaymentConfirmation = ({show, setShow, paymentConfirm}) => {
     const handleClose = () => {
@@ -12,7 +10,7 @@ const PaymentConfirmation = ({show, setShow, paymentConfirm}) => {
         <>
             {show && (
                 <div
-                    className="modal fade show "
+                    className="modal fade show custom-backdrop"
                     tabIndex="-1" role="dialog"
                     style={{display: 'block'}}
                     id="staticBackdrop"

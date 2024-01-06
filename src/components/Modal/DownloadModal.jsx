@@ -10,8 +10,14 @@ const DownloadModal = ({show, setShow}) => {
         <>
             {show && (
                 <div
-                    className="modal fade show "
+                    className="modal fade show custom-backdrop" // Add custom-backdrop class here
+                    tabIndex="-1" role="dialog"
                     style={{display: 'block'}}
+                    id="staticBackdrop"
+                    data-bs-backdrop="static"
+                    data-bs-keyboard="false"
+                    aria-labelledby="staticBackdropLabel"
+                    aria-hidden="true"
                 >
                     <div className="modal-dialog modal-lg modal-dialog-centered">
                         <div className="modal-content" style={{borderRadius: "30px"}}>

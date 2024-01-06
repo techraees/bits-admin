@@ -21,21 +21,39 @@
 .modal-content {
     max-width: unset;
 }
-.paymentHeading{
+
+.paymentHeading {
     font-size: 32px;
     line-height: 48px;
- }
+}
 
-.items{
+.items {
     font-size: 20px;
     line-height: 30px;
     color: rgba(124, 116, 115, 1);
 }
 
-.paymentConfirmationHeading{
+.paymentConfirmationHeading {
     font-size: 18px;
 }
 
-.modal-header{
+.modal-header {
     border-color: rgba(186, 186, 204, 1) !important;
- }
+}
+
+.custom-backdrop {
+    background-color: rgba(0, 0, 0, 0.6); /* Change the color as needed */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal {
+    animation: fadeIn 0.5s ease-in-out;
+}
