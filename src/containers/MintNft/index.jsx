@@ -92,7 +92,7 @@ const MintNft = () => {
   };
   const handleSplitOwnership = () => {
     setCreatorEarningModal(true);
-    console.log(creatorEarningModal)
+    console.log(creatorEarningModal);
   };
 
   const mintCall = async (supply, royalty) => {
@@ -176,6 +176,11 @@ const MintNft = () => {
                 ? createNft.download.rid
                 : "rid",
             royalty: Number(values.royalty * 100),
+            video_duration: createNft && createNft.video_duration,
+            category: createNft && createNft.category,
+            likeCount: 0,
+            watchCount: 0,
+            isPaid: false,
             user_id: values.id,
           },
         });
@@ -205,7 +210,10 @@ const MintNft = () => {
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
       <ConnectModal visible={connectModal} onClose={closeConnectModel} />
-      <CreatorEarningModal isOpen={creatorEarningModal} onRequestClose={closeCreatorEarningModel} />
+      <CreatorEarningModal
+        isOpen={creatorEarningModal}
+        onRequestClose={closeCreatorEarningModel}
+      />
       {loadingStatus && (
         <Loader content={loading ? "Uploading..." : loadingMessage} />
       )}
@@ -312,10 +320,15 @@ const MintNft = () => {
                     />
                   </div>
                   <div
-                  style={{ border: "1px solid  #B23232", cursor: 'pointer' }}
-                  className="p-1 mt-5 text-center rounded-3 red-background"
+                    style={{ border: "1px solid  #B23232", cursor: "pointer" }}
+                    className="p-1 mt-5 text-center rounded-3 red-background"
                   >
-                    <span className={`${textColor2}`}onClick={handleSplitOwnership}>Split Ownership</span>
+                    <span
+                      className={`${textColor2}`}
+                      onClick={handleSplitOwnership}
+                    >
+                      Split Ownership
+                    </span>
                   </div>
                 </div>
                 <div style={{ borderRight: "1px solid #B23232" }} />
@@ -340,11 +353,16 @@ const MintNft = () => {
               </div>
             </div>
             <div
-                  style={{ border: "1px solid  #B23232" }}
-                  className="p-1 mt-4 text-center rounded-3"
-                >
-                  <span className={`${textColor2}`} onClick={() => navigate(`/collections/${userData?.id}`)}>Go to Collection</span>
-                </div>
+              style={{ border: "1px solid  #B23232" }}
+              className="p-1 mt-4 text-center rounded-3"
+            >
+              <span
+                className={`${textColor2}`}
+                onClick={() => navigate(`/collections/${userData?.id}`)}
+              >
+                Go to Collection
+              </span>
+            </div>
           </Col>
         </Row>
         <div className="d-flex align-items-center">

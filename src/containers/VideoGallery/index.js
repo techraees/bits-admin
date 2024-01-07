@@ -127,7 +127,7 @@ const VideoGallery = () => {
                     {
                       value: "$10000+",
                       label: "$10000+",
-                    }
+                    },
                   ]}
                 />
               </div>
@@ -160,7 +160,7 @@ const VideoGallery = () => {
                     {
                       value: "10000+",
                       label: "10000+",
-                    }
+                    },
                   ]}
                 />
               </div>
@@ -177,7 +177,7 @@ const VideoGallery = () => {
                     {
                       value: "Coming Soon",
                       label: "Coming Soon",
-                    }
+                    },
                   ]}
                 />
               </div>
@@ -222,6 +222,8 @@ const VideoGallery = () => {
                     fixRoyalty={e.royalty}
                     fixCopies={e.supply}
                     id={e._id}
+                    likeCount={e.likeCount}
+                    watchCount={e.watchCount}
                   />
                 );
               }
