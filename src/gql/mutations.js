@@ -15,6 +15,11 @@ const CREATE_NFT = gql`
     $isEmote: Boolean!
     $rid: String!
     $royalty: Int
+    $isPaid: Boolean!
+    $video_duration: Int
+    $category: String!
+    $likeCount: Int
+    $watchCount: Int
     $user_id: String!
   ) {
     CreateNft(
@@ -31,6 +36,11 @@ const CREATE_NFT = gql`
       isEmote: $isEmote
       rid: $rid
       royalty: $royalty
+      isPaid: $isPaid
+      video_duration: $video_duration
+      category: $category
+      likeCount: $likeCount
+      watchCount: $watchCount
       user_id: $user_id
     ) {
       _id
@@ -46,6 +56,11 @@ const CREATE_NFT = gql`
       rid
       video
       royalty
+      isPaid
+      video_duration
+      category
+      likeCount
+      watchCount
     }
   }
 `;
@@ -178,6 +193,22 @@ const RECORD_VISIT_MUTATION = gql`
   }
 `;
 
+const UPDATE_NFT_LIKE = gql`
+  mutation UpdateNftLike($id: String!) {
+    UpdateNftLike(id: $id) {
+      likeCount
+    }
+  }
+`;
+
+const UPDATE_NFT_WATCH = gql`
+  mutation UpdateNftWatch($id: String!) {
+    UpdateNftWatch(id: $id) {
+      watchCount
+    }
+  }
+`;
+
 export {
   CREATE_NFT,
   CREATE_USER,
@@ -189,4 +220,6 @@ export {
   MINT_ASSET,
   SEND_EMAIL_MUTATION,
   RECORD_VISIT_MUTATION,
+  UPDATE_NFT_LIKE,
+  UPDATE_NFT_WATCH,
 };
