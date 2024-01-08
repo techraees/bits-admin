@@ -7,6 +7,7 @@ import {
   AZ,
   grid,
   profile,
+  ellipse,
   location_dark,
   upload_red,
 } from "../../assets";
@@ -120,7 +121,7 @@ const Collections = () => {
         contractData.chain,
         contractData.mintContract.address
       );
-      console.log(tokens);
+      console.log("tokens", tokens);
       setTokenIdsByOwner(tokens);
     }
     getTokenIds();
@@ -277,11 +278,18 @@ const Collections = () => {
                   className="my-2"
                 />
               )}
-
+              <div style={{ position: "absolute", width: 540 }}>
+                <img
+                  src={ellipse}
+                  style={{ borderRadius: "50%" }}
+                  width={200}
+                  className="my-2"
+                />
+              </div>
               <div className="ms-3">
                 <h3 className="red-gradient-color semi-bold">{full_name}</h3>
                 {country && (
-                  <div className="d-flex mb-1">
+                  <div className="d-flex mb-1 ms-5">
                     <h5 className={`m-0 ${textColor}`}>{country}</h5>
                     <img
                       className="ms-2"
@@ -290,8 +298,8 @@ const Collections = () => {
                   </div>
                 )}
 
-                <span className={`${textColor2}`}>{bio}</span>
-                <div className="mt-2">
+                <span className={`ms-5 ${textColor2}`}>{bio}</span>
+                <div className="ms-5 mt-4">
                   {profileData?.GetProfileDetails?.id === userData?.id && (
                     <ButtonComponent
                       onClick={() => navigate("/account-settings/edit-profile")}
@@ -375,6 +383,10 @@ const Collections = () => {
                         name={e.name}
                         artistName={e.artist_name1}
                         videoLink={e.video}
+                        isEmote={e.isEmote}
+                        rid={e.rid}
+                        bvh={e.bvh}
+                        fbx={e.fbx}
                         topName
                         userProfile={full_name ? true : false}
                         navigateTo={() =>
@@ -413,8 +425,8 @@ const Collections = () => {
                         console.log(e.chainId);
                         if (
                           !e.is_blocked &&
-                          item == e.token_id &&
-                          contractData.chain == e.chainId
+                          item === e.token_id &&
+                          contractData.chain === e.chainId
                         ) {
                           return (
                             <CardCompnent
@@ -455,8 +467,11 @@ const Collections = () => {
               </div>
             </Tabs.TabPane>
           </Tabs>
-          <div className="d-flex gap-4 align-items-center">
-            <div className="d-flex gap-2 align-items-center mb-2 pagination-wrapper">
+          <div
+            className="d-flex gap-4 align-items-center"
+            style={{ position: "absolute", left: 1100 }}
+          >
+            <div className="d-flex gap-2 align-items-center mb-5 pagination-wrapper">
               <Pagination
                 total={nfts?.length}
                 pageSize={pageSize}

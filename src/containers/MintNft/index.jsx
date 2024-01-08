@@ -23,6 +23,7 @@ import { useFormik } from "formik";
 import { mintValidation } from "../../components/validations";
 import ErrorMessage from "../../components/error";
 import ConnectModal from "../../components/connectModal";
+import CreatorEarningModal from "../../components/creatorEarningModal";
 import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
 
 const MintNft = () => {
@@ -33,6 +34,8 @@ const MintNft = () => {
     (state) => state.web3.walletData
   );
   const [connectModal, setConnectModal] = useState(false);
+
+  const [creatorEarningModal, setCreatorEarningModal] = useState(false);
 
   const { contractData } = useSelector((state) => state.chain.contractData);
 
@@ -82,6 +85,14 @@ const MintNft = () => {
     if (!web3) {
       setConnectModal(true);
     }
+  };
+
+  const closeCreatorEarningModel = () => {
+    setCreatorEarningModal(false);
+  };
+  const handleSplitOwnership = () => {
+    setCreatorEarningModal(true);
+    console.log(creatorEarningModal)
   };
 
   const mintCall = async (supply, royalty) => {
@@ -144,7 +155,7 @@ const MintNft = () => {
         Number(values.supply),
         Number(values.royalty * 100)
       );
-      console.log(Number(tokenid));
+      console.log("ISEMOTE", createNft.isEmote);
 
       if (Number(tokenid)) {
         CreateNft({
@@ -159,6 +170,11 @@ const MintNft = () => {
             supply: Number(values.supply),
             walletAddress: values.walletAddress,
             status: true,
+            isEmote: createNft.isEmote,
+            rid:
+              createNft && createNft.download.rid
+                ? createNft.download.rid
+                : "rid",
             royalty: Number(values.royalty * 100),
             user_id: values.id,
           },
@@ -189,6 +205,7 @@ const MintNft = () => {
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
       <ConnectModal visible={connectModal} onClose={closeConnectModel} />
+      <CreatorEarningModal isOpen={creatorEarningModal} onRequestClose={closeCreatorEarningModel} />
       {loadingStatus && (
         <Loader content={loading ? "Uploading..." : loadingMessage} />
       )}
@@ -294,6 +311,12 @@ const MintNft = () => {
                       }
                     />
                   </div>
+                  <div
+                  style={{ border: "1px solid  #B23232", cursor: 'pointer' }}
+                  className="p-1 mt-5 text-center rounded-3 red-background"
+                  >
+                    <span className={`${textColor2}`}onClick={handleSplitOwnership}>Split Ownership</span>
+                  </div>
                 </div>
                 <div style={{ borderRight: "1px solid #B23232" }} />
               </Col>
@@ -316,6 +339,12 @@ const MintNft = () => {
                 <p className={`${textColor2} m-0 fs-6`}>Non Fungible Token</p>
               </div>
             </div>
+            <div
+                  style={{ border: "1px solid  #B23232" }}
+                  className="p-1 mt-4 text-center rounded-3"
+                >
+                  <span className={`${textColor2}`} onClick={() => navigate(`/collections/${userData?.id}`)}>Go to Collection</span>
+                </div>
           </Col>
         </Row>
         <div className="d-flex align-items-center">

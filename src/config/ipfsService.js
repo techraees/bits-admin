@@ -1,10 +1,10 @@
 import env from "../environment";
-  import { create as ipfsHttpClient } from "ipfs-http-client";
+import { create as ipfsHttpClient } from "ipfs-http-client";
+import { urlSource } from "ipfs-http-client";
 
-export const sendFileToIPFS = async (file) => {
+export const sendFileToIPFS = async (file, isEmote) => {
   console.log("file", file);
   if (file) {
-    let progress;
     try {
       const authorization =
         "Basic " + btoa(env.PROJECT_ID + ":" + env.PROJECT_SECRET);
@@ -14,10 +14,10 @@ export const sendFileToIPFS = async (file) => {
           authorization,
         },
       });
-      const result = await ipfs.add(file);
-      console.log("result", result, progress);
+      const result = await ipfs.add(isEmote ? urlSource(`${file}`) : file);
+      console.log("result", result.cid._baseCache.get("z"));
       // console.log("ImgHash", res)
-      const ImgHash = `${env.IPFS_PATH}/${result.path}`;
+      const ImgHash = `${env.IPFS_PATH}/${result.cid._baseCache.get("z")}`;
       return ImgHash;
       console.log(ImgHash);
     } catch (error) {
@@ -26,7 +26,6 @@ export const sendFileToIPFS = async (file) => {
     }
   }
 };
-
 
 export const sendMetaToIPFS = async (data) => {
   console.log("file", data);
@@ -43,7 +42,7 @@ export const sendMetaToIPFS = async (data) => {
 
       const finalData = JSON.stringify(data);
       const result = await ipfs.add(finalData);
-      
+
       console.log("result", result);
       // console.log("ImgHash", res)
       const metaHash = `${env.IPFS_PATH}/${result.path}`;

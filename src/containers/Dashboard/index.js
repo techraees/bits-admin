@@ -37,7 +37,7 @@ const Dashboard = () => {
     (state) => state.auctionItemDatas.auctionItemData
   );
 
-  console.log(contractData.mintContract);
+  console.log("Contract Data", contractData.mintContract);
 
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
@@ -54,7 +54,7 @@ const Dashboard = () => {
     }
   };
 
-  getOwnersOfTokenId(0, 80001, "0x630656827c8ceaff3580823a8fd757e298cbfaaf");
+  // getOwnersOfTokenId(0, 80001, contractData.mintContract.address);
 
   const { loading, data } = useQuery(GET_ALL_NFTS_WITHOUT_ADDRESS);
   const timenow = Math.floor(Date.now() / 1000);
@@ -280,7 +280,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="dark-grey-bg d-flex justify-content-center">
-        <div className="py-2" style={{ border: "1px dashed purple" }}>
+        <div className="py-2" style={{ border: "1px" }}>
           <img src={discord_grey} className="mx-2" alt="discord" />
           <img src={telegram_grey} className="mx-2" alt="telegram" />
           <img src={twitter_grey} className="mx-2" alt="twitter" />
@@ -289,7 +289,7 @@ const Dashboard = () => {
       <div className="red-background">
         <div className="container d-flex justify-content-between py-2 align-items-center">
           <p className="m-0 white">
-            BITS C {new Date().getFullYear()} All Rights reserved{" "}
+            BITS NFT {new Date().getFullYear()} All Rights reserved{" "}
           </p>
           <img
             src={meta}

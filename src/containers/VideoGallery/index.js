@@ -61,12 +61,129 @@ const VideoGallery = () => {
           />
           <img className="me-3 cursor" style={{ width: 15 }} src={search} />
         </div>
-        <div style={{ border: "1px solid #5e2a2a" }}></div>
-        <div style={{ width: "100%" }} className="d-flex justify-content-end">
-          <div
-            className={`d-flex py-2 px-3 my-4 ${bgColor}`}
-            style={{ borderRadius: 20 }}
-          >
+        <div
+          style={{ borderBottom: "0.5px solid #c23737", marginTop: "2.5rem" }}
+        ></div>
+        <div className="d-flex justify-content-between mt-5">
+          <div className="d-flex gap-5 ">
+            <div className={`filter-wrapper ${bgColor}`}>
+              <BsFilterLeft style={{ color: "#C93B3B", fontSize: "2rem" }} />
+            </div>
+            <div className="marketplace-select-field d-flex gap-2">
+              <div className={`marketplace-selct-div ${bgColor}`}>
+                <Select
+                  defaultValue="Category"
+                  style={{
+                    width: 120,
+                  }}
+                  className={textColor == "black" && "light"}
+                  onChange={handleChange}
+                  options={[
+                    {
+                      value: "Dance",
+                      label: "Dance",
+                    },
+                    {
+                      value: "Emote",
+                      label: "Emote",
+                    },
+                    {
+                      value: "Moments",
+                      label: "Moments",
+                    },
+                    {
+                      value: "Other",
+                      label: "Other",
+                    },
+                  ]}
+                />
+              </div>
+
+              <div className={`marketplace-selct-div ${bgColor}`}>
+                <Select
+                  defaultValue="Price"
+                  style={{
+                    width: 120,
+                  }}
+                  className={textColor == "black" && "light"}
+                  onChange={handleChange}
+                  options={[
+                    {
+                      value: "$0-$10",
+                      label: "$0-$10",
+                    },
+                    {
+                      value: "$10-$100",
+                      label: "$10-$100",
+                    },
+                    {
+                      value: "$100-$1000",
+                      label: "$100-$1000",
+                    },
+                    {
+                      value: "$1000-$10000",
+                      label: "$1000-$10000",
+                    },
+                    {
+                      value: "$10000+",
+                      label: "$10000+",
+                    }
+                  ]}
+                />
+              </div>
+
+              <div className={`marketplace-selct-div ${bgColor}`}>
+                <Select
+                  defaultValue="Quantity"
+                  style={{
+                    width: 120,
+                  }}
+                  onChange={handleChange}
+                  className={textColor == "black" && "light"}
+                  options={[
+                    {
+                      value: "0-10",
+                      label: "0-10",
+                    },
+                    {
+                      value: "10-100",
+                      label: "10-100",
+                    },
+                    {
+                      value: "100-1000",
+                      label: "100-1000",
+                    },
+                    {
+                      value: "1000-10000",
+                      label: "1000-10000",
+                    },
+                    {
+                      value: "10000+",
+                      label: "10000+",
+                    }
+                  ]}
+                />
+              </div>
+
+              <div className={`marketplace-selct-div ${bgColor}`}>
+                <Select
+                  defaultValue="Ranking"
+                  style={{
+                    width: 120,
+                  }}
+                  className={textColor == "black" && "light"}
+                  onChange={handleChange}
+                  options={[
+                    {
+                      value: "Coming Soon",
+                      label: "Coming Soon",
+                    }
+                  ]}
+                />
+              </div>
+            </div>
+          </div>
+          <div className={`grid-wrapper ${bgColor}`}>
             <img src={AZ} className="me-2" style={{ width: 20, height: 20 }} />
             <span
               className="me-2"
@@ -75,7 +192,9 @@ const VideoGallery = () => {
             <img src={grid} style={{ width: 20, height: 20 }} />
           </div>
         </div>
-        <div style={{ border: "1px solid #5e2a2a" }}></div>
+        <div
+          style={{ borderBottom: "0.5px solid #c23737", marginTop: "3.5rem" }}
+        ></div>
         <div className="row my-3">
           {fixedItemData?.map((item) => {
             return data?.getAllNftsWithoutAddress?.map((e, i) => {

@@ -1,7 +1,16 @@
 import "./css/index.css";
 import { Card, Tooltip } from "antd";
-import { check, cross, marketcardimg, profile, thumb } from "../../assets";
-import { Button } from "antd";
+import {
+  check,
+  cross,
+  marketcardimg,
+  profile,
+  thumb,
+  watchedIcon,
+  likedIcon,
+} from "../../assets";
+import { Button, Space, Typography } from "antd";
+import { EyeOutlined, LikeOutlined } from "@ant-design/icons";
 import ButtonComponent from "../button";
 import ReactPlayer from "react-player";
 import { OfferModal, StepperModal } from "../index";
@@ -14,6 +23,8 @@ import profileimg from "../../assets/images/profile1.png";
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
 import { useSelector } from "react-redux";
 import { ToastMessage } from "../../components";
+import { getSession } from "../../config/deepmotion";
+import { downloadVideo } from "../../config/deepmotion";
 
 const CardCompnent = ({
   image,
@@ -46,6 +57,8 @@ const CardCompnent = ({
   fixCopies,
   id,
   isAuction,
+  isEmote,
+  rid,
 }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -82,6 +95,20 @@ const CardCompnent = ({
     setIsOfferModalOpen(false);
     setIsNftModalOpen(false);
   };
+
+  //handle download
+  const handleDownloadClick = async () => {
+    const res = await getSession();
+    if (res) {
+      const response = await downloadVideo(rid);
+      if (response) {
+        window.location.href = response.fbx;
+      } else {
+        ToastMessage("There is some Error", "", "error");
+      }
+    }
+  };
+
   // console.log("userProfile", userProfile, image);
   const location = useLocation();
   // console.log("userId", userId, location.pathname);
@@ -159,6 +186,24 @@ const CardCompnent = ({
           />
         }
       >
+        <Space
+          direction="horizontal"
+          style={{
+            width: "100%",
+            top: "10px",
+            left: "10px",
+            position: "absolute",
+          }}
+        >
+          <Space direction="vertical">
+            <img src={likedIcon} alt="Liked" style={{ color: "#756E6E" }} />
+            <p style={{ fontSize: ".5rem" }}>1.5k+</p>
+          </Space>
+          <Space direction="vertical">
+            <img src={watchedIcon} alt="Watched" style={{ color: "#756E6E" }} />
+            <p style={{ fontSize: ".5rem" }}>7.1k+</p>
+          </Space>
+        </Space>
         {marketplacecard ? (
           <>
             <div className="price-wrapper d-flex justify-content-between">
@@ -199,19 +244,19 @@ const CardCompnent = ({
             </button>
             <div>
               <img src={profile} style={{ width: 15 }} alt="profile" />
-              <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+              <span className="light-grey2 ms-2" style={{ fontSize: ".75rem" }}>
                 {name}
               </span>
             </div>
             <div>
               <img src={cross} style={{ width: 15 }} alt="cross" />
-              <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+              <span className="light-grey2 ms-2" style={{ fontSize: ".75rem" }}>
                 No copyright Transfer
               </span>
             </div>
             <div className="my-1">
               <img src={check} style={{ width: 15 }} alt="check" />
-              <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+              <span className="light-grey2 ms-2" style={{ fontSize: ".75rem" }}>
                 First Gen Emote
               </span>
             </div>
@@ -221,7 +266,7 @@ const CardCompnent = ({
                 style={{ width: 15 }}
                 alt="marketing-card"
               />
-              <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+              <span className="light-grey2 ms-2" style={{ fontSize: ".75rem" }}>
                 Supply :{" "}
                 <span style={{ color: "#AD2B2B" }}>{numberofcopies}</span>
               </span>
@@ -295,7 +340,10 @@ const CardCompnent = ({
                       Nft Detail
                     </button>
                   </div>
-                  <span className="ms-2 light-grey2" style={{ fontSize: 10 }}>
+                  <span
+                    className="ms-2 light-grey2"
+                    style={{ fontSize: ".625rem" }}
+                  >
                     {status}
                   </span>
                 </div>
@@ -307,13 +355,19 @@ const CardCompnent = ({
                 <div>
                   <img src={cross} style={{ width: 15 }} alt="cross" />
 
-                  <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+                  <span
+                    className="light-grey2 ms-2"
+                    style={{ fontSize: ".75rem" }}
+                  >
                     No copyright Transfer
                   </span>
                 </div>
                 <div className="my-1">
                   <img src={check} style={{ width: 15 }} alt="check" />
-                  <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+                  <span
+                    className="light-grey2 ms-2"
+                    style={{ fontSize: ".75rem" }}
+                  >
                     First Gen Emote
                   </span>
                 </div>{" "}
@@ -353,13 +407,19 @@ const CardCompnent = ({
                 <div>
                   <img src={cross} style={{ width: 15 }} />
 
-                  <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+                  <span
+                    className="light-grey2 ms-2"
+                    style={{ fontSize: ".75rem" }}
+                  >
                     No copyright Transfer
                   </span>
                 </div>
                 <div className="my-1">
                   <img src={check} style={{ width: 15 }} />
-                  <span className="light-grey2 ms-2" style={{ fontSize: 12 }}>
+                  <span
+                    className="light-grey2 ms-2"
+                    style={{ fontSize: ".75rem" }}
+                  >
                     First Gen Emote
                   </span>
                 </div>
@@ -432,6 +492,16 @@ const CardCompnent = ({
                 >
                   Go to Collection
                 </Button>
+                {isOwner && isEmote ? (
+                  <Button
+                    className="mt-2 collectionBtn"
+                    onClick={handleDownloadClick}
+                  >
+                    Download Fbx
+                  </Button>
+                ) : (
+                  ""
+                )}
               </>
             )}
           </>

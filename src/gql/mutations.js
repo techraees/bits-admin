@@ -12,6 +12,8 @@ const CREATE_NFT = gql`
     $supply: Int!
     $walletAddress: String!
     $status: Boolean!
+    $isEmote: Boolean!
+    $rid: String!
     $royalty: Int
     $user_id: String!
   ) {
@@ -26,6 +28,8 @@ const CREATE_NFT = gql`
       supply: $supply
       wallet_address: $walletAddress
       status: $status
+      isEmote: $isEmote
+      rid: $rid
       royalty: $royalty
       user_id: $user_id
     ) {
@@ -38,6 +42,8 @@ const CREATE_NFT = gql`
       token_id
       chainId
       status
+      isEmote
+      rid
       video
       royalty
     }
@@ -182,5 +188,5 @@ export {
   MINT_ASSET_MUTATION,
   MINT_ASSET,
   SEND_EMAIL_MUTATION,
-  RECORD_VISIT_MUTATION
+  RECORD_VISIT_MUTATION,
 };

@@ -8,6 +8,8 @@ const GET_ALL_NFTS = gql`
       description
       metauri
       status
+      isEmote
+      rid
       video
       wallet_address
       token_id
@@ -104,6 +106,8 @@ const GET_ALL_NFTS_WITHOUT_ADDRESS = gql`
       name
       royalty
       status
+      isEmote
+      rid
       token_id
       chainId
       video
@@ -148,6 +152,8 @@ const GET_NFT_DETAIL_QUERY = gql`
       description
       metauri
       status
+      isEmote
+      rid
       video
       wallet_address
       token_id
@@ -173,6 +179,7 @@ const GET_TOP_VIEW_NFTS = gql`
       description
       metauri
       status
+      isEmote
       video
       wallet_address
       token_id

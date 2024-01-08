@@ -5,6 +5,8 @@ const INITIAL_STATE = {
     description: "",
     video: "",
     meta: "",
+    download: {},
+    isEmote: false,
   },
 };
 
