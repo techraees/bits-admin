@@ -81,7 +81,6 @@ const CardCompnent = ({
     ETHTOUSD(1).then((result) => {
         setEthBal(result);
     });
-=======
 import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
 import { useSelector } from "react-redux";
 import { ToastMessage } from "../../components";
@@ -180,7 +179,6 @@ const CardCompnent = ({
     };
 
     // console.log("userProfile", userProfile, image);
-    const location = useLocation();
     // console.log("userId", userId, location.pathname);
 
   const handleStripePayment = async () => {
@@ -609,7 +607,7 @@ const CardCompnent = ({
                   </Button>
                 )}
               </>
-            ) : (
+            ) }: (
               <>
                 <div>
                   <img src={cross} style={{ width: 15 }} />
@@ -688,10 +686,10 @@ const CardCompnent = ({
                                         </>
                                     )}
 
-                                    <div className="red-gradient ms-3 d-flex justify-content-center thumbView">
+                                    {/* <div className="red-gradient ms-3 d-flex justify-content-center thumbView">
                                         <img style={{width: 25}} className="mb-1" src={thumb}/>
                                     </div>
-                                </div>
+                                </div> */}
                   <div className="red-gradient ms-3 d-flex justify-content-center thumbView">
                     <img
                       style={{ width: 25 }}
@@ -701,7 +699,6 @@ const CardCompnent = ({
                     />
                   </div>
                 </div>
-
                                 <Button
                                     className="mt-2 collectionBtn"
                                     onClick={() => navigate(`/collections/${userId}`)}
@@ -738,23 +735,25 @@ const CardCompnent = ({
             <PaymentConfirmation setShow={setShow} show={show}/>
         </div>
     );
-                {isOwner && isEmote ? (
-                  <Button
-                    className="mt-2 collectionBtn"
-                    onClick={handleStripePayment}
-                  >
-                    stripe checkout
-                  </Button>
-                ) : (
-                  ""
-                )}
-              </>
-            )}
-          </>
-        )}
-      </Card>
-    </div>
-  );
+
 };
+                {/* // {isOwner && isEmote ? ( */}
+                {/* //   <Button
+                //     className="mt-2 collectionBtn"
+                //     onClick={handleStripePayment}
+                //   >
+                //     stripe checkout
+                //   </Button>
+                // ) : (
+                //   ""
+                // )}
+  //             </>
+  //           )}
+  //         </>
+  //       )}
+  //     </Card>
+  //   </div>
+  // ); */}
+
 
 export default CardCompnent;
