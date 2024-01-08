@@ -43,3 +43,7 @@
     }
   }
   
+
+  .ant-select-single.ant-select-show-arrow .ant-select-selection-item, .ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+    color: #000000;
+  }

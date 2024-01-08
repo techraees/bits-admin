@@ -19,10 +19,12 @@ import { useLazyQuery } from "@apollo/client";
 import { GET_PROFILE } from "../../gql/queries";
 import profileimg from "../../assets/images/profile1.svg";
 import environment from "../../environment";
-import { Modal } from "antd";
+import { Col, Modal } from "antd";
 import LogoutModal from "../logoutModal";
 import CookieConsent from "react-cookie-consent";
 import NotificationModal from "../notificationModal";
+import PrivacyModal from "../privacyModal";
+import ManageCookiesModal from "../manageCookiesModal";
 
 const NavbarComponent = ({
   headerText,
@@ -36,6 +38,8 @@ const NavbarComponent = ({
   const [menuBar, setMenuBar] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
+  const [privacyModal, setPrivacyModal] = useState(false);
+  const [manageCookies, setManageCookies] = useState(false);
 
   const navigate = useNavigate();
   const toggleCollapsed = () => {
@@ -195,6 +199,14 @@ const NavbarComponent = ({
     setShowRedImage(false);
     setIconClicked(false);
   };
+
+  const openPrivacyModal = () => {
+    setPrivacyModal(true);
+  }
+
+  const handleManageCookiesModal = () => {
+    setManageCookies(true);
+  }
 
   return (
     <>
@@ -452,14 +464,32 @@ const NavbarComponent = ({
       <div>
       <CookieConsent
         location="bottom"
-        buttonText="Got it!"
+        buttonText="Accept Cookies"
         cookieName="cookieConsentCookie"
-        style={{ background: "#2B373B" }}
-        buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+        style={{ background: "#F3F3F3", alignItems: 'center' }}
+        buttonStyle={{ color: "#ffffff", backgroundColor: '#9f2323', fontSize: "13px", padding: '10px 40px', borderRadius: '40px' }}
         expires={365}
       >
-        This website uses cookies to enhance the user experience and tracking the data.
+        <Container className="py-4">
+          <Col span={18}>
+            <h3 className="ms-0 fw-bold">
+            We respect your privacy
+            </h3>
+            <p className="text-black">
+            We use cookies to operate this website, improve usability, personalize your experience, and improve our marketing. Your privacy is important to us, and we will never sell your data. For more information see our <span style={{color: '#B83131', fontWeight: '600', textDecoration: 'underline', cursor: 'pointer'}} onClick={openPrivacyModal}>Privacy Policy</span>
+            </p>
+{/* 
+            <p  style={{color: '#B83131', fontWeight: '600', textDecoration: 'underline', cursor: 'pointer', position: 'absolute', right: '-60%', top: '75px'}}>Manage Cookies</p> */}
+            
+          </Col>
+        </Container>
+        <p style={{ color: '#B83131', fontWeight: '600', textDecoration: 'underline', cursor: 'pointer', position: 'absolute', right: '45px', top: '120px' }} onClick={handleManageCookiesModal}>
+          Manage Cookies
+        </p>
       </CookieConsent>
+
+      {privacyModal && <PrivacyModal privacyModal={privacyModal} setPrivacyModal={setPrivacyModal}/>}
+      {manageCookies && <ManageCookiesModal manageCookies={manageCookies} setManageCookies={setManageCookies}/>}
     </div>
     </>
   );

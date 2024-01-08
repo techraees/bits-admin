@@ -19,6 +19,7 @@ import { CREATE_USER } from "../../gql/mutations";
 import ConnectModal from "../../components/connectModal";
 import ForgotPassModal from "../ForgotPassModal";
 import Cookies from 'js-cookie';
+import { Col, Divider, Row, Select } from "antd";
 
 
 function Login() {
@@ -34,6 +35,10 @@ function Login() {
 
   // sign up checkbox
   const [signUpAgreeCheckbox, setSignUpAgreeCheckbox] = useState(false);
+  const [monthsOptions, setMonthsOptions] = useState([]);
+  const [daysOptions, setDaysOptions] = useState([]);
+  const [yearsOptions, setYearsOptions] = useState([]);
+
   
   let navigate = useNavigate();
   
@@ -132,6 +137,36 @@ function Login() {
     },
   });
 
+
+    useEffect(() => {
+        const options = [];
+        for (let i = 1; i <= 12; i++) {
+            options.push({
+                value: i.toString(),
+                label: i < 10 ? `0${i}` : i.toString()
+            });
+        }
+        setMonthsOptions(options);
+
+        const daysOptions = [];
+        for (let i = 1; i <= 31; i++) {
+          daysOptions.push({
+                value: i.toString(),
+                label: i < 10 ? `0${i}` : i.toString()
+            });
+        }
+        setDaysOptions(daysOptions);
+
+        const optionsYears = [];
+        for (let i = 1960; i <= 2010; i++) {
+          optionsYears.push({
+                value: i.toString(),
+                label: i.toString()
+            });
+        }
+        setYearsOptions(optionsYears);
+    }, []);
+
   const [
     createUser,
     { loading: signUpLoading, error: singUpError, data: signUpData },
@@ -224,6 +259,7 @@ function Login() {
   const handleCloseForgotPass = () => {
     setForgotPassModal(false)
   }
+
   return (
     <div style={{ background: "black" }}>
       <ConnectModal visible={connectModal} onClose={closeConnectModel} />
@@ -310,7 +346,7 @@ function Login() {
                 <img src={account} alt="" />
                 <span className="ms-4 semi-bold fs-5">Create Account</span>
               </div>
-              <div className="mb-5">
+              <div className="mb-3">
                 <InputComponent
                   placeholder={"Full Name"}
                   name="full_name"
@@ -367,6 +403,57 @@ function Login() {
                 {signUpFormError.phone_number && (
                   <span>{signUpFormError.phone_number.message}</span>
                 )}
+
+                <div className="mt-3">
+                  <label> Date of Birth</label>
+                 <Row gutter={16}>
+                  <Col span={8} className="my-3 mb-2">
+                    <Select
+                      defaultValue="MM"
+                      style={{
+                        width: "100%",
+                      }}
+                      dropdownStyle={{ color: '#dcdcdc' }}
+                      name="month"
+                      className={"black"}
+                      // onChange={handleChangeSignUp}
+                      options={monthsOptions}
+                    />
+                  </Col>
+
+                  <Col span={8} className="my-3 mb-2">
+                    <Select
+                      defaultValue="DD"
+                      style={{
+                        width: "100%",
+                      }}
+                      name="day"
+                      className={"black"}
+                      // onChange={handleChangeSignUp}
+                      options={daysOptions}
+                    />
+                  </Col>
+
+                  <Col span={8} className="my-3 mb-2">
+                    <Select
+                      defaultValue="YYYY"
+                      style={{
+                        width: "100%",
+                        color: 'black'
+                      }}
+                      name="year"
+                      className={"black"}
+                      // onChange={handleChangeSignUp}
+                      options={yearsOptions}
+                    />
+                  </Col>
+                 </Row>
+                </div>
+
+                <p style={{fontSize: '12px'}}>Disclaimer: Users must be 18 or older to sign up. Our platform involves buying and selling NFTs with crypto. By proceeding, you confirm you meet the age requirement.</p>
+
+                <Divider style={{border: '1.5px solid #dcdcdc'}}/>
+
               </div>
 
               <div className="my-2 d-flex" style={{ alignItems: "center" }}>
