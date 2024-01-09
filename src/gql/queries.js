@@ -17,11 +17,6 @@ const GET_ALL_NFTS = gql`
       supply
       royalty
       name
-      isPaid
-      video_duration
-      category
-      likeCount
-      watchCount
       user_id {
         id
         user_name
@@ -119,11 +114,6 @@ const GET_ALL_NFTS_WITHOUT_ADDRESS = gql`
       wallet_address
       supply
       is_blocked
-      isPaid
-      video_duration
-      category
-      likeCount
-      watchCount
       user_id {
         id
         user_name
@@ -171,11 +161,6 @@ const GET_NFT_DETAIL_QUERY = gql`
       supply
       royalty
       name
-      isPaid
-      video_duration
-      category
-      likeCount
-      watchCount
       user_id {
         id
         user_name
@@ -203,11 +188,6 @@ const GET_TOP_VIEW_NFTS = gql`
       royalty
       name
       view_count
-      isPaid
-      video_duration
-      category
-      likeCount
-      watchCount
       user_id {
         id
         user_name

@@ -7,8 +7,6 @@ const INITIAL_STATE = {
     meta: "",
     download: {},
     isEmote: false,
-    video_duration: 0,
-    category: "",
   },
 };
 

@@ -378,7 +378,6 @@ const Collections = () => {
                     contractData.chain == e.chainId ? (
                       <CardCompnent
                         key={i}
-                        id={e._id}
                         image={imgPaths + e?.user_id?.profileImg}
                         status={e.status}
                         name={e.name}
@@ -390,8 +389,6 @@ const Collections = () => {
                         fbx={e.fbx}
                         topName
                         userProfile={full_name ? true : false}
-                        likeCount={e.likeCount}
-                        watchCount={e.watchCount}
                         navigateTo={() =>
                           navigate(`/list-nft/${extractIPFSHash(e.video)}`, {
                             state: {
