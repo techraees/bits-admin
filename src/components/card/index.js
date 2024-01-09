@@ -28,6 +28,7 @@ import { ToastMessage } from "../../components";
 import { getSession } from "../../config/deepmotion";
 import { downloadVideo } from "../../config/deepmotion";
 import { loadStripe } from "@stripe/stripe-js";
+import DownloadModal from "../Modal/DownloadModal";
 import PaymentConfirmation from "../Modal/PaymentConfirmation";
 
 const CardCompnent = ({
@@ -594,7 +595,8 @@ const CardCompnent = ({
           </>
         )}
       </Card>
-      <PaymentConfirmation setShow={setShow} show={show} />
+      <DownloadModal setShow={setShow} show={show} />
+      {/* <PaymentConfirmation setShow={setShow} show={show} /> */}
     </div>
   );
 };

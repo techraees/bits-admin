@@ -178,6 +178,22 @@ const RECORD_VISIT_MUTATION = gql`
   }
 `;
 
+const UPDATE_NFT_LIKE = gql`
+  mutation UpdateNftLike($id: String!) {
+    UpdateNftLike(id: $id) {
+      likeCount
+    }
+  }
+`;
+
+const UPDATE_NFT_WATCH = gql`
+  mutation UpdateNftWatch($id: String!) {
+    UpdateNftWatch(id: $id) {
+      watchCount
+    }
+  }
+`;
+
 export {
   CREATE_NFT,
   CREATE_USER,
@@ -189,4 +205,6 @@ export {
   MINT_ASSET,
   SEND_EMAIL_MUTATION,
   RECORD_VISIT_MUTATION,
+  UPDATE_NFT_LIKE,
+  UPDATE_NFT_WATCH,
 };
