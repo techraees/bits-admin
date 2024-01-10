@@ -9,19 +9,45 @@ const { Option } = Select;
 
 const ConcentPreferences = () => {
     const [expandIconPosition] = useState('end');
-    // const onPositionChange = (newExpandIconPosition) => {
-    //     setExpandIconPosition(newExpandIconPosition);
-    // };
-    const onChange = (key) => {
-        console.log(key);
+    const [isTargetingCookiesChecked, setIsTargetingCookiesChecked] =
+        useState(true);
+    const [isSocialMediaCookiesChecked, setIsSocialMediaCookiesChecked] =
+        useState(false);
+
+    const onChange = (key) => {};
+
+    const onToggleTargetingCookies = (checked) => {
+        setIsTargetingCookiesChecked(checked);
     };
-    const genExtra = (checked) => (
-        <Switch
-            checked={checked}
-            className={`${checked ? 'switchBtnStyle' : undefined}`}
-            // onChange={onChange}
-        />
-    );
+
+    const onToggleSocialMediaCookies = (checked) => {
+        setIsSocialMediaCookiesChecked(checked);
+    };
+
+    const genExtra = (type) => {
+        let isChecked, onChangeHandler;
+
+        if (type === 'targeting') {
+            isChecked = isTargetingCookiesChecked;
+            onChangeHandler = onToggleTargetingCookies;
+            
+        } else if (type === 'social') {
+            isChecked = isSocialMediaCookiesChecked;
+            onChangeHandler = onToggleSocialMediaCookies;
+            
+        }
+        console.log("genExtra == isChecked:", isChecked)
+
+        return (
+            <Switch
+                checked={isChecked}
+                onChange={onChangeHandler}
+                className={`${isChecked ? 'switchBtnStyle' : ''}`}
+            />
+        );
+    };
+        
+
     return (
         <>
             <Collapse
@@ -94,7 +120,7 @@ const ConcentPreferences = () => {
                 <Panel
                     header="Targeting Cookies"
                     key="4"
-                    extra={genExtra(true)}
+                    extra={genExtra('targeting')}
                 >
                     <div>
                         These cookies might be placed on our website by our
@@ -111,7 +137,7 @@ const ConcentPreferences = () => {
                 <Panel
                     header="Social Media Cookies"
                     key="5"
-                    extra={genExtra(false)}
+                    extra={genExtra('social')}
                 >
                     <div>
                         These cookies are established by various social media
@@ -128,7 +154,7 @@ const ConcentPreferences = () => {
             </Collapse>
 
             <Row>
-                <Col span={24} className='d-flex justify-content-end'>
+                <Col span={24} className="d-flex justify-content-end">
                     <Button className="text-uppercase red-background white dashboardBtns px-5 my-3">
                         REJECT ALL
                     </Button>
