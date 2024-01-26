@@ -2,7 +2,13 @@ import React from "react";
 import Confirm from "../../assets/images/ok.png";
 import DownLoad from "../../assets/images/download.png";
 
-const PaymentConfirmation = ({ show, setShow, paymentConfirm }) => {
+const PaymentConfirmation = ({
+  show,
+  setShow,
+  paymentConfirm,
+  downloadConfirm,
+  handleDownloadClick,
+}) => {
   const handleClose = () => {
     setShow(false);
   };
@@ -51,7 +57,10 @@ const PaymentConfirmation = ({ show, setShow, paymentConfirm }) => {
                     <p className="paymentConfirmationHeading">
                       {paymentConfirm
                         ? "Congratulations! Your payment was successful."
-                        : "Congratulations! You successfully downloaded your FBX file"}
+                        : ""}
+                      {downloadConfirm
+                        ? "Congratulations! You successfully downloaded your FBX file."
+                        : ""}
                     </p>
                   </div>
                 </div>
@@ -77,7 +86,7 @@ const PaymentConfirmation = ({ show, setShow, paymentConfirm }) => {
                   <button
                     type="button"
                     className="btn w-100 text-white checkoutBtn"
-                    onClick={handleClose}
+                    onClick={handleDownloadClick}
                   >
                     Download
                   </button>

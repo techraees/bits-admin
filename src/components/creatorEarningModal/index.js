@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import {
   Button,
   Input,
@@ -8,15 +8,25 @@ import {
   Space,
   Table,
 } from "antd";
+import { ToastMessage } from "../../components";
 import "./css/index.css";
 import { crossIcon, deleteIcon } from "../../assets";
 import { DeleteOutlined } from "@ant-design/icons";
 
-const CreatorEarningModal = ({ isOpen, onRequestClose }) => {
+const CreatorEarningModal = ({
+  isOpen,
+  onRequestClose,
+  setSplitOwners,
+  setSplitOwnersPercentage,
+}) => {
   const [data, setData] = useState([
-    { key: 1, walletAddress: "", percentage: "" },
+    {
+      key: 0,
+      walletAddress: "0xAA441bEAcB48f7d2a62374aBbd2154cB4C22c84a",
+      percentage: 100,
+    },
   ]);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
   const columns = [
     {
@@ -46,15 +56,14 @@ const CreatorEarningModal = ({ isOpen, onRequestClose }) => {
       width: "30%",
       render: (text, record, index) => (
         <InputNumber
-          // defaultValue={25}
+          // defaultValue={100}
           min={0}
           max={100}
+          value={text}
           className="creator-input w-50 text-white"
           formatter={(value) => `${value}%`}
           parser={(value) => value.replace("%", "")}
-          // onChange={(e) =>
-          //     handleInputChange(e, record.key, 'percentage')
-          // }
+          onChange={(e) => handleInputChange(e, record.key, "percentage")}
         />
       ),
     },
@@ -92,7 +101,11 @@ const CreatorEarningModal = ({ isOpen, onRequestClose }) => {
     const newData = [...data];
     const index = newData.findIndex((item) => key === item.key);
     if (index > -1) {
-      newData[index][dataIndex] = e.target.value;
+      if (dataIndex === "percentage") {
+        newData[index][dataIndex] = e;
+      } else {
+        newData[index][dataIndex] = e.target.value;
+      }
       setData(newData);
     }
   };
@@ -104,20 +117,33 @@ const CreatorEarningModal = ({ isOpen, onRequestClose }) => {
 
   const handleAddAddress = () => {
     const newData = [...data];
+    setCount(count + 1);
+    console.log("letmecount", count);
     newData.push({
       key: count,
       walletAddress: "",
       percentage: "",
     });
-    setCount(count + 1);
     setData(newData);
   };
 
   const handleDone = () => {
     // Handle the "Done" button action
-    console.log("Data:", data);
-    onRequestClose();
+    let totalPercentage = 0;
+    data.map((item) => {
+      totalPercentage += Number(item.percentage);
+      setSplitOwners((prev) => [...prev, item.walletAddress]);
+      setSplitOwnersPercentage((prev) => [...prev, item.percentage]);
+    });
+
+    if (totalPercentage > 100 || totalPercentage < 100) {
+      ToastMessage("Error", `Total percentage should be 100`, "error");
+    } else {
+      onRequestClose();
+    }
   };
+
+  console.log("SplitData:", data);
 
   return (
     <Modal

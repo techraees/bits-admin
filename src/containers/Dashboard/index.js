@@ -235,6 +235,10 @@ const Dashboard = () => {
                 currentBidAmount={e.currentBidAmount}
                 nftOwner={e.wallet_address}
                 isAuction={e.isFixedItem ? false : true}
+                likeCount={e.likeCount}
+                watchCount={e.watchCount}
+                isPaid={e.isPaid}
+                duration={e.video_duration}
               />
             ))}
 

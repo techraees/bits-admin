@@ -31,7 +31,7 @@ import {
 import environment from "../../environment";
 import { MINT_ASSET_MUTATION } from "../../gql/mutations";
 import { USDTOETH } from "../../utills/currencyConverter";
-import { getAllNftsByAddress } from "../../config/infura";
+import { getAllNftsByAddressAlchemy } from "../../config/infura";
 
 const Collections = () => {
   const pageSize = 20;
@@ -113,10 +113,12 @@ const Collections = () => {
 
   const [tokenIdsByOwner, setTokenIdsByOwner] = useState([]);
 
+  console.log("profile log", profileData?.GetProfileDetails);
+
   //get all tokenIds by an address
   useEffect(() => {
     async function getTokenIds() {
-      const tokens = await getAllNftsByAddress(
+      const tokens = await getAllNftsByAddressAlchemy(
         profileData?.GetProfileDetails?.user_address,
         contractData.chain,
         contractData.mintContract.address
@@ -389,6 +391,11 @@ const Collections = () => {
                         fbx={e.fbx}
                         topName
                         userProfile={full_name ? true : false}
+                        likeCount={e.likeCount}
+                        watchCount={e.watchCount}
+                        isPaid={e.isPaid}
+                        duration={e.video_duration}
+                        id={e._id}
                         navigateTo={() =>
                           navigate(`/list-nft/${extractIPFSHash(e.video)}`, {
                             state: {
@@ -422,7 +429,6 @@ const Collections = () => {
                   tokenIdsByOwner?.map((item, i) => {
                     return allNftsWithoutAddr?.getAllNftsWithoutAddress?.map(
                       (e, i) => {
-                        console.log(e.chainId);
                         if (
                           !e.is_blocked &&
                           item === e.token_id &&

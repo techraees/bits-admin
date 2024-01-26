@@ -1,7 +1,7 @@
 import { useLazyQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { GET_NFT_DETAIL_QUERY } from "../../gql/queries";
+import { DETAILS_OF_A_NFT } from "../../gql/queries";
 import { useSelector } from "react-redux";
 import NavbarComponent from "../navbar";
 import { Row, Col, Button, Select, Input } from "antd";
@@ -10,21 +10,27 @@ import ReactPlayer from "react-player";
 import { trimWallet } from "../../utills/trimWalletAddr";
 const NftDetailsScreen = () => {
   const { id } = useParams();
-  const [getNdtDetails, { data, loading, error }] =
-    useLazyQuery(GET_NFT_DETAIL_QUERY);
+  const [detailsOfANft, { data, loading, error }] =
+    useLazyQuery(DETAILS_OF_A_NFT);
   const [count, setCount] = useState(false);
 
   const { userData } = useSelector((state) => state.address.userData);
-  console.log(userData, "userData");
+  console.log(id, "userData");
   console.log(data, "data444", error, loading, userData?.id);
 
   useEffect(() => {
     if (id !== undefined && id !== null) {
-      getNdtDetails({
-        variables: { id: id, user_id: userData?.id ? userData?.id : "null" },
-      });
+      try {
+        detailsOfANft({
+          variables: {
+            id: id,
+          },
+        });
+      } catch (error) {
+        console.log("The err", error);
+      }
     }
-  }, [id, userData?.id]);
+  }, [id]);
 
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
@@ -40,11 +46,11 @@ const NftDetailsScreen = () => {
   const link = `https://${
     contractData.chain == 5 ? "goerli.etherscan.io" : "mumbai.polygonscan.com"
   }/token/${contractData.mintContract.address}?a=${
-    data?.getNftDetails?.token_id
+    data?.DetailsOfANft?.token_id
   }`;
 
-  console.log(data?.getNftDetails?.video, "babaer");
-  console.log(data?.getNftDetails, "babaer");
+  console.log(data?.DetailsOfANft?.video, "babaer");
+  console.log(data?.DetailsOfANft, "babaer");
 
   return (
     <div
@@ -78,7 +84,7 @@ const NftDetailsScreen = () => {
                     controls={true}
                     width="100%"
                     height={220}
-                    url={data?.getNftDetails?.video}
+                    url={data?.DetailsOfANft?.video}
                   />
                 </div>
                 <a
@@ -87,7 +93,7 @@ const NftDetailsScreen = () => {
                       ? "goerli.etherscan.io"
                       : "mumbai.polygonscan.com"
                   }/token/${contractData.mintContract.address}?a=${
-                    data?.getNftDetails?.token_id
+                    data?.DetailsOfANft?.token_id
                   }`}
                   target="_blank"
                   className={`${textColor2}`}
@@ -106,12 +112,12 @@ const NftDetailsScreen = () => {
                 <div>
                   <div className="my-3">
                     <p className={`${textColor} mb-1 fs-5`}>
-                      {data?.getNftDetails?.name}
+                      {data?.DetailsOfANft?.name}
                     </p>
 
                     <p className={`${textColor2} m-0 fs-6`}>
-                      {data?.getNftDetails?.wallet_address &&
-                        trimWallet(data?.getNftDetails?.wallet_address)}
+                      {data?.DetailsOfANft?.wallet_address &&
+                        trimWallet(data?.DetailsOfANft?.wallet_address)}
                     </p>
                     {/* <p className="red fs-6">
                   SB
@@ -120,13 +126,13 @@ const NftDetailsScreen = () => {
                   <div className="my-3">
                     <p className={`${textColor} m-0 fs-5`}>NFT ID</p>
                     <p className={`${textColor2} m-0 fs-6`}>
-                      #{data?.getNftDetails?.token_id}
+                      #{data?.DetailsOfANft?.token_id}
                     </p>
                   </div>
                   <div className="my-3">
                     <div className="d-flex label-input">
                       <p className={`${textColor} m-0 fs-5`}>
-                        Royalty % : {data?.getNftDetails?.royalty / 100}{" "}
+                        Royalty % : {data?.DetailsOfANft?.royalty / 100}{" "}
                       </p>
                     </div>
                   </div>
@@ -140,7 +146,7 @@ const NftDetailsScreen = () => {
               <div className="my-3">
                 <p className={`${textColor} mb-1 fs-6`}>Circulating Supply</p>
                 <p className={`${textColor2} m-0 fs-6`}>
-                  {data?.getNftDetails?.supply}
+                  {data?.DetailsOfANft?.supply}
                 </p>
               </div>
               <div className="my-3">
@@ -149,7 +155,7 @@ const NftDetailsScreen = () => {
                 </p>
                 <p className={`${textColor2} m-0 fs-6`}>
                   {" "}
-                  {data?.getNftDetails?.supply}{" "}
+                  {data?.DetailsOfANft?.supply}{" "}
                 </p>
               </div>
               <div className="my-3">

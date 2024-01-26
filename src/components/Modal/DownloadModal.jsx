@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./DownloadModal.css";
 import Logo from "../../assets/images/PayPalLogo.png";
 
-const DownloadModal = ({ show, setShow }) => {
+const DownloadModal = ({
+  show,
+  setShow,
+  duration,
+  handelStripe,
+  handlePaypal,
+}) => {
+  const [price, setPrice] = useState(0);
   const handleClose = () => {
     setShow(false);
   };
+
+  const calculatePrice = () => {
+    setPrice((duration * 10) / 100);
+  };
+
+  useEffect(() => {
+    if (duration) {
+      calculatePrice();
+    }
+  }, []);
+
   return (
     <>
       {show && (
@@ -38,22 +56,22 @@ const DownloadModal = ({ show, setShow }) => {
               <div className="modal-body">
                 <div className="d-flex justify-content-center gap-1 gap-sm-0 flex-column flex-sm-row justify-content-sm-between flex-wrap align-items-center mt-2">
                   <p className="paymentHeading">Subtotal (USD)</p>
-                  <p className="paymentHeading">$12.25</p>
+                  <p className="paymentHeading">${Number(price).toFixed(2)}</p>
                 </div>
 
                 <div className="d-flex justify-content-center gap-1 gap-sm-0 flex-column flex-sm-row justify-content-sm-between flex-wrap align-items-center mt-2">
-                  <p className="items">Flat Rate</p>
-                  <p className="items">$5.00</p>
+                  <p className="items">¢10/sec</p>
+                  <p className="items">${Number(price).toFixed(2)}</p>
                 </div>
 
-                <div className="d-flex justify-content-center gap-1 gap-sm-0 flex-column flex-sm-row justify-content-sm-between flex-wrap align-items-center mt-2">
-                  <p className="items">6 Second Video - $1/sec</p>
+                {/* <div className="d-flex justify-content-center gap-1 gap-sm-0 flex-column flex-sm-row justify-content-sm-between flex-wrap align-items-center mt-2">
+                  <p className="items">60+ Seconds Video - ¢10/sec</p>
                   <p className="items">$6.00</p>
-                </div>
+                </div> */}
 
                 <div className="d-flex justify-content-center gap-1 gap-sm-0 flex-column flex-sm-row justify-content-sm-between flex-wrap align-items-center mt-2">
                   <p className="items">Tax</p>
-                  <p className="items">$1.25</p>
+                  <p className="items">N/A</p>
                 </div>
               </div>
               <div
@@ -63,14 +81,14 @@ const DownloadModal = ({ show, setShow }) => {
                 <button
                   type="button"
                   className="btn w-100 text-white checkoutBtn"
-                  onClick={handleClose}
+                  onClick={handelStripe}
                 >
                   Start Checkout
                 </button>
                 <button
                   type="button"
                   className="btn w-100 paypalBtn"
-                  onClick={handleClose}
+                  onClick={handlePaypal}
                 >
                   <img
                     style={{ width: "118px" }}

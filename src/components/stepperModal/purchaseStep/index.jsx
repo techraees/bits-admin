@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./css/index.css";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { GET_PROFILE_DETAILS_QUERY } from "../../../gql/queries";
+import { SEND_EMAIL_MUTATION } from "../../../gql/mutations";
 import { test } from "../../../assets";
 import { SuccessModal } from "../../index";
 import ConnectModal from "../../connectModal";
@@ -11,8 +14,18 @@ import { ETHToWei } from "../../../utills/convertWeiAndBnb";
 import { Loader, ToastMessage } from "../../../components";
 import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
 import { loadContractIns } from "../../../store/actions";
+import { boughtMessage } from "../../../utills/emailMessages";
+import environment from "../../../environment";
 
-function PurchaseStep({ owner, name, totalPrice, showAmt, quantity, fixedId }) {
+function PurchaseStep({
+  owner,
+  name,
+  totalPrice,
+  showAmt,
+  quantity,
+  fixedId,
+  sellerUsername,
+}) {
   const dispatch = useDispatch();
   const { contractData } = useSelector((state) => state.chain.contractData);
   const { web3, signer } = useSelector((state) => state.web3.walletData);
@@ -22,6 +35,25 @@ function PurchaseStep({ owner, name, totalPrice, showAmt, quantity, fixedId }) {
   const [isConnected, setIsConnected] = useState(false);
   const [loadingStatus, setLoadingStatus] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
+
+  const { userData } = useSelector((state) => state.address.userData);
+
+  const [
+    getProfile,
+    {
+      loading: profileLoadeing,
+      error: profileError,
+      data: profileData,
+      refetch,
+    },
+  ] = useLazyQuery(GET_PROFILE_DETAILS_QUERY, {
+    variables: { getProfileDetailsId: userData?.id },
+  });
+
+  const [
+    sendEmail,
+    { data: emailData, loading: emailLoading, error: emailError },
+  ] = useMutation(SEND_EMAIL_MUTATION);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -36,6 +68,12 @@ function PurchaseStep({ owner, name, totalPrice, showAmt, quantity, fixedId }) {
   const handleConnect = () => {
     connectWalletHandle();
   };
+
+  useEffect(() => {
+    if (userData?.id) {
+      getProfile({ variables: userData?.id });
+    }
+  }, [userData?.id]);
 
   const handlePurchase = async () => {
     let val = Number(ETHToWei(totalPrice.toString()));
@@ -64,6 +102,29 @@ function PurchaseStep({ owner, name, totalPrice, showAmt, quantity, fixedId }) {
             ToastMessage("Purchase Successful", "", "success");
             showModal();
             dispatch(loadContractIns());
+
+            try {
+              const msgData = boughtMessage(
+                userData?.full_name,
+                name,
+                sellerUsername,
+                totalPrice
+              );
+              const res = await sendEmail({
+                variables: {
+                  to: profileData?.GetProfileDetails?.email,
+                  from: environment.EMAIL_OWNER,
+                  subject: msgData.subject,
+                  text: msgData.message,
+                },
+              });
+
+              if (res) {
+                console.log(res);
+              }
+            } catch (error) {
+              console.log(error);
+            }
           }
         } catch (error) {
           const parsedEthersError = getParsedEthersError(error);

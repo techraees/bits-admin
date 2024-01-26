@@ -219,8 +219,8 @@ export const loadContractIns = () => async (dispatch) => {
       polygonInfuraIns
     );
     const polygonMarketPlaceContract =
-      "0x7Af5243b7F331217e2D37b19FE773B2C0A5D4301";
-    const polygonMintingConract = "0x97C49dFeB7ff0bD5006B02fD59912Ab63f5D4216";
+      "0x695209627b82A89557c3B9e26f41F42B46c54346";
+    const polygonMintingConract = "0xb08933ecd7ab6d2149466b791b71BdeFe66669e1";
     const polygonMarketContractIns = new ethers.Contract(
       polygonMarketPlaceContract,
       polygonMarketContractAbi,

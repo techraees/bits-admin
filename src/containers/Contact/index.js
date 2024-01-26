@@ -51,7 +51,7 @@ const Contact = () => {
     sendEmail,
     { data: emailData, loading: emailLoading, error: emailError },
   ] = useMutation(SEND_EMAIL_MUTATION);
-    console.log("data",emailData)
+  console.log("data", emailData);
   const {
     handleSubmit,
     handleChange,
@@ -72,13 +72,14 @@ const Contact = () => {
 
     onSubmit: async (values) => {
       try {
-
         const result = await sendEmail({
           variables: {
-            to: environment.PLATFORM_OWNER,
+            to: values?.email,
             from: environment.EMAIL_OWNER,
             subject: `Contact Email From ${values?.fullName}`,
-            text: `${values?.message} and here is my ${values?.phoneNumber && `phone number ${values?.phoneNumber} /`} email ${values?.email}`,
+            text: `${values?.message} and here is my ${
+              values?.phoneNumber && `phone number ${values?.phoneNumber} /`
+            } email ${values?.email}`,
           },
         });
       } catch (e) {
@@ -86,7 +87,7 @@ const Contact = () => {
       }
     },
   });
-      console.log("errorserrors",errors)
+  console.log("errorserrors", errors);
   useEffect(() => {
     if (emailData) {
       ToastMessage("Platform will contact you!", "", "success");

@@ -8,6 +8,7 @@ import { BsFilterLeft } from "react-icons/bs";
 import { GET_ALL_NFTS_WITHOUT_ADDRESS } from "../../gql/queries";
 import { useQuery } from "@apollo/client";
 import environment from "../../environment";
+import { USDTOMATIC } from "../../utills/currencyConverter";
 
 const VideoGallery = () => {
   const { loading, error, data, refetch } = useQuery(
@@ -19,6 +20,12 @@ const VideoGallery = () => {
   );
 
   const [tokenData, setTokenData] = useState({});
+
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [priceFilter, setPriceFilter] = useState([]);
+  const [quantityFilter, setQuantityFilter] = useState([]);
+  const [allnfts, setAllNfts] = useState([]);
+  const [fixedItemsDatas, setFixedItemsDatas] = useState([]);
 
   const { contractData } = useSelector((state) => state.chain.contractData);
   const { fixedItemData } = useSelector(
@@ -32,13 +39,103 @@ const VideoGallery = () => {
   const userProfile = userData?.full_name;
   const imgPaths = environment.BACKEND_BASE_URL + "/";
 
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
+  const handleCategoryChange = (value) => {
+    setCategoryFilter(value);
   };
-  console.log("data", data);
+
+  const handlePriceChange = async (value) => {
+    console.log("Price change", value);
+    const data = value.split("-").map(Number);
+
+    // Use Promise.all to wait for all promises to be resolved
+    const convertedPrice = await Promise.all(
+      data.map(async (val) => {
+        return await USDTOMATIC(val);
+      })
+    );
+
+    setPriceFilter(convertedPrice);
+  };
+
+  const handleQuantityChange = (value) => {
+    console.log("Quantity change", value);
+    const data = value.split("-").map(Number);
+    setQuantityFilter(data);
+  };
+
+  const handleRankingChange = (value) => {
+    console.log("selected value", value);
+  };
+
+  useEffect(() => {
+    if (data) {
+      setAllNfts(data?.getAllNftsWithoutAddress);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (fixedItemData) {
+      setFixedItemsDatas(fixedItemData);
+    }
+  }, [fixedItemData]);
+
+  useEffect(() => {
+    let filterdItems;
+    if (categoryFilter && data?.getAllNftsWithoutAddress) {
+      filterdItems = data?.getAllNftsWithoutAddress.filter((item) => {
+        return item.category === categoryFilter;
+      });
+    }
+    setAllNfts(filterdItems);
+  }, [categoryFilter]);
+
+  useEffect(() => {
+    let filteredFixedItems;
+    if (priceFilter && fixedItemData) {
+      filteredFixedItems = fixedItemData
+        .map((item) => ({
+          ...item,
+          owners: item.owners.filter((owner) => {
+            const usdPrice = Number(owner.price);
+            return (
+              Number(usdPrice) >= Number(priceFilter[0]) &&
+              Number(usdPrice) <= Number(priceFilter[1])
+            );
+          }),
+        }))
+        .filter((item) => item.owners.length > 0);
+    }
+
+    console.log("filteredFixedItems", filteredFixedItems);
+    setFixedItemsDatas(filteredFixedItems);
+  }, [priceFilter]);
+
+  useEffect(() => {
+    let filteredFixedItems;
+    if (priceFilter && fixedItemData) {
+      filteredFixedItems = fixedItemData
+        .map((item) => ({
+          ...item,
+          owners: item.owners.filter((owner) => {
+            const copies = Number(owner.copies);
+            return (
+              Number(copies) >= Number(quantityFilter[0]) &&
+              Number(copies) <= Number(quantityFilter[1])
+            );
+          }),
+        }))
+        .filter((item) => item.owners.length > 0);
+    }
+
+    console.log("filteredFixedItems", filteredFixedItems);
+    setFixedItemsDatas(filteredFixedItems);
+  }, [quantityFilter]);
+
   useEffect(() => {
     refetch();
   }, []);
+
+  console.log("data from database", allnfts, fixedItemsDatas, priceFilter);
 
   return (
     <div
@@ -77,7 +174,7 @@ const VideoGallery = () => {
                     width: 120,
                   }}
                   className={textColor == "black" && "light"}
-                  onChange={handleChange}
+                  onChange={handleCategoryChange}
                   options={[
                     {
                       value: "Dance",
@@ -106,28 +203,28 @@ const VideoGallery = () => {
                     width: 120,
                   }}
                   className={textColor == "black" && "light"}
-                  onChange={handleChange}
+                  onChange={handlePriceChange}
                   options={[
                     {
-                      value: "$0-$10",
+                      value: "0-10",
                       label: "$0-$10",
                     },
                     {
-                      value: "$10-$100",
+                      value: "10-100",
                       label: "$10-$100",
                     },
                     {
-                      value: "$100-$1000",
+                      value: "100-1000",
                       label: "$100-$1000",
                     },
                     {
-                      value: "$1000-$10000",
+                      value: "1000-10000",
                       label: "$1000-$10000",
                     },
                     {
-                      value: "$10000+",
+                      value: "10000-100000",
                       label: "$10000+",
-                    }
+                    },
                   ]}
                 />
               </div>
@@ -138,7 +235,7 @@ const VideoGallery = () => {
                   style={{
                     width: 120,
                   }}
-                  onChange={handleChange}
+                  onChange={handleQuantityChange}
                   className={textColor == "black" && "light"}
                   options={[
                     {
@@ -158,9 +255,9 @@ const VideoGallery = () => {
                       label: "1000-10000",
                     },
                     {
-                      value: "10000+",
+                      value: "10000 - 100000",
                       label: "10000+",
-                    }
+                    },
                   ]}
                 />
               </div>
@@ -172,12 +269,12 @@ const VideoGallery = () => {
                     width: 120,
                   }}
                   className={textColor == "black" && "light"}
-                  onChange={handleChange}
+                  onChange={handleRankingChange}
                   options={[
                     {
                       value: "Coming Soon",
                       label: "Coming Soon",
-                    }
+                    },
                   ]}
                 />
               </div>
@@ -196,8 +293,8 @@ const VideoGallery = () => {
           style={{ borderBottom: "0.5px solid #c23737", marginTop: "3.5rem" }}
         ></div>
         <div className="row my-3">
-          {fixedItemData?.map((item) => {
-            return data?.getAllNftsWithoutAddress?.map((e, i) => {
+          {fixedItemsDatas?.map((item) => {
+            return allnfts?.map((e, i) => {
               if (
                 !e.is_blocked &&
                 item.tokenid == e.token_id &&
@@ -216,12 +313,15 @@ const VideoGallery = () => {
                     detailBtn
                     userProfile={userProfile ? true : false}
                     userId={e?.user_id?.id}
+                    sellerUsername={e?.user_id?.user_name}
                     owners={item.owners}
                     fixtokenId={item.tokenid}
                     fixOwner={e.wallet_address}
                     fixRoyalty={e.royalty}
                     fixCopies={e.supply}
                     id={e._id}
+                    likeCount={e.likeCount}
+                    watchCount={e.watchCount}
                   />
                 );
               }

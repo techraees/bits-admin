@@ -10,7 +10,11 @@ import {
   likedIcon,
 } from "../../assets";
 import { useMutation } from "@apollo/client";
-import { UPDATE_NFT_LIKE, UPDATE_NFT_WATCH } from "../../gql/mutations";
+import {
+  UPDATE_NFT_LIKE,
+  UPDATE_NFT_WATCH,
+  UPDATE_NFT_PAYMENT,
+} from "../../gql/mutations";
 import { Button, Space, Typography } from "antd";
 import { EyeOutlined, LikeOutlined } from "@ant-design/icons";
 import ButtonComponent from "../button";
@@ -18,7 +22,7 @@ import ReactPlayer from "react-player";
 import { OfferModal, StepperModal } from "../index";
 import { Modal } from "antd";
 import { NftDetailsModal } from "../index";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Timercomp from "../timerComp";
 import { useLocation, useNavigate } from "react-router-dom";
 import profileimg from "../../assets/images/profile1.png";
@@ -30,6 +34,7 @@ import { downloadVideo } from "../../config/deepmotion";
 import { loadStripe } from "@stripe/stripe-js";
 import DownloadModal from "../Modal/DownloadModal";
 import PaymentConfirmation from "../Modal/PaymentConfirmation";
+import env from "../../environment";
 
 const CardCompnent = ({
   image,
@@ -66,20 +71,28 @@ const CardCompnent = ({
   rid,
   likeCount,
   watchCount,
+  isPaid,
+  duration,
+  sellerUsername,
 }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
   const [isNftModalOpen, setIsNftModalOpen] = useState(false);
-  const [show, setShow] = useState(false);
+  const [showDownload, setShowDownload] = useState(false);
+  const [showpayment, setShowPayment] = useState(false);
+  const [paymentStat, setPaymentStat] = useState(false);
   const [ethBal, setEthBal] = useState(0);
   const [maticBal, setMaticBal] = useState(0);
   const { contractData } = useSelector((state) => state.chain.contractData);
 
-  const [updateNftLike, { loading: statusLoading }] =
+  const [updateNftLike, { loading: statusLoading, error: updateError, data }] =
     useMutation(UPDATE_NFT_LIKE);
 
+  const { userData } = useSelector((state) => state.address.userData);
+
   const [updateNftWatch] = useMutation(UPDATE_NFT_WATCH);
+  const [updateNftPayment] = useMutation(UPDATE_NFT_PAYMENT);
 
   ETHTOUSD(1).then((result) => {
     setEthBal(result);
@@ -109,6 +122,82 @@ const CardCompnent = ({
     setIsNftModalOpen(false);
   };
 
+  // stripe payment
+  const handleStripePayment = async () => {
+    const stripe = await loadStripe(
+      "pk_test_51ONY76DTnIk5XZdbssy5CY3IEHcocHc20X9xWh6rvoKGzjHVw3lBM7barlliBtOKgzQEU7XB61IWHsY0eLJBp18Q00e2dbR0gQ"
+    );
+
+    const body = {
+      product: {
+        name: name,
+        cost: Number(duration * 0.1).toFixed(2),
+        userId: userData?.id,
+        itemId: id,
+      },
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    const response = await fetch(
+      `${env.BACKEND_BASE_URL}/create-checkout-session`,
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }
+    );
+
+    const session = await response.json();
+
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    //   await updateNftPayment({
+    //     variables: {
+    //       id: id,
+    //     },
+    //   });
+
+    if (result.error) {
+      console.log(result.error);
+    } else if (result.paymentIntent) {
+      // Handle successful payment here (e.g., update UI or make further API calls).
+      console.log("Payment succeeded:", result.paymentIntent);
+    }
+  };
+
+  //handle paypal
+  const handlePaypalPayment = async () => {
+    const body = {
+      product: {
+        name: name,
+        cost: `${duration * 0.1}.00`,
+        userId: userData?.id,
+        itemId: id,
+      },
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    console.log("paypal response", body);
+
+    const response = await fetch(`${env.BACKEND_BASE_URL}/handle-paypal`, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+    console.log("Link of paypal", data.link);
+    window.open(data.link);
+  };
+
   //handle download
   const handleDownloadClick = async () => {
     const res = await getSession();
@@ -122,46 +211,26 @@ const CardCompnent = ({
     }
   };
 
-  const handleStripePayment = async () => {
-    const stripe = await loadStripe(
-      "pk_test_51ONY76DTnIk5XZdbssy5CY3IEHcocHc20X9xWh6rvoKGzjHVw3lBM7barlliBtOKgzQEU7XB61IWHsY0eLJBp18Q00e2dbR0gQ"
-    );
-
-    const body = {
-      name: "Swadhin Biswas",
-    };
-
-    const headers = {
-      "Content-Type": "application/json",
-    };
-
-    const response = await fetch(
-      "http://localhost:4000/create-checkout-session",
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(body),
-      }
-    );
-
-    const session = await response.json();
-
-    const result = stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
-
-    if (result.error) {
-      console.log(result.error);
-    }
+  const handleDownload = () => {
+    setShowDownload(true);
+    setShowPayment(true);
   };
 
   const handleLikeClick = async () => {
-    await updateNftLike({
-      variables: {
-        id: id,
-      },
-    });
-    ToastMessage("NFT Liked", "", "success");
+    if (isOwner) {
+      ToastMessage("Error", "Owner can't like", "success");
+    } else if (!userData) {
+      ToastMessage("Error", "You need to sign in", "success");
+    } else {
+      await updateNftLike({
+        variables: {
+          id: id,
+        },
+      });
+      if (data) {
+        ToastMessage("NFT Liked", "", "success");
+      }
+    }
   };
 
   const handleWatchClick = async () => {
@@ -171,11 +240,21 @@ const CardCompnent = ({
       },
     });
   };
+
   // console.log("userProfile", userProfile, image);
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
   // console.log("userId", userId, location.pathname);
 
   // console.log(fixOwner, fixRoyalty, fixCopies);
+
+  useEffect(() => {
+    if (searchParams.get("payment") && searchParams.get("itemId") == id) {
+      setShowPayment(true);
+      // handleDownload();
+    }
+  }, [searchParams.get("payment")]);
 
   return (
     <div className="my-4 col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center">
@@ -189,7 +268,12 @@ const CardCompnent = ({
         closable={false}
         className="stepperModal"
       >
-        <StepperModal handleCancel={handleCancel} owners={owners} name={name} />
+        <StepperModal
+          handleCancel={handleCancel}
+          owners={owners}
+          name={name}
+          sellerUsername={sellerUsername}
+        />
       </Modal>
 
       <Modal
@@ -561,32 +645,14 @@ const CardCompnent = ({
                 >
                   Go to Collection
                 </Button>
-                <button
-                  type="button"
-                  className="mt-2 collectionBtn"
-                  onClick={() => {
-                    setShow(true);
-                  }}
-                >
-                  Download File
-                </button>
                 {isOwner && isEmote ? (
-                  <Button
+                  <button
+                    type="button"
                     className="mt-2 collectionBtn"
-                    onClick={handleDownloadClick}
+                    onClick={() => handleDownload()}
                   >
-                    Download Fbx
-                  </Button>
-                ) : (
-                  ""
-                )}
-                {isOwner && isEmote ? (
-                  <Button
-                    className="mt-2 collectionBtn"
-                    onClick={handleStripePayment}
-                  >
-                    stripe checkout
-                  </Button>
+                    Download File
+                  </button>
                 ) : (
                   ""
                 )}
@@ -595,8 +661,24 @@ const CardCompnent = ({
           </>
         )}
       </Card>
-      <DownloadModal setShow={setShow} show={show} />
-      {/* <PaymentConfirmation setShow={setShow} show={show} /> */}
+      {isPaid ? (
+        <PaymentConfirmation
+          setShow={setShowPayment}
+          show={showpayment}
+          paymentConfirm={true}
+          handleDownloadClick={handleDownloadClick}
+        />
+      ) : (
+        <DownloadModal
+          setShow={setShowDownload}
+          show={showDownload}
+          duration={duration}
+          handelStripe={handleStripePayment}
+          handlePaypal={handlePaypalPayment}
+        />
+      )}
+
+      {/* <PaymentConfirmation setShow={setShowPayment} show={showpayment} /> */}
     </div>
   );
 };
