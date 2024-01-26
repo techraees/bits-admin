@@ -17,6 +17,11 @@ const GET_ALL_NFTS = gql`
       supply
       royalty
       name
+      isPaid
+      video_duration
+      category
+      likeCount
+      watchCount
       user_id {
         id
         user_name
@@ -114,6 +119,11 @@ const GET_ALL_NFTS_WITHOUT_ADDRESS = gql`
       wallet_address
       supply
       is_blocked
+      isPaid
+      video_duration
+      category
+      likeCount
+      watchCount
       user_id {
         id
         user_name
@@ -161,6 +171,43 @@ const GET_NFT_DETAIL_QUERY = gql`
       supply
       royalty
       name
+      isPaid
+      video_duration
+      category
+      likeCount
+      watchCount
+      user_id {
+        id
+        user_name
+        user_address
+        profileImg
+      }
+    }
+  }
+`;
+
+const DETAILS_OF_A_NFT = gql`
+  query DetailsOfANft($id: ID!) {
+    DetailsOfANft(id: $id) {
+      _id
+      artist_name1
+      description
+      metauri
+      status
+      isEmote
+      rid
+      video
+      wallet_address
+      token_id
+      chainId
+      supply
+      royalty
+      name
+      isPaid
+      video_duration
+      category
+      likeCount
+      watchCount
       user_id {
         id
         user_name
@@ -187,6 +234,11 @@ const GET_TOP_VIEW_NFTS = gql`
       supply
       royalty
       name
+      isPaid
+      video_duration
+      category
+      likeCount
+      watchCount
       view_count
       user_id {
         id
@@ -208,4 +260,5 @@ export {
   GET_PROFILE_DETAILS_QUERY,
   GET_NFT_DETAIL_QUERY,
   GET_TOP_VIEW_NFTS,
+  DETAILS_OF_A_NFT,
 };

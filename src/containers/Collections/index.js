@@ -31,7 +31,7 @@ import {
 import environment from "../../environment";
 import { MINT_ASSET_MUTATION } from "../../gql/mutations";
 import { USDTOETH } from "../../utills/currencyConverter";
-import { getAllNftsByAddress } from "../../config/infura";
+import { getAllNftsByAddressAlchemy } from "../../config/infura";
 
 const Collections = () => {
   const pageSize = 20;
@@ -113,15 +113,17 @@ const Collections = () => {
 
   const [tokenIdsByOwner, setTokenIdsByOwner] = useState([]);
 
+  console.log("profile log", profileData?.GetProfileDetails);
+
   //get all tokenIds by an address
   useEffect(() => {
     async function getTokenIds() {
-      const tokens = await getAllNftsByAddress(
+      const tokens = await getAllNftsByAddressAlchemy(
         profileData?.GetProfileDetails?.user_address,
         contractData.chain,
         contractData.mintContract.address
       );
-      console.log(tokens);
+      console.log("tokens", tokens);
       setTokenIdsByOwner(tokens);
     }
     getTokenIds();
@@ -278,12 +280,12 @@ const Collections = () => {
                   className="my-2"
                 />
               )}
-              <div style={{position: 'absolute',width: 540}}>
+              <div style={{ position: "absolute", width: 540 }}>
                 <img
-                src={ellipse}
-                style={{ borderRadius: "50%" }}
-                width={200}
-                className="my-2"
+                  src={ellipse}
+                  style={{ borderRadius: "50%" }}
+                  width={200}
+                  className="my-2"
                 />
               </div>
               <div className="ms-3">
@@ -389,6 +391,11 @@ const Collections = () => {
                         fbx={e.fbx}
                         topName
                         userProfile={full_name ? true : false}
+                        likeCount={e.likeCount}
+                        watchCount={e.watchCount}
+                        isPaid={e.isPaid}
+                        duration={e.video_duration}
+                        id={e._id}
                         navigateTo={() =>
                           navigate(`/list-nft/${extractIPFSHash(e.video)}`, {
                             state: {
@@ -422,7 +429,6 @@ const Collections = () => {
                   tokenIdsByOwner?.map((item, i) => {
                     return allNftsWithoutAddr?.getAllNftsWithoutAddress?.map(
                       (e, i) => {
-                        console.log(e.chainId);
                         if (
                           !e.is_blocked &&
                           item === e.token_id &&
@@ -467,7 +473,10 @@ const Collections = () => {
               </div>
             </Tabs.TabPane>
           </Tabs>
-          <div className="d-flex gap-4 align-items-center" style={{ position:'absolute',left:1100}}>
+          <div
+            className="d-flex gap-4 align-items-center"
+            style={{ position: "absolute", left: 1100 }}
+          >
             <div className="d-flex gap-2 align-items-center mb-5 pagination-wrapper">
               <Pagination
                 total={nfts?.length}

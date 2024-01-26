@@ -8,7 +8,7 @@ import {
   ToastMessage,
 } from "../../components";
 import "./css/index.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Loading from "../../components/loaders/loading";
 import { signInSchema, signUpSchema } from "../../components/validations";
@@ -21,6 +21,8 @@ import ForgotPassModal from "../ForgotPassModal";
 import Cookies from 'js-cookie';
 import { Col, Divider, Row, Select } from "antd";
 
+import env from "../../environment";
+
 
 function Login() {
   const dispatch = useDispatch();
@@ -28,7 +30,10 @@ function Login() {
   const { web3, accountv } = useSelector((state) => state.web3.walletData);
   console.log(" loginn", web3, accountv);
   const [connectModal, setConnectModal] = useState(false);
-  const [forgotPassModal, setForgotPassModal] = useState(false)
+  const [forgotPassModal, setForgotPassModal] = useState(false);
+  const [step, setStep] = useState(1);
+  const [id, setId] = useState(null);
+  const [token, setToken] = useState(null);
 
   // sign in checkbox
   const [rememberCheckbox, setRememberCheckbox] = useState(false);
@@ -39,9 +44,8 @@ function Login() {
   const [daysOptions, setDaysOptions] = useState([]);
   const [yearsOptions, setYearsOptions] = useState([]);
 
-  
   let navigate = useNavigate();
-  
+
   //login
   const {
     register,
@@ -88,14 +92,13 @@ function Login() {
       const { user_address, id, token, full_name, country, bio, profileImg } =
         LoginUser;
       localStorage.setItem("token", token);
-
+      
       Cookies.set('your-cookie-name', 'cookie-value', {
         expires: 7,
         secure: true, 
         sameSite: 'Lax' 
         
     });
-
 
       dispatch({
         type: "NFT_ADDRESS",
@@ -227,9 +230,7 @@ function Login() {
   };
 
   // get Player
-  const [
-    { loading: playerLoading },
-  ] = useLazyQuery(GET_PLAYER, {
+  const [{ loading: playerLoading }] = useLazyQuery(GET_PLAYER, {
     fetchPolicy: "network-only",
   });
 
@@ -242,7 +243,7 @@ function Login() {
     }
   };
   const openMetaMaskLink = () => {
-    window.open('https://metamask.io/', '_blank');
+    window.open("https://metamask.io/", "_blank");
   };
 
   useEffect(() => {
@@ -251,14 +252,61 @@ function Login() {
     }
   }, [web3]);
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (searchParams.get("id") && searchParams.get("token")) {
+        const id = searchParams.get("id");
+        const token = searchParams.get("token");
+        setId(id);
+        setToken(token);
+        const res = await sendToken(id, token);
+        console.log("the response", res);
+        if (res.success) {
+          setStep(3);
+          setForgotPassModal(true);
+        } else {
+          ToastMessage("Error", res.message, "error");
+        }
+      }
+    };
+    fetchData();
+  }, [searchParams.get("token")]);
 
   const handleOpenForgotPass = () => {
-    setForgotPassModal(true)
-  }
+    setForgotPassModal(true);
+  };
 
   const handleCloseForgotPass = () => {
     setForgotPassModal(false)
   }
+
+    setForgotPassModal(false);
+  };
+
+  const sendToken = async (id, token) => {
+    const body = {
+      data: {
+        id: id,
+        token: token,
+      },
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    const response = await fetch(`${env.BACKEND_BASE_URL}/verify-token`, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+    return data;
+  };
 
   return (
     <div style={{ background: "black" }}>
@@ -267,9 +315,17 @@ function Login() {
         signUpLoading ||
         (loading && <Loading content="Loading" />)}
 
-        {forgotPassModal && (
-          <ForgotPassModal visible={forgotPassModal} onClose={handleCloseForgotPass}/>
-        )}
+      {forgotPassModal && (
+        <ForgotPassModal
+          visible={forgotPassModal}
+          onClose={handleCloseForgotPass}
+          setStep={setStep}
+          step={step}
+          id={id}
+          token={token}
+          handleCloseForgotPass={handleCloseForgotPass}
+        />
+      )}
 
       <div className="container loginContainer py-4">
         <img src={logo} className="logoSize mb-5" />
@@ -328,14 +384,24 @@ function Login() {
                 </span>
               </div>
               <div className="my-2 d-flex justify-content-center">
-                <span >
-                  Must have a <span style={{color: "#F5841E", cursor: 'pointer'}}
-                  onClick={openMetaMaskLink}>MetaMask</span> wallet to use the platform
+                <span>
+                  Must have a{" "}
+                  <span
+                    style={{ color: "#F5841E", cursor: "pointer" }}
+                    onClick={openMetaMaskLink}
+                  >
+                    MetaMask
+                  </span>{" "}
+                  wallet to use the platform
                 </span>
               </div>
               <div className="d-flex justify-content-center">
-              <img src={metamaskwithmascot} alt="" style={{ cursor: 'pointer' }}
-          onClick={openMetaMaskLink}/>
+                <img
+                  src={metamaskwithmascot}
+                  alt=""
+                  style={{ cursor: "pointer" }}
+                  onClick={openMetaMaskLink}
+                />
               </div>
             </form>
           </div>
@@ -462,9 +528,9 @@ function Login() {
                   setActive={setSignUpAgreeCheckbox}
                 />
                 <Link to="/privacy-security">
-                <span className="ms-3 light-grey">
+                  <span className="ms-3 light-grey">
                     I agree to BITS’s{" "}
-                    <span className="red">Terms & Conditions</span>{" "}and{" "}
+                    <span className="red">Terms & Conditions</span> and{" "}
                     <span className="red">Privacy Policy</span>
                   </span>
                 </Link>
@@ -500,13 +566,23 @@ function Login() {
               </div>
               <div className="my-2 d-flex justify-content-center">
                 <span>
-                  Must have a <span style={{color: "#F5841E", cursor: 'pointer'}} onClick={openMetaMaskLink} >MetaMask</span>  wallet to use the platform
+                  Must have a{" "}
+                  <span
+                    style={{ color: "#F5841E", cursor: "pointer" }}
+                    onClick={openMetaMaskLink}
+                  >
+                    MetaMask
+                  </span>{" "}
+                  wallet to use the platform
                 </span>
               </div>
               <div className="d-flex justify-content-center">
-              <img src={metamaskwithmascot} 
-              style={{ cursor: 'pointer' }}
-              onClick={openMetaMaskLink} alt="" />
+                <img
+                  src={metamaskwithmascot}
+                  style={{ cursor: "pointer" }}
+                  onClick={openMetaMaskLink}
+                  alt=""
+                />
               </div>
             </form>
           </div>

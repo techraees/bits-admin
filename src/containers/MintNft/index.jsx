@@ -17,14 +17,21 @@ import { Row, Col, Button, Select, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ReactPlayer from "react-player";
-import { CREATE_NFT, MINT_ASSET } from "../../gql/mutations";
-import { gql, useMutation } from "@apollo/client";
+import {
+  CREATE_NFT,
+  MINT_ASSET,
+  SEND_EMAIL_MUTATION,
+} from "../../gql/mutations";
+import { GET_PROFILE_DETAILS_QUERY } from "../../gql/queries";
+import { gql, useMutation, useLazyQuery } from "@apollo/client";
 import { useFormik } from "formik";
 import { mintValidation } from "../../components/validations";
 import ErrorMessage from "../../components/error";
 import ConnectModal from "../../components/connectModal";
 import CreatorEarningModal from "../../components/creatorEarningModal";
 import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
+import { mintMessage } from "../../utills/emailMessages";
+import environment from "../../environment";
 
 const MintNft = () => {
   const backgroundTheme = useSelector(
@@ -36,6 +43,9 @@ const MintNft = () => {
   const [connectModal, setConnectModal] = useState(false);
 
   const [creatorEarningModal, setCreatorEarningModal] = useState(false);
+
+  const [splitOwners, setSplitOwners] = useState([]);
+  const [splitOwnersPercentage, setSplitOwnersPercentage] = useState([]);
 
   const { contractData } = useSelector((state) => state.chain.contractData);
 
@@ -61,22 +71,72 @@ const MintNft = () => {
     { data: mintedData, loading: mintLoading, error: mintError },
   ] = useMutation(MINT_ASSET);
 
+  const [
+    sendEmail,
+    { data: emailData, loading: emailLoading, error: emailError },
+  ] = useMutation(SEND_EMAIL_MUTATION);
+
   const { userData } = useSelector((state) => state.address.userData);
+
+  const [
+    getProfile,
+    {
+      loading: profileLoadeing,
+      error: profileError,
+      data: profileData,
+      refetch,
+    },
+  ] = useLazyQuery(GET_PROFILE_DETAILS_QUERY, {
+    variables: { getProfileDetailsId: userData?.id },
+  });
+
   console.log(userData?.id, "user");
 
   const address = userData?.address;
   const id = userData?.id;
+
   useEffect(() => {
+    if (userData?.id) {
+      getProfile({ variables: userData?.id });
+    }
+  }, [userData?.id]);
+
+  useEffect(() => {
+    const sendMsg = async () => {
+      const msgData = mintMessage(
+        createNft && createNft.artist_name1,
+        createNft && createNft.name
+      );
+
+      try {
+        const res = await sendEmail({
+          variables: {
+            to: profileData?.GetProfileDetails?.email,
+            from: environment.EMAIL_OWNER,
+            subject: msgData.subject,
+            text: msgData.message,
+          },
+        });
+
+        if (res) {
+          console.log(res);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     if (data) {
       navigate(`/collections/${userData?.id}`);
       ToastMessage("Minted Successfully", "", "success");
+      sendMsg();
     }
     if (error) {
       ToastMessage(error, "", "error");
     }
   }, [data, error]);
 
-  console.log(Number(contractData.chain));
+  console.log("profile log on mint", profileData?.GetProfileDetails?.email);
 
   const closeConnectModel = () => {
     setConnectModal(false);
@@ -92,7 +152,7 @@ const MintNft = () => {
   };
   const handleSplitOwnership = () => {
     setCreatorEarningModal(true);
-    console.log(creatorEarningModal)
+    console.log(creatorEarningModal);
   };
 
   const mintCall = async (supply, royalty) => {
@@ -103,6 +163,8 @@ const MintNft = () => {
         supply,
         createNft.meta,
         royalty,
+        splitOwners,
+        splitOwnersPercentage,
         []
       );
 
@@ -176,6 +238,11 @@ const MintNft = () => {
                 ? createNft.download.rid
                 : "rid",
             royalty: Number(values.royalty * 100),
+            isPaid: false,
+            video_duration: createNft && createNft.video_duration,
+            category: createNft && createNft.category,
+            likeCount: 0,
+            watchCount: 0,
             user_id: values.id,
           },
         });
@@ -202,10 +269,17 @@ const MintNft = () => {
     }
   }, [web3]);
 
+  console.log("Split Owners Det", splitOwnersPercentage, splitOwners);
+
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
       <ConnectModal visible={connectModal} onClose={closeConnectModel} />
-      <CreatorEarningModal isOpen={creatorEarningModal} onRequestClose={closeCreatorEarningModel} />
+      <CreatorEarningModal
+        isOpen={creatorEarningModal}
+        onRequestClose={closeCreatorEarningModel}
+        setSplitOwners={setSplitOwners}
+        setSplitOwnersPercentage={setSplitOwnersPercentage}
+      />
       {loadingStatus && (
         <Loader content={loading ? "Uploading..." : loadingMessage} />
       )}
@@ -312,10 +386,15 @@ const MintNft = () => {
                     />
                   </div>
                   <div
-                  style={{ border: "1px solid  #B23232", cursor: 'pointer' }}
-                  className="p-1 mt-5 text-center rounded-3 red-background"
+                    style={{ border: "1px solid  #B23232", cursor: "pointer" }}
+                    className="p-1 mt-5 text-center rounded-3 red-background"
                   >
-                    <span className={`${textColor2}`}onClick={handleSplitOwnership}>Split Ownership</span>
+                    <span
+                      className={`${textColor2}`}
+                      onClick={handleSplitOwnership}
+                    >
+                      Split Ownership
+                    </span>
                   </div>
                 </div>
                 <div style={{ borderRight: "1px solid #B23232" }} />
@@ -340,11 +419,16 @@ const MintNft = () => {
               </div>
             </div>
             <div
-                  style={{ border: "1px solid  #B23232" }}
-                  className="p-1 mt-4 text-center rounded-3"
-                >
-                  <span className={`${textColor2}`} onClick={() => navigate(`/collections/${userData?.id}`)}>Go to Collection</span>
-                </div>
+              style={{ border: "1px solid  #B23232" }}
+              className="p-1 mt-4 text-center rounded-3"
+            >
+              <span
+                className={`${textColor2}`}
+                onClick={() => navigate(`/collections/${userData?.id}`)}
+              >
+                Go to Collection
+              </span>
+            </div>
           </Col>
         </Row>
         <div className="d-flex align-items-center">

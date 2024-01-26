@@ -4,6 +4,14 @@ import './css/index.css';
 import { Nav } from 'react-bootstrap';
 import profileimg from '../../assets/images/profile1.svg';
 
+import React, { useState } from "react";
+import { bell } from "../../assets/index";
+import "./css/index.css";
+import { Nav } from "react-bootstrap";
+import profileimg from "../../assets/images/profile1.svg";
+import * as DOMPurify from "dompurify";
+
+
 const NotificationModal = () => {
     const [showModal, setShowModal] = useState(false);
     const [notificationCount, setNotificationCount] = useState(10);
@@ -60,6 +68,59 @@ const NotificationModal = () => {
             imageUrl: profileimg,
         },
     ];
+
+  const notifications = [
+    {
+      id: 1,
+      text: "Your NFT sold to snap boogie",
+      imageUrl: profileimg,
+    },
+    {
+      id: 2,
+      text: "Your NFT sold to snap boogie",
+      imageUrl: profileimg,
+    },
+    {
+      id: 3,
+      text: "Your NFT sold to snap boogie",
+      imageUrl: profileimg,
+    },
+    {
+      id: 4,
+      text: "Your NFT sold to snap boogie",
+      imageUrl: profileimg,
+    },
+    {
+      id: 5,
+      text: "Your NFT sold to snap boogie",
+      imageUrl: profileimg,
+    },
+    {
+      id: 6,
+      text: "Your NFT sold to snap boogie",
+      imageUrl: profileimg,
+    },
+    {
+      id: 7,
+      text: "Your NFT sold to snap boogie",
+      imageUrl: profileimg,
+    },
+    {
+      id: 8,
+      text: "Your NFT sold to snap boogie",
+      imageUrl: profileimg,
+    },
+    {
+      id: 9,
+      text: "Your NFT sold to snap boogie",
+      imageUrl: profileimg,
+    },
+    {
+      id: 10,
+      text: "Your NFT sold to snap boogie",
+      imageUrl: profileimg,
+    },
+  ];
 
     const handleToggleModal = () => {
         setShowModal(!showModal);

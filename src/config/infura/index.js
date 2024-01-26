@@ -1,42 +1,86 @@
 import env from "../../environment";
+import axios from "axios";
 
-const auth ="Basic " + Buffer.from(env.INFURA_API_KEY + ":" + env.INFURA_SECRET).toString('base64');
+const auth =
+  "Basic " +
+  Buffer.from(env.INFURA_API_KEY + ":" + env.INFURA_SECRET).toString("base64");
 
-export const getAllNftsByAddress = async(address, networkId, contract)=>{
-    const infura_url = `https://nft.api.infura.io/networks/${networkId}/`;
+export const getAllNftsByAddress = async (address, networkId, contract) => {
+  const infura_url = `https://nft.api.infura.io/networks/${networkId}/`;
 
-    const request_url = infura_url + 'accounts/' + address + '/assets/nfts/';
+  const request_url = infura_url + "accounts/" + address + "/assets/nfts/";
 
-    const request = new Request(request_url);
-    const response = await fetch(request,{
-        headers: {
-        authorization: auth,
-      }});
+  const request = new Request(request_url);
+  const response = await fetch(request, {
+    headers: {
+      authorization: auth,
+    },
+  });
 
-    const accountDetails = (await response.json()).assets;
+  const accountDetails = (await response.json()).assets;
+
+  let tokenIds = [];
+
+  accountDetails.map((item) => {
+    if (item.contract == contract.toLowerCase()) {
+      tokenIds.push(item.tokenId);
+    }
+  });
+
+  return tokenIds;
+};
+
+// alchemy
+export const getAllNftsByAddressAlchemy = async (
+  address,
+  networkId,
+  contract
+) => {
+  const options = {
+    method: "GET",
+    url: `https://${
+      networkId == 80001 ? "polygon-mumbai" : "eth-goerli"
+    }.g.alchemy.com/nft/v3/${env.ALCHEMY_API_KEY}/getNFTsForOwner`,
+    params: {
+      owner: address,
+      "contractAddresses[]": contract,
+      withMetadata: "false",
+      pageSize: "100",
+    },
+    headers: { accept: "application/json" },
+  };
+
+  try {
+    const response = await axios.request(options);
+    const nfts = response.data.ownedNfts;
+    console.log("Owned tokens", nfts);
 
     let tokenIds = [];
 
-    accountDetails.map((item)=>{
-        if (item.contract == contract.toLowerCase()) {
-            tokenIds.push(item.tokenId);
-        }
-    })
-   
+    nfts.map((item) => {
+      if (item.tokenId) {
+        tokenIds.push(item.tokenId);
+      }
+    });
+
     return tokenIds;
-}
+  } catch (error) {
+    console.error("NFT error", error);
+  }
+};
 
+export const getOwnersOfTokenId = async (tokenId, networkId, contract) => {
+  const infura_url = `https://nft.api.infura.io/networks/${networkId}/`;
 
-export const getOwnersOfTokenId = async(tokenId, networkId, contract)=>{
-    const infura_url = `https://nft.api.infura.io/networks/${networkId}/`;
+  const request_url =
+    infura_url + "nfts/" + contract + "/" + tokenId + "/owners/";
 
-    const request_url = infura_url + 'nfts/' + contract +'/'+ tokenId + '/owners/';
+  const request = new Request(request_url);
+  const response = await fetch(request, {
+    headers: {
+      authorization: auth,
+    },
+  });
 
-    const request = new Request(request_url);
-    const response = await fetch(request,{
-        headers: {
-        authorization: auth,
-      }});
-
-    console.log(await response.json());
-}
+  console.log(await response.json());
+};

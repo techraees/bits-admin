@@ -1,5 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { check, upload, upload_file_icon, upload_red, loader } from "../../assets";
+import {
+  check,
+  upload,
+  upload_file_icon,
+  upload_red,
+  loader,
+} from "../../assets";
 import { ButtonComponent } from "../index";
 import { Button, Modal, Row, Col, Progress, Input, Select } from "antd";
 import "./css/index.css";
@@ -8,7 +14,13 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { uploadValidation } from "../validations";
 import ErrorMessage from "../error";
-import { sendFileToIPFS, sendMetaToIPFS } from "../../config/ipfsService";
+
+import {
+  sendFileToIPFS,
+  sendFileToIPFSV1,
+  sendFileToIPFSV2,
+  sendMetaToIPFS,
+} from "../../config/ipfsService";
 import ToastMessage from "../toastMessage";
 import { handleDeepMotionUpload } from "../../config/deepmotion";
 
@@ -29,6 +41,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
   const [isEmote, setIsEmote] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   const [imageUploadLoader, setImageUploadLoader] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const {
     handleSubmit,
@@ -69,6 +82,8 @@ const UploadVideoModal = ({ visible, onClose }) => {
           meta: metaUri,
           isEmote: values.isEmote,
           download: values.download,
+          video_duration: values.video_duration,
+          category: selectedCategory,
         },
       });
 
@@ -93,12 +108,28 @@ const UploadVideoModal = ({ visible, onClose }) => {
       setIsSelected(true);
     }
   };
+  const handleCategory = (value) => {
+    setSelectedCategory(value);
+  };
 
   const uploadHandle = async (event) => {
     if (isSelected) {
-      console.log("uploadHandle == isSelected:", isSelected)
+      console.log("uploadHandle == isSelected:", isSelected);
       setImageUploadLoader(true);
       const fileUploaded = event.target.files[0];
+
+      if (fileUploaded) {
+        const videoElement = document.createElement("video");
+
+        console.log("video element", videoElement);
+
+        videoElement.onloadedmetadata = () => {
+          setFieldValue("video_duration", Math.round(videoElement.duration));
+        };
+
+        videoElement.src = URL.createObjectURL(fileUploaded);
+        await videoElement.load();
+      }
 
       // Check if file type is .avi
       if (fileUploaded.type === "video/avi") {
@@ -117,7 +148,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
           );
           if (response) {
             console.log("download url", response.mp4);
-            const url = await sendFileToIPFS(response.mp4, isEmote);
+            const url = await sendFileToIPFSV2(response.mp4, isEmote);
             setImageUpload(false);
             console.log("fileUpload", fileUploaded, url);
             setFieldValue("video", url);
@@ -129,7 +160,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
         } else {
           setSelectedFileName(fileUploaded.name);
           setImageUpload(true);
-          const url = await sendFileToIPFS(fileUploaded, isEmote);
+          const url = await sendFileToIPFSV2(fileUploaded, isEmote);
           setImageUpload(false);
           console.log("fileUpload", fileUploaded, url);
           setFieldValue("video", url);
@@ -140,7 +171,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
     } else {
       ToastMessage("Please Select a style", "", "error");
     }
-    setImageUploadLoader(false)
+    setImageUploadLoader(false);
   };
 
   const [dragActive, setDragActive] = React.useState(false);
@@ -177,7 +208,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
             );
             if (response) {
               console.log("download url", response);
-              const url = await sendFileToIPFS(response.mp4, isEmote);
+              const url = await sendFileToIPFSV2(response.mp4, isEmote);
               setImageUpload(false);
               console.log("fileUpload", fileUploaded, url);
               setFieldValue("video", url);
@@ -189,7 +220,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
           } else {
             setSelectedFileName(fileUploaded.name);
             setImageUpload(true);
-            const url = await sendFileToIPFS(fileUploaded, isEmote);
+            const url = await sendFileToIPFSV2(fileUploaded, isEmote);
             setImageUpload(false);
             console.log("fileUpload", fileUploaded, url);
             setFieldValue("video", url);
@@ -299,13 +330,13 @@ const UploadVideoModal = ({ visible, onClose }) => {
               </div>
             </form>
           </Col>
-         {imageUploadLoader && (
+          {imageUploadLoader && (
             <Row>
               <Col span={24}>
-                <img src={loader} alt="loader" style={{width: '80px'}}/>
+                <img src={loader} alt="loader" style={{ width: "80px" }} />
               </Col>
-          </Row>
-         )}
+            </Row>
+          )}
 
           <Col lg={24} md={24} sm={24} xs={24}>
             {selectedFileName && imageUpload ? (
@@ -314,9 +345,15 @@ const UploadVideoModal = ({ visible, onClose }) => {
                   {selectedFileName}
                 </p>
                 <Row>
-                  <Col span={4}><img src={upload_file_icon} className="me-2" /></Col>
-                  <Col span={20}><Progress percent={70} status="exception" />
-                  <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>70% Uploaded</p></Col>
+                  <Col span={4}>
+                    <img src={upload_file_icon} className="me-2" />
+                  </Col>
+                  <Col span={20}>
+                    <Progress percent={70} status="exception" />
+                    <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>
+                      70% Uploaded
+                    </p>
+                  </Col>
                 </Row>
 
                 {/* <div className="">
@@ -329,13 +366,19 @@ const UploadVideoModal = ({ visible, onClose }) => {
               selectedFileName && (
                 <>
                   <p className={`${textColor2} m-0 mt-3 mb-2 ms-3`}>
-                  {selectedFileName}
-                </p>
-                <Row>
-                  <Col span={4}><img src={upload_file_icon} className="me-2" /></Col>
-                  <Col span={20}><Progress percent={100} />
-                  <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>100% Uploaded</p></Col>
-                </Row>
+                    {selectedFileName}
+                  </p>
+                  <Row>
+                    <Col span={4}>
+                      <img src={upload_file_icon} className="me-2" />
+                    </Col>
+                    <Col span={20}>
+                      <Progress percent={100} />
+                      <p className={`${textColor3} m-0 mt-2 mb-2 text-center`}>
+                        100% Uploaded
+                      </p>
+                    </Col>
+                  </Row>
                 </>
               )
             )}
@@ -380,31 +423,32 @@ const UploadVideoModal = ({ visible, onClose }) => {
               />
             </div>
             <div className="my-4">
-              <p style={{color: "#C44040"}} className="mb-2">
+              <p style={{ color: "#C44040" }} className="mb-2">
                 Category
               </p>
               <Select
-              className="text-center greyBgInput"
-              defaultValue="Select Category"
-              style={{width: "100%"}}
-              options={[
-                {
-                  value: "Dance",
-                  label: "Dance",
-                },
-                {
-                  value: "Emote",
-                  label: "Emote",
-                },
-                {
-                  value: "Moments",
-                  label: "Moments",
-                },
-                {
-                  value: "Other",
-                  label: "Other",
-                },
-              ]}
+                className="text-center greyBgInput"
+                onChange={handleCategory}
+                defaultValue="Select Category"
+                style={{ width: "100%" }}
+                options={[
+                  {
+                    value: "Dance",
+                    label: "Dance",
+                  },
+                  {
+                    value: "Emote",
+                    label: "Emote",
+                  },
+                  {
+                    value: "Moments",
+                    label: "Moments",
+                  },
+                  {
+                    value: "Other",
+                    label: "Other",
+                  },
+                ]}
               />
             </div>
             <div className="my-4">

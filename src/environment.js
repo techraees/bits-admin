@@ -3,6 +3,9 @@ const environment = {
   // BACKEND_BASE_URL: "http://localhost:4000",
   BACKEND_BASE_URL: "https://bits-backend.onrender.com",
 
+  NFTSTORAGE:
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDkxMkYyNWM3OTk0NWQyOUExRDk3OTIxMEJjYTdDNDUzYWY3Q0YyQUYiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2NDY1NjAwODg3NywibmFtZSI6Ik5GVCBDT0xMRUNUSU9OUyJ9.LdI8PEFUUeU2ZQWGAPkxZUXUQZSh_Br7GYoqepH6wJ4",
+
   INFURA: "https://ipfs.infura.io:5001/api/v0",
   // PROJECT_ID: "2EQXENsyHZkKIqRaf2NMNSwTEuk",
   // PROJECT_SECRET: "f96e5a9defbd90b579eb7c4c280e46cd",
@@ -18,6 +21,8 @@ const environment = {
 
   INFURA_API_KEY: "e556d22112e34e3baab9760f1864493a",
   INFURA_SECRET: "9f553aaec3d14471892aaf9b9daa1ad2",
+
+  ALCHEMY_API_KEY: "jgdXD_CZZraabQYwsKdskJPeUU__sKNl",
 
   //deep motion keys
   DEEPMOTION_API_URL: "https://service.deepmotion.com",

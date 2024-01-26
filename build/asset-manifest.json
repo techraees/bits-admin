@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.dfc53773.css",
-    "main.js": "/static/js/main.873eeacb.js",
+    "main.css": "/static/css/main.fc2f65d1.css",
+    "main.js": "/static/js/main.587af01a.js",
     "static/js/201.29e1aeb5.chunk.js": "/static/js/201.29e1aeb5.chunk.js",
     "static/js/787.0d684fd6.chunk.js": "/static/js/787.0d684fd6.chunk.js",
     "static/media/map_img.png": "/static/media/map_img.187d3b7760e043572de2.png",
@@ -25,6 +25,7 @@
     "static/media/discord_grey.svg": "/static/media/discord_grey.d72f90b131717ba0ceec30bd3e9ed063.svg",
     "static/media/location_fill_icon.svg": "/static/media/location_fill_icon.8ed95b534c62dca171d9a502a8f4f2a0.svg",
     "static/media/twitter_grey.svg": "/static/media/twitter_grey.d133163d75f1ae61515d0b4563d66ed8.svg",
+    "static/media/loader.svg": "/static/media/loader.e84cc24f4a79fc527aebfb9c0e3b05dd.svg",
     "static/media/phone_fill_icon.svg": "/static/media/phone_fill_icon.b70105df6717c6637739757ad05b4bcd.svg",
     "static/media/send_msg_icon.svg": "/static/media/send_msg_icon.af07a31441094c3d8f23842b0efef3bf.svg",
     "static/media/menu_icon.svg": "/static/media/menu_icon.12a0382791971c9b47b2adf5abac27ce.svg",
@@ -42,6 +43,7 @@
     "static/media/history.svg": "/static/media/history.b94aff53ca270f27e3e59f640197c976.svg",
     "static/media/upload_red.svg": "/static/media/upload_red.b971bea6f3c8d3b8e3f5e7b3b9e5f980.svg",
     "static/media/upload.svg": "/static/media/upload.1340876c33a905333f3be0d293342318.svg",
+    "static/media/watch_icon.svg": "/static/media/watch_icon.67411a8d322e2b5db86d8a387481adae.svg",
     "static/media/marketplace.svg": "/static/media/marketplace.8c881d726bb10186b0422c58e93271f6.svg",
     "static/media/help_center.svg": "/static/media/help_center.b4b415db1af287ab882f0537cd81e298.svg",
     "static/media/profile1.svg": "/static/media/profile1.9f5dd0a761f47d0f0e734f54e65e7088.svg",
@@ -56,6 +58,7 @@
     "static/media/lock.svg": "/static/media/lock.a1e6f4a42e8b670d641965d9e52fa82d.svg",
     "static/media/book.svg": "/static/media/book.59e32ad6197ddb62d0a408c90b89e11a.svg",
     "static/media/upload_file_icon.svg": "/static/media/upload_file_icon.a6c8046489414626ef7aa354a109a02f.svg",
+    "static/media/like_icon.svg": "/static/media/like_icon.9142205d4c637988816e536d4c7561b2.svg",
     "static/media/payment.svg": "/static/media/payment.e1370971b093f43b84968c76973df460.svg",
     "static/media/cross.svg": "/static/media/cross.bbc1a4ee15fb200eb3a6e2b36da77f0a.svg",
     "static/media/location.svg": "/static/media/location.acef20d8756c0d38c02d343a1cf99f1a.svg",
@@ -84,13 +87,13 @@
     "static/media/count_down_icon.svg": "/static/media/count_down_icon.42a2cc9c37504dbf962dc089b41e406e.svg",
     "static/media/up_arrow2.svg": "/static/media/up_arrow2.619b4361d264a1f42f50ab4d0635e2ef.svg",
     "static/media/down_arrow3.svg": "/static/media/down_arrow3.a0f0ee4f280fa232d7ca9eadb22ce0f8.svg",
-    "main.dfc53773.css.map": "/static/css/main.dfc53773.css.map",
-    "main.873eeacb.js.map": "/static/js/main.873eeacb.js.map",
+    "main.fc2f65d1.css.map": "/static/css/main.fc2f65d1.css.map",
+    "main.587af01a.js.map": "/static/js/main.587af01a.js.map",
     "201.29e1aeb5.chunk.js.map": "/static/js/201.29e1aeb5.chunk.js.map",
     "787.0d684fd6.chunk.js.map": "/static/js/787.0d684fd6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.dfc53773.css",
-    "static/js/main.873eeacb.js"
+    "static/css/main.fc2f65d1.css",
+    "static/js/main.587af01a.js"
   ]
 }
