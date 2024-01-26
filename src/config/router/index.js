@@ -28,6 +28,8 @@ import "./elements.css";
 import PrivateRoute from "./PrivateRoute";
 import { updateAccount } from "../../store/actions";
 import NdtDetailsScreen from "../../components/nftDetailScreen";
+import ResetPassword from "../../components/resetPassword";
+import ResetPasswordSuccess from "../../components/resetPasswordSuccess";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -103,6 +105,8 @@ const Router = () => {
           <Route path="contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
           <Route path="sell" element={<SellsNft />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="reset-password/success" element={<ResetPasswordSuccess />} />
 
           {/* {(Object.keys(data).length > 0 || userData) && (
           <>
