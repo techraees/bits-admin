@@ -73,6 +73,7 @@ const CREATE_USER = gql`
     $password: String!
     $phoneNumber: String!
     $userAddress: String!
+    $dob: String!
   ) {
     CreateUser(
       user_name: $userName
@@ -81,13 +82,16 @@ const CREATE_USER = gql`
       password: $password
       phone_number: $phoneNumber
       user_address: $userAddress
+      dob: $dob
     ) {
+      _id
       email
       full_name
       password
       phone_number
       user_name
       user_address
+      dob
       token
     }
   }

@@ -71,6 +71,7 @@ const ForgotPassModal = ({
           },
         });
         if (data) {
+          ToastMessage("Success", "Password reset successfully", "success");
           handleCloseForgotPass();
           navigate("/login");
         }
@@ -113,34 +114,27 @@ const ForgotPassModal = ({
             </form>
           )}
 
-                    {step === 5 && (
-                        <form autoComplete="off">
-                            <div className="w-100 semi-bold fs-5 text-center text-white mb-3">
-                                The email you entered is not registered. Please double-check and re-enter a valid email.
-                            </div>
-                            <InputComponent
-                                placeholder={'E-mail'}
-                                name="email"
-                                onChange={handleChange}
-                                value={formValue?.email}
-                                autoComplete="off"
-                                
-                            />
-
-                            <div className="my-3">
-                                <ButtonComponent
-                                    onClick={handleSubmit}
-                                    text={'RESET YOUR PASSWORD'}
-                                />
-                            </div>
-                        </form>
-                    )}
-
-                    {step === 2 && (
-                        <div className="w-100 semi-bold fs-5 text-center text-white mb-3">
-                            Password reset link sent to your email!
-                        </div>
-                    )}
+          {/* {step === 5 && (
+            <form autoComplete="off">
+              <div className="w-100 semi-bold fs-5 text-center text-white mb-3">
+                The email you entered is not registered. Please double-check and
+                re-enter a valid email.
+              </div>
+              <InputComponent
+                placeholder={"E-mail"}
+                name="email"
+                onChange={handleChange}
+                value={formValue?.email}
+                autoComplete="off"
+              />
+              <div className="my-3">
+                <ButtonComponent
+                  onClick={handleSubmit}
+                  text={"RESET YOUR PASSWORD"}
+                />
+              </div>
+            </form>
+          )} */}
 
           {step === 2 && (
             <div className="w-100 semi-bold fs-5 text-center text-white mb-3">

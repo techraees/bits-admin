@@ -279,6 +279,7 @@ const MintNft = () => {
         onRequestClose={closeCreatorEarningModel}
         setSplitOwners={setSplitOwners}
         setSplitOwnersPercentage={setSplitOwnersPercentage}
+        address={address}
       />
       {loadingStatus && (
         <Loader content={loading ? "Uploading..." : loadingMessage} />

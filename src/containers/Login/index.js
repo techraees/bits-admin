@@ -18,17 +18,16 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import { CREATE_USER } from "../../gql/mutations";
 import ConnectModal from "../../components/connectModal";
 import ForgotPassModal from "../ForgotPassModal";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import { Col, Divider, Row, Select } from "antd";
 
 import env from "../../environment";
 
-
 function Login() {
   const dispatch = useDispatch();
 
-  const { web3, accountv } = useSelector((state) => state.web3.walletData);
-  console.log(" loginn", web3, accountv);
+  const { web3, account } = useSelector((state) => state.web3.walletData);
+  console.log(" loginn", web3, account);
   const [connectModal, setConnectModal] = useState(false);
   const [forgotPassModal, setForgotPassModal] = useState(false);
   const [step, setStep] = useState(1);
@@ -75,12 +74,29 @@ function Login() {
       console.log("errr", err);
     });
   };
+
   function onSubmit(data) {
     loginUser(data);
   }
 
   const handleChange = (e) => {
     setValue(e.target.name, e.target.value);
+  };
+
+  const [day, setDay] = useState();
+  const [month, setMonth] = useState();
+  const [year, setYear] = useState();
+
+  const handleDay = (e) => {
+    setDay(e);
+  };
+
+  const handleMonth = (e) => {
+    setMonth(e);
+  };
+
+  const handleYear = (e) => {
+    setYear(e);
   };
 
   useEffect(() => {
@@ -92,13 +108,12 @@ function Login() {
       const { user_address, id, token, full_name, country, bio, profileImg } =
         LoginUser;
       localStorage.setItem("token", token);
-      
-      Cookies.set('your-cookie-name', 'cookie-value', {
+
+      Cookies.set("your-cookie-name", "cookie-value", {
         expires: 7,
-        secure: true, 
-        sameSite: 'Lax' 
-        
-    });
+        secure: true,
+        sameSite: "Lax",
+      });
 
       dispatch({
         type: "NFT_ADDRESS",
@@ -116,6 +131,7 @@ function Login() {
       navigate("/");
     }
     if (loginError) {
+      console.log("loginError", loginError);
       ToastMessage("Sign in Error", loginError?.message, "error");
     }
   }, [loginData, loginError]);
@@ -140,47 +156,55 @@ function Login() {
     },
   });
 
+  useEffect(() => {
+    const options = [];
+    for (let i = 1; i <= 12; i++) {
+      options.push({
+        value: i.toString(),
+        label: i < 10 ? `0${i}` : i.toString(),
+      });
+    }
+    setMonthsOptions(options);
 
-    useEffect(() => {
-        const options = [];
-        for (let i = 1; i <= 12; i++) {
-            options.push({
-                value: i.toString(),
-                label: i < 10 ? `0${i}` : i.toString()
-            });
-        }
-        setMonthsOptions(options);
+    const daysOptions = [];
+    for (let i = 1; i <= 31; i++) {
+      daysOptions.push({
+        value: i.toString(),
+        label: i < 10 ? `0${i}` : i.toString(),
+      });
+    }
+    setDaysOptions(daysOptions);
 
-        const daysOptions = [];
-        for (let i = 1; i <= 31; i++) {
-          daysOptions.push({
-                value: i.toString(),
-                label: i < 10 ? `0${i}` : i.toString()
-            });
-        }
-        setDaysOptions(daysOptions);
-
-        const optionsYears = [];
-        for (let i = 1960; i <= 2010; i++) {
-          optionsYears.push({
-                value: i.toString(),
-                label: i.toString()
-            });
-        }
-        setYearsOptions(optionsYears);
-    }, []);
+    const optionsYears = [];
+    for (let i = 1960; i <= 2024; i++) {
+      optionsYears.push({
+        value: i.toString(),
+        label: i.toString(),
+      });
+    }
+    setYearsOptions(optionsYears);
+  }, []);
 
   const [
     createUser,
     { loading: signUpLoading, error: singUpError, data: signUpData },
   ] = useMutation(CREATE_USER);
 
+  useEffect(() => {
+    if (day && month && year) {
+      const combined = `${month}/${day}/${year}`;
+      const dateFormat = new Date(combined);
+      console.log("formate date", dateFormat);
+      signUpSetValue("dob", dateFormat.toString());
+    }
+  }, [day, month, year]);
+
   // signUp useEffect to check if any error
 
   useEffect(() => {
     if (signUpData) {
       const { CreateUser } = signUpData;
-      const { user_address, id, token, user_name, country, bio, profileImg } =
+      const { user_address, _id, token, user_name, country, bio, profileImg } =
         CreateUser;
 
       localStorage.setItem("token", token);
@@ -192,17 +216,18 @@ function Login() {
           country: country,
           bio: bio,
           profileImg: profileImg,
-          id,
+          id: _id,
           token,
           isLogged: true,
         },
       });
-      navigate(`/collections/${id}`);
+      navigate(`/collections/${_id}`);
 
       signUpResetValue();
       signUpSetValue("full_name", "");
       signUpSetValue("email", "");
       signUpSetValue("user_name", "");
+      signUpSetValue("dob", "");
       ToastMessage("success", "Account Created Successfully", "success");
     }
     if (singUpError) {
@@ -217,8 +242,11 @@ function Login() {
       fullName: data.full_name,
       password: data.password,
       phoneNumber: data.phone_number,
-      userAddress: accountv,
+      userAddress: account,
+      dob: data.dob,
     };
+
+    console.log("All variables", variables);
 
     createUser({
       variables: variables,
@@ -280,9 +308,6 @@ function Login() {
   };
 
   const handleCloseForgotPass = () => {
-    setForgotPassModal(false)
-  }
-
     setForgotPassModal(false);
   };
 
@@ -307,6 +332,8 @@ function Login() {
     const data = await response.json();
     return data;
   };
+
+  console.log("Selected Date", `${day}/${month}/${year}`);
 
   return (
     <div style={{ background: "black" }}>
@@ -472,54 +499,57 @@ function Login() {
 
                 <div className="mt-3">
                   <label> Date of Birth</label>
-                 <Row gutter={16}>
-                  <Col span={8} className="my-3 mb-2">
-                    <Select
-                      defaultValue="MM"
-                      style={{
-                        width: "100%",
-                      }}
-                      dropdownStyle={{ color: '#dcdcdc' }}
-                      name="month"
-                      className={"black"}
-                      // onChange={handleChangeSignUp}
-                      options={monthsOptions}
-                    />
-                  </Col>
+                  <Row gutter={16}>
+                    <Col span={8} className="my-3 mb-2">
+                      <Select
+                        defaultValue="MM"
+                        style={{
+                          width: "100%",
+                        }}
+                        dropdownStyle={{ color: "#dcdcdc" }}
+                        name="month"
+                        className={"black"}
+                        onChange={handleMonth}
+                        options={monthsOptions}
+                      />
+                    </Col>
 
-                  <Col span={8} className="my-3 mb-2">
-                    <Select
-                      defaultValue="DD"
-                      style={{
-                        width: "100%",
-                      }}
-                      name="day"
-                      className={"black"}
-                      // onChange={handleChangeSignUp}
-                      options={daysOptions}
-                    />
-                  </Col>
+                    <Col span={8} className="my-3 mb-2">
+                      <Select
+                        defaultValue="DD"
+                        style={{
+                          width: "100%",
+                        }}
+                        name="day"
+                        className={"black"}
+                        onChange={handleDay}
+                        options={daysOptions}
+                      />
+                    </Col>
 
-                  <Col span={8} className="my-3 mb-2">
-                    <Select
-                      defaultValue="YYYY"
-                      style={{
-                        width: "100%",
-                        color: 'black'
-                      }}
-                      name="year"
-                      className={"black"}
-                      // onChange={handleChangeSignUp}
-                      options={yearsOptions}
-                    />
-                  </Col>
-                 </Row>
+                    <Col span={8} className="my-3 mb-2">
+                      <Select
+                        defaultValue="YYYY"
+                        style={{
+                          width: "100%",
+                          color: "black",
+                        }}
+                        name="year"
+                        className={"black"}
+                        onChange={handleYear}
+                        options={yearsOptions}
+                      />
+                    </Col>
+                  </Row>
                 </div>
 
-                <p style={{fontSize: '12px'}}>Disclaimer: Users must be 18 or older to sign up. Our platform involves buying and selling NFTs with crypto. By proceeding, you confirm you meet the age requirement.</p>
+                <p style={{ fontSize: "12px" }}>
+                  Disclaimer: Users must be 18 or older to sign up. Our platform
+                  involves buying and selling NFTs with crypto. By proceeding,
+                  you confirm you meet the age requirement.
+                </p>
 
-                <Divider style={{border: '1.5px solid #dcdcdc'}}/>
-
+                <Divider style={{ border: "1.5px solid #dcdcdc" }} />
               </div>
 
               <div className="my-2 d-flex" style={{ alignItems: "center" }}>

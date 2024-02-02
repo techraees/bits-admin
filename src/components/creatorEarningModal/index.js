@@ -1,29 +1,29 @@
 import { React, useState, useEffect } from "react";
 import {
-    Button,
-    Input,
-    InputNumber,
-    Modal,
-    Popconfirm,
-    Space,
-    Table,
-} from 'antd';
-import './css/index.css';
-import { crossIcon } from '../../assets';
-import { DeleteOutlined } from '@ant-design/icons';
+  Button,
+  Input,
+  InputNumber,
+  Modal,
+  Popconfirm,
+  Space,
+  Table,
+} from "antd";
+import "./css/index.css";
+import { crossIcon } from "../../assets";
+import { DeleteOutlined } from "@ant-design/icons";
 import { ToastMessage } from "../../components";
-
 
 const CreatorEarningModal = ({
   isOpen,
   onRequestClose,
   setSplitOwners,
   setSplitOwnersPercentage,
+  address,
 }) => {
   const [data, setData] = useState([
     {
       key: 0,
-      walletAddress: "0xAA441bEAcB48f7d2a62374aBbd2154cB4C22c84a",
+      walletAddress: address,
       percentage: 100,
     },
   ]);
@@ -86,17 +86,17 @@ const CreatorEarningModal = ({
     },
   ];
 
-    // const [tableData, setTableData] = useState([]);
+  // const [tableData, setTableData] = useState([]);
 
-    // const addNewLine = () => {
-    //     const newLine = {
-    //         id: tableData.length + 1,
-    //         wallet: 'New Person',
-    //         percentage: 0,
-    //     };
-    //     setTableData([...tableData, newLine]);
-    //     console.log(tableData);
-    // };
+  // const addNewLine = () => {
+  //     const newLine = {
+  //         id: tableData.length + 1,
+  //         wallet: 'New Person',
+  //         percentage: 0,
+  //     };
+  //     setTableData([...tableData, newLine]);
+  //     console.log(tableData);
+  // };
 
   const [tableData, setTableData] = useState([]);
 
@@ -145,11 +145,14 @@ const CreatorEarningModal = ({
     let totalPercentage = 0;
     data.map((item) => {
       totalPercentage += Number(item.percentage);
+
       setSplitOwners((prev) => [...prev, item.walletAddress]);
-      setSplitOwnersPercentage((prev) => [...prev, item.percentage]);
+      setSplitOwnersPercentage((prev) => [...prev, item.percentage * 100]);
     });
 
     if (totalPercentage > 100 || totalPercentage < 100) {
+      setSplitOwners([]);
+      setSplitOwnersPercentage([]);
       ToastMessage("Error", `Total percentage should be 100`, "error");
     } else {
       onRequestClose();

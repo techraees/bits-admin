@@ -55,6 +55,7 @@ const GET_PROFILE = gql`
       profileImg
       token
       user_address
+      dob
       full_name
     }
   }
