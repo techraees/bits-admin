@@ -47,7 +47,6 @@ const VideoGallery = () => {
   };
 
   const handlePriceChange = async (value) => {
-    console.log("Price change", value);
     const data = value.split("-").map(Number);
 
     // Use Promise.all to wait for all promises to be resolved
@@ -57,6 +56,7 @@ const VideoGallery = () => {
       })
     );
 
+    console.log("convertedPrice", convertedPrice);
     setPriceFilter(convertedPrice);
   };
 
@@ -70,17 +70,17 @@ const VideoGallery = () => {
     console.log("selected value", value);
   };
 
-  useEffect(() => {
-    if (data) {
-      setAllNfts(data?.getAllNftsWithoutAddress);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setAllNfts(data?.getAllNftsWithoutAddress);
+  //   }
+  // }, [data]);
 
-  useEffect(() => {
-    if (fixedItemData) {
-      setFixedItemsDatas(fixedItemData);
-    }
-  }, [fixedItemData]);
+  // useEffect(() => {
+  //   if (fixedItemData) {
+  //     setFixedItemsDatas(fixedItemData);
+  //   }
+  // }, [fixedItemData]);
 
   useEffect(() => {
     let filterdItems;
@@ -138,7 +138,13 @@ const VideoGallery = () => {
     refetch();
   }, []);
 
-  console.log("data from database", allnfts, fixedItemsDatas, priceFilter);
+  console.log(
+    "data from database",
+    categoryFilter ? allnfts : data?.getAllNftsWithoutAddress,
+    priceFilter.length > 0 || quantityFilter.length > 0
+      ? fixedItemsDatas
+      : fixedItemData
+  );
 
   return (
     <div
@@ -300,8 +306,13 @@ const VideoGallery = () => {
           style={{ borderBottom: "0.5px solid #c23737", marginTop: "3.5rem" }}
         ></div>
         <div className="row my-3">
-          {fixedItemsDatas?.map((item) => {
-            return allnfts?.map((e, i) => {
+          {(priceFilter.length > 0 || quantityFilter.length > 0
+            ? fixedItemsDatas
+            : fixedItemData
+          )?.map((item) => {
+            return (
+              categoryFilter ? allnfts : data?.getAllNftsWithoutAddress
+            )?.map((e, i) => {
               if (
                 !e.is_blocked &&
                 item.tokenid == e.token_id &&

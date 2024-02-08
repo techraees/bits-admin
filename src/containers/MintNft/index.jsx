@@ -157,6 +157,7 @@ const MintNft = () => {
 
   const mintCall = async (supply, royalty) => {
     const contractWithsigner = contractData.mintContract.connect(signer);
+    const prevTokenId = await contractWithsigner.mintedTokenId();
     try {
       const tx = await contractWithsigner.mint(
         address,
@@ -176,10 +177,11 @@ const MintNft = () => {
         const token_ID = await contractWithsigner.mintedTokenId();
         setLoadingStatus(false);
         setLoadingMessage("");
-        if (token_ID) {
+        if (Number(prevTokenId) < Number(token_ID)) {
           return token_ID;
         } else {
-          console.log("no tokenId");
+          const newTkId = await contractWithsigner.mintedTokenId();
+          return newTkId;
         }
       }
     } catch (error) {

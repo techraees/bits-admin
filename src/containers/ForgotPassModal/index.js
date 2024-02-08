@@ -59,29 +59,40 @@ const ForgotPassModal = ({
 
   const handleSubmitConfirm = async () => {
     if (formValue?.password === formValue?.confirm_password) {
-      try {
-        const { data } = await resetPassword({
-          variables: {
-            newPassword: formValue?.confirm_password,
-          },
-          context: {
-            headers: {
-              Authorization: `Bearer ${token} `,
+      if (validatePassword(formValue?.confirm_password)) {
+        try {
+          const { data } = await resetPassword({
+            variables: {
+              newPassword: formValue?.confirm_password,
             },
-          },
-        });
-        if (data) {
-          ToastMessage("Success", "Password reset successfully", "success");
-          handleCloseForgotPass();
-          navigate("/login");
+            context: {
+              headers: {
+                Authorization: `Bearer ${token} `,
+              },
+            },
+          });
+          if (data) {
+            ToastMessage("Success", "Password reset successfully", "success");
+            handleCloseForgotPass();
+            navigate("/login");
+          }
+        } catch (e) {
+          ToastMessage("Error", e.message, "error");
         }
-      } catch (e) {
-        ToastMessage("Error", e.message, "error");
+      } else {
+        ToastMessage("Error", "Incorrect password format", "error");
       }
     } else {
       ToastMessage("Error", "Password mismatch", "error");
     }
   };
+
+  const validatePassword = (password) => {
+    const passwordRegex =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   return (
     <>
       <Modal

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CardCompnent, NavbarComponent } from "../../components";
 import { useSelector } from "react-redux";
 import { Input, Select } from "antd";
@@ -9,11 +9,18 @@ import { useQuery } from "@apollo/client";
 import "./css/index.css";
 import environment from "../../environment";
 import { WeiToETH } from "../../utills/convertWeiAndBnb";
+import { USDTOMATIC } from "../../utills/currencyConverter";
 
 const Marketplace = () => {
   const { loading, error, data, refetch } = useQuery(
     GET_ALL_NFTS_WITHOUT_ADDRESS
   );
+
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [priceFilter, setPriceFilter] = useState([]);
+  const [quantityFilter, setQuantityFilter] = useState([]);
+  const [allnfts, setAllNfts] = useState([]);
+  const [auctionsDatas, setAuctionsDatas] = useState([]);
 
   const imgPaths = environment.BACKEND_BASE_URL + "/";
 
@@ -29,9 +36,78 @@ const Marketplace = () => {
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
+
+  const handleCategoryChange = (value) => {
+    setCategoryFilter(value);
   };
+
+  console.log("categoryFilter", categoryFilter);
+
+  const handlePriceChange = async (value) => {
+    console.log("Price change", value);
+    const data = value.split("-").map(Number);
+
+    // Use Promise.all to wait for all promises to be resolved
+    const convertedPrice = await Promise.all(
+      data.map(async (val) => {
+        return await USDTOMATIC(val);
+      })
+    );
+
+    setPriceFilter(convertedPrice);
+  };
+
+  const handleQuantityChange = (value) => {
+    console.log("Quantity change", value);
+    const data = value.split("-").map(Number);
+    setQuantityFilter(data);
+  };
+
+  const handleRankingChange = (value) => {
+    console.log("selected value", value);
+  };
+
+  useEffect(() => {
+    let filterdItems;
+    if (categoryFilter && data?.getAllNftsWithoutAddress) {
+      filterdItems = data?.getAllNftsWithoutAddress.filter((item) => {
+        return item.category === categoryFilter;
+      });
+    }
+    setAllNfts(filterdItems);
+  }, [categoryFilter]);
+
+  useEffect(() => {
+    let filteredAuctionItems;
+    if (priceFilter && auctionItemData) {
+      filteredAuctionItems = auctionItemData.filter((item) => {
+        const price = WeiToETH(`${Number(item.initialPrice)}`);
+        return (
+          Number(price) >= Number(priceFilter[0]) &&
+          Number(price) <= Number(priceFilter[1])
+        );
+      });
+    }
+
+    console.log("filteredAuctionItems", filteredAuctionItems);
+    setAuctionsDatas(filteredAuctionItems);
+  }, [priceFilter]);
+
+  useEffect(() => {
+    let filteredAuctionItems;
+    if (auctionItemData) {
+      filteredAuctionItems = auctionItemData.filter((item) => {
+        let copies = Number(item.numberofcopies);
+        return (
+          Number(copies) >= Number(quantityFilter[0]) &&
+          Number(copies) <= Number(quantityFilter[1])
+        );
+      });
+    }
+
+    console.log("filteredAuctionItems", filteredAuctionItems);
+    setAuctionsDatas(filteredAuctionItems);
+  }, [quantityFilter]);
 
   console.log("data", data);
 
@@ -40,6 +116,14 @@ const Marketplace = () => {
   }, []);
 
   const timenow = Math.floor(Date.now() / 1000);
+
+  console.log(
+    "data from database Auc",
+    categoryFilter ? allnfts : data?.getAllNftsWithoutAddress,
+    priceFilter.length > 0 || quantityFilter.length > 0
+      ? auctionsDatas
+      : auctionItemData
+  );
 
   return (
     <div
@@ -83,7 +167,7 @@ const Marketplace = () => {
                     width: 120,
                   }}
                   className={textColor == "black" && "light"}
-                  onChange={handleChange}
+                  onChange={handleCategoryChange}
                   options={[
                     {
                       value: "Dance",
@@ -112,28 +196,28 @@ const Marketplace = () => {
                     width: 120,
                   }}
                   className={textColor == "black" && "light"}
-                  onChange={handleChange}
+                  onChange={handlePriceChange}
                   options={[
                     {
-                      value: "$0-$10",
+                      value: "010",
                       label: "$0-$10",
                     },
                     {
-                      value: "$10-$100",
+                      value: "10-100",
                       label: "$10-$100",
                     },
                     {
-                      value: "$100-$1000",
+                      value: "100-1000",
                       label: "$100-$1000",
                     },
                     {
-                      value: "$1000-$10000",
+                      value: "1000-10000",
                       label: "$1000-$10000",
                     },
                     {
-                      value: "$10000+",
+                      value: "10000 - 100000",
                       label: "$10000+",
-                    }
+                    },
                   ]}
                 />
               </div>
@@ -144,7 +228,7 @@ const Marketplace = () => {
                   style={{
                     width: 120,
                   }}
-                  onChange={handleChange}
+                  onChange={handleQuantityChange}
                   className={textColor == "black" && "light"}
                   options={[
                     {
@@ -164,9 +248,9 @@ const Marketplace = () => {
                       label: "1000-10000",
                     },
                     {
-                      value: "10000+",
+                      value: "10000 - 100000",
                       label: "10000+",
-                    }
+                    },
                   ]}
                 />
               </div>
@@ -178,7 +262,7 @@ const Marketplace = () => {
                     width: 120,
                   }}
                   className={textColor == "black" && "light"}
-                  onChange={handleChange}
+                  onChange={handleRankingChange}
                   options={[
                     {
                       value: "Coming Soon",
@@ -202,8 +286,13 @@ const Marketplace = () => {
           style={{ borderBottom: "0.5px solid #c23737", marginTop: "3.5rem" }}
         ></div>
         <div className="row my-3">
-          {auctionItemData?.map((item) => {
-            return data?.getAllNftsWithoutAddress?.map((e, i) => {
+          {(priceFilter.length > 0 || quantityFilter.length > 0
+            ? auctionsDatas
+            : auctionItemData
+          )?.map((item) => {
+            return (
+              categoryFilter ? allnfts : data?.getAllNftsWithoutAddress
+            )?.map((e, i) => {
               if (
                 !e.is_blocked &&
                 Number(item.tokenId) == e.token_id &&
