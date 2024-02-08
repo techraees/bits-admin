@@ -236,21 +236,25 @@ function Login() {
   }, [signUpData, singUpError]);
 
   async function signUpHandle(data) {
-    const variables = {
-      userName: data.user_name,
-      email: data.email,
-      fullName: data.full_name,
-      password: data.password,
-      phoneNumber: data.phone_number,
-      userAddress: account,
-      dob: data.dob,
-    };
+    if (validatePassword(data.password)) {
+      const variables = {
+        userName: data.user_name,
+        email: data.email,
+        fullName: data.full_name,
+        password: data.password,
+        phoneNumber: data.phone_number,
+        userAddress: account,
+        dob: data.dob,
+      };
 
-    console.log("All variables", variables);
+      console.log("All variables", variables);
 
-    createUser({
-      variables: variables,
-    });
+      createUser({
+        variables: variables,
+      });
+    } else {
+      ToastMessage("Error", "Incorrect password format", "error");
+    }
   }
 
   const handleChangeSignUp = (e) => {
@@ -334,6 +338,12 @@ function Login() {
   };
 
   console.log("Selected Date", `${day}/${month}/${year}`);
+
+  const validatePassword = (password) => {
+    const passwordRegex =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/;
+    return passwordRegex.test(password);
+  };
 
   return (
     <div style={{ background: "black" }}>
