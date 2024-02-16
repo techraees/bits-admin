@@ -37,8 +37,6 @@ const Dashboard = () => {
     (state) => state.auctionItemDatas.auctionItemData
   );
 
-  console.log("Contract Data", contractData.mintContract);
-
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme
   );
@@ -59,7 +57,6 @@ const Dashboard = () => {
   const { loading, data } = useQuery(GET_ALL_NFTS_WITHOUT_ADDRESS);
   const timenow = Math.floor(Date.now() / 1000);
 
-  console.log("fixedItemData", fixedItemData);
   // function getUniqueObjects(arr) {
   //   const uniqueObjects = [];
   //   const seenIds = new Set();
@@ -118,7 +115,6 @@ const Dashboard = () => {
     return arr.slice(0, 8);
   }, [auctionItemData, data, fixedItemData]);
 
-  console.log("topNfts", topNfts);
   return (
     <div className={backgroundTheme}>
       {loading && <Loader />}

@@ -18,11 +18,9 @@ function StepperModal({ handleCancel, owners, name, sellerUsername }) {
   const [fixedId, setFixedId] = useState(0);
 
   const onChange = (value) => {
-    console.log("onChange:", current);
     setCurrent(value);
   };
-  console.log("current", current);
-  console.log("owners", owners);
+
   return (
     <div>
       <div className="mainWrapper">

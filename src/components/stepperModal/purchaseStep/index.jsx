@@ -98,7 +98,7 @@ function PurchaseStep({
           if (res) {
             setLoadingStatus(false);
             setLoadingMessage("");
-            console.log(res);
+
             ToastMessage("Purchase Successful", "", "success");
             showModal();
             dispatch(loadContractIns());
@@ -120,7 +120,6 @@ function PurchaseStep({
               });
 
               if (res) {
-                console.log(res);
               }
             } catch (error) {
               console.log(error);

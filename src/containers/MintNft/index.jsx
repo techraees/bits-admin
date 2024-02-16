@@ -60,11 +60,8 @@ const MintNft = () => {
   let navigate = useNavigate();
 
   const { createNft } = useSelector((state) => state.nft.createNft);
-  console.log("mintNft", createNft, CREATE_NFT);
 
   const [CreateNft, { data, loading, error }] = useMutation(CREATE_NFT);
-
-  console.log("data", data, loading, error);
 
   const [
     mintAsset,
@@ -89,8 +86,6 @@ const MintNft = () => {
   ] = useLazyQuery(GET_PROFILE_DETAILS_QUERY, {
     variables: { getProfileDetailsId: userData?.id },
   });
-
-  console.log(userData?.id, "user");
 
   const address = userData?.address;
   const id = userData?.id;
@@ -119,7 +114,7 @@ const MintNft = () => {
         });
 
         if (res) {
-          console.log(res);
+          console.log("res");
         }
       } catch (error) {
         console.log(error);
@@ -136,8 +131,6 @@ const MintNft = () => {
     }
   }, [data, error]);
 
-  console.log("profile log on mint", profileData?.GetProfileDetails?.email);
-
   const closeConnectModel = () => {
     setConnectModal(false);
   };
@@ -152,7 +145,6 @@ const MintNft = () => {
   };
   const handleSplitOwnership = () => {
     setCreatorEarningModal(true);
-    console.log(creatorEarningModal);
   };
 
   const mintCall = async (supply, royalty) => {
@@ -219,7 +211,6 @@ const MintNft = () => {
         Number(values.supply),
         Number(values.royalty * 100)
       );
-      console.log("ISEMOTE", createNft.isEmote);
 
       if (Number(tokenid)) {
         CreateNft({
@@ -254,24 +245,18 @@ const MintNft = () => {
     },
   });
 
-  console.log("errors", errors, values);
-
-  console.log("createNft", createNft);
   useEffect(() => {
     if (address || id) {
       setFieldValue("walletAddress", address);
       setFieldValue("id", id);
     }
   }, [address, id]);
-  console.log("addressaddress", address, values?.walletAddress);
 
   useEffect(() => {
     if (web3) {
       setConnectModal(false);
     }
   }, [web3]);
-
-  console.log("Split Owners Det", splitOwnersPercentage, splitOwners);
 
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>

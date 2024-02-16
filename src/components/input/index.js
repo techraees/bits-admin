@@ -10,7 +10,6 @@ const InputComponent = ({
   password,
   props,
 }) => {
-  console.log("vasdd", value);
   return (
     <div>
       {password ? (

@@ -4,7 +4,6 @@ import { urlSource } from "ipfs-http-client";
 import axios from "axios";
 
 export const sendFileToIPFS = async (file, isEmote) => {
-  console.log("file", file);
   if (file) {
     try {
       const authorization =
@@ -16,11 +15,10 @@ export const sendFileToIPFS = async (file, isEmote) => {
         },
       });
       const result = await ipfs.add(isEmote ? urlSource(`${file}`) : file);
-      console.log("result", result.cid._baseCache.get("z"), result);
+
       // console.log("ImgHash", res)
       const ImgHash = `${env.IPFS_PATH}/${result.cid._baseCache.get("z")}`;
       return ImgHash;
-      console.log(ImgHash);
     } catch (error) {
       console.log("Error sending File to IPFS: ");
       console.log(error);
@@ -30,13 +28,11 @@ export const sendFileToIPFS = async (file, isEmote) => {
 
 //ipfsHttpClient alternative axios
 export const sendFileToIPFSV1 = async (file, isEmote) => {
-  console.log("file", file);
   if (file) {
     try {
       const formData = new FormData();
       formData.append("file", file);
 
-      console.log("formData file", formData);
       const authorization =
         "Basic " + btoa(env.PROJECT_ID + ":" + env.PROJECT_SECRET);
       let options = {
@@ -47,7 +43,7 @@ export const sendFileToIPFSV1 = async (file, isEmote) => {
       };
 
       const result = await axios.post(`${env.INFURA}/add`, formData, options);
-      console.log("result from axios", result.data.Hash);
+
       // console.log("ImgHash", res)
       // const ImgHash = `${env.IPFS_PATH}/${result.cid._baseCache.get("z")}`;
       // return ImgHash;
@@ -73,15 +69,12 @@ export const sendFileToIPFSV2 = async (file, isEmote) => {
       const blob = await response.blob();
 
       finalFile = new File([blob], "filename");
-
-      console.log("File object:", finalFile);
     } catch (error) {
       console.error("Error fetching file:", error);
     }
   } else {
     finalFile = file;
   }
-  console.log("file", finalFile);
 
   if (finalFile) {
     try {
@@ -98,10 +91,10 @@ export const sendFileToIPFSV2 = async (file, isEmote) => {
         finalFile,
         options
       );
-      console.log("result from axios", result.data.value.cid);
+
       // console.log("ImgHash", res)
       const ImgHash = `${env.IPFS_PATH}/${result.data.value.cid}`;
-      console.log(ImgHash);
+
       return ImgHash;
     } catch (error) {
       console.log("Error sending File to IPFS: ");
@@ -111,7 +104,6 @@ export const sendFileToIPFSV2 = async (file, isEmote) => {
 };
 
 export const sendMetaToIPFS = async (data) => {
-  console.log("file", data);
   if (data) {
     try {
       const authorization =
@@ -126,11 +118,9 @@ export const sendMetaToIPFS = async (data) => {
       const finalData = JSON.stringify(data);
       const result = await ipfs.add(finalData);
 
-      console.log("result", result);
       // console.log("ImgHash", res)
       const metaHash = `${env.IPFS_PATH}/${result.path}`;
       return metaHash;
-      console.log(metaHash);
     } catch (error) {
       console.log("Error sending File to IPFS: ");
       console.log(error);

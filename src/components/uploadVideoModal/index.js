@@ -71,7 +71,6 @@ const UploadVideoModal = ({ visible, onClose }) => {
       };
       const metaUri = await sendMetaToIPFS(data);
 
-      console.log("valuess", values);
       dispatch({
         type: "CREATE_NFT",
         createNft: {
@@ -114,14 +113,11 @@ const UploadVideoModal = ({ visible, onClose }) => {
 
   const uploadHandle = async (event) => {
     if (isSelected) {
-      console.log("uploadHandle == isSelected:", isSelected);
       setImageUploadLoader(true);
       const fileUploaded = event.target.files[0];
 
       if (fileUploaded) {
         const videoElement = document.createElement("video");
-
-        console.log("video element", videoElement);
 
         videoElement.onloadedmetadata = () => {
           setFieldValue("video_duration", Math.round(videoElement.duration));
@@ -147,10 +143,9 @@ const UploadVideoModal = ({ visible, onClose }) => {
             fileUploaded.name
           );
           if (response) {
-            console.log("download url", response.mp4);
             const url = await sendFileToIPFSV2(response.mp4, isEmote);
             setImageUpload(false);
-            console.log("fileUpload", fileUploaded, url);
+
             setFieldValue("video", url);
             setFieldValue("isEmote", true);
             setFieldValue("download", response);
@@ -162,7 +157,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
           setImageUpload(true);
           const url = await sendFileToIPFSV2(fileUploaded, isEmote);
           setImageUpload(false);
-          console.log("fileUpload", fileUploaded, url);
+
           setFieldValue("video", url);
           setFieldValue("isEmote", false);
           setFieldValue("download", {});
@@ -207,10 +202,9 @@ const UploadVideoModal = ({ visible, onClose }) => {
               fileUploaded.name
             );
             if (response) {
-              console.log("download url", response);
               const url = await sendFileToIPFSV2(response.mp4, isEmote);
               setImageUpload(false);
-              console.log("fileUpload", fileUploaded, url);
+
               setFieldValue("video", url);
               setFieldValue("isEmote", true);
               setFieldValue("download", response);
@@ -222,7 +216,7 @@ const UploadVideoModal = ({ visible, onClose }) => {
             setImageUpload(true);
             const url = await sendFileToIPFSV2(fileUploaded, isEmote);
             setImageUpload(false);
-            console.log("fileUpload", fileUploaded, url);
+
             setFieldValue("video", url);
             setFieldValue("isEmote", false);
             setFieldValue("download", {});
@@ -247,7 +241,6 @@ const UploadVideoModal = ({ visible, onClose }) => {
 
   // triggers when file is dropped
   const handleDrop = function (e) {
-    console.log("fileDrop", e);
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);

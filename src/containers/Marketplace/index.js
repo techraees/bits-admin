@@ -41,10 +41,7 @@ const Marketplace = () => {
     setCategoryFilter(value);
   };
 
-  console.log("categoryFilter", categoryFilter);
-
   const handlePriceChange = async (value) => {
-    console.log("Price change", value);
     const data = value.split("-").map(Number);
 
     // Use Promise.all to wait for all promises to be resolved
@@ -58,7 +55,6 @@ const Marketplace = () => {
   };
 
   const handleQuantityChange = (value) => {
-    console.log("Quantity change", value);
     const data = value.split("-").map(Number);
     setQuantityFilter(data);
   };
@@ -89,7 +85,6 @@ const Marketplace = () => {
       });
     }
 
-    console.log("filteredAuctionItems", filteredAuctionItems);
     setAuctionsDatas(filteredAuctionItems);
   }, [priceFilter]);
 
@@ -105,25 +100,14 @@ const Marketplace = () => {
       });
     }
 
-    console.log("filteredAuctionItems", filteredAuctionItems);
     setAuctionsDatas(filteredAuctionItems);
   }, [quantityFilter]);
-
-  console.log("data", data);
 
   useEffect(() => {
     refetch();
   }, []);
 
   const timenow = Math.floor(Date.now() / 1000);
-
-  console.log(
-    "data from database Auc",
-    categoryFilter ? allnfts : data?.getAllNftsWithoutAddress,
-    priceFilter.length > 0 || quantityFilter.length > 0
-      ? auctionsDatas
-      : auctionItemData
-  );
 
   return (
     <div

@@ -131,7 +131,6 @@ const CreatorEarningModal = ({
   const handleAddAddress = () => {
     const newData = [...data];
     setCount(count + 1);
-    console.log("letmecount", count);
     newData.push({
       key: count,
       walletAddress: "",
@@ -158,8 +157,6 @@ const CreatorEarningModal = ({
       onRequestClose();
     }
   };
-
-  console.log("SplitData:", data);
 
   return (
     <Modal

@@ -1,5 +1,4 @@
 const web3Reducer = (state = { walletData: {} }, action) => {
-  console.log("active", state, action.payload);
   switch (action.type) {
     case "CONNECT_WEB3":
       return {
@@ -11,4 +10,3 @@ const web3Reducer = (state = { walletData: {} }, action) => {
 };
 
 export default web3Reducer;
- 

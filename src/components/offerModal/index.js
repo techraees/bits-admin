@@ -85,7 +85,7 @@ const OfferModal = ({
   useEffect(() => {
     async function getbids() {
       const data = await contractData.marketContract.getAllBids(auctionid);
-      console.log(data);
+
       if (data && data?.bidAmount.length > 0) {
         data?.bidAmount.map((item, i) => {
           const priceDiff = getPriceDiff(
@@ -102,7 +102,6 @@ const OfferModal = ({
             from: "you",
           };
 
-          console.log(obj);
           setDataSource((prev) => {
             return [...prev, obj];
           });

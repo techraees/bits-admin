@@ -143,7 +143,6 @@ const NavbarComponent = ({
 
   useEffect(() => {
     let token = localStorage.getItem("token");
-    console.log("token", token);
     if (token) {
       profile({
         variables: {
@@ -199,11 +198,11 @@ const NavbarComponent = ({
 
   const openPrivacyModal = () => {
     setPrivacyModal(true);
-  }
+  };
 
   const handleManageCookiesModal = () => {
     setManageCookies(true);
-  }
+  };
 
   return (
     <>
@@ -461,35 +460,73 @@ const NavbarComponent = ({
         </div>
       )}
       <div>
-      <CookieConsent
-        location="bottom"
-        buttonText="Accept Cookies"
-        cookieName="cookieConsentCookie"
-        style={{ background: "#F3F3F3", alignItems: 'center' }}
-        buttonStyle={{ color: "#ffffff", backgroundColor: '#9f2323', fontSize: "13px", padding: '10px 40px', borderRadius: '40px' }}
-        expires={365}
-      >
-        <Container className="py-4">
-          <Col span={18}>
-            <h3 className="ms-0 fw-bold">
-            We respect your privacy
-            </h3>
-            <p className="text-black">
-            We use cookies to operate this website, improve usability, personalize your experience, and improve our marketing. Your privacy is important to us, and we will never sell your data. For more information see our <span style={{color: '#B83131', fontWeight: '600', textDecoration: 'underline', cursor: 'pointer'}} onClick={openPrivacyModal}>Privacy Policy</span>
-            </p>
-{/* 
+        <CookieConsent
+          location="bottom"
+          buttonText="Accept Cookies"
+          cookieName="cookieConsentCookie"
+          style={{ background: "#F3F3F3", alignItems: "center" }}
+          buttonStyle={{
+            color: "#ffffff",
+            backgroundColor: "#9f2323",
+            fontSize: "13px",
+            padding: "10px 40px",
+            borderRadius: "40px",
+          }}
+          expires={365}
+        >
+          <Container className="py-4">
+            <Col span={18}>
+              <h3 className="ms-0 fw-bold">We respect your privacy</h3>
+              <p className="text-black">
+                We use cookies to operate this website, improve usability,
+                personalize your experience, and improve our marketing. Your
+                privacy is important to us, and we will never sell your data.
+                For more information see our{" "}
+                <span
+                  style={{
+                    color: "#B83131",
+                    fontWeight: "600",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
+                  onClick={openPrivacyModal}
+                >
+                  Privacy Policy
+                </span>
+              </p>
+              {/* 
             <p  style={{color: '#B83131', fontWeight: '600', textDecoration: 'underline', cursor: 'pointer', position: 'absolute', right: '-60%', top: '75px'}}>Manage Cookies</p> */}
-            
-          </Col>
-        </Container>
-        <p style={{ color: '#B83131', fontWeight: '600', textDecoration: 'underline', cursor: 'pointer', position: 'absolute', right: '45px', top: '120px' }} onClick={handleManageCookiesModal}>
-          Manage Cookies
-        </p>
-      </CookieConsent>
+            </Col>
+          </Container>
+          <p
+            style={{
+              color: "#B83131",
+              fontWeight: "600",
+              textDecoration: "underline",
+              cursor: "pointer",
+              position: "absolute",
+              right: "45px",
+              top: "120px",
+            }}
+            onClick={handleManageCookiesModal}
+          >
+            Manage Cookies
+          </p>
+        </CookieConsent>
 
-      {privacyModal && <PrivacyModal privacyModal={privacyModal} setPrivacyModal={setPrivacyModal}/>}
-      {manageCookies && <ManageCookiesModal manageCookies={manageCookies} setManageCookies={setManageCookies}/>}
-    </div>
+        {privacyModal && (
+          <PrivacyModal
+            privacyModal={privacyModal}
+            setPrivacyModal={setPrivacyModal}
+          />
+        )}
+        {manageCookies && (
+          <ManageCookiesModal
+            manageCookies={manageCookies}
+            setManageCookies={setManageCookies}
+          />
+        )}
+      </div>
     </>
   );
 };

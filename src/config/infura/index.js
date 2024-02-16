@@ -53,7 +53,6 @@ export const getAllNftsByAddressAlchemy = async (
   try {
     const response = await axios.request(options);
     const nfts = response.data.ownedNfts;
-    console.log("Owned tokens", nfts);
 
     let tokenIds = [];
 
@@ -81,6 +80,4 @@ export const getOwnersOfTokenId = async (tokenId, networkId, contract) => {
       authorization: auth,
     },
   });
-
-  console.log(await response.json());
 };

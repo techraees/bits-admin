@@ -39,7 +39,6 @@ export const handleDeepMotionUpload = async (videofile, fileName) => {
           withCredentials: true,
         });
 
-        console.log("Process Response", processRes.data.rid);
         if (processRes.data.rid) {
           return processRes.data.rid;
         } else {
@@ -61,7 +60,6 @@ export const handleDeepMotionUpload = async (videofile, fileName) => {
         withCredentials: true, // Include cookies in the request
       });
 
-      console.log(response.data.status[0].status);
       if (response.data.status[0].status === "SUCCESS") {
         return true;
       } else if (
@@ -84,18 +82,13 @@ export const handleDeepMotionUpload = async (videofile, fileName) => {
       const response = await axios.get(uploadUri, {
         withCredentials: true, // Include cookies in the request
       });
-      console.log("Upload response", response.data.url);
 
       const signedURI = response.data.url;
-
-      console.log("Video File", videofile);
 
       const rid = await uploadVideo(signedURI, videofile);
 
       // const rid = "pg3hR5sLcyYraR2L2g94Kp";
       const progress = await checkProgress(rid);
-
-      console.log("Progress", progress);
 
       if (progress) {
         const data = await downloadVideo(rid);
@@ -151,7 +144,7 @@ export const getSession = async () => {
       },
       withCredentials: true, // Include cookies in the request
     });
-    console.log("Login response", response);
+
     return true;
   } catch (error) {
     console.error("Error in session API call:", error);
@@ -166,8 +159,6 @@ export const downloadVideo = async (rid) => {
       withCredentials: true, // Included cookies in the request
     });
 
-    console.log("all formats", response.data.links);
-
     if (response.data.links) {
       const bvh = response.data.links[0].urls[13].files[0].bvh;
       const fbx = response.data.links[0].urls[13].files[1].fbx;
@@ -178,7 +169,7 @@ export const downloadVideo = async (rid) => {
         bvh,
         fbx,
       };
-      console.log("downloaded file", obj);
+
       return obj;
     }
   } catch (error) {

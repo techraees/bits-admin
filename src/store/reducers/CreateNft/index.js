@@ -13,7 +13,6 @@ const INITIAL_STATE = {
 };
 
 const CreateNFtReducer = (state = INITIAL_STATE, action) => {
-  console.log("active", action);
   switch (action.type) {
     case "CREATE_NFT":
       return {

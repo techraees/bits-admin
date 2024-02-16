@@ -60,8 +60,6 @@ const ListNft = () => {
 
   const { name, royalty, artistName, tokenId } = state;
 
-  console.log(name, royalty, artistName);
-
   const handleEndTimeStamp = (value, dateString) => {
     const time = timeToTimeStamp(dateString);
     setEndTimeStamp(time);
@@ -79,8 +77,6 @@ const ListNft = () => {
     const value = e.target.value;
     const finalVal = value;
     setShowVal(value);
-
-    console.log("finalValue", finalVal);
 
     if (selectedOption === "fixed Price") {
       setFixedPrice(finalVal);
@@ -115,7 +111,6 @@ const ListNft = () => {
         userData?.address,
         tokenId
       );
-      console.log(Number(data));
       setTokens(Number(data));
     }
     getTokens();
@@ -156,7 +151,6 @@ const ListNft = () => {
             if (res) {
               setLoadingStatus(false);
               setLoadingMessage("");
-              console.log("respnse", res);
               ToastMessage("Listing Successful", "", "success");
               dispatch(loadContractIns());
             }
@@ -187,7 +181,6 @@ const ListNft = () => {
           if (res) {
             setLoadingStatus(false);
             setLoadingMessage("");
-            console.log("respnse", res);
             ToastMessage("Listing Successful", "", "success");
             dispatch(loadContractIns());
           }
@@ -234,7 +227,6 @@ const ListNft = () => {
             if (res) {
               setLoadingStatus(false);
               setLoadingMessage("");
-              console.log(res);
               ToastMessage("Auction Listing Successful", "", "success");
               dispatch(loadContractIns());
             }

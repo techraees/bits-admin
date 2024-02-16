@@ -24,8 +24,6 @@ import { UploadVideoModal } from "../../components";
 import { useSelector } from "react-redux";
 
 function getItem(label, key, icon, children, type) {
-  console.log();
-
   return {
     key,
     icon,
@@ -43,7 +41,6 @@ const MenuComponent = ({
 }) => {
   const { userData } = useSelector((state) => state.address.userData);
   const [uploadVideoModal, setUploadVideoModal] = useState(false);
-  console.log("userData",userData)
   const isLogged = userData?.isLogged;
 
   let navigate = useNavigate();
@@ -76,13 +73,13 @@ const MenuComponent = ({
     isLogged &&
       getItem("Transaction History", "sub1", <img src={history} />, [
         isLogged &&
-        getItem(
-          "Transaction History(Coming Soon)",
-          "6",
-          <img src={transaction_history} />,
-          [],
-          true
-        ),
+          getItem(
+            "Transaction History(Coming Soon)",
+            "6",
+            <img src={transaction_history} />,
+            [],
+            true
+          ),
         // isLogged &&
         //   getItem(
         //     "Transaction History",

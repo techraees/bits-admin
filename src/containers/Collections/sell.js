@@ -34,7 +34,6 @@ const SellsNft = () => {
   const { nftAddress } = useSelector((state) => state.address.nftAddress);
 
   const address = nftAddress?.address?.ethAddress;
-  console.log("add", address);
 
   useEffect(() => {
     const variables = {
@@ -43,8 +42,6 @@ const SellsNft = () => {
     getNft({ variables });
   }, [address]);
 
-  console.log("nfts", loading, allNfts, error);
-
   const [nfts, setNfts] = useState(null);
   const [nftsAll, setAllNfts] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
@@ -52,8 +49,6 @@ const SellsNft = () => {
   const [isSearch, setIsSearch] = useState(false);
 
   const [isSorting, setIsSorting] = useState(false);
-
-  console.log("nftsAll", nftsAll, nfts);
 
   useEffect(() => {
     if (allNfts) {
@@ -69,13 +64,11 @@ const SellsNft = () => {
         setNfts(reversed);
       } else {
         const reversed = [...nfts]?.reverse();
-        console.log("sort", reversed);
         setAllNfts(reversed);
       }
     } else {
       if (isSearching) {
         // setNfts(allNfts?.getAllNfts);
-        console.log("edfdf", isSearching);
         let data = nfts?.filter((item) =>
           item.name.toLowerCase().startsWith(isSearching)
         );
@@ -104,12 +97,9 @@ const SellsNft = () => {
   const textColor3 = useSelector((state) => state.app.theme.textColor3);
   const bgColor = useSelector((state) => state.app.theme.bgColor);
 
-  console.log("textColor", textColor, bgColor);
   const [uploadVideoModal, setUploadVideoModal] = useState(false);
   let navigate = useNavigate();
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
+  const handleChange = (value) => {};
   let cardsData = [
     {
       image: profile,
@@ -223,7 +213,6 @@ const SellsNft = () => {
               className={`searchStyle ${bgColor}`}
               onChange={(e) => {
                 setIsSearching(e.target.value);
-                console.log("edfdf", e.target.value);
                 let data = nfts?.filter((item) =>
                   item.name.toLowerCase().startsWith(e.target.value)
                 );

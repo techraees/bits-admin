@@ -51,7 +51,6 @@ const Router = () => {
   useEffect(() => {
     web3 &&
       window.ethereum.on("accountsChanged", async (data) => {
-        console.log("account,", data[0]);
         dispatch(updateAccount(data[0]));
       });
   }, [web3, account]);
@@ -106,7 +105,10 @@ const Router = () => {
           <Route path="*" element={<NotFound />} />
           <Route path="sell" element={<SellsNft />} />
           <Route path="reset-password" element={<ResetPassword />} />
-          <Route path="reset-password/success" element={<ResetPasswordSuccess />} />
+          <Route
+            path="reset-password/success"
+            element={<ResetPasswordSuccess />}
+          />
 
           {/* {(Object.keys(data).length > 0 || userData) && (
           <>

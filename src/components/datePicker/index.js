@@ -19,7 +19,7 @@ const DatePickerComponent = () => {
         onChange={onChange}
         placeholder=""
         className="datePickerStyle"
-        style={{ width:"50%", color:"white" }}
+        style={{ width: "50%", color: "white" }}
         placement="topRight"
         suffixIcon={<DownOutlined style={{ color: "#CCCCCC" }} />}
       />

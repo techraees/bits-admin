@@ -51,7 +51,6 @@ const Collections = () => {
       const result = await mintAsset({
         variables: { walletAddress },
       });
-      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +60,6 @@ const Collections = () => {
   USDTOETH(10).then(function (result) {
     setVal(result);
   });
-  console.log(val);
 
   const [getNft, { loading, data: allNfts, refetch: allNftRefetch, error }] =
     useLazyQuery(GET_ALL_NFTS, {
@@ -79,7 +77,6 @@ const Collections = () => {
   ] = useLazyQuery(GET_PROFILE_DETAILS_QUERY, {
     variables: { getProfileDetailsId: userId },
   });
-  console.log("userId", userId);
 
   useEffect(() => {
     if (userId) {
@@ -113,8 +110,6 @@ const Collections = () => {
 
   const [tokenIdsByOwner, setTokenIdsByOwner] = useState([]);
 
-  console.log("profile log", profileData?.GetProfileDetails);
-
   //get all tokenIds by an address
   useEffect(() => {
     async function getTokenIds() {
@@ -123,7 +118,6 @@ const Collections = () => {
         contractData.chain,
         contractData.mintContract.address
       );
-      console.log("tokens", tokens);
       setTokenIdsByOwner(tokens);
     }
     getTokenIds();
@@ -183,9 +177,7 @@ const Collections = () => {
 
   const [uploadVideoModal, setUploadVideoModal] = useState(false);
   let navigate = useNavigate();
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
+  const handleChange = (value) => {};
 
   const { web3, account } = useSelector((state) => state.web3.walletData);
 
@@ -234,8 +226,6 @@ const Collections = () => {
     }
   }
 
-  console.log(currentNfts, "currentNfts");
-  console.log("profileData", profileData, userData);
   useEffect(() => {
     nftsRefetch();
   }, []);
@@ -243,9 +233,6 @@ const Collections = () => {
   useEffect(() => {
     allNftRefetch();
   }, []);
-
-  console.log("All NFTS WITHOUT", allNftsWithoutAddr);
-  console.log("tokenIdsByAddress", tokenIdsByOwner);
 
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>

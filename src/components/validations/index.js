@@ -29,7 +29,6 @@ const uploadValidation = (values) => {
 };
 
 const mintValidation = (values) => {
-  console.log("mint", values);
   const errors = {};
 
   if (!values.walletAddress) {
@@ -130,8 +129,7 @@ const contactValidate = (values) => {
 
   if (!values.phoneNumber) {
     // errors.phoneNumber = "Phone number is required";
-  } 
-  else if (!/^[0-9]+$/.test(values.phoneNumber)) {
+  } else if (!/^[0-9]+$/.test(values.phoneNumber)) {
     errors.phoneNumber = "Invalid phone number";
   }
 

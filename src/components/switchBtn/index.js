@@ -31,7 +31,6 @@ const SwitchBtn = ({ toggleBtn }) => {
         border: `${checked ? "dark-border" : "light-border"}`,
       },
     });
-    console.log(`switch to ${checked}`);
   }
   return (
     <Switch

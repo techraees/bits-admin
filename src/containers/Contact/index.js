@@ -51,7 +51,6 @@ const Contact = () => {
     sendEmail,
     { data: emailData, loading: emailLoading, error: emailError },
   ] = useMutation(SEND_EMAIL_MUTATION);
-  console.log("data", emailData);
   const {
     handleSubmit,
     handleChange,
@@ -87,7 +86,7 @@ const Contact = () => {
       }
     },
   });
-  console.log("errorserrors", errors);
+
   useEffect(() => {
     if (emailData) {
       ToastMessage("Platform will contact you!", "", "success");

@@ -15,8 +15,6 @@ const NftDetailsScreen = () => {
   const [count, setCount] = useState(false);
 
   const { userData } = useSelector((state) => state.address.userData);
-  console.log(id, "userData");
-  console.log(data, "data444", error, loading, userData?.id);
 
   useEffect(() => {
     if (id !== undefined && id !== null) {
@@ -48,9 +46,6 @@ const NftDetailsScreen = () => {
   }/token/${contractData.mintContract.address}?a=${
     data?.DetailsOfANft?.token_id
   }`;
-
-  console.log(data?.DetailsOfANft?.video, "babaer");
-  console.log(data?.DetailsOfANft, "babaer");
 
   return (
     <div

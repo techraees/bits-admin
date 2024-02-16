@@ -7,85 +7,89 @@ import { DownOutlined } from "@ant-design/icons";
 import "./css/index.css";
 import { useSelector } from "react-redux";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_NFTS_WITHOUT_ADDRESS} from "../../gql/queries";
+import { GET_ALL_NFTS_WITHOUT_ADDRESS } from "../../gql/queries";
 import { timestampToDate } from "../../utills/timeToTimestamp";
 import { WeiToETH } from "../../utills/convertWeiAndBnb";
 
-
-
 const SellingHistory = () => {
-
   const { loading, error, data, refetch } = useQuery(
     GET_ALL_NFTS_WITHOUT_ADDRESS
   );
 
   const [nfts, setNfts] = useState(null);
   const [dropdownValue, setDropdownValue] = useState("Last Week");
-  const {contractData} = useSelector((state) => state.chain.contractData);
+  const { contractData } = useSelector((state) => state.chain.contractData);
   const { userData } = useSelector((state) => state.address.userData);
   const [sellingHistory, setSellingHistory] = useState([]);
 
+  useEffect(() => {
+    if (data) {
+      setNfts(data?.getAllNftsWithoutAddress);
+    }
+  }, [data]);
 
-useEffect(() => {
-  if (data) {
-    setNfts(data?.getAllNftsWithoutAddress);
-  }
-}, [data]);
+  useEffect(() => {
+    async function getPastEvents() {
+      try {
+        const provider = new ethers.providers.JsonRpcProvider(
+          contractData.chain == 5
+            ? "https://goerli.infura.io/v3/e556d22112e34e3baab9760f1864493a"
+            : "https://polygon-mumbai.infura.io/v3/e556d22112e34e3baab9760f1864493a"
+        );
+        // Get past events
+        const filter = contractData.marketContract.filters.buyFixedprice(); // Define the event filter
+        const events = await contractData.marketContract.queryFilter(
+          filter,
+          0,
+          "latest"
+        );
 
+        // Process events
+        events.forEach(async (event) => {
+          const block = await provider.getBlock(event.blockHash);
 
-useEffect(()=>{
+          const date = timestampToDate(block.timestamp * 1000);
 
-async function getPastEvents() {
+          const value = WeiToETH(
+            `${
+              Number(event.args.amountPaytoSeller) +
+              Number(event.args.platformfee) +
+              Number(event.args._royaltyfee)
+            }`
+          );
 
-  try {
-    const provider = new ethers.providers.JsonRpcProvider(contractData.chain == 5? "https://goerli.infura.io/v3/e556d22112e34e3baab9760f1864493a" : "https://polygon-mumbai.infura.io/v3/e556d22112e34e3baab9760f1864493a");
-    // Get past events
-    const filter = contractData.marketContract.filters.buyFixedprice(); // Define the event filter
-    const events = await contractData.marketContract.queryFilter(filter, 0, "latest");
-    
-    // Process events
-    events.forEach(async(event) => {
-      const block = await provider.getBlock(event.blockHash);
+          nfts &&
+            nfts?.map((e, i) => {
+              if (
+                Number(event.args.tokenid) == e.token_id &&
+                userData.address == e.wallet_address
+              ) {
+                const obj = {
+                  image: profile2,
+                  name: e.name,
+                  buyerName: event.args.buyer,
+                  date: date,
+                  price: value,
+                };
 
-      const date = timestampToDate((block.timestamp) * 1000);
+                setSellingHistory((prev) => {
+                  return [...prev, obj];
+                });
+              } else {
+                console.log(error);
+              }
+            });
+        });
+      } catch (err) {
+        console.error("Error fetching past events:", err);
+      }
+    }
 
-      const value = WeiToETH(`${(Number(event.args.amountPaytoSeller) + Number(event.args.platformfee) + Number(event.args._royaltyfee))}`);
-
-      nfts && nfts?.map((e, i)=>{
-        if(Number(event.args.tokenid) == e.token_id && userData.address == e.wallet_address ){
-          console.log(e);
-          const obj = {
-            image: profile2,
-            name: e.name,
-            buyerName: event.args.buyer,
-            date: date,
-            price: value,
-          }
-
-          console.log("object",obj);
-
-          setSellingHistory((prev)=>{
-            return [...prev, obj]
-          });
-        }else{
-          console.log(error);
-        }
-      })
-    });
-  } catch (err) {
-    console.error("Error fetching past events:", err);
-  }
-}
-
-const fetchData = async () => {
-  await getPastEvents();
-};
-fetchData();
-
+    const fetchData = async () => {
+      await getPastEvents();
+    };
+    fetchData();
   }, [contractData, userData]);
-
-  console.log(sellingHistory);
-
 
   const backgroundTheme = useSelector(
     (state) => state.app.theme.backgroundTheme

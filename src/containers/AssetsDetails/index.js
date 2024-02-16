@@ -10,9 +10,7 @@ const AssetsDetails = () => {
   );
   const textColor = useSelector((state) => state.app.theme.textColor);
 
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
+  const handleChange = (value) => {};
   return (
     <div className={`${backgroundTheme}`} style={{ minHeight: "100vh" }}>
       <NavbarComponent

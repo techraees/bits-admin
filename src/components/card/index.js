@@ -156,17 +156,11 @@ const CardCompnent = ({
       sessionId: session.id,
     });
 
-    //   await updateNftPayment({
-    //     variables: {
-    //       id: id,
-    //     },
-    //   });
-
     if (result.error) {
       console.log(result.error);
     } else if (result.paymentIntent) {
       // Handle successful payment here (e.g., update UI or make further API calls).
-      console.log("Payment succeeded:", result.paymentIntent);
+      console.log("Payment succeeded:");
     }
   };
 
@@ -185,8 +179,6 @@ const CardCompnent = ({
       "Content-Type": "application/json",
     };
 
-    console.log("paypal response", body);
-
     const response = await fetch(`${env.BACKEND_BASE_URL}/handle-paypal`, {
       method: "POST",
       headers: headers,
@@ -194,7 +186,6 @@ const CardCompnent = ({
     });
 
     const data = await response.json();
-    console.log("Link of paypal", data.link);
     window.open(data.link);
   };
 

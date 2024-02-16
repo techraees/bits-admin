@@ -56,12 +56,10 @@ const VideoGallery = () => {
       })
     );
 
-    console.log("convertedPrice", convertedPrice);
     setPriceFilter(convertedPrice);
   };
 
   const handleQuantityChange = (value) => {
-    console.log("Quantity change", value);
     const data = value.split("-").map(Number);
     setQuantityFilter(data);
   };
@@ -109,7 +107,6 @@ const VideoGallery = () => {
         .filter((item) => item.owners.length > 0);
     }
 
-    console.log("filteredFixedItems", filteredFixedItems);
     setFixedItemsDatas(filteredFixedItems);
   }, [priceFilter]);
 
@@ -130,21 +127,12 @@ const VideoGallery = () => {
         .filter((item) => item.owners.length > 0);
     }
 
-    console.log("filteredFixedItems", filteredFixedItems);
     setFixedItemsDatas(filteredFixedItems);
   }, [quantityFilter]);
 
   useEffect(() => {
     refetch();
   }, []);
-
-  console.log(
-    "data from database",
-    categoryFilter ? allnfts : data?.getAllNftsWithoutAddress,
-    priceFilter.length > 0 || quantityFilter.length > 0
-      ? fixedItemsDatas
-      : fixedItemData
-  );
 
   return (
     <div

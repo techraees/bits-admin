@@ -49,7 +49,6 @@ const AccountSettings = () => {
 
     onSubmit: async (values) => {
       try {
-        console.log("values", values);
         const { data } = await updatePassword({
           variables: {
             password: values.password,
@@ -61,7 +60,6 @@ const AccountSettings = () => {
             },
           },
         });
-        console.log(data);
       } catch (e) {
         console.error(e);
       }
@@ -95,7 +93,6 @@ const AccountSettings = () => {
             },
           },
         });
-        console.log(data);
       } catch (e) {
         console.error(e);
       }
@@ -249,7 +246,6 @@ const AccountSettings = () => {
               value={values.password}
               visibilityToggle={false}
               onChange={(e) => {
-                console.log("password", e.target.value);
                 setFieldValue("password", e.target.value);
               }}
               onBlur={handleBlur}

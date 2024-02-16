@@ -58,7 +58,6 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
         dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
       }
     } else {
-      console.log("Please connect correct wallet");
       ToastMessage("Error", "Please connect correct wallet", "error");
     }
   } catch (err) {
@@ -83,20 +82,17 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
     });
 
     connector.on("display_uri", async (uri) => {
-      console.log("EVENT", "QR Code Modal open");
       web3Modal?.openModal({ uri });
     });
 
     // Subscribe to session ping
     connector.on("session_ping", ({ id, topic }) => {
       console.log("EVENT", "session_ping");
-      console.log(id, topic);
     });
 
     // Subscribe to session event
     connector.on("session_event", ({ event, chainId }) => {
       console.log("EVENT", "session_event");
-      console.log(event, chainId);
     });
 
     // Subscribe to session update
@@ -107,7 +103,7 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
     // Subscribe to session delete
     connector.on("session_delete", ({ id, topic }) => {
       console.log("EVENT", "session_deleted");
-      console.log(id, topic);
+
       // resetApp();
     });
     let rpc;
@@ -139,7 +135,6 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
 
     const accounts = await connector.enable();
     let account = accounts[0];
-    console.log("accounts", accounts);
 
     web3Modal?.closeModal();
 
@@ -155,7 +150,6 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
         chainId,
         signer,
       };
-      console.log("data", data);
       dispatch({ type: ActionTypes.WEB3CONNECT, payload: data });
     }
   } catch (err) {
@@ -257,8 +251,6 @@ export const loadContractIns = () => async (dispatch) => {
     getEmoteItems(ethMarketContractIns, polygonMarketContractIns).then(
       (result) => {
         const { maticList, ethList } = result;
-
-        console.log("maticList", maticList);
 
         dispatch({ type: "LOAD_FIXED_ITEMS", payload: { maticList, ethList } });
         dispatch({

@@ -27,7 +27,6 @@ function Login() {
   const dispatch = useDispatch();
 
   const { web3, account } = useSelector((state) => state.web3.walletData);
-  console.log(" loginn", web3, account);
   const [connectModal, setConnectModal] = useState(false);
   const [forgotPassModal, setForgotPassModal] = useState(false);
   const [step, setStep] = useState(1);
@@ -131,7 +130,6 @@ function Login() {
       navigate("/");
     }
     if (loginError) {
-      console.log("loginError", loginError);
       ToastMessage("Sign in Error", loginError?.message, "error");
     }
   }, [loginData, loginError]);
@@ -194,7 +192,6 @@ function Login() {
     if (day && month && year) {
       const combined = `${month}/${day}/${year}`;
       const dateFormat = new Date(combined);
-      console.log("formate date", dateFormat);
       signUpSetValue("dob", dateFormat.toString());
     }
   }, [day, month, year]);
@@ -247,8 +244,6 @@ function Login() {
         dob: data.dob,
       };
 
-      console.log("All variables", variables);
-
       createUser({
         variables: variables,
       });
@@ -295,7 +290,6 @@ function Login() {
         setId(id);
         setToken(token);
         const res = await sendToken(id, token);
-        console.log("the response", res);
         if (res.success) {
           setStep(3);
           setForgotPassModal(true);
@@ -336,8 +330,6 @@ function Login() {
     const data = await response.json();
     return data;
   };
-
-  console.log("Selected Date", `${day}/${month}/${year}`);
 
   const validatePassword = (password) => {
     const passwordRegex =
