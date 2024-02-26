@@ -1,0 +1,6 @@
+.video-top {
+    object-fit: cover !important;
+    border-radius: 10px !important;
+    height: 150px;
+    width: 150px;
+}

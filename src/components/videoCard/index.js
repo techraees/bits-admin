@@ -1,54 +1,111 @@
-import React from "react";
-import { thumbnail, profile_small } from "../../assets";
-import "./css/index.css";
-import { Button } from "antd";
+import React from 'react';
+import { thumbnail, profile_small } from '../../assets';
+import './css/index.css';
+import { Button, Popconfirm, Popover } from 'antd';
 
 const VideoCard = ({
-  id,
-  videoThumbnail,
-  name,
-  title,
-  video,
-  description,
-  updateNftStatus,
-  isBlocked,
-  refetch,
-  viewOnly
+    id,
+    videoThumbnail,
+    name,
+    title,
+    video,
+    description,
+    updateNftStatus,
+    isBlocked,
+    refetch,
+    viewOnly,
+    setAllVideosData,
+    allVideosData,
+    setTopVideosData
 }) => {
-  console.log("ididid", id);
+    console.log('ididid', video);
 
-  const handleClick = async () => {
-    await updateNftStatus({
-      variables: {
-        id: id,
-      },
-    });
-    await refetch();
-  };
+    const handleClick = async () => {
+        await updateNftStatus({
+            variables: {
+                id: id,
+            },
+        });
+        await refetch();
+    };
 
-  return (
-    <div className="light-grey-border-bottom d-flex center py-4 videoCardMobView">
-      <video src={video} height={150} width={150} />
+    const handleAdd = async (id) => {
+        const videoIndex = allVideosData.findIndex((v) => v._id === id);
 
-      <div style={{ marginLeft: "10px" }}>
-        <h5 className="m-0 videoCardMobAlignment">{title}</h5>
-        <div className="d-flex center videoCardMobAlignment">
-          {/* <img src={image} /> */}
-          <h5 className="m-0 ms-2 red2">{name}</h5>
+        if (videoIndex !== -1) {
+            const updatedVideos = [
+                allVideosData[videoIndex],
+                ...allVideosData.slice(0, videoIndex),
+                ...allVideosData.slice(videoIndex + 1),
+            ];
+
+            setAllVideosData(updatedVideos);
+            setTopVideosData((prev) => [...prev, allVideosData[videoIndex]])
+        }
+    };
+
+    const handleConfirmRemove = async () => {
+        const videoIndex = allVideosData.findIndex((v) => v._id === id);
+
+        if (videoIndex !== -1) {
+            const updatedVideos = [
+                ...allVideosData.slice(0, videoIndex),
+                ...allVideosData.slice(videoIndex + 1),
+            ];
+
+            setAllVideosData(updatedVideos);
+        }
+    };
+
+    return (
+        <div className="light-grey-border-bottom d-flex justify-between py-4 videoCardMobView">
+            <div className="col-lg-3">
+                <video src={video} height={150} width={150} className="video" />
+            </div>
+            <div className="col-lg-6">
+                <div>
+                    <h5 className="m-0 videoCardMobAlignment">{title}</h5>
+                    <div className="d-flex center videoCardMobAlignment">
+                        {/* <img src={image} /> */}
+                        <h5 className="m-0 red2">{name}</h5>
+                    </div>
+                    <span className="light-grey videoCardMobAlignment">
+                        {description}
+                    </span>
+                </div>
+            </div>
+            <div className="col-lg-3">
+                <div className="d-block ms-3 videoCardMobAlignment">
+                    <Button
+                        className="videoCardBtns bg-green radius1 mb-2 white"
+                        onClick={() => handleAdd(id)}
+                    >
+                        Add
+                    </Button>
+                    <Button
+                        disabled={viewOnly}
+                        className="videoCardBtns bg-black radius1 mb-2 white"
+                        onClick={() => handleClick()}
+                    >
+                        {isBlocked ? 'Unblock' : 'Block'}
+                    </Button>
+                    <Popconfirm
+                        title="Are you sure you want to remove this video?"
+                        onConfirm={handleConfirmRemove}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button
+                            disabled={viewOnly}
+                            className="videoCardBtns bg-red radius1 mb-2 white"
+                        >
+                            Remove
+                        </Button>
+                    </Popconfirm>
+                </div>
+            </div>
         </div>
-        <span className="light-grey videoCardMobAlignment">{description}</span>
-      </div>
-      <div className="d-block ms-3 videoCardMobAlignment">
-        <Button
-        disabled={viewOnly}
-          className="videoCardBtns bg-black radius1 mb-2 white"
-          onClick={() => handleClick()}
-        >
-          {isBlocked ? "Unblock" : "Block"}
-        </Button>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default VideoCard;
