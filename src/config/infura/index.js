@@ -1,9 +1,12 @@
-import env from "../../environment";
 import axios from "axios";
+
+const env = process.env;
 
 const auth =
   "Basic " +
-  Buffer.from(env.INFURA_API_KEY + ":" + env.INFURA_SECRET).toString("base64");
+  Buffer.from(
+    env.REACT_APP_INFURA_API_KEY + ":" + env.REACT_APP_INFURA_SECRET
+  ).toString("base64");
 
 export const getAllNftsByAddress = async (address, networkId, contract) => {
   const infura_url = `https://nft.api.infura.io/networks/${networkId}/`;
@@ -40,7 +43,7 @@ export const getAllNftsByAddressAlchemy = async (
     method: "GET",
     url: `https://${
       networkId == 80001 ? "polygon-mumbai" : "eth-goerli"
-    }.g.alchemy.com/nft/v3/${env.ALCHEMY_API_KEY}/getNFTsForOwner`,
+    }.g.alchemy.com/nft/v3/${env.REACT_APP_ALCHEMY_API_KEY}/getNFTsForOwner`,
     params: {
       owner: address,
       "contractAddresses[]": contract,

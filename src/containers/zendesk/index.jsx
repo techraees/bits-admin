@@ -1,7 +1,8 @@
 import React from "react";
 import Zendesk, { ZendeskAPI } from "../../zendeskConfig";
-import environment from "../../environment";
 import { useEffect } from "react";
+
+const environment = process.env;
 
 const ZendeskComp = ({ showChat }) => {
   const handleLoaded = (status) => {
@@ -20,7 +21,7 @@ const ZendeskComp = ({ showChat }) => {
     <div>
       <Zendesk
         defer
-        zendeskKey={environment.ZENDESK_KEY}
+        zendeskKey={environment.REACT_APP_ZENDESK_KEY}
         onLoaded={handleLoaded}
       />
     </div>

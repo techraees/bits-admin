@@ -7,9 +7,10 @@ import { BsFilterLeft } from "react-icons/bs";
 import { GET_ALL_NFTS_WITHOUT_ADDRESS } from "../../gql/queries";
 import { useQuery } from "@apollo/client";
 import "./css/index.css";
-import environment from "../../environment";
 import { WeiToETH } from "../../utills/convertWeiAndBnb";
 import { USDTOMATIC } from "../../utills/currencyConverter";
+
+const environment = process.env;
 
 const Marketplace = () => {
   const { loading, error, data, refetch } = useQuery(
@@ -22,7 +23,7 @@ const Marketplace = () => {
   const [allnfts, setAllNfts] = useState([]);
   const [auctionsDatas, setAuctionsDatas] = useState([]);
 
-  const imgPaths = environment.BACKEND_BASE_URL + "/";
+  const imgPaths = environment.REACT_APP_BACKEND_BASE_URL + "/";
 
   const textColor = useSelector((state) => state.app.theme.textColor);
   const bgColor = useSelector((state) => state.app.theme.bgColor);

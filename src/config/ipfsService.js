@@ -1,15 +1,17 @@
-import env from "../environment";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { urlSource } from "ipfs-http-client";
 import axios from "axios";
+
+const env = process.env;
 
 export const sendFileToIPFS = async (file, isEmote) => {
   if (file) {
     try {
       const authorization =
-        "Basic " + btoa(env.PROJECT_ID + ":" + env.PROJECT_SECRET);
+        "Basic " +
+        btoa(env.REACT_APP_PROJECT_ID + ":" + env.REACT_APP_PROJECT_SECRET);
       const ipfs = ipfsHttpClient({
-        url: env.INFURA,
+        url: env.REACT_APP_INFURA,
         headers: {
           authorization,
         },
@@ -17,7 +19,9 @@ export const sendFileToIPFS = async (file, isEmote) => {
       const result = await ipfs.add(isEmote ? urlSource(`${file}`) : file);
 
       // console.log("ImgHash", res)
-      const ImgHash = `${env.IPFS_PATH}/${result.cid._baseCache.get("z")}`;
+      const ImgHash = `${env.REACT_APP_IPFS_PATH}/${result.cid._baseCache.get(
+        "z"
+      )}`;
       return ImgHash;
     } catch (error) {
       console.log("Error sending File to IPFS: ");
@@ -34,7 +38,8 @@ export const sendFileToIPFSV1 = async (file, isEmote) => {
       formData.append("file", file);
 
       const authorization =
-        "Basic " + btoa(env.PROJECT_ID + ":" + env.PROJECT_SECRET);
+        "Basic " +
+        btoa(env.REACT_APP_PROJECT_ID + ":" + env.REACT_APP_PROJECT_SECRET);
       let options = {
         headers: {
           Authorization: authorization,
@@ -42,10 +47,14 @@ export const sendFileToIPFSV1 = async (file, isEmote) => {
         },
       };
 
-      const result = await axios.post(`${env.INFURA}/add`, formData, options);
+      const result = await axios.post(
+        `${env.REACT_APP_INFURA}/add`,
+        formData,
+        options
+      );
 
       // console.log("ImgHash", res)
-      // const ImgHash = `${env.IPFS_PATH}/${result.cid._baseCache.get("z")}`;
+      // const ImgHash = `${env.REACT_APP_IPFS_PATH}/${result.cid._baseCache.get("z")}`;
       // return ImgHash;
       // console.log(ImgHash);
     } catch (error) {
@@ -78,7 +87,7 @@ export const sendFileToIPFSV2 = async (file, isEmote) => {
 
   if (finalFile) {
     try {
-      const authorization = "Bearer " + env.NFTSTORAGE;
+      const authorization = "Bearer " + env.REACT_APP_NFTSTORAGE;
       let options = {
         headers: {
           Authorization: authorization,
@@ -93,7 +102,7 @@ export const sendFileToIPFSV2 = async (file, isEmote) => {
       );
 
       // console.log("ImgHash", res)
-      const ImgHash = `${env.IPFS_PATH}/${result.data.value.cid}`;
+      const ImgHash = `${env.REACT_APP_IPFS_PATH}/${result.data.value.cid}`;
 
       return ImgHash;
     } catch (error) {
@@ -107,9 +116,10 @@ export const sendMetaToIPFS = async (data) => {
   if (data) {
     try {
       const authorization =
-        "Basic " + btoa(env.PROJECT_ID + ":" + env.PROJECT_SECRET);
+        "Basic " +
+        btoa(env.REACT_APP_PROJECT_ID + ":" + env.REACT_APP_PROJECT_SECRET);
       const ipfs = ipfsHttpClient({
-        url: env.INFURA,
+        url: env.REACT_APP_INFURA,
         headers: {
           authorization,
         },
@@ -119,7 +129,7 @@ export const sendMetaToIPFS = async (data) => {
       const result = await ipfs.add(finalData);
 
       // console.log("ImgHash", res)
-      const metaHash = `${env.IPFS_PATH}/${result.path}`;
+      const metaHash = `${env.REACT_APP_IPFS_PATH}/${result.path}`;
       return metaHash;
     } catch (error) {
       console.log("Error sending File to IPFS: ");

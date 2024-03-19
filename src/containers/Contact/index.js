@@ -23,7 +23,8 @@ import { useMutation } from "@apollo/client";
 import { ADD_CONTACT, SEND_EMAIL_MUTATION } from "../../gql/mutations";
 import { useFormik } from "formik";
 import { contactValidate } from "../../components/validations";
-import environment from "../../environment";
+
+const environment = process.env;
 
 const Contact = () => {
   const backgroundTheme = useSelector(
@@ -74,7 +75,7 @@ const Contact = () => {
         const result = await sendEmail({
           variables: {
             to: values?.email,
-            from: environment.EMAIL_OWNER,
+            from: environment.REACT_APP_EMAIL_OWNER,
             subject: `Contact Email From ${values?.fullName}`,
             text: `${values?.message} and here is my ${
               values?.phoneNumber && `phone number ${values?.phoneNumber} /`

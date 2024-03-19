@@ -34,7 +34,8 @@ import { downloadVideo } from "../../config/deepmotion";
 import { loadStripe } from "@stripe/stripe-js";
 import DownloadModal from "../Modal/DownloadModal";
 import PaymentConfirmation from "../Modal/PaymentConfirmation";
-import env from "../../environment";
+
+const env = process.env;
 
 const CardCompnent = ({
   image,
@@ -142,7 +143,7 @@ const CardCompnent = ({
     };
 
     const response = await fetch(
-      `${env.BACKEND_BASE_URL}/create-checkout-session`,
+      `${env.REACT_APP_BACKEND_BASE_URL}/create-checkout-session`,
       {
         method: "POST",
         headers: headers,
@@ -179,11 +180,14 @@ const CardCompnent = ({
       "Content-Type": "application/json",
     };
 
-    const response = await fetch(`${env.BACKEND_BASE_URL}/handle-paypal`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(body),
-    });
+    const response = await fetch(
+      `${env.REACT_APP_BACKEND_BASE_URL}/handle-paypal`,
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }
+    );
 
     const data = await response.json();
     window.open(data.link);

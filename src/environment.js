@@ -1,7 +1,7 @@
 const environment = {
   // BACKEND_BASE_URL: "https://bits.getcoupanz.com",
-  // BACKEND_BASE_URL: "http://localhost:4000",
-  BACKEND_BASE_URL: "https://bits-backend.onrender.com",
+  BACKEND_BASE_URL: "http://localhost:4000",
+  // BACKEND_BASE_URL: "https://bits-backend.onrender.com",
 
   NFTSTORAGE:
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDkxMkYyNWM3OTk0NWQyOUExRDk3OTIxMEJjYTdDNDUzYWY3Q0YyQUYiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2NDY1NjAwODg3NywibmFtZSI6Ik5GVCBDT0xMRUNUSU9OUyJ9.LdI8PEFUUeU2ZQWGAPkxZUXUQZSh_Br7GYoqepH6wJ4",

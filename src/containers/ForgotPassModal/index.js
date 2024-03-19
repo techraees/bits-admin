@@ -6,10 +6,11 @@ import {
   InputComponent,
   ToastMessage,
 } from "../../components";
-import env from "../../environment";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { RESET_PASSWORD_MUTATION } from "../../gql/mutations";
+
+const env = process.env;
 
 const ForgotPassModal = ({
   visible,
@@ -32,28 +33,35 @@ const ForgotPassModal = ({
   };
 
   const handleSubmitReset = async () => {
-    const body = {
-      data: {
-        email: formValue.email,
-      },
-    };
+    if (validateEmail(formValue.email)) {
+      const body = {
+        data: {
+          email: formValue.email,
+        },
+      };
 
-    const headers = {
-      "Content-Type": "application/json",
-    };
+      const headers = {
+        "Content-Type": "application/json",
+      };
 
-    const response = await fetch(`${env.BACKEND_BASE_URL}/forgot-password`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(body),
-    });
+      const response = await fetch(
+        `${env.REACT_APP_BACKEND_BASE_URL}/forgot-password`,
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(body),
+        }
+      );
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (data.success) {
-      setStep((step) => step + 1);
+      if (data.success) {
+        setStep((step) => step + 1);
+      } else {
+        ToastMessage("Error", data.message, "error");
+      }
     } else {
-      ToastMessage("Error", data.message, "error");
+      ToastMessage("Error", "Wrong email format", "error");
     }
   };
 
@@ -91,6 +99,11 @@ const ForgotPassModal = ({
     const passwordRegex =
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/;
     return passwordRegex.test(password);
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   return (

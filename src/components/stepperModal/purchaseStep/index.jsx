@@ -15,7 +15,8 @@ import { Loader, ToastMessage } from "../../../components";
 import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
 import { loadContractIns } from "../../../store/actions";
 import { boughtMessage } from "../../../utills/emailMessages";
-import environment from "../../../environment";
+
+const environment = process.env;
 
 function PurchaseStep({
   owner,
@@ -113,7 +114,7 @@ function PurchaseStep({
               const res = await sendEmail({
                 variables: {
                   to: profileData?.GetProfileDetails?.email,
-                  from: environment.EMAIL_OWNER,
+                  from: environment.REACT_APP_EMAIL_OWNER,
                   subject: msgData.subject,
                   text: msgData.message,
                 },

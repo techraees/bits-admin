@@ -31,7 +31,8 @@ import ConnectModal from "../../components/connectModal";
 import CreatorEarningModal from "../../components/creatorEarningModal";
 import { getParsedEthersError } from "@enzoferey/ethers-error-parser";
 import { mintMessage } from "../../utills/emailMessages";
-import environment from "../../environment";
+
+const environment = process.env;
 
 const MintNft = () => {
   const backgroundTheme = useSelector(
@@ -107,7 +108,7 @@ const MintNft = () => {
         const res = await sendEmail({
           variables: {
             to: profileData?.GetProfileDetails?.email,
-            from: environment.EMAIL_OWNER,
+            from: environment.REACT_APP_EMAIL_OWNER,
             subject: msgData.subject,
             text: msgData.message,
           },

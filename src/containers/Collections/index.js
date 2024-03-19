@@ -28,10 +28,11 @@ import {
   GET_PROFILE_DETAILS_QUERY,
   GET_ALL_NFTS_WITHOUT_ADDRESS,
 } from "../../gql/queries";
-import environment from "../../environment";
 import { MINT_ASSET_MUTATION } from "../../gql/mutations";
 import { USDTOETH } from "../../utills/currencyConverter";
 import { getAllNftsByAddressAlchemy } from "../../config/infura";
+
+const environment = process.env;
 
 const Collections = () => {
   const pageSize = 20;
@@ -181,8 +182,8 @@ const Collections = () => {
 
   const { web3, account } = useSelector((state) => state.web3.walletData);
 
-  const imgPath = environment.BACKEND_BASE_URL + "/" + userProfile;
-  const imgPaths = environment.BACKEND_BASE_URL + "/";
+  const imgPath = environment.REACT_APP_BACKEND_BASE_URL + "/" + userProfile;
+  const imgPaths = environment.REACT_APP_BACKEND_BASE_URL + "/";
 
   // pagination
 

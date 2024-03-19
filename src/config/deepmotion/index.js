@@ -1,9 +1,10 @@
 import axios from "axios";
-import env from "../../environment";
 import { ToastMessage } from "../../components";
 // import videofile from "../../assets/images/video.mp4";
 
-const apiURI = env.DEEPMOTION_API_URL;
+const env = process.env;
+
+const apiURI = env.REACT_APP_DEEPMOTION_API_URL;
 
 export const handleDeepMotionUpload = async (videofile, fileName) => {
   // Function to perform other API calls using the session cookie
@@ -130,8 +131,8 @@ export const handleDeepMotionUpload = async (videofile, fileName) => {
 export const getSession = async () => {
   const uri = `${apiURI}/session/auth`;
   try {
-    const clientId = env.DEEPMOTION_CLIENT_ID;
-    const clientSecret = env.DEEPMOTION_CLIENT_SECRET;
+    const clientId = env.REACT_APP_DEEPMOTION_CLIENT_ID;
+    const clientSecret = env.REACT_APP_DEEPMOTION_CLIENT_SECRET;
 
     // Combine clientId and clientSecret, and base64 encode them
     const base64Credentials = Buffer.from(

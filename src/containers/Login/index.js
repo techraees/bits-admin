@@ -21,7 +21,7 @@ import ForgotPassModal from "../ForgotPassModal";
 import Cookies from "js-cookie";
 import { Col, Divider, Row, Select } from "antd";
 
-import env from "../../environment";
+const env = process.env;
 
 function Login() {
   const dispatch = useDispatch();
@@ -233,7 +233,12 @@ function Login() {
   }, [signUpData, singUpError]);
 
   async function signUpHandle(data) {
-    if (validatePassword(data.password)) {
+    if (
+      validatePassword(data.password) &&
+      validateEmail(data.email) &&
+      validateUsername(data.user_name) &&
+      validatePhoneNumber(data.phone_number)
+    ) {
       const variables = {
         userName: data.user_name,
         email: data.email,
@@ -248,7 +253,7 @@ function Login() {
         variables: variables,
       });
     } else {
-      ToastMessage("Error", "Incorrect password format", "error");
+      ToastMessage("Error", "Incorrect input format", "error");
     }
   }
 
@@ -321,11 +326,14 @@ function Login() {
       "Content-Type": "application/json",
     };
 
-    const response = await fetch(`${env.BACKEND_BASE_URL}/verify-token`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(body),
-    });
+    const response = await fetch(
+      `${env.REACT_APP_BACKEND_BASE_URL}/verify-token`,
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }
+    );
 
     const data = await response.json();
     return data;
@@ -335,6 +343,29 @@ function Login() {
     const passwordRegex =
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/;
     return passwordRegex.test(password);
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateUsername = (username) => {
+    var regex = /^[a-zA-Z0-9_]+$/;
+    if (regex.test(username)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const validatePhoneNumber = (phoneNumber) => {
+    var regex = /^\+\d{1,3}\d{5,}$/;
+    if (regex.test(phoneNumber)) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return (

@@ -18,13 +18,14 @@ import { FaEthereum } from "react-icons/fa";
 import { useLazyQuery } from "@apollo/client";
 import { GET_PROFILE } from "../../gql/queries";
 import profileimg from "../../assets/images/profile1.svg";
-import environment from "../../environment";
 import { Col, Modal } from "antd";
 import LogoutModal from "../logoutModal";
 import CookieConsent from "react-cookie-consent";
 import NotificationModal from "../notificationModal";
 import PrivacyModal from "../privacyModal";
 import ManageCookiesModal from "../manageCookiesModal";
+
+const environment = process.env;
 
 const NavbarComponent = ({
   headerText,
@@ -76,7 +77,7 @@ const NavbarComponent = ({
 
   const full_name = userData?.full_name;
   const userProfile = userData?.profileImg;
-  const imgPath = environment.BACKEND_BASE_URL + "/" + userProfile;
+  const imgPath = environment.REACT_APP_BACKEND_BASE_URL + "/" + userProfile;
 
   const dispatch = useDispatch();
 

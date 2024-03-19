@@ -5,11 +5,11 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
-import env from "./environment";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
+const env = process.env;
 const client = new ApolloClient({
-  uri: `${env.BACKEND_BASE_URL}/graphql`,
+  uri: `${env.REACT_APP_BACKEND_BASE_URL}/graphql`,
   cache: new InMemoryCache(),
 });
 

@@ -25,8 +25,9 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER_PROFILE } from "../../gql/queries";
-import environment from "../../environment";
 import { Link } from "react-router-dom";
+
+const environment = process.env;
 
 const EditProfile = () => {
   const { userData } = useSelector((state) => state.address.userData);
@@ -63,7 +64,7 @@ const EditProfile = () => {
       try {
         if (file) {
           const response = await axios.post(
-            `${environment.BACKEND_BASE_URL}/upload`,
+            `${environment.REACT_APP_BACKEND_BASE_URL}/upload`,
             formData
           );
 
@@ -202,7 +203,8 @@ const EditProfile = () => {
     }
   };
 
-  const imgPath = environment.BACKEND_BASE_URL + "/" + values.profileImg;
+  const imgPath =
+    environment.REACT_APP_BACKEND_BASE_URL + "/" + values.profileImg;
 
   return (
     <div className={`${backgroundTheme} pb-4`}>

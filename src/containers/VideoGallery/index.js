@@ -7,11 +7,12 @@ import { useSelector } from "react-redux";
 import { BsFilterLeft } from "react-icons/bs";
 import { GET_ALL_NFTS_WITHOUT_ADDRESS } from "../../gql/queries";
 import { useQuery } from "@apollo/client";
-import environment from "../../environment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
 import { USDTOMATIC } from "../../utills/currencyConverter";
+
+const environment = process.env;
 
 const VideoGallery = () => {
   const { loading, error, data, refetch } = useQuery(
@@ -40,7 +41,7 @@ const VideoGallery = () => {
 
   const { userData } = useSelector((state) => state.address.userData);
   const userProfile = userData?.full_name;
-  const imgPaths = environment.BACKEND_BASE_URL + "/";
+  const imgPaths = environment.REACT_APP_BACKEND_BASE_URL + "/";
 
   const handleCategoryChange = (value) => {
     setCategoryFilter(value);
