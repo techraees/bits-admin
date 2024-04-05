@@ -25,10 +25,7 @@ import { GET_ALL_NFTS, GET_PROFILE_DETAILS_QUERY } from "../../gql/queries";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import environment from "../../environment";
 import Loading from "../../components/loaders/loading";
-import {
-  DELETE_MUTATION,
-  SEND_EMAIL_MUTATION,
-} from "../../gql/mutations";
+import { DELETE_MUTATION, SEND_EMAIL_MUTATION } from "../../gql/mutations";
 import ToastMessage from "../../components/toastMessage";
 import { Image } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
@@ -345,14 +342,15 @@ const UserProfile = () => {
                   <Button
                     className="bg-blue radius2 white"
                     onClick={async () => {
-                      const result = await sendEmail({
-                        variables: {
-                          to: data?.GetProfileDetails?.email,
-                          from: environment.EMAIL_OWNER,
-                          subject: "Notification email from BITS",
-                          text: "This is email from BITS platform for testing purpose",
-                        },
-                      });
+                      setIsModalVisible(true);
+                      // const result = await sendEmail({
+                      //   variables: {
+                      //     to: data?.GetProfileDetails?.email,
+                      //     from: environment.EMAIL_OWNER,
+                      //     subject: "Notification email from BITS",
+                      //     text: "This is email from BITS platform for testing purpose",
+                      //   },
+                      // });
                     }}
                   >
                     Send Notifications
@@ -394,7 +392,7 @@ const UserProfile = () => {
           {userVideos ? (
             <>
               <div className="d-flex justify-content-between">
-                <h5 className="black">User NFT's</h5>
+                <h5 className="black">User's videos</h5>
                 <Dropdown overlay={menu}>
                   <Button className="dropdownStyle">
                     <Space>

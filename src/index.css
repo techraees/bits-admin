@@ -15,3 +15,15 @@ code {
 .ant-notification-notice {
   margin-top: 3rem;
 }
+
+.ql-toolbar {
+  background-color: #C4C4C499;
+}
+
+.ql-toolbar, .ql-toolbar  *{
+  color: red !important;
+}
+
+.ql-toolbar svg {
+  fill: red !important;
+}

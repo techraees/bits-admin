@@ -19,7 +19,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<PrivateRoute />}>
-          <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard />} />
         </Route>
 
         <Route path="/user-information" element={<PrivateRoute />}>

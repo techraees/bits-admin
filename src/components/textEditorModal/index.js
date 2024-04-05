@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState } from "react";
 import "./css/index.css";
 import { Modal } from "antd";
 import { attachment, cross2, save, upload2 } from "../../assets";
-import { Editor } from "react-draft-wysiwyg";
+// import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Button, Input } from "antd";
 import { useMutation } from "@apollo/client";
@@ -12,6 +12,25 @@ import { useFormik } from "formik";
 import axios from "axios";
 import Loading from "../loaders/loading";
 import ToastMessage from "../toastMessage";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
+const Editor = ({ value, setValue }) => {
+  return (
+    <ReactQuill
+      theme="snow"
+      value={value}
+      onChange={setValue}
+      style={{
+        height: "12rem",
+        display: "flex",
+        flexDirection: "column-reverse",
+        border: "1px solid #b0abab",
+        backgroundColor: "#F0F0F0",
+      }}
+    />
+  );
+};
 
 const TextEditorModal = ({ id, visible, onCancel, setIsNotesAdded }) => {
   const [
@@ -21,7 +40,6 @@ const TextEditorModal = ({ id, visible, onCancel, setIsNotesAdded }) => {
 
   const [editorData, setEditorData] = useState(null);
   const [imageLoader, setImageLoader] = useState(false);
-
 
   const [file, setFile] = useState(null);
 
@@ -35,6 +53,7 @@ const TextEditorModal = ({ id, visible, onCancel, setIsNotesAdded }) => {
     const file = e.target.files[0];
     setFile(file);
   };
+  const [desc, setDesc] = useState("");
 
   const {
     handleSubmit,
@@ -70,7 +89,7 @@ const TextEditorModal = ({ id, visible, onCancel, setIsNotesAdded }) => {
             values: {
               id: id,
               title: values.title,
-              description: values.description,
+              description: desc,
               noteImg: response && response?.data,
             },
           },
@@ -140,20 +159,13 @@ const TextEditorModal = ({ id, visible, onCancel, setIsNotesAdded }) => {
         }}
         value={values.title}
       />
-      <Editor
-        editorState={editorData}
-        toolbarClassName="toolbarClassName"
-        wrapperClassName="wrapperClassName"
-        editorClassName="editorClassName"
-        onEditorStateChange={(editorData) => {
-          console.log("editor", editorData);
-          let newData = editorData?.getCurrentContent().getPlainText();
-          console.log("newData", newData);
-          setEditorData(editorData);
-          setFieldValue("description", newData);
+      <Editor value={desc} setValue={setDesc} />
+      <div
+        className=""
+        style={{
+          marginTop: "4rem",
         }}
-      />
-      <div className="mt-4">
+      >
         <Button className="bg-white2 white radius1">
           <img src={attachment} />
           <span className="light-grey2 ms-2">Add Attachement</span>

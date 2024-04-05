@@ -20,12 +20,14 @@ import environment from "../../environment";
 import Loading from "../../components/loaders/loading";
 import ToastMessage from "../../components/toastMessage";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import TextEditorModal from "../../components/textEditorModal";
 
 const UserInformation = () => {
   const [searchUser, setSearchUser] = useState(null);
   const [users, setUsers] = useState([]);
-  const {viewOnly } = useSelector((state) => state.adminDetails.adminDetails);
-
+  const { viewOnly } = useSelector((state) => state.adminDetails.adminDetails);
+  const [popUpId, setPopUpId] = useState("");
   const {
     loading,
     error,
@@ -47,13 +49,15 @@ const UserInformation = () => {
         const imgPath = environment.BACKEND_BASE_URL + "/" + record?.profileImg;
 
         return (
-          <div className="d-flex center">
-            <img src={record?.profileImg ? imgPath : profile2} width={50} />
-            <div className="ms-3">
-              <span className="semi-bold black">{record.user_name}</span>
-              <p className="light-grey m-0">Updated 1 day ago</p>
+          <Link to={`user-profile/${record?.id}`}>
+            <div className="d-flex center">
+              <img src={record?.profileImg ? imgPath : profile2} width={50} />
+              <div className="ms-3">
+                <span className="semi-bold black">{record.user_name}</span>
+                <p className="light-grey m-0">Updated 1 day ago</p>
+              </div>
             </div>
-          </div>
+          </Link>
         );
       },
     },
@@ -97,14 +101,15 @@ const UserInformation = () => {
             style={{ borderRadius: 20, width: "70%" }}
             disabled={viewOnly}
             onClick={async () => {
-              const result = await sendEmail({
-                variables: {
-                  to: record.email,
-                  from: environment.EMAIL_OWNER,
-                  subject: "Test email",
-                  text: "This is a test email",
-                },
-              });
+              // const result = await sendEmail({
+              //   variables: {
+              //     to: record.email,
+              //     from: environment.EMAIL_OWNER,
+              //     subject: "Test email",
+              //     text: "This is a test email",
+              //   },
+              // });
+              setPopUpId(record?.id);
             }}
           >
             Send Notifications
@@ -118,9 +123,10 @@ const UserInformation = () => {
       render: (value, record) => {
         return (
           <Dropdown
-          disabled={viewOnly}
-
-          className="ms-4" overlay={profileMenu(record?.id)}>
+            disabled={viewOnly}
+            className="ms-4"
+            overlay={profileMenu(record?.id)}
+          >
             <img
               style={{ cursor: "pointer" }}
               className="p-2"
@@ -273,11 +279,19 @@ const UserInformation = () => {
     }
   }, [searchUser, contactData?.GetAllUsers]);
 
-  console.log("contactData",contactData?.GetAllUsers);
+  console.log("contactData", contactData?.GetAllUsers);
 
   return (
     <div className="bg-white2">
       {emailLoading && <Loading content="" />}
+      {popUpId && (
+        <TextEditorModal
+          id={popUpId}
+          visible={popUpId}
+          onCancel={() => setPopUpId("")}
+          setIsNotesAdded={(e) => {}}
+        />
+      )}
       <NavbarComponent
         lightNav
         headerTxt={"User Information"}

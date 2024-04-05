@@ -1,6 +1,4 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# This is project of btts
 
 ## Available Scripts
 
@@ -68,3 +66,40 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Client Message
+
+I hope this message finds you well. As we progress with the front-end development of our project, I would like to provide a detailed breakdown of the tasks required to align our development goals. Your expertise in these areas is crucial for the seamless integration and functionality of our platform. Below is the list of tasks, structured for clarity and efficiency:
+
+Graph Design and Functionality Enhancement
+
+Ensure the graph's appearance is consistent with the provided Figma design.
+Implement interactive highlighting for options within the graph. Upon selection, relevant data pertaining to the chosen option should be displayed.
+Interactive Video Placement for Top NFTs
+
+Develop a feature that allows users to drag and position videos, representing their placement in the 'Top NFTs' section.
+Creation of Profile Information Page
+
+Design and develop a Profile Information Page from the ground up, ensuring it meets our specified requirements and design standards.
+Pop-Up Messaging Feature
+
+Implement a pop-up feature to facilitate user-to-user messaging within the platform.
+Sidebar Integration
+
+Develop and integrate a functional sidebar in line with our platform's design and usability guidelines.
+Addition of 'Remove' Button
+
+Incorporate a 'Remove' button, allowing users to delete selections or inputs as needed.
+'Save Changes' Functionality
+
+Implement a 'Save Changes' feature, enabling users to securely save their modifications.
+'Publish' Button Integration
+
+Add a 'Publish' button, allowing users to finalize and publish their content on the platform.
+Unique Display Rule for Top NFTs
+
+Ensure the Top NFTs section does not display duplicate videos. Implement checks to maintain the uniqueness of each featured NFT video.
+Restrictions for Top NFTs
+
+Modify the Top NFTs section to exclusively feature videos/NFTs that are available for sale.
+Please consider these tasks as a roadmap for our ongoing project. Your input and suggestions are always valued, and I look forward to your feedback on these implementation strategies. Feel free to reach out if you need any further clarification or resources.

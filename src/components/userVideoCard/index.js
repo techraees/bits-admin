@@ -5,6 +5,7 @@ import { check, cross, menu_icon3, zoom } from "../../assets";
 import { Dropdown, Menu, Button, Modal } from "antd";
 
 const UserVideoCard = ({ videoUrl, Name }) => {
+  console.log(videoUrl, Name, "I am video Detail");
   const profileMenu = (
     <Menu
       onClick={(e) => {

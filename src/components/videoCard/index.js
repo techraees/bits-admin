@@ -1,111 +1,118 @@
-import React from 'react';
-import { thumbnail, profile_small } from '../../assets';
-import './css/index.css';
-import { Button, Popconfirm, Popover } from 'antd';
+import React from "react";
+import { thumbnail, profile_small } from "../../assets";
+import "./css/index.css";
+import { Button, Popconfirm, Popover } from "antd";
+import { toast } from "react-toastify";
 
 const VideoCard = ({
-    id,
-    videoThumbnail,
-    name,
-    title,
-    video,
-    description,
-    updateNftStatus,
-    isBlocked,
-    refetch,
-    viewOnly,
-    setAllVideosData,
-    allVideosData,
-    setTopVideosData
+  id,
+  videoThumbnail,
+  name,
+  title,
+  video,
+  description,
+  updateNftStatus,
+  isBlocked,
+  refetch,
+  viewOnly,
+  setAllVideosData,
+  allVideosData,
+  setTopVideosData,
+  topVideosData,
 }) => {
-    console.log('ididid', video);
+  console.log("ididid", video);
 
-    const handleClick = async () => {
-        await updateNftStatus({
-            variables: {
-                id: id,
-            },
-        });
-        await refetch();
-    };
+  const handleClick = async () => {
+    await updateNftStatus({
+      variables: {
+        id: id,
+      },
+    });
+    await refetch();
+  };
 
-    const handleAdd = async (id) => {
-        const videoIndex = allVideosData.findIndex((v) => v._id === id);
+  const handleAdd = async (id) => {
+    if (topVideosData.length < 8) {
+      const videoIndex = allVideosData.findIndex((v) => v._id === id);
 
-        if (videoIndex !== -1) {
-            const updatedVideos = [
-                allVideosData[videoIndex],
-                ...allVideosData.slice(0, videoIndex),
-                ...allVideosData.slice(videoIndex + 1),
-            ];
+      if (videoIndex !== -1) {
+        const updatedVideos = [
+          allVideosData[videoIndex],
+          ...allVideosData.slice(0, videoIndex),
+          ...allVideosData.slice(videoIndex + 1),
+        ];
 
-            setAllVideosData(updatedVideos);
-            setTopVideosData((prev) => [...prev, allVideosData[videoIndex]])
-        }
-    };
+        setTopVideosData((prev) => [...prev, allVideosData[videoIndex]]);
+        setAllVideosData(allVideosData.filter((item) => item._id != id));
+      }
+    } else {
+      // toast.error("You cannot add more than 8");
+    }
+  };
+  console.log(allVideosData);
 
-    const handleConfirmRemove = async () => {
-        const videoIndex = allVideosData.findIndex((v) => v._id === id);
+  const handleConfirmRemove = async () => {
+    const videoIndex = allVideosData.findIndex((v) => v._id === id);
 
-        if (videoIndex !== -1) {
-            const updatedVideos = [
-                ...allVideosData.slice(0, videoIndex),
-                ...allVideosData.slice(videoIndex + 1),
-            ];
+    if (videoIndex !== -1) {
+      const updatedVideos = [
+        ...allVideosData.slice(0, videoIndex),
+        ...allVideosData.slice(videoIndex + 1),
+      ];
 
-            setAllVideosData(updatedVideos);
-        }
-    };
+      setAllVideosData(updatedVideos);
+    }
+  };
 
-    return (
-        <div className="light-grey-border-bottom d-flex justify-between py-4 videoCardMobView">
-            <div className="col-lg-3">
-                <video src={video} height={150} width={150} className="video" />
-            </div>
-            <div className="col-lg-6">
-                <div>
-                    <h5 className="m-0 videoCardMobAlignment">{title}</h5>
-                    <div className="d-flex center videoCardMobAlignment">
-                        {/* <img src={image} /> */}
-                        <h5 className="m-0 red2">{name}</h5>
-                    </div>
-                    <span className="light-grey videoCardMobAlignment">
-                        {description}
-                    </span>
-                </div>
-            </div>
-            <div className="col-lg-3">
-                <div className="d-block ms-3 videoCardMobAlignment">
-                    <Button
-                        className="videoCardBtns bg-green radius1 mb-2 white"
-                        onClick={() => handleAdd(id)}
-                    >
-                        Add
-                    </Button>
-                    <Button
-                        disabled={viewOnly}
-                        className="videoCardBtns bg-black radius1 mb-2 white"
-                        onClick={() => handleClick()}
-                    >
-                        {isBlocked ? 'Unblock' : 'Block'}
-                    </Button>
-                    <Popconfirm
-                        title="Are you sure you want to remove this video?"
-                        onConfirm={handleConfirmRemove}
-                        okText="Yes"
-                        cancelText="No"
-                    >
-                        <Button
-                            disabled={viewOnly}
-                            className="videoCardBtns bg-red radius1 mb-2 white"
-                        >
-                            Remove
-                        </Button>
-                    </Popconfirm>
-                </div>
-            </div>
+  return (
+    <div className="light-grey-border-bottom d-flex justify-between py-4 videoCardMobView">
+      <div className="col-lg-3">
+        <video src={video} height={150} width={150} className="video" />
+      </div>
+      <div className="col-lg-6">
+        <div>
+          <h5 className="m-0 videoCardMobAlignment">{title}</h5>
+          <div className="d-flex center videoCardMobAlignment">
+            {/* <img src={image} /> */}
+            <h5 className="m-0 red2">{name}</h5>
+          </div>
+          <span className="light-grey videoCardMobAlignment">
+            {description}
+          </span>
         </div>
-    );
+      </div>
+      <div className="col-lg-3">
+        <div className="d-block ms-3 videoCardMobAlignment">
+          <Button
+            className="videoCardBtns bg-green radius1 mb-2 white"
+            onClick={() => handleAdd(id)}
+          >
+            Add
+          </Button>
+          <Button
+            disabled={viewOnly}
+            className="videoCardBtns bg-black radius1 mb-2 white"
+            onClick={() => handleClick()}
+          >
+            {isBlocked ? "Unblock" : "Block"}
+          </Button>
+          <Popconfirm
+            title="Are you sure you want to remove this video?"
+            onConfirm={handleConfirmRemove}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button
+              disabled={viewOnly}
+              className="videoCardBtns bg-red radius1 mb-2 white"
+            >
+              Remove
+            </Button>
+          </Popconfirm>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default VideoCard;
