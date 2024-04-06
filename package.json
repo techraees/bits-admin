@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.1",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@enzoferey/ethers-error-parser": "^0.2.3",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
