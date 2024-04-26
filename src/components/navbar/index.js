@@ -87,7 +87,7 @@ const NavbarComponent = ({
       contractData: {
         marketContract: contracts.ethContractIns,
         mintContract: contracts.ethMintingContractIns,
-        chain: 5,
+        chain: 1,
       },
     });
 
@@ -103,7 +103,7 @@ const NavbarComponent = ({
       contractData: {
         marketContract: contracts.polygonContractIns,
         mintContract: contracts.polygonMintingContractIns,
-        chain: 80001,
+        chain: 137,
       },
     });
     dispatch({
