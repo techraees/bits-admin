@@ -336,7 +336,7 @@
         "type": "address"
       }
     ],
-    "name": "claimNft",
+    "name": "claimnft",
     "type": "event"
   },
   {
@@ -511,6 +511,11 @@
         "internalType": "uint256",
         "name": "RoyaltyFee",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "RoyaltyReciver",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -655,6 +660,11 @@
         "internalType": "uint256",
         "name": "RoyaltyFee",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "RoyaltyReciver",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -767,7 +777,7 @@
             "type": "uint256[]"
           }
         ],
-        "internalType": "struct BITSmarketplace.bidStruct",
+        "internalType": "struct MarketplaceV5.bidStruct",
         "name": "",
         "type": "tuple"
       }
