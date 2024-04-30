@@ -42,7 +42,7 @@ export const getAllNftsByAddressAlchemy = async (
   const options = {
     method: "GET",
     url: `https://${
-      networkId == 80001 ? "polygon-mumbai" : "eth-goerli"
+      networkId == 137 ? "polygon-mainnet" : "eth-mainnet"
     }.g.alchemy.com/nft/v3/${env.REACT_APP_ALCHEMY_API_KEY}/getNFTsForOwner`,
     params: {
       owner: address,
