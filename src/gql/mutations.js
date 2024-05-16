@@ -111,13 +111,24 @@ const CREATE_ADMIN_NOTES = gql`
 `;
 
 const CREATE_TOP_NFT = gql`
-  mutation CreateTopNft($nft_id: String!, $duration: Int!, $nft_link: String!) {
-    CreateTopNft(nft_id: $nft_id, duration: $duration, nft_link: $nft_link) {
+  mutation CreateTopNft(
+    $nft_id: String!
+    $duration: Int!
+    $nft_link: String!
+    $is_Published: Boolean!
+  ) {
+    CreateTopNft(
+      nft_id: $nft_id
+      duration: $duration
+      nft_link: $nft_link
+      is_Published: $is_Published
+    ) {
       id
       nft_id
       duration
       nft_link
       serial_number
+      is_Published
     }
   }
 `;

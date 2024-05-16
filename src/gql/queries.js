@@ -12,6 +12,17 @@ const GET_ALL_CONTACTS = gql`
       user_address
       user_name
       phone_number
+      createdAt
+      is_login
+    }
+  }
+`;
+
+const GET_ALL_VISITS = gql`
+  query GetAllVisits {
+    GetAllVisits {
+      ip_adress
+      timestamp
     }
   }
 `;
@@ -160,12 +171,14 @@ const GET_TOP_NFTS = gql`
       nft_link
       serial_number
       nft_id
+      is_Published
     }
   }
 `;
 
 export {
   GET_ALL_CONTACTS,
+  GET_ALL_VISITS,
   GET_PROFILE_DETAILS_QUERY,
   GET_ALL_NFTS,
   GET_USERS_COUNT,

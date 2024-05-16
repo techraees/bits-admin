@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./css/index.css";
 import { NavbarComponent, VideoCard } from "../../components";
 import {
@@ -11,7 +11,8 @@ import {
 } from "../../assets";
 import { Input } from "antd";
 import { useMutation, useQuery } from "@apollo/client";
-import { GET_ALL_NFTS_FOR_ADMIN } from "../../gql/queries";
+import { GET_ALL_NFTS_FOR_ADMIN, GET_TOP_NFTS } from "../../gql/queries";
+import { CREATE_TOP_NFT } from "../../gql/mutations";
 import { UPDATE_NFT_STATUS } from "../../gql/mutations";
 import Loading from "../../components/loaders/loading";
 import { useSelector } from "react-redux";
@@ -23,7 +24,7 @@ import {
   swap,
   move,
 } from "react-grid-dnd";
-
+import ToastMessage from "../../components/toastMessage";
 const DataSection = () => {
   const { viewOnly } = useSelector((state) => state.adminDetails.adminDetails);
 
@@ -32,10 +33,16 @@ const DataSection = () => {
   const [searchByName, setSearchByName] = useState(null);
   const [searchByArtist, setSearchByArtist] = useState(null);
   const [topVideosData, setTopVideosData] = useState([]);
+  const [fetchedData, setFetchedData] = useState([]);
 
   console.log("value", value);
 
   const { loading, error, data, refetch } = useQuery(GET_ALL_NFTS_FOR_ADMIN);
+
+  const [CreateTopNft, { createdata, createloading, createerror }] =
+    useMutation(CREATE_TOP_NFT);
+
+  const { data: topNfts, refetch: toprefetch } = useQuery(GET_TOP_NFTS);
 
   const [updateNftStatus, { loading: statusLoading }] =
     useMutation(UPDATE_NFT_STATUS);
@@ -57,6 +64,37 @@ const DataSection = () => {
 
   console.log(allVideosData);
 
+  // useEffect(() => {
+  //   if (topNfts?.GetTopNfts.length > 0) {
+  //     const temp = topNfts?.GetTopNfts;
+  //     const filteredItem = allVideosData.filter((item) =>
+  //       temp.some(
+  //         (otherItem) => otherItem.nft_id === item._id && !item.is_Published
+  //       )
+  //     );
+  //     setTopVideosData(filteredItem);
+  //   }
+  // }, [topNfts?.GetTopNfts, data?.getAllNftsWithoutAddress]);
+
+  useEffect(() => {
+    if (!fetchedData.length && allVideosData.length > 0) {
+      setFetchedData(allVideosData);
+    }
+  }, [allVideosData, fetchedData]);
+
+  useEffect(() => {
+    if (topNfts?.GetTopNfts.length > 0 && fetchedData.length > 0) {
+      const temp = topNfts?.GetTopNfts;
+      const filteredItem = fetchedData.filter((item) =>
+        temp.some(
+          (otherItem) => otherItem.nft_id === item._id && item.is_Published
+        )
+      );
+      console.log("filtered items", filteredItem);
+      setTopVideosData(filteredItem);
+    }
+  }, [topNfts?.GetTopNfts, fetchedData]);
+
   useEffect(() => {
     if (data?.getAllNftsWithoutAddress) {
       let temp = data?.getAllNftsWithoutAddress;
@@ -75,7 +113,7 @@ const DataSection = () => {
   const SortableList = ({ items, start, end, setItems }) => {
     function onChange(sourceId, sourceIndex, targetIndex, targetId) {
       const nextState = swap(items, sourceIndex, targetIndex);
-      console.log(nextState);
+      console.log("nextState", nextState);
       setItems(nextState);
     }
     return (
@@ -115,6 +153,48 @@ const DataSection = () => {
       </GridContextProvider>
     );
   };
+
+  const handleSaveNFTS = async () => {
+    topVideosData.map((item) => {
+      const variables = {
+        duration: Math.round(new Date().getTime() / 1000),
+        nft_id: item._id,
+        nft_link: item.video,
+        is_Published: false,
+      };
+
+      CreateTopNft({
+        variables: variables,
+      });
+    });
+  };
+
+  const handlePublishNFTS = async () => {
+    topVideosData.map((item) => {
+      const variables = {
+        duration: Math.round(new Date().getTime() / 1000),
+        nft_id: item._id,
+        nft_link: item.video,
+        is_Published: true,
+      };
+
+      CreateTopNft({
+        variables: variables,
+      });
+    });
+  };
+
+  console.log("topNfts", topNfts?.GetTopNfts);
+
+  useEffect(() => {
+    toprefetch();
+  }, []);
+
+  useEffect(() => {
+    if (createdata) {
+      ToastMessage("NFTS saved/published successfully", " ", "success");
+    }
+  }, []);
 
   return (
     <div className="bg-white2">
@@ -184,6 +264,7 @@ const DataSection = () => {
                 <button
                   className="videoCardBtns radius1 mb-2 white mx-2"
                   style={{ backgroundColor: "#2C84D6" }}
+                  onClick={handleSaveNFTS}
                 >
                   Save Changes
                 </button>
@@ -192,6 +273,7 @@ const DataSection = () => {
                   style={{
                     backgroundColor: "#6542F2",
                   }}
+                  onClick={handlePublishNFTS}
                 >
                   Publish
                 </button>

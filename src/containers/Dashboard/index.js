@@ -29,6 +29,7 @@ import {
   GET_NEW_REGISTRATION,
   GET_USERS_COUNT,
   GET_ALL_CONTACTS,
+  GET_ALL_VISITS,
 } from "../../gql/queries";
 import { useQuery } from "@apollo/client";
 import { Link, useNavigate } from "react-router-dom";
@@ -252,35 +253,42 @@ function getCurrentMonthDatesFormatted() {
 }
 
 const Dashboard = () => {
+  const {
+    loading: contactsLoading,
+    error: contactsError,
+    data: contactData,
+    refetch: dataRefetch,
+  } = useQuery(GET_ALL_CONTACTS);
+
+  const {
+    loading: visitsLoading,
+    error: visitsError,
+    data: visitData,
+    refetch: visitdataRefetch,
+  } = useQuery(GET_ALL_VISITS);
+
+  console.log("visit Data", visitData?.GetAllVisits);
+
   const [likesData, setLikesData] = useState(likes);
   const [nftsData, setNftsData] = useState(nfts);
   const [topNftsData, setTopNftsData] = useState(topNfts);
-  const [visitsData, setVisitsData] = useState(visits);
-  const [registeredUsersData, setRegisteredUsersData] =
-    useState(registerdUsers);
+  const [visitsData, setVisitsData] = useState([]);
+  const [registeredUsersData, setRegisteredUsersData] = useState([]);
   const [nftsSoldData, setNftsSoldData] = useState(
     nfts.filter((item) => item.isPaid == true)
   );
-  const [newRegisterations, setNewRegisterations] = useState(
-    registeredUsersData.slice(0, 5)
-  );
+  const [newRegisterations, setNewRegisterations] = useState(0);
 
   // States to show n graph Box
-  const [visitDataGraphValue, setvisitDataGraphValue] = useState(
-    visitsData.length
-  );
-  const [registerdUserGraphValue, setregisterdUserGraphValue] = useState(
-    registeredUsersData.length
-  );
-  const [loginUserGraphValue, setloginUserGraphValue] = useState(
-    registeredUsersData.filter((item) => item.is_login).length
-  );
+  const [visitDataGraphValue, setvisitDataGraphValue] = useState(0);
+  const [registerdUserGraphValue, setregisterdUserGraphValue] = useState(0);
+  const [loginUserGraphValue, setloginUserGraphValue] = useState(0);
   const [nftSoldGraphValue, setnftSoldGraphValue] = useState(
     nftsSoldData.length
   );
-  const [newRegGraphValue, setnewRegGraphValue] = useState(
-    newRegisterations.length
-  );
+  const [newRegGraphValue, setnewRegGraphValue] = useState(0);
+
+  console.log("All user data", newRegisterations);
 
   const getLables = (type, ghraphToShowtype) => {
     if (type == "Max") {
@@ -449,13 +457,6 @@ const Dashboard = () => {
   const { data: newRegistration } = useQuery(GET_NEW_REGISTRATION);
   // console.log("newRegistration", newRegistration);
 
-  const {
-    loading: contactsLoading,
-    error: contactsError,
-    data: contactData,
-    refetch: dataRefetch,
-  } = useQuery(GET_ALL_CONTACTS);
-
   const { topUsersData } = useSelector((state) => state.topUsers.topUsersData);
   const contracts = useSelector((state) => state.contracts);
 
@@ -472,6 +473,28 @@ const Dashboard = () => {
   useEffect(() => {
     dataRefetch();
   }, []);
+
+  useEffect(() => {
+    visitdataRefetch();
+  }, []);
+
+  useEffect(() => {
+    if (contactData?.GetAllUsers) {
+      let temp = contactData?.GetAllUsers;
+      setRegisteredUsersData(temp);
+      setregisterdUserGraphValue(temp.length);
+      setloginUserGraphValue(temp?.filter((item) => item.is_login).length);
+      setNewRegisterations(temp?.slice(0, 5));
+    }
+  }, [contactData?.GetAllUsers]);
+
+  useEffect(() => {
+    if (visitData?.GetAllVisits) {
+      let temp = visitData?.GetAllVisits;
+      setVisitsData(temp);
+      setvisitDataGraphValue(temp.length);
+    }
+  }, [visitData?.GetAllVisits]);
 
   // console.log("contractEvents", contractEvents);
 
@@ -1382,7 +1405,7 @@ const Dashboard = () => {
               }
             >
               <h5 className="white mb-1">New Registrations</h5>
-              <h5 className="red m-0">{newRegGraphValue}</h5>
+              <h5 className="red m-0">{newRegisterations.length}</h5>
             </div>
             <div
               className="radius2 d-flex center py-4 my-4  cursor-pointer"

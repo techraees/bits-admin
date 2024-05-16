@@ -36,6 +36,7 @@ const UserProfile = () => {
   const [userVideos, setUserVideos] = useState(true);
 
   const [isNotesAdded, setIsNotesAdded] = useState(false);
+  const [isEmail, setIsEmail] = useState(false);
 
   function CustomExpandIcon(props) {
     const { isActive } = props;
@@ -286,6 +287,8 @@ const UserProfile = () => {
           visible={isModalVisible}
           onCancel={() => setIsModalVisible(false)}
           setIsNotesAdded={setIsNotesAdded}
+          isEmail={isEmail}
+          email={data?.GetProfileDetails?.email}
         />
         <div className="p-3">
           <div className="d-flex profileInformationView">
@@ -342,6 +345,7 @@ const UserProfile = () => {
                   <Button
                     className="bg-blue radius2 white"
                     onClick={async () => {
+                      setIsEmail(true);
                       setIsModalVisible(true);
                       // const result = await sendEmail({
                       //   variables: {

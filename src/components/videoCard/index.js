@@ -2,7 +2,7 @@ import React from "react";
 import { thumbnail, profile_small } from "../../assets";
 import "./css/index.css";
 import { Button, Popconfirm, Popover } from "antd";
-import { toast } from "react-toastify";
+import ToastMessage from "../toastMessage";
 
 const VideoCard = ({
   id,
@@ -31,6 +31,8 @@ const VideoCard = ({
     await refetch();
   };
 
+  console.log("top videos", topVideosData);
+
   const handleAdd = async (id) => {
     if (topVideosData.length < 8) {
       const videoIndex = allVideosData.findIndex((v) => v._id === id);
@@ -42,11 +44,13 @@ const VideoCard = ({
           ...allVideosData.slice(videoIndex + 1),
         ];
 
+        console.log("top videos", topVideosData);
+
         setTopVideosData((prev) => [...prev, allVideosData[videoIndex]]);
         setAllVideosData(allVideosData.filter((item) => item._id != id));
       }
     } else {
-      // toast.error("You cannot add more than 8");
+      ToastMessage("Error", "You cannot add more than 8", "error");
     }
   };
   console.log(allVideosData);

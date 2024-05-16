@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState, useEffect } from "react";
 import "./css/index.css";
 import { Modal } from "antd";
 import { attachment, cross2, save, upload2 } from "../../assets";
@@ -6,7 +6,7 @@ import { attachment, cross2, save, upload2 } from "../../assets";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Button, Input } from "antd";
 import { useMutation } from "@apollo/client";
-import { ADD_NOTES_MUTATION } from "../../gql/mutations";
+import { ADD_NOTES_MUTATION, SEND_EMAIL_MUTATION } from "../../gql/mutations";
 import environment from "../../environment";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -14,6 +14,11 @@ import Loading from "../loaders/loading";
 import ToastMessage from "../toastMessage";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+
+function htmlToPlainText(html) {
+  var doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+}
 
 const Editor = ({ value, setValue }) => {
   return (
@@ -32,11 +37,22 @@ const Editor = ({ value, setValue }) => {
   );
 };
 
-const TextEditorModal = ({ id, visible, onCancel, setIsNotesAdded }) => {
+const TextEditorModal = ({
+  id,
+  visible,
+  onCancel,
+  setIsNotesAdded,
+  isEmail,
+  email,
+}) => {
   const [
     addNotes,
     { loading: notesLoading, error: notesError, data: allNotes },
   ] = useMutation(ADD_NOTES_MUTATION);
+  const [
+    sendEmail,
+    { data: emailData, loading: emailLoading, error: emailError },
+  ] = useMutation(SEND_EMAIL_MUTATION);
 
   const [editorData, setEditorData] = useState(null);
   const [imageLoader, setImageLoader] = useState(false);
@@ -74,31 +90,52 @@ const TextEditorModal = ({ id, visible, onCancel, setIsNotesAdded }) => {
       const formData = new FormData();
       formData.append("file", file);
       try {
-        let response;
-        if (file) {
-          setImageLoader(true);
-          response = await axios.post(
-            `${environment.BACKEND_BASE_URL}/upload`,
-            formData
-          );
-          setImageLoader(false);
-        }
-
-        const result = await addNotes({
+        const result = await sendEmail({
           variables: {
-            values: {
-              id: id,
-              title: values.title,
-              description: desc,
-              noteImg: response && response?.data,
-            },
+            to: email,
+            from: environment.EMAIL_OWNER,
+            subject: values?.title,
+            text: htmlToPlainText(desc),
           },
         });
       } catch (error) {
         console.log(error);
       }
+      // try {
+      //   let response;
+      //   if (file) {
+      //     setImageLoader(true);
+      //     response = await axios.post(
+      //       `${environment.BACKEND_BASE_URL}/upload`,
+      //       formData
+      //     );
+      //     setImageLoader(false);
+      //   }
+
+      //   const result = await addNotes({
+      //     variables: {
+      //       values: {
+      //         id: id,
+      //         title: values.title,
+      //         description: desc,
+      //         noteImg: response && response?.data,
+      //       },
+      //     },
+      //   });
+      // } catch (error) {
+      //   console.log(error);
+      // }
     },
   });
+
+  useEffect(() => {
+    if (emailData) {
+      ToastMessage("Email Send Successfully", "", "success");
+    }
+    if (emailError) {
+      ToastMessage(emailError.message, emailError.message, "error");
+    }
+  }, [emailData, emailError]);
 
   useMemo(() => {
     if (allNotes) {
@@ -166,25 +203,29 @@ const TextEditorModal = ({ id, visible, onCancel, setIsNotesAdded }) => {
           marginTop: "4rem",
         }}
       >
-        <Button className="bg-white2 white radius1">
-          <img src={attachment} />
-          <span className="light-grey2 ms-2">Add Attachement</span>
-        </Button>
-        <Button className="bg-white2 white radius1 ms-3">
-          <img src={upload2} />
-          <span className="light-grey2 ms-2" onClick={uploadHandle}>
-            Upload Image
-          </span>
-          <input
-            ref={hiddenFileInput}
-            onChange={profileHandle}
-            type="file"
-            style={{ display: "none" }}
-            name="uploadFile"
-            id="uploadFile"
-            accept="image/jpeg,image/png"
-          />
-        </Button>
+        {!isEmail && (
+          <Button className="bg-white2 white radius1">
+            <img src={attachment} />
+            <span className="light-grey2 ms-2">Add Attachement</span>
+          </Button>
+        )}
+        {!isEmail && (
+          <Button className="bg-white2 white radius1 ms-3">
+            <img src={upload2} />
+            <span className="light-grey2 ms-2" onClick={uploadHandle}>
+              Upload Image
+            </span>
+            <input
+              ref={hiddenFileInput}
+              onChange={profileHandle}
+              type="file"
+              style={{ display: "none" }}
+              name="uploadFile"
+              id="uploadFile"
+              accept="image/jpeg,image/png"
+            />
+          </Button>
+        )}
       </div>
     </Modal>
   );

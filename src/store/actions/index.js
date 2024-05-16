@@ -30,14 +30,14 @@ export const loadAdminDetailsAction = (args) => async (dispatch) => {
 //loading all contracts data
 export const loadContractIns = () => async (dispatch) => {
   const ethInfuraIns =
-    "https://goerli.infura.io/v3/e556d22112e34e3baab9760f1864493a";
+    "https://mainnet.infura.io/v3/e556d22112e34e3baab9760f1864493a";
   const polygonInfuraIns =
-    "https://polygon-mumbai.infura.io/v3/e556d22112e34e3baab9760f1864493a";
+    "https://polygon-mainnet.infura.io/v3/e556d22112e34e3baab9760f1864493a";
   try {
     //ethereum
     const ethProvider = new ethers.JsonRpcProvider(ethInfuraIns);
-    const ethMarketPlaceContract = "0x1E15394A6D3b642d9e06a4238D1EC70baC4ae1d5";
-    const ethMintingConract = "0x8A59905976bD8D8C9A7D273909A93281a51A4842";
+    const ethMarketPlaceContract = "0x3E12F9b507F51DccDc448B38d67eBfE2194b6e72";
+    const ethMintingConract = "0x00Ee6dA7De5635cA6c2742682168621351e6b5B1";
     const ethMarketContractIns = new ethers.Contract(
       ethMarketPlaceContract,
       ethMarketContractAbi,
@@ -52,8 +52,8 @@ export const loadContractIns = () => async (dispatch) => {
     //polygon
     const polygonProvider = new ethers.JsonRpcProvider(polygonInfuraIns);
     const polygonMarketPlaceContract =
-      "0x7Af5243b7F331217e2D37b19FE773B2C0A5D4301";
-    const polygonMintingContract = "0x97C49dFeB7ff0bD5006B02fD59912Ab63f5D4216";
+      "0x381c730F1646f00e4Ae9Dfe9589b1E0BDE107a1e";
+    const polygonMintingContract = "0x00Ee6dA7De5635cA6c2742682168621351e6b5B1";
     const polygonMarketContractIns = new ethers.Contract(
       polygonMarketPlaceContract,
       polygonMarketContractAbi,
@@ -175,6 +175,8 @@ const getTotalTrans = async (
     "latest"
   );
 
+  console.log("polygon events", polygonEvents);
+
   const totalFixedEvents = polygonEvents.length + ethEvents.length;
 
   return { totalTxs, totalFixedEvents };
@@ -286,10 +288,10 @@ const getTopUsers = async (
   polygonProvider
 ) => {
   const polygonfixedfilter = polygonMarketContractIns.filters.buyFixedprice();
-  const polygonclaimfilter = polygonMarketContractIns.filters.claimnft();
+  // const polygonclaimfilter = polygonMarketContractIns.filters.claimnft();
 
   const ethfixedfilter = ethMarketContractIns.filters.buyFixedprice();
-  const ethclaimfilter = ethMarketContractIns.filters.claimnft();
+  // const ethclaimfilter = ethMarketContractIns.filters.claimnft();
 
   //events
   const polygonFixedEvents = await polygonMarketContractIns.queryFilter(
@@ -297,35 +299,35 @@ const getTopUsers = async (
     0,
     "latest"
   );
-  const polygonClaimEvents = await polygonMarketContractIns.queryFilter(
-    polygonclaimfilter,
-    0,
-    "latest"
-  );
+  // const polygonClaimEvents = await polygonMarketContractIns.queryFilter(
+  //   polygonclaimfilter,
+  //   0,
+  //   "latest"
+  // );
 
   const ethFixedEvents = await ethMarketContractIns.queryFilter(
     ethfixedfilter,
     0,
     "latest"
   );
-  const ethClaimEvents = await ethMarketContractIns.queryFilter(
-    ethclaimfilter,
-    0,
-    "latest"
-  );
+  // const ethClaimEvents = await ethMarketContractIns.queryFilter(
+  //   ethclaimfilter,
+  //   0,
+  //   "latest"
+  // );
 
   //array
   const polyFixedArr = await getTopArray(polygonFixedEvents, polygonProvider);
-  const polyClaimArr = await getTopArray(polygonClaimEvents, polygonProvider);
+  // const polyClaimArr = await getTopArray(polygonClaimEvents, polygonProvider);
 
   const ethFixedArr = await getTopArray(ethFixedEvents, ethProvider);
-  const ethClaimArr = await getTopArray(ethClaimEvents, ethProvider);
+  // const ethClaimArr = await getTopArray(ethClaimEvents, ethProvider);
 
   const combinedArray = [
     ...polyFixedArr,
-    ...polyClaimArr,
+    // ...polyClaimArr,
     ...ethFixedArr,
-    ...ethClaimArr,
+    // ...ethClaimArr,
   ];
 
   const topUsersByBought = topByAdress(combinedArray, "buyer");
