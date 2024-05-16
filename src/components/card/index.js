@@ -18,7 +18,7 @@ import {
 import { Button, Space, Typography } from "antd";
 import { EyeOutlined, LikeOutlined } from "@ant-design/icons";
 import ButtonComponent from "../button";
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player/lazy";
 import { OfferModal, StepperModal } from "../index";
 import { Modal } from "antd";
 import { NftDetailsModal } from "../index";

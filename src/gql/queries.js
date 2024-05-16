@@ -251,6 +251,19 @@ const GET_TOP_VIEW_NFTS = gql`
   }
 `;
 
+const GET_TOP_NFTS = gql`
+  query GetTopNfts {
+    GetTopNfts {
+      id
+      duration
+      nft_link
+      serial_number
+      nft_id
+      is_Published
+    }
+  }
+`;
+
 export {
   GET_ALL_NFTS,
   LOGIN_USER,
@@ -262,4 +275,5 @@ export {
   GET_NFT_DETAIL_QUERY,
   GET_TOP_VIEW_NFTS,
   DETAILS_OF_A_NFT,
+  GET_TOP_NFTS,
 };

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./css/index.css";
 import { NavbarComponent, CardCompnent, Loader } from "../../components";
 import { Button, Row, Col } from "antd";
@@ -19,6 +19,7 @@ import { getOwnersOfTokenId } from "../../config/infura";
 import {
   GET_TOP_VIEW_NFTS,
   GET_ALL_NFTS_WITHOUT_ADDRESS,
+  GET_TOP_NFTS,
 } from "../../gql/queries";
 import { useQuery } from "@apollo/client";
 import { WeiToETH } from "../../utills/convertWeiAndBnb";
@@ -57,6 +58,7 @@ const Dashboard = () => {
   const { loading, data } = useQuery(GET_ALL_NFTS_WITHOUT_ADDRESS);
   const timenow = Math.floor(Date.now() / 1000);
 
+  const { data: topnfts, refetch: toprefetch } = useQuery(GET_TOP_NFTS);
   // function getUniqueObjects(arr) {
   //   const uniqueObjects = [];
   //   const seenIds = new Set();
@@ -71,49 +73,65 @@ const Dashboard = () => {
   //   return uniqueObjects;
   // }
 
+  // const topNfts = useMemo(() => {
+  //   let arr = [];
+  //   data?.getAllNftsWithoutAddress?.map((x) => {
+  //     auctionItemData?.map((y) => {
+  //       if (
+  //         !x.is_blocked &&
+  //         Number(y.tokenId) == x.token_id &&
+  //         contractData.chain == x.chainId &&
+  //         Number(y.auctionEndTime) > timenow &&
+  //         y.isSold == false
+  //       ) {
+  //         arr.push({
+  //           ...x,
+  //           initialPrice: WeiToETH(`${Number(y.initialPrice)}`),
+  //           auctionid: Number(y.auctionid),
+  //           currentBidAmount: WeiToETH(`${Number(y.currentBidAmount)}`),
+  //         });
+  //       }
+  //     });
+  //   });
+
+  //   data?.getAllNftsWithoutAddress?.map((x) => {
+  //     fixedItemData?.map((y) => {
+  //       if (
+  //         !y.is_blocked &&
+  //         Number(y.tokenid) == Number(x.token_id) &&
+  //         contractData.chain == x.chainId &&
+  //         y.isSold == false
+  //       ) {
+  //         arr.push({
+  //           ...x,
+  //           owners: y.owners,
+  //           fixtokenId: y.tokenid,
+  //           isFixedItem: true,
+  //         });
+  //       }
+  //     });
+  //   });
+
+  //   // console.log("checking_arr", arr);
+  //   // const uniqueObjects = getUniqueObjects(arr);
+  //   return arr.slice(0, 8);
+  // }, [auctionItemData, data, fixedItemData]);
+
   const topNfts = useMemo(() => {
-    let arr = [];
-    data?.getAllNftsWithoutAddress?.map((x) => {
-      auctionItemData?.map((y) => {
-        if (
-          !x.is_blocked &&
-          Number(y.tokenId) == x.token_id &&
-          contractData.chain == x.chainId &&
-          Number(y.auctionEndTime) > timenow &&
-          y.isSold == false
-        ) {
-          arr.push({
-            ...x,
-            initialPrice: WeiToETH(`${Number(y.initialPrice)}`),
-            auctionid: Number(y.auctionid),
-            currentBidAmount: WeiToETH(`${Number(y.currentBidAmount)}`),
-          });
-        }
-      });
-    });
+    const filterItem = data?.getAllNftsWithoutAddress?.filter((item) =>
+      topnfts?.GetTopNfts?.some(
+        (otherItem) => item._id === otherItem.nft_id && otherItem.is_Published
+      )
+    );
+    console.log("filtered item", filterItem);
+    return filterItem;
+  }, [data?.getAllNftsWithoutAddress, topnfts]);
 
-    data?.getAllNftsWithoutAddress?.map((x) => {
-      fixedItemData?.map((y) => {
-        if (
-          !y.is_blocked &&
-          Number(y.tokenid) == Number(x.token_id) &&
-          contractData.chain == x.chainId &&
-          y.isSold == false
-        ) {
-          arr.push({
-            ...x,
-            owners: y.owners,
-            fixtokenId: y.tokenid,
-            isFixedItem: true,
-          });
-        }
-      });
-    });
+  useEffect(() => {
+    toprefetch();
+  }, []);
 
-    // console.log("checking_arr", arr);
-    // const uniqueObjects = getUniqueObjects(arr);
-    return arr.slice(0, 8);
-  }, [auctionItemData, data, fixedItemData]);
+  console.log("the top nfts", topNfts);
 
   return (
     <div className={backgroundTheme}>
