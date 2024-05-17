@@ -27,6 +27,8 @@ const UserInformation = () => {
   const [searchUser, setSearchUser] = useState(null);
   const [users, setUsers] = useState([]);
   const { viewOnly } = useSelector((state) => state.adminDetails.adminDetails);
+  const [isEmail, setIsEmail] = useState(false);
+  const [emailId, setEmailId] = useState();
   const [popUpId, setPopUpId] = useState("");
   const {
     loading,
@@ -101,6 +103,8 @@ const UserInformation = () => {
             style={{ borderRadius: 20, width: "70%" }}
             disabled={viewOnly}
             onClick={async () => {
+              setEmailId(record?.email);
+              setIsEmail(true);
               // const result = await sendEmail({
               //   variables: {
               //     to: record.email,
@@ -290,6 +294,8 @@ const UserInformation = () => {
           visible={popUpId}
           onCancel={() => setPopUpId("")}
           setIsNotesAdded={(e) => {}}
+          isEmail={isEmail}
+          email={emailId}
         />
       )}
       <NavbarComponent
