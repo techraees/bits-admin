@@ -32,9 +32,9 @@ const SellingHistory = () => {
     async function getPastEvents() {
       try {
         const provider = new ethers.providers.JsonRpcProvider(
-          contractData.chain == 5
-            ? "https://goerli.infura.io/v3/e556d22112e34e3baab9760f1864493a"
-            : "https://polygon-mumbai.infura.io/v3/e556d22112e34e3baab9760f1864493a"
+          contractData.chain == 1
+            ? "https://mainnet.infura.io/v3/e556d22112e34e3baab9760f1864493a"
+            : "https://polygon-mainnet.infura.io/v3/e556d22112e34e3baab9760f1864493a"
         );
         // Get past events
         const filter = contractData.marketContract.filters.buyFixedprice(); // Define the event filter

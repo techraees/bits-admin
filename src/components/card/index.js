@@ -282,13 +282,13 @@ const CardCompnent = ({
           handleCancel={handleCancel}
           name={name}
           price={
-            contractData.chain === 5
+            contractData.chain === 1
               ? (initialPrice * ethBal).toFixed(4)
               : (initialPrice * maticBal).toFixed(4)
           }
           initialPrice={initialPrice}
           currentBidAmount={
-            contractData.chain === 5
+            contractData.chain === 1
               ? (currentBidAmount * ethBal).toFixed(4)
               : (currentBidAmount * maticBal).toFixed(4)
           }
@@ -352,7 +352,7 @@ const CardCompnent = ({
               <h5>Price</h5>
               <p>
                 <span>$</span>{" "}
-                {contractData.chain === 5
+                {contractData.chain === 1
                   ? (initialPrice * ethBal).toFixed(4)
                   : (initialPrice * maticBal).toFixed(4)}
               </p>

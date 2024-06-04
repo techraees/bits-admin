@@ -75,7 +75,7 @@ const OfferModal = ({
   };
 
   const getPrice = (val) => {
-    if (contractData.chain == 5) {
+    if (contractData.chain == 1) {
       return WeiToETH(`${val}`) * ethBal;
     } else {
       return WeiToETH(`${val}`) * maticBal;
@@ -218,11 +218,11 @@ const OfferModal = ({
           name={name}
           offerAmount={offerAmount}
           amount={
-            contractData.chain == 5
+            contractData.chain == 1
               ? (offerAmount * ethBal).toFixed(4)
               : (offerAmount * maticBal).toFixed(4)
           }
-          chain={contractData.chain == 5 ? "ETH" : "MATIC"}
+          chain={contractData.chain == 1 ? "ETH" : "MATIC"}
         />
       </Modal>
       <div className="main-wrapper">
@@ -241,7 +241,7 @@ const OfferModal = ({
 
           <div>
             <h5>
-              {initialPrice} {contractData.chain == 5 ? "ETH" : "MATIC"}
+              {initialPrice} {contractData.chain == 1 ? "ETH" : "MATIC"}
             </h5>
             <p>$ {price}</p>
           </div>
@@ -284,20 +284,20 @@ const OfferModal = ({
 
         <div className="input-field-div">
           <input type="text" placeholder="0.001" onChange={handleOffer} />
-          <h5>{contractData.chain == 5 ? "ETH" : "MATIC"}</h5>
+          <h5>{contractData.chain == 1 ? "ETH" : "MATIC"}</h5>
         </div>
         <div className="d-flex justify-content-between mt-2">
           <p>
             ${" "}
-            {contractData.chain == 5
+            {contractData.chain == 1
               ? (offerAmount * ethBal).toFixed(4)
               : (offerAmount * maticBal).toFixed(4)}{" "}
             Total
           </p>
           <p>
             Total Offer amount: {offerAmount}{" "}
-            {contractData.chain == 5 ? "ETH" : "MATIC"} (${" "}
-            {contractData.chain == 5
+            {contractData.chain == 1 ? "ETH" : "MATIC"} (${" "}
+            {contractData.chain == 1
               ? (offerAmount * ethBal).toFixed(4)
               : (offerAmount * maticBal).toFixed(4)}
             )

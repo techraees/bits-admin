@@ -283,7 +283,7 @@ const ListNft = () => {
   };
 
   const selectAfter = (
-    <Select value={contractData.chain === 5 ? "ETH" : "MATIC"}>
+    <Select value={contractData.chain === 1 ? "ETH" : "MATIC"}>
       {/* <Option value="USD">USD</Option> */}
       {/* {contractData.chain === 5 ? (
         <Option value="ETH">ETH</Option>
@@ -469,7 +469,7 @@ const ListNft = () => {
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Listing Price</h5>
               <p>
-                {showVal} {contractData.chain === 5 ? "ETH" : "MATIC"}
+                {showVal} {contractData.chain === 1 ? "ETH" : "MATIC"}
               </p>
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
@@ -491,7 +491,7 @@ const ListNft = () => {
               <h5>Total Potential Earning</h5>
               <p className={`${textColor}`}>
                 {" "}
-                {potentialEarning} {contractData.chain === 5 ? "ETH" : "MATIC"}
+                {potentialEarning} {contractData.chain === 1 ? "ETH" : "MATIC"}
               </p>
             </div>
             <div className="btn-wrapper red-gradient">
@@ -646,7 +646,7 @@ const ListNft = () => {
             <div className="list-wrapper d-flex justify-content-between ">
               <h5>Listing Price</h5>
               <p>
-                {showVal} {contractData.chain === 5 ? "ETH" : "MATIC"}
+                {showVal} {contractData.chain === 1 ? "ETH" : "MATIC"}
               </p>
             </div>
             <div className="list-wrapper d-flex justify-content-between ">
@@ -668,7 +668,7 @@ const ListNft = () => {
               <h5>Total Potential Earning</h5>
               <p className={`${textColor}`}>
                 {" "}
-                {potentialEarning} {contractData.chain === 5 ? "ETH" : "MATIC"}
+                {potentialEarning} {contractData.chain === 1 ? "ETH" : "MATIC"}
               </p>
             </div>
             <div className="btn-wrapper red-gradient">

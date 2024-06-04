@@ -42,7 +42,7 @@ const NftDetailsScreen = () => {
   const { contractData } = useSelector((state) => state.chain.contractData);
 
   const link = `https://${
-    contractData.chain == 5 ? "goerli.etherscan.io" : "mumbai.polygonscan.com"
+    contractData.chain == 1 ? "etherscan.io" : "polygonscan.com"
   }/token/${contractData.mintContract.address}?a=${
     data?.DetailsOfANft?.token_id
   }`;
@@ -84,9 +84,7 @@ const NftDetailsScreen = () => {
                 </div>
                 <a
                   href={`https://${
-                    contractData.chain == 5
-                      ? "goerli.etherscan.io"
-                      : "mumbai.polygonscan.com"
+                    contractData.chain == 1 ? "etherscan.io" : "polygonscan.com"
                   }/token/${contractData.mintContract.address}?a=${
                     data?.DetailsOfANft?.token_id
                   }`}
@@ -98,7 +96,7 @@ const NftDetailsScreen = () => {
                     className="p-1 mt-4 text-center rounded-3"
                   >
                     View on{" "}
-                    {contractData.chain == 5 ? "Etherscan" : "Polygonscan"}
+                    {contractData.chain == 1 ? "Etherscan" : "Polygonscan"}
                     {/* <span className={`${textColor2}`} href="google.com" >View on Etherscan</span> */}
                   </div>
                 </a>

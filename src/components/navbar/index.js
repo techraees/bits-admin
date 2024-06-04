@@ -172,10 +172,10 @@ const NavbarComponent = ({
 
   useEffect(() => {
     if (contractData?.chain) {
-      if (contractData.chain === 5) {
+      if (contractData.chain === 1) {
         setIconClicked(true);
         setShowRedImage(true);
-      } else if (contractData.chain === 80001) {
+      } else if (contractData.chain === 137) {
         setShowRedImage(false);
         setIconClicked(false);
       } else {

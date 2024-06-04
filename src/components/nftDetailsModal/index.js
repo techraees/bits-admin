@@ -21,7 +21,7 @@ const NftDetailsModal = ({
   const { contractData } = useSelector((state) => state.chain.contractData);
 
   const link = `https://${
-    contractData.chain == 5 ? "goerli.etherscan.io" : "mumbai.polygonscan.com"
+    contractData.chain == 1 ? "etherscan.io" : "polygonscan.com"
   }/token/${contractData.mintContract.address}?a=${tokenId}`;
 
   return (
@@ -56,15 +56,13 @@ const NftDetailsModal = ({
               >
                 <a
                   href={`https://${
-                    contractData.chain == 5
-                      ? "goerli.etherscan.io"
-                      : "mumbai.polygonscan.com"
+                    contractData.chain == 1 ? "etherscan.io" : "polygonscan.com"
                   }/token/${contractData.mintContract.address}?a=${tokenId}`}
                   target="_blank"
                   className={`${textColor2}`}
                 >
                   View on{" "}
-                  {contractData.chain == 5 ? "Etherscan" : "Polygonscan"}
+                  {contractData.chain == 1 ? "Etherscan" : "Polygonscan"}
                 </a>
                 {/* <span className={`${textColor2}`} href="google.com" >View on Etherscan</span> */}
               </div>

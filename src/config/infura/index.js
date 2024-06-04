@@ -39,17 +39,23 @@ export const getAllNftsByAddressAlchemy = async (
   networkId,
   contract
 ) => {
+  const network = networkId == 137 ? "polygon-mainnet" : "eth-mainnet";
+  const baseUrl = `https://${network}.g.alchemy.com/nft/v3/${env.REACT_APP_ALCHEMY_API_KEY}/getNFTsForOwner`;
+  const params = {
+    owner: address,
+    "contractAddresses[]": contract,
+    withMetadata: "false",
+    pageSize: "100",
+  };
+
+  // Manually construct the query string
+  const queryString = new URLSearchParams(params).toString();
+  const finalUrl = `${baseUrl}?${queryString}`;
+
   const options = {
     method: "GET",
-    url: `https://${
-      networkId == 137 ? "polygon-mainnet" : "eth-mainnet"
-    }.g.alchemy.com/nft/v3/${env.REACT_APP_ALCHEMY_API_KEY}/getNFTsForOwner`,
-    params: {
-      owner: address,
-      "contractAddresses[]": contract,
-      withMetadata: "false",
-      pageSize: "100",
-    },
+    url: baseUrl,
+    params: params,
     headers: { accept: "application/json" },
   };
 

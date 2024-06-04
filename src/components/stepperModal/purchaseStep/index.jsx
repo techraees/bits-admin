@@ -199,7 +199,7 @@ function PurchaseStep({
               {totalPrice}{" "}
               <span className="purchaseNumberSpan">
                 {" "}
-                {contractData.chain == 5 ? "ETH" : "MATIC"} ($
+                {contractData.chain == 1 ? "ETH" : "MATIC"} ($
                 {showAmt.toFixed(5)}){" "}
               </span>
             </h4>

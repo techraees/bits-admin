@@ -35,11 +35,11 @@ const PurchaseHistory = () => {
       try {
         // Initialize Etherscan provider with your API key
         const provider = new ethers.providers.EtherscanProvider(
-          contractData.chain == 5 ? "goerli" : "maticmum"
+          contractData.chain == 1 ? "homestead" : "matic"
         );
 
         const contractInterface = new ethers.utils.Interface(
-          contractData.chain == 5
+          contractData.chain == 1
             ? ethMarketContractAbi
             : polygonMarketContractAbi
         );

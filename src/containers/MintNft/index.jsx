@@ -306,7 +306,10 @@ const MintNft = () => {
                   style={{ border: "1px solid  #B23232" }}
                   className="p-1 mt-4 text-center rounded-3"
                 >
-                  <span className={`${textColor2}`}>View on Etherscan</span>
+                  <span className={`${textColor2}`}>
+                    View on{" "}
+                    {contractData.chain == 1 ? "Etherscan" : "Polygonscan"}
+                  </span>
                 </div>
               </Col>
               <Col lg={12} sm={24} md={12} xs={24}>

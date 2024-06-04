@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { check } from "../../assets";
 import "./css/index.css";
 import { useSelector } from "react-redux";
@@ -12,20 +12,18 @@ const Transactions = ({ data, checkIcon }) => {
   const textColor3 = useSelector((state) => state.app.theme.textColor3);
   const bgColor2 = useSelector((state) => state.app.theme.bgColor2);
 
-  const {contractData} = useSelector((state) => state.chain.contractData);
+  const { contractData } = useSelector((state) => state.chain.contractData);
 
-  
   const [ethBal, setEthBal] = useState(0);
   const [maticBal, setMaticBal] = useState(0);
 
-  ETHTOUSD(1).then((result)=>{
+  ETHTOUSD(1).then((result) => {
     setEthBal(result);
   });
 
-  MATICTOUSD(1).then((result)=>{
+  MATICTOUSD(1).then((result) => {
     setMaticBal(result);
   });
-
 
   return (
     <div className="py-2">
@@ -96,7 +94,10 @@ const Transactions = ({ data, checkIcon }) => {
                 </div>
               </div>
               <h4 className={`m-0`} style={{ color: "#B93232" }}>
-                $ {contractData.chain == 5 ? (e.price * ethBal).toFixed(4) : (e.price * maticBal).toFixed(4)}
+                ${" "}
+                {contractData.chain == 1
+                  ? (e.price * ethBal).toFixed(4)
+                  : (e.price * maticBal).toFixed(4)}
               </h4>
             </div>
           );

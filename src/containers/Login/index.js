@@ -248,7 +248,6 @@ function Login() {
         userAddress: account,
         dob: data.dob,
       };
-
       createUser({
         variables: variables,
       });
@@ -360,7 +359,7 @@ function Login() {
   };
 
   const validatePhoneNumber = (phoneNumber) => {
-    var regex = /^\+\d{1,3}\d{5,}$/;
+    var regex = /^\d{1,3}\d{5,}$/;
     if (regex.test(phoneNumber)) {
       return true;
     } else {
