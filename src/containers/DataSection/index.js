@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./css/index.css";
-import { NavbarComponent, VideoCard } from "../../components";
+import {
+  NavbarComponent,
+  VideoCard,
+  TopNftVideoCardWithLabel,
+} from "../../components";
+
 import {
   plus2,
   profile_small,
@@ -8,6 +13,8 @@ import {
   thumbnail,
   upload,
   video,
+  polygon,
+  redPolygon,
 } from "../../assets";
 import { Input } from "antd";
 import { useMutation, useQuery } from "@apollo/client";
@@ -15,6 +22,7 @@ import { GET_ALL_NFTS_FOR_ADMIN, GET_TOP_NFTS } from "../../gql/queries";
 import { CREATE_TOP_NFT } from "../../gql/mutations";
 import { UPDATE_NFT_STATUS } from "../../gql/mutations";
 import Loading from "../../components/loaders/loading";
+import { FaEthereum } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import TopNftVideoCard from "../../components/topNftVideoCard";
 import {
@@ -35,7 +43,7 @@ const DataSection = () => {
   const [topVideosData, setTopVideosData] = useState([]);
   const [fetchedData, setFetchedData] = useState([]);
 
-  console.log("value", value);
+  console.log("PPPPPPPPPPPPPPPPPPPPPPPP", topVideosData);
 
   const { loading, error, data, refetch } = useQuery(GET_ALL_NFTS_FOR_ADMIN);
 
@@ -43,7 +51,6 @@ const DataSection = () => {
     useMutation(CREATE_TOP_NFT);
 
   const { data: topNfts, refetch: toprefetch } = useQuery(GET_TOP_NFTS);
-
   const [updateNftStatus, { loading: statusLoading }] =
     useMutation(UPDATE_NFT_STATUS);
 
@@ -62,7 +69,7 @@ const DataSection = () => {
     }
   }, [searchByName, data?.getAllNftsWithoutAddress]);
 
-  console.log(allVideosData);
+  console.log(topNfts, "PPPPPPPPPPPPPPPPPPPPPPPAAAAAAAAAA", fetchedData);
 
   // useEffect(() => {
   //   if (topNfts?.GetTopNfts.length > 0) {
@@ -127,7 +134,7 @@ const DataSection = () => {
           {items?.slice(start, end).map((e, i) => {
             return (
               <GridItem key={i}>
-                <TopNftVideoCard
+                <TopNftVideoCardWithLabel
                   key={e?._id}
                   index={i}
                   id={e?._id}
@@ -144,7 +151,26 @@ const DataSection = () => {
                   setAllVideosData={setAllVideosData}
                   setTopVideosData={setTopVideosData}
                   topVideosData={topVideosData}
+                  is_Published={e.is_Published}
                 />
+                {/* <TopNftVideoCard
+                  key={e?._id}
+                  index={i}
+                  id={e?._id}
+                  videoThumbnail={e.videoThumbnail}
+                  name={e?.name}
+                  title={e?.artist_name1}
+                  video={e.video}
+                  description={e?.description}
+                  updateNftStatus={updateNftStatus}
+                  isBlocked={e.is_blocked}
+                  refetch={refetch}
+                  viewOnly={viewOnly}
+                  allVideosData={allVideosData}
+                  setAllVideosData={setAllVideosData}
+                  setTopVideosData={setTopVideosData}
+                  topVideosData={topVideosData}
+                /> */}
                 {/* <div className='bg-secondary' style={{height:'100%',width:"100%"}}>{e._id}</div> */}
               </GridItem>
             );
@@ -196,10 +222,71 @@ const DataSection = () => {
     }
   }, []);
 
+  // Setting the top nfts
+  useEffect(() => {
+    const data = topNfts?.GetTopNfts;
+    const newTopNfts = [];
+    if (topNfts?.GetTopNfts) {
+      data.forEach((element) => {
+        if (element.nft_id) {
+          const obj = {
+            ...element.nft_id,
+            is_Published: element.is_Published ? true : false,
+          };
+          newTopNfts.push(obj);
+        }
+      });
+    }
+    console.log(newTopNfts, "OOOOOOOOOOOOOOOOOOOOOOOOO");
+    setTopVideosData(newTopNfts);
+  }, [topNfts?.GetTopNfts, fetchedData]);
+
+  const [showRedImage, setShowRedImage] = useState(false);
+  const [iconClicked, setIconClicked] = useState(false);
+  const toggleIconColor = () => {
+    setIconClicked(true);
+    setShowRedImage(true);
+  };
+  const toggleImage = () => {
+    setShowRedImage(false);
+    setIconClicked(false);
+  };
+
   return (
     <div className="bg-white2">
       <NavbarComponent lightNav headerTxt={"Data Section"} selectedKey={"3"} />
       <div className="container radius1 bg-white p-4" style={{ marginTop: 65 }}>
+        <div className="chains">
+          <div className="chainDiv">
+            <div className="leftChainDiv">Chains</div>
+            <div className="rightChainDiv">
+              {/* <FaEthereum cursor="pointer"  onClick={handleChain}/>
+                <img className="ethIcon" src={polygon} /> */}
+              <FaEthereum
+                cursor="pointer"
+                onClick={toggleIconColor}
+                className={iconClicked ? "red" : ""}
+              />
+              <img
+                className={`ethIcon ${showRedImage ? "" : "hidden"}`}
+                src={polygon}
+                alt="Polygon"
+                onClick={toggleImage}
+                width={15}
+                height={15}
+              />
+              <img
+                className={`ethIcon red ${showRedImage ? "hidden" : ""}`}
+                src={redPolygon}
+                alt="Red Polygon"
+                onClick={toggleImage}
+                width={15}
+                height={15}
+              />
+            </div>
+          </div>
+        </div>
+
         <div style={{ display: "flex", justifyContent: "center" }}>
           <div
             style={{ width: "400px" }}

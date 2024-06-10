@@ -60,6 +60,9 @@ import attachment from "./icons/attachment.svg";
 import upload2 from "./icons/upload2.svg";
 import toggle_menu from "./icons/toggle_menu.svg";
 
+import polygon from "./images/polygon.png";
+import redPolygon from "./images/redpolygon.png";
+
 export {
   logo,
   logo2,
@@ -121,4 +124,6 @@ export {
   attachment,
   upload2,
   toggle_menu,
+  polygon,
+  redPolygon,
 };
