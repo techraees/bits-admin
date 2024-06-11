@@ -274,18 +274,14 @@ const Dashboard = () => {
   const [topNftsData, setTopNftsData] = useState(topNfts);
   const [visitsData, setVisitsData] = useState([]);
   const [registeredUsersData, setRegisteredUsersData] = useState([]);
-  const [nftsSoldData, setNftsSoldData] = useState(
-    nfts.filter((item) => item.isPaid == true)
-  );
+  const [nftsSoldData, setNftsSoldData] = useState([]);
   const [newRegisterations, setNewRegisterations] = useState(0);
 
   // States to show n graph Box
   const [visitDataGraphValue, setvisitDataGraphValue] = useState(0);
   const [registerdUserGraphValue, setregisterdUserGraphValue] = useState(0);
   const [loginUserGraphValue, setloginUserGraphValue] = useState(0);
-  const [nftSoldGraphValue, setnftSoldGraphValue] = useState(
-    nftsSoldData.length
-  );
+  const [nftSoldGraphValue, setnftSoldGraphValue] = useState(0);
   const [newRegGraphValue, setnewRegGraphValue] = useState(0);
 
   console.log("All user data", newRegisterations);
@@ -459,7 +455,9 @@ const Dashboard = () => {
 
   const { topUsersData } = useSelector((state) => state.topUsers.topUsersData);
   const contracts = useSelector((state) => state.contracts);
-
+  const { transactionData } = useSelector(
+    (state) => state.totalTrans.transactionData
+  );
   const [contractEvents, setContractEvents] = useState([]);
 
   useEffect(() => {
@@ -495,6 +493,14 @@ const Dashboard = () => {
       setvisitDataGraphValue(temp.length);
     }
   }, [visitData?.GetAllVisits]);
+
+  useEffect(() => {
+    if (transactionData?.soldnft) {
+      let temp = transactionData?.soldnft;
+      setNftsSoldData(temp);
+      setnftSoldGraphValue(temp.length);
+    }
+  }, [transactionData?.soldnft]);
 
   // console.log("contractEvents", contractEvents);
 
@@ -576,8 +582,7 @@ const Dashboard = () => {
             return nftsSoldData.map((item, i) => {
               if (
                 parseInt(new Date(item.createdAt).getFullYear()) ==
-                  parseInt(date) &&
-                item.isPaid
+                parseInt(date)
               ) {
                 return parseInt(new Date(item.createdAt).getFullYear());
               } else {

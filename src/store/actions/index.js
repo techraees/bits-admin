@@ -103,11 +103,19 @@ export const loadContractIns = () => async (dispatch) => {
       ethMarketContractIns
     );
 
+    const fixedItemSoldData = await getNftSoldData(
+      polygonMarketContractIns,
+      ethMarketContractIns
+    );
+
+    console.log("fixedItemSoldData", fixedItemSoldData);
+
     dispatch({
       type: "LOAD_TX",
       transactionData: {
         totalTrans: totalTxs,
         fixedprices: totalFixedEvents,
+        soldnft: fixedItemSoldData,
       },
     });
 
@@ -127,6 +135,54 @@ export const loadContractIns = () => async (dispatch) => {
     console.log("errr", err);
   }
 };
+
+//fixed price sold data
+const getNftSoldData = async (
+  polygonMarketContractIns,
+  ethMarketContractIns
+) => {
+  // Initialize combinedarr as an empty array
+  let combinedarr = [];
+
+  // Function to get sold data from a contract
+  const getSoldData = async (contractIns) => {
+    const getAllFixItems = Number(await contractIns.getAllFixedPrices());
+    for (let index = 0; index < getAllFixItems; index++) {
+      const item = await contractIns.Fixedprices(index);
+      if (Number(item[11]) !== Number(item[10])) {
+        const copiesSold = Number(item[11]) - Number(item[10]);
+        let arr = Array.from({ length: copiesSold }, (v, i) => ({
+          id: i,
+          createdAt: formatCurrentTime(),
+        }));
+        // Combine the new array with the existing combined array
+        combinedarr = [...combinedarr, ...arr];
+      }
+    }
+  };
+
+  // Get sold data from both contracts
+  await getSoldData(polygonMarketContractIns);
+  await getSoldData(ethMarketContractIns);
+
+  // Return the combined array
+  return combinedarr;
+};
+
+const formatCurrentTime = () => {
+  const now = new Date();
+  const year = now.getUTCFullYear();
+  const month = String(now.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(now.getUTCDate()).padStart(2, "0");
+  const hours = String(now.getUTCHours()).padStart(2, "0");
+  const minutes = String(now.getUTCMinutes()).padStart(2, "0");
+  const seconds = String(now.getUTCSeconds()).padStart(2, "0");
+  const milliseconds = String(now.getUTCMilliseconds()).padStart(3, "0");
+
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
+};
+
+console.log(formatCurrentTime());
 
 //total transactions
 const getTotalTrans = async (
@@ -153,7 +209,7 @@ const getTotalTrans = async (
     "0xc6f8764d0fd285fcfc565f3f3a9d61368e8af5218b874aac2485aea65e67ae1a"
   );
 
-  console.log("The Trans", data);
+  console.log("The Trans", polyMarketTxs);
 
   const totalTxs =
     polyMarketTxs.length +

@@ -42,6 +42,7 @@ const DataSection = () => {
   const [searchByArtist, setSearchByArtist] = useState(null);
   const [topVideosData, setTopVideosData] = useState([]);
   const [fetchedData, setFetchedData] = useState([]);
+  const [chainId, setChainId] = useState(137);
 
   console.log("PPPPPPPPPPPPPPPPPPPPPPPP", topVideosData);
 
@@ -89,6 +90,8 @@ const DataSection = () => {
     }
   }, [allVideosData, fetchedData]);
 
+  console.log("All nfts", allVideosData);
+
   useEffect(() => {
     if (topNfts?.GetTopNfts.length > 0 && fetchedData.length > 0) {
       const temp = topNfts?.GetTopNfts;
@@ -105,7 +108,6 @@ const DataSection = () => {
   useEffect(() => {
     if (data?.getAllNftsWithoutAddress) {
       let temp = data?.getAllNftsWithoutAddress;
-
       if (searchByArtist) {
         temp = temp.filter((x) =>
           x?.artist_name1
@@ -132,48 +134,50 @@ const DataSection = () => {
           style={{ height: "1200px" }}
         >
           {items?.slice(start, end).map((e, i) => {
-            return (
-              <GridItem key={i}>
-                <TopNftVideoCardWithLabel
-                  key={e?._id}
-                  index={i}
-                  id={e?._id}
-                  videoThumbnail={e.videoThumbnail}
-                  name={e?.name}
-                  title={e?.artist_name1}
-                  video={e.video}
-                  description={e?.description}
-                  updateNftStatus={updateNftStatus}
-                  isBlocked={e.is_blocked}
-                  refetch={refetch}
-                  viewOnly={viewOnly}
-                  allVideosData={allVideosData}
-                  setAllVideosData={setAllVideosData}
-                  setTopVideosData={setTopVideosData}
-                  topVideosData={topVideosData}
-                  is_Published={e.is_Published}
-                />
-                {/* <TopNftVideoCard
-                  key={e?._id}
-                  index={i}
-                  id={e?._id}
-                  videoThumbnail={e.videoThumbnail}
-                  name={e?.name}
-                  title={e?.artist_name1}
-                  video={e.video}
-                  description={e?.description}
-                  updateNftStatus={updateNftStatus}
-                  isBlocked={e.is_blocked}
-                  refetch={refetch}
-                  viewOnly={viewOnly}
-                  allVideosData={allVideosData}
-                  setAllVideosData={setAllVideosData}
-                  setTopVideosData={setTopVideosData}
-                  topVideosData={topVideosData}
-                /> */}
-                {/* <div className='bg-secondary' style={{height:'100%',width:"100%"}}>{e._id}</div> */}
-              </GridItem>
-            );
+            if (e.chainId == chainId) {
+              return (
+                <GridItem key={i}>
+                  <TopNftVideoCardWithLabel
+                    key={e?._id}
+                    index={i}
+                    id={e?._id}
+                    videoThumbnail={e.videoThumbnail}
+                    name={e?.name}
+                    title={e?.artist_name1}
+                    video={e.video}
+                    description={e?.description}
+                    updateNftStatus={updateNftStatus}
+                    isBlocked={e.is_blocked}
+                    refetch={refetch}
+                    viewOnly={viewOnly}
+                    allVideosData={allVideosData}
+                    setAllVideosData={setAllVideosData}
+                    setTopVideosData={setTopVideosData}
+                    topVideosData={topVideosData}
+                    is_Published={e.is_Published}
+                  />
+                  {/* <TopNftVideoCard
+                    key={e?._id}
+                    index={i}
+                    id={e?._id}
+                    videoThumbnail={e.videoThumbnail}
+                    name={e?.name}
+                    title={e?.artist_name1}
+                    video={e.video}
+                    description={e?.description}
+                    updateNftStatus={updateNftStatus}
+                    isBlocked={e.is_blocked}
+                    refetch={refetch}
+                    viewOnly={viewOnly}
+                    allVideosData={allVideosData}
+                    setAllVideosData={setAllVideosData}
+                    setTopVideosData={setTopVideosData}
+                    topVideosData={topVideosData}
+                  /> */}
+                  {/* <div className='bg-secondary' style={{height:'100%',width:"100%"}}>{e._id}</div> */}
+                </GridItem>
+              );
+            }
           })}
         </GridDropZone>
       </GridContextProvider>
@@ -241,13 +245,20 @@ const DataSection = () => {
     setTopVideosData(newTopNfts);
   }, [topNfts?.GetTopNfts, fetchedData]);
 
+  useEffect(() => {
+    setAllVideosData(allVideosData);
+    setTopVideosData(topVideosData);
+  }, [chainId]);
+
   const [showRedImage, setShowRedImage] = useState(false);
   const [iconClicked, setIconClicked] = useState(false);
   const toggleIconColor = () => {
+    setChainId(1);
     setIconClicked(true);
     setShowRedImage(true);
   };
   const toggleImage = () => {
+    setChainId(137);
     setShowRedImage(false);
     setIconClicked(false);
   };
@@ -377,27 +388,29 @@ const DataSection = () => {
               </h6>
             </div>
             {allVideosData?.slice(start, end).map((e, i) => {
-              return (
-                <div className="row">
-                  <VideoCard
-                    key={i}
-                    id={e?._id}
-                    videoThumbnail={e.videoThumbnail}
-                    name={e?.name}
-                    title={e?.artist_name1}
-                    video={e.video}
-                    description={e?.description}
-                    updateNftStatus={updateNftStatus}
-                    isBlocked={e.is_blocked}
-                    refetch={refetch}
-                    viewOnly={viewOnly}
-                    setAllVideosData={setAllVideosData}
-                    allVideosData={allVideosData}
-                    setTopVideosData={setTopVideosData}
-                    topVideosData={topVideosData}
-                  />
-                </div>
-              );
+              if (e.chainId == chainId) {
+                return (
+                  <div className="row">
+                    <VideoCard
+                      key={i}
+                      id={e?._id}
+                      videoThumbnail={e.videoThumbnail}
+                      name={e?.name}
+                      title={e?.artist_name1}
+                      video={e.video}
+                      description={e?.description}
+                      updateNftStatus={updateNftStatus}
+                      isBlocked={e.is_blocked}
+                      refetch={refetch}
+                      viewOnly={viewOnly}
+                      setAllVideosData={setAllVideosData}
+                      allVideosData={allVideosData}
+                      setTopVideosData={setTopVideosData}
+                      topVideosData={topVideosData}
+                    />
+                  </div>
+                );
+              }
             })}
           </div>
           <div className="col-lg-1"></div>

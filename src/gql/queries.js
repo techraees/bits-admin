@@ -88,6 +88,7 @@ const GET_ALL_NFTS_FOR_ADMIN = gql`
       royalty
       status
       token_id
+      chainId
       video
       wallet_address
       is_blocked
