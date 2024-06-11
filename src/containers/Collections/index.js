@@ -399,7 +399,8 @@ const Collections = () => {
                         }
                       />
                     ) : (
-                      <p className="text-white">No results found</p>
+                      ""
+                      // <p className="text-white">No results found</p>
                     )
                   )
                 ) : (

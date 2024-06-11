@@ -73,59 +73,69 @@ const Dashboard = () => {
   //   return uniqueObjects;
   // }
 
-  // const topNfts = useMemo(() => {
-  //   let arr = [];
-  //   data?.getAllNftsWithoutAddress?.map((x) => {
-  //     auctionItemData?.map((y) => {
-  //       if (
-  //         !x.is_blocked &&
-  //         Number(y.tokenId) == x.token_id &&
-  //         contractData.chain == x.chainId &&
-  //         Number(y.auctionEndTime) > timenow &&
-  //         y.isSold == false
-  //       ) {
-  //         arr.push({
-  //           ...x,
-  //           initialPrice: WeiToETH(`${Number(y.initialPrice)}`),
-  //           auctionid: Number(y.auctionid),
-  //           currentBidAmount: WeiToETH(`${Number(y.currentBidAmount)}`),
-  //         });
-  //       }
-  //     });
-  //   });
-
-  //   data?.getAllNftsWithoutAddress?.map((x) => {
-  //     fixedItemData?.map((y) => {
-  //       if (
-  //         !y.is_blocked &&
-  //         Number(y.tokenid) == Number(x.token_id) &&
-  //         contractData.chain == x.chainId &&
-  //         y.isSold == false
-  //       ) {
-  //         arr.push({
-  //           ...x,
-  //           owners: y.owners,
-  //           fixtokenId: y.tokenid,
-  //           isFixedItem: true,
-  //         });
-  //       }
-  //     });
-  //   });
-
-  //   // console.log("checking_arr", arr);
-  //   // const uniqueObjects = getUniqueObjects(arr);
-  //   return arr.slice(0, 8);
-  // }, [auctionItemData, data, fixedItemData]);
-
   const topNfts = useMemo(() => {
-    const filterItem = data?.getAllNftsWithoutAddress?.filter((item) =>
+    let arr = [];
+    data?.getAllNftsWithoutAddress?.map((x) => {
+      auctionItemData?.map((y) => {
+        if (
+          !x.is_blocked &&
+          Number(y.tokenId) == x.token_id &&
+          contractData.chain == x.chainId &&
+          Number(y.auctionEndTime) > timenow &&
+          y.isSold == false
+        ) {
+          arr.push({
+            ...x,
+            initialPrice: WeiToETH(`${Number(y.initialPrice)}`),
+            auctionid: Number(y.auctionid),
+            currentBidAmount: WeiToETH(`${Number(y.currentBidAmount)}`),
+          });
+        }
+      });
+    });
+
+    data?.getAllNftsWithoutAddress?.map((x) => {
+      fixedItemData?.map((y) => {
+        if (
+          !y.is_blocked &&
+          Number(y.tokenid) == Number(x.token_id) &&
+          contractData.chain == x.chainId &&
+          y.isSold == false
+        ) {
+          arr.push({
+            ...x,
+            owners: y.owners,
+            fixtokenId: y.tokenid,
+            isFixedItem: true,
+          });
+        }
+      });
+    });
+
+    const filterItem = arr?.filter((item) =>
       topnfts?.GetTopNfts?.some(
-        (otherItem) => item._id === otherItem.nft_id && otherItem.is_Published
+        (otherItem) =>
+          otherItem.nft_id !== null &&
+          item._id === otherItem.nft_id._id &&
+          otherItem.is_Published
       )
     );
+
+    // console.log("checking_arr", arr);
+    // const uniqueObjects = getUniqueObjects(arr);
     console.log("filtered item", filterItem);
     return filterItem;
-  }, [data?.getAllNftsWithoutAddress, topnfts]);
+  }, [auctionItemData, data, fixedItemData, topnfts]);
+
+  // const topNfts1 = useMemo(() => {
+  //   const filterItem = data?.getAllNftsWithoutAddress?.filter((item) =>
+  //     topnfts?.GetTopNfts?.some(
+  //       (otherItem) => item._id === otherItem.nft_id && otherItem.is_Published
+  //     )
+  //   );
+  //   console.log("filtered item", filterItem);
+  //   return filterItem;
+  // }, [data?.getAllNftsWithoutAddress, topnfts]);
 
   useEffect(() => {
     toprefetch();

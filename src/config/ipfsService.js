@@ -53,10 +53,12 @@ export const sendFileToIPFSV1 = async (file, isEmote) => {
         options
       );
 
-      // console.log("ImgHash", res)
-      // const ImgHash = `${env.REACT_APP_IPFS_PATH}/${result.cid._baseCache.get("z")}`;
-      // return ImgHash;
-      // console.log(ImgHash);
+      // console.log("ImgHash", res);
+      const ImgHash = `${env.REACT_APP_IPFS_PATH}/${result.cid._baseCache.get(
+        "z"
+      )}`;
+      console.log("ImgHash", ImgHash);
+      return ImgHash;
     } catch (error) {
       console.log("Error sending File to IPFS: ");
       console.log(error);
@@ -104,10 +106,71 @@ export const sendFileToIPFSV2 = async (file, isEmote) => {
       // console.log("ImgHash", res)
       const ImgHash = `${env.REACT_APP_IPFS_PATH}/${result.data.value.cid}`;
 
+      console.log("Image hash", ImgHash);
       return ImgHash;
     } catch (error) {
       console.log("Error sending File to IPFS: ");
       console.log(error);
+    }
+  }
+};
+
+// Infura
+export const sendFileToIPFSV3 = async (file, isEmote) => {
+  let finalFile;
+  if (isEmote) {
+    try {
+      const response = await fetch(file);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+
+      finalFile = new File([blob], "filename");
+    } catch (error) {
+      console.error("Error fetching file:", error);
+      return; // Exit early if there's an error fetching the file
+    }
+  } else {
+    finalFile = file;
+  }
+
+  if (finalFile) {
+    try {
+      const authorization =
+        "Basic " +
+        btoa(`${env.REACT_APP_PROJECT_ID}:${env.REACT_APP_PROJECT_SECRET}`);
+
+      // // Creating a FormData object and appending the file
+      // const formData = new FormData();
+      // formData.append("file", finalFile);
+
+      // const options = {
+      //   headers: {
+      //     Authorization: authorization,
+      //     // 'Content-Type': 'multipart/form-data' // Let axios set this automatically
+      //   },
+      // };
+
+      // const result = await axios.post(env.REACT_APP_INFURA, formData, options);
+
+      const ipfs = ipfsHttpClient({
+        url: env.REACT_APP_INFURA,
+        headers: {
+          authorization,
+        },
+      });
+      const result = await ipfs.add(finalFile);
+      const ImgHash = `${env.REACT_APP_IPFS_PATH}/${result.path}`;
+      console.log("ImgHash", ImgHash);
+      return ImgHash;
+    } catch (error) {
+      console.error(
+        "Error sending File to IPFS: ",
+        error.response ? error.response.data : error.message
+      );
     }
   }
 };

@@ -163,7 +163,7 @@ const OfferModal = ({
   const handleBid = async () => {
     if (offerAmount > 0) {
       const amount = ETHToWei(`${offerAmount}`);
-      if (signer) {
+      if (signer && (contractData.chain == 1 || contractData.chain == 137)) {
         const marketContractWithsigner =
           contractData.marketContract.connect(signer);
         try {

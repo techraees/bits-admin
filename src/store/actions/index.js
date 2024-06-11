@@ -34,6 +34,8 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
     ) {
       const signer = await provider.getSigner();
       const { chainId } = await provider.getNetwork();
+
+      console.log("All chaind", chainId, chain);
       if (chain === chainId) {
         const web3 = provider;
         const data = {
