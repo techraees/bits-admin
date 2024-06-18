@@ -59,6 +59,8 @@ import save from "./icons/save.svg";
 import attachment from "./icons/attachment.svg";
 import upload2 from "./icons/upload2.svg";
 import toggle_menu from "./icons/toggle_menu.svg";
+import chevronlefticon from "./icons/chevronlefticon.svg";
+import chevronrighticon from "./icons/chevronrighticon.svg";
 
 import polygon from "./images/polygon.png";
 import redPolygon from "./images/redpolygon.png";
@@ -126,4 +128,6 @@ export {
   toggle_menu,
   polygon,
   redPolygon,
+  chevronlefticon,
+  chevronrighticon,
 };

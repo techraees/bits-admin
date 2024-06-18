@@ -4,6 +4,7 @@ import {
   NavbarComponent,
   VideoCard,
   TopNftVideoCardWithLabel,
+  Pagination,
 } from "../../components";
 
 import {
@@ -43,6 +44,7 @@ const DataSection = () => {
   const [topVideosData, setTopVideosData] = useState([]);
   const [fetchedData, setFetchedData] = useState([]);
   const [chainId, setChainId] = useState(137);
+  const [currentItems, setCurrentItems] = useState([]);
 
   console.log("PPPPPPPPPPPPPPPPPPPPPPPP", topVideosData);
 
@@ -125,13 +127,26 @@ const DataSection = () => {
       console.log("nextState", nextState);
       setItems(nextState);
     }
+    const handleSettingHeightForSortedLists = (items) => {
+      switch (true) {
+        case items.length >= 1 && items.length <= 3:
+          return { height: "350px", position: "relative" };
+        case items.length >= 4 && items.length <= 6:
+          return { height: "700px", position: "relative" };
+        case items.length >= 7 && items.length <= 8:
+          return { height: "1200px", position: "relative" };
+        default:
+          return { height: "1200px", position: "relative" }; // Default style if needed
+      }
+    };
     return (
       <GridContextProvider onChange={onChange}>
         <GridDropZone
           id="items"
           boxesPerRow={3}
           rowHeight={350}
-          style={{ height: "1200px" }}
+          // style={{ height: "1200px" }}
+          style={handleSettingHeightForSortedLists(items)}
         >
           {items?.slice(start, end).map((e, i) => {
             if (e.chainId == chainId) {
@@ -263,6 +278,21 @@ const DataSection = () => {
     setIconClicked(false);
   };
 
+  const handlePositionForPagination = (items) => {
+    console.log("ITEMITEMITEMS");
+    console.log(items, "ITEMITEMITEMS");
+    switch (true) {
+      case items.length >= 1 && items.length <= 3:
+        return "12px";
+      case items.length >= 4 && items.length <= 6:
+        return "-5px";
+      case items.length >= 7:
+        return "140px";
+      default:
+        return "50px"; // Default style if needed
+    }
+  };
+
   return (
     <div className="bg-white2">
       <NavbarComponent lightNav headerTxt={"Data Section"} selectedKey={"3"} />
@@ -387,7 +417,7 @@ const DataSection = () => {
                 Add, Block or Remove up to 8 Videos to the Top NFT&apos;s page.
               </h6>
             </div>
-            {allVideosData?.slice(start, end).map((e, i) => {
+            {currentItems?.slice(start, end).map((e, i) => {
               if (e.chainId == chainId) {
                 return (
                   <div className="row">
@@ -424,13 +454,28 @@ const DataSection = () => {
             }}
           >
             <div className="radius1">
-              <div className="row">
+              <div className="row" style={{ position: "relative" }}>
                 <SortableList
                   items={topVideosData}
                   start={start}
                   end={end}
                   setItems={setTopVideosData}
                 />
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: handlePositionForPagination(topVideosData),
+                    display: `${
+                      currentItems && currentItems.length > 0 ? "block" : "none"
+                    }`,
+                  }}
+                >
+                  <Pagination
+                    currentItems={currentItems}
+                    setCurrentItems={setCurrentItems}
+                    items={allVideosData}
+                  />
+                </div>
               </div>
             </div>
 

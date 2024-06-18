@@ -7,6 +7,7 @@ import ToastMessage from "./toastMessage";
 import DeleteModal from "./deleteModal";
 import EditModal from "./editModal";
 import AddModal from "./addModal";
+import Pagination from "./pagination";
 
 export {
   NavbarComponent,
@@ -17,4 +18,5 @@ export {
   EditModal,
   AddModal,
   TopNftVideoCardWithLabel,
+  Pagination
 };

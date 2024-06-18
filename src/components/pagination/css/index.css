@@ -1,0 +1,44 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.left_chevron,
+.right_chevron {
+  cursor: pointer;
+  padding: 10px 10px;
+  border: none;
+}
+
+div.paginated_item {
+  margin: 0 5px;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+
+div.active {
+  font-weight: bold;
+  color: black;
+}
+
+div.inactive {
+  color: rgb(104, 104, 104);
+}
+
+.items {
+  margin-top: 20px;
+}
+
+.item {
+  margin-bottom: 10px;
+}
+
+.blue_bg {
+  background-color: #428dff;
+}
+
+.grey_bg {
+  background-color: #2f4ad11f;
+  cursor: not-allowed !important;
+}
