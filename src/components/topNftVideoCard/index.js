@@ -22,6 +22,7 @@ const TopNftVideoCard = ({
   onDrag,
   onDrop,
   onDragOver,
+  is_Published,
 }) => {
   //   return (
   //     <Draggable draggableId={id.toString()} index={index}>
@@ -58,7 +59,16 @@ const TopNftVideoCard = ({
         height: "350px",
       }}
       id={id}
+      className="topnftdparentdiv"
     >
+      <span className="published_span">
+        {is_Published ? (
+          <span className="published">PUBLISHED</span>
+        ) : (
+          <span className="notpublished">NON-PUBLISHED</span>
+        )}
+      </span>
+
       <div className="top">
         <video
           src={video}
@@ -69,7 +79,7 @@ const TopNftVideoCard = ({
         />
       </div>
       <div className="title d-flex justify-content-between">
-        <h4 className="m-0 videoCardMobAlignment">{title}</h4>
+        <h4 className="m-0 videoCardMobAlignment truncate-text ">{title}</h4>
         <Button
           className="bg-red radius1 mb-2 white"
           style={{ width: "5rem" }}

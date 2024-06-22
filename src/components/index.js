@@ -1,7 +1,7 @@
 import NavbarComponent from "./navbar";
 import StatisticsCard from "./statisticsCard";
 import VideoCard from "./videoCard";
-import TopNftVideoCardWithLabel from "./topNftVideoCardWithLabel";
+import TopNftVideoCard from "./topNftVideoCard";
 import UserVideoCard from "./userVideoCard";
 import ToastMessage from "./toastMessage";
 import DeleteModal from "./deleteModal";
@@ -17,6 +17,6 @@ export {
   DeleteModal,
   EditModal,
   AddModal,
-  TopNftVideoCardWithLabel,
+  TopNftVideoCard,
   Pagination
 };

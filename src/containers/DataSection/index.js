@@ -3,7 +3,7 @@ import "./css/index.css";
 import {
   NavbarComponent,
   VideoCard,
-  TopNftVideoCardWithLabel,
+  TopNftVideoCard,
   Pagination,
 } from "../../components";
 
@@ -25,7 +25,6 @@ import { UPDATE_NFT_STATUS } from "../../gql/mutations";
 import Loading from "../../components/loaders/loading";
 import { FaEthereum } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import TopNftVideoCard from "../../components/topNftVideoCard";
 import {
   GridContextProvider,
   GridDropZone,
@@ -152,7 +151,7 @@ const DataSection = () => {
             if (e.chainId == chainId) {
               return (
                 <GridItem key={i}>
-                  <TopNftVideoCardWithLabel
+                  <TopNftVideoCard
                     key={e?._id}
                     index={i}
                     id={e?._id}
@@ -171,24 +170,7 @@ const DataSection = () => {
                     topVideosData={topVideosData}
                     is_Published={e.is_Published}
                   />
-                  {/* <TopNftVideoCard
-                    key={e?._id}
-                    index={i}
-                    id={e?._id}
-                    videoThumbnail={e.videoThumbnail}
-                    name={e?.name}
-                    title={e?.artist_name1}
-                    video={e.video}
-                    description={e?.description}
-                    updateNftStatus={updateNftStatus}
-                    isBlocked={e.is_blocked}
-                    refetch={refetch}
-                    viewOnly={viewOnly}
-                    allVideosData={allVideosData}
-                    setAllVideosData={setAllVideosData}
-                    setTopVideosData={setTopVideosData}
-                    topVideosData={topVideosData}
-                  /> */}
+          
                   {/* <div className='bg-secondary' style={{height:'100%',width:"100%"}}>{e._id}</div> */}
                 </GridItem>
               );
