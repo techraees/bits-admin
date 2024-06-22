@@ -49,8 +49,10 @@ const TopNftVideoCard = ({
   //   );
   const handleRemove = (id) => {
     const videoToadd = topVideosData.find((item) => item._id == id);
-    setTopVideosData(topVideosData.filter((item, i) => item._id != id));
-    setAllVideosData([...allVideosData, videoToadd]);
+    if (videoToadd) {
+      setTopVideosData(topVideosData.filter((item, i) => item._id != id));
+      setAllVideosData([...allVideosData, videoToadd]);
+    }
   };
   return (
     <div

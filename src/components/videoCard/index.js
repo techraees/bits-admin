@@ -22,7 +22,13 @@ const VideoCard = ({
 }) => {
   console.log("ididid", video);
 
+  const isValidId = (id) => typeof id === "string" && id.trim() !== "";
   const handleClick = async () => {
+    if (!isValidId(id)) {
+      ToastMessage("Error", "Invalid video ID", "error");
+      return;
+    }
+
     await updateNftStatus({
       variables: {
         id: id,
@@ -34,6 +40,11 @@ const VideoCard = ({
   console.log("top videos", topVideosData);
 
   const handleAdd = async (id) => {
+    if (!isValidId(id)) {
+      ToastMessage("Error", "Invalid video ID", "error");
+      return;
+    }
+
     if (topVideosData.length < 8) {
       const videoIndex = allVideosData.findIndex((v) => v._id === id);
 
@@ -56,6 +67,11 @@ const VideoCard = ({
   console.log(allVideosData);
 
   const handleConfirmRemove = async () => {
+    if (!isValidId(id)) {
+      ToastMessage("Error", "Invalid video ID", "error");
+      return;
+      }
+      
     const videoIndex = allVideosData.findIndex((v) => v._id === id);
 
     if (videoIndex !== -1) {
