@@ -18,8 +18,8 @@ import {
   redPolygon,
 } from "../../assets";
 import { Input } from "antd";
-import { useMutation, useQuery } from "@apollo/client";
-import { GET_ALL_NFTS_FOR_ADMIN, GET_TOP_NFTS } from "../../gql/queries";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { GET_ALL_NFTS_FOR_ADMIN, GET_TOP_NFTS, GET_TOP_NFTS_FOR_ONE_CHAIN } from "../../gql/queries";
 import { CREATE_TOP_NFT } from "../../gql/mutations";
 import { UPDATE_NFT_STATUS } from "../../gql/mutations";
 import Loading from "../../components/loaders/loading";
@@ -45,9 +45,11 @@ const DataSection = () => {
   const [chainId, setChainId] = useState(137);
   const [currentItems, setCurrentItems] = useState([]);
 
-  console.log("PPPPPPPPPPPPPPPPPPPPPPPP", topVideosData);
 
   const { loading, error, data, refetch } = useQuery(GET_ALL_NFTS_FOR_ADMIN);
+  const { loading: getTopNftsForOneChainLoading, error: getTopNftsForOneChainError, data: getTopNftsForOneChain } = useQuery(GET_TOP_NFTS_FOR_ONE_CHAIN, {
+    variables: { chainId: chainId.toString() },
+  });
 
   const [CreateTopNft, { createdata, createloading, createerror }] =
     useMutation(CREATE_TOP_NFT);
@@ -71,7 +73,7 @@ const DataSection = () => {
     }
   }, [searchByName, data?.getAllNftsWithoutAddress]);
 
-  console.log(topNfts, "PPPPPPPPPPPPPPPPPPPPPPPAAAAAAAAAA", fetchedData);
+  console.log(getTopNftsForOneChain?.GetTopNftsForOneChain, "PPPPPPPPPPPPPPPPPPPPPPPAAAAAAAAAA",);
 
   // useEffect(() => {
   //   if (topNfts?.GetTopNfts.length > 0) {
@@ -84,6 +86,15 @@ const DataSection = () => {
   //     setTopVideosData(filteredItem);
   //   }
   // }, [topNfts?.GetTopNfts, data?.getAllNftsWithoutAddress]);
+
+  // Add data to useState of gettopnftForoneChain
+  const [topVideosDataForOneChain, setTopVideosDataForOneChain] = useState(null)
+  useEffect(() => {
+    if (getTopNftsForOneChain?.GetTopNftsForOneChain.length > 0) {
+      const temp = getTopNftsForOneChain?.GetTopNftsForOneChain;
+      setTopVideosDataForOneChain(temp);
+    }
+  }, [getTopNftsForOneChain?.GetTopNftsForOneChain])
 
   useEffect(() => {
     if (!fetchedData.length && allVideosData.length > 0) {
@@ -148,33 +159,31 @@ const DataSection = () => {
           style={handleSettingHeightForSortedLists(items)}
         >
           {items?.slice(start, end).map((e, i) => {
-            if (e.chainId == chainId) {
-              return (
-                <GridItem key={i}>
-                  <TopNftVideoCard
-                    key={e?._id}
-                    index={i}
-                    id={e?._id}
-                    videoThumbnail={e.videoThumbnail}
-                    name={e?.name}
-                    title={e?.artist_name1}
-                    video={e.video}
-                    description={e?.description}
-                    updateNftStatus={updateNftStatus}
-                    isBlocked={e.is_blocked}
-                    refetch={refetch}
-                    viewOnly={viewOnly}
-                    allVideosData={allVideosData}
-                    setAllVideosData={setAllVideosData}
-                    setTopVideosData={setTopVideosData}
-                    topVideosData={topVideosData}
-                    is_Published={e.is_Published}
-                  />
-          
-                  {/* <div className='bg-secondary' style={{height:'100%',width:"100%"}}>{e._id}</div> */}
-                </GridItem>
-              );
-            }
+            return (
+              <GridItem key={i}>
+                <TopNftVideoCard
+                  key={e?.nft_id?._id}
+                  index={i}
+                  id={e?.nft_id?._id}
+                  videoThumbnail={e?.nft_id?.videoThumbnail}
+                  name={e?.nft_id?.name}
+                  title={e?.nft_id?.artist_name1}
+                  video={e?.nft_id?.video}
+                  description={e?.nft_id?.description}
+                  updateNftStatus={updateNftStatus}
+                  isBlocked={e?.nft_id?.is_blocked}
+                  refetch={refetch}
+                  viewOnly={viewOnly}
+                  allVideosData={allVideosData}
+                  setAllVideosData={setAllVideosData}
+                  setTopVideosData={setTopVideosData}
+                  topVideosData={topVideosData}
+                  is_Published={e.is_Published}
+                />
+
+                {/* <div className='bg-secondary' style={{height:'100%',width:"100%"}}>{e._id}</div> */}
+              </GridItem>
+            );
           })}
         </GridDropZone>
       </GridContextProvider>
@@ -437,19 +446,21 @@ const DataSection = () => {
           >
             <div className="radius1">
               <div className="row" style={{ position: "relative" }}>
-                <SortableList
-                  items={topVideosData}
-                  start={start}
-                  end={end}
-                  setItems={setTopVideosData}
-                />
+                {topVideosDataForOneChain && topVideosDataForOneChain.length > 0 &&
+                  <SortableList
+                    items={topVideosDataForOneChain}
+                    start={start}
+                    end={end}
+                    setItems={setTopVideosData}
+                  />
+                }
+
                 <div
                   style={{
                     position: "absolute",
                     bottom: handlePositionForPagination(topVideosData),
-                    display: `${
-                      currentItems && currentItems.length > 0 ? "block" : "none"
-                    }`,
+                    display: `${currentItems && currentItems.length > 0 ? "block" : "none"
+                      }`,
                   }}
                 >
                   <Pagination

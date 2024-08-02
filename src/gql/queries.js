@@ -177,6 +177,19 @@ const GET_TOP_NFTS = gql`
   }
 `;
 
+const GET_TOP_NFTS_FOR_ONE_CHAIN = gql`
+  query GetTopNftsForOneChain($chainId:String!){
+    GetTopNftsForOneChain(chainId: $chainId) {
+      id
+      duration
+      nft_link
+      serial_number
+      nft_id
+      is_Published
+    }
+  }
+`;
+
 export {
   GET_ALL_CONTACTS,
   GET_ALL_VISITS,
@@ -191,5 +204,6 @@ export {
   GET_ALL_NOTIFICATIONS,
   GET_NEW_REGISTRATION,
   GET_TOP_NFTS,
+  GET_TOP_NFTS_FOR_ONE_CHAIN
 };
 // count={totalRegistered?.GetAllUsersCount?.registered}
