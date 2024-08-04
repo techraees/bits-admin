@@ -20,7 +20,7 @@ import {
 import { Input } from "antd";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { GET_ALL_NFTS_FOR_ADMIN, GET_TOP_NFTS, GET_TOP_NFTS_FOR_ONE_CHAIN } from "../../gql/queries";
-import { CREATE_TOP_NFT } from "../../gql/mutations";
+import { CREATE_TOP_NFT, SAVED_TOP_NFTS_OR_PUBLISHED_NFTS_BATCH, } from "../../gql/mutations";
 import { UPDATE_NFT_STATUS } from "../../gql/mutations";
 import Loading from "../../components/loaders/loading";
 import { FaEthereum } from "react-icons/fa";
@@ -41,18 +41,21 @@ const DataSection = () => {
   const [searchByName, setSearchByName] = useState(null);
   const [searchByArtist, setSearchByArtist] = useState(null);
   const [topVideosData, setTopVideosData] = useState([]);
+  const [savedLoading, setSavedLoading] = useState(false);
   const [fetchedData, setFetchedData] = useState([]);
   const [chainId, setChainId] = useState(137);
   const [currentItems, setCurrentItems] = useState([]);
 
 
   const { loading, error, data, refetch } = useQuery(GET_ALL_NFTS_FOR_ADMIN);
-  const { loading: getTopNftsForOneChainLoading, error: getTopNftsForOneChainError, data: getTopNftsForOneChain } = useQuery(GET_TOP_NFTS_FOR_ONE_CHAIN, {
+  const { loading: getTopNftsForOneChainLoading, error: getTopNftsForOneChainError, data: getTopNftsForOneChain, refetch: refetchTopNFT } = useQuery(GET_TOP_NFTS_FOR_ONE_CHAIN, {
     variables: { chainId: chainId.toString() },
   });
 
   const [CreateTopNft, { createdata, createloading, createerror }] =
     useMutation(CREATE_TOP_NFT);
+  const [SavedTopNftsOrPublishedNftsBatch, { createSaveddata, createSavedloading, createSavederror }] =
+    useMutation(SAVED_TOP_NFTS_OR_PUBLISHED_NFTS_BATCH);
 
   const { data: topNfts, refetch: toprefetch } = useQuery(GET_TOP_NFTS);
   const [updateNftStatus, { loading: statusLoading }] =
@@ -73,7 +76,6 @@ const DataSection = () => {
     }
   }, [searchByName, data?.getAllNftsWithoutAddress]);
 
-  console.log(getTopNftsForOneChain?.GetTopNftsForOneChain, "PPPPPPPPPPPPPPPPPPPPPPPAAAAAAAAAA",);
 
   // useEffect(() => {
   //   if (topNfts?.GetTopNfts.length > 0) {
@@ -92,9 +94,13 @@ const DataSection = () => {
   useEffect(() => {
     if (getTopNftsForOneChain?.GetTopNftsForOneChain.length > 0) {
       const temp = getTopNftsForOneChain?.GetTopNftsForOneChain;
+      console.log(temp, "Chianing Data For the app")
       setTopVideosDataForOneChain(temp);
+    } else {
+      setTopVideosDataForOneChain([]);
+
     }
-  }, [getTopNftsForOneChain?.GetTopNftsForOneChain])
+  }, [getTopNftsForOneChain?.GetTopNftsForOneChain,])
 
   useEffect(() => {
     if (!fetchedData.length && allVideosData.length > 0) {
@@ -176,8 +182,8 @@ const DataSection = () => {
                   viewOnly={viewOnly}
                   allVideosData={allVideosData}
                   setAllVideosData={setAllVideosData}
-                  setTopVideosData={setTopVideosData}
-                  topVideosData={topVideosData}
+                  setTopVideosData={setTopVideosDataForOneChain}
+                  topVideosData={topVideosDataForOneChain}
                   is_Published={e.is_Published}
                 />
 
@@ -191,36 +197,50 @@ const DataSection = () => {
   };
 
   const handleSaveNFTS = async () => {
-    topVideosData.map((item) => {
-      const variables = {
-        duration: Math.round(new Date().getTime() / 1000),
-        nft_id: item._id,
-        nft_link: item.video,
-        is_Published: false,
-      };
-
-      CreateTopNft({
-        variables: variables,
-      });
+    const nftInputs = topVideosDataForOneChain.map(item => ({
+      nft_id: item.nft_id._id,
+      top_nft_id: item.id,
+      duration: Math.round(new Date().getTime() / 1000),
+      nft_link: item.nft_id.video,
+      is_Published: item.is_Published || false,
+      is_Saved: true,
+      chain_id: chainId,
+    }));
+    setSavedLoading(true)
+    const { data } = await SavedTopNftsOrPublishedNftsBatch({
+      variables: { nfts_for_top_nfts: nftInputs, chain_id: chainId },
     });
-  };
+    if (data?.SavedTopNftsOrPublishedNftsBatch) {
+      setTopVideosDataForOneChain(data?.SavedTopNftsOrPublishedNftsBatch)
+    }
+    setSavedLoading(false)
+    refetchTopNFT()
 
+
+  };
   const handlePublishNFTS = async () => {
-    topVideosData.map((item) => {
-      const variables = {
-        duration: Math.round(new Date().getTime() / 1000),
-        nft_id: item._id,
-        nft_link: item.video,
-        is_Published: true,
-      };
+    const nftInputs = topVideosDataForOneChain.map(item => ({
+      nft_id: item.nft_id._id,
+      top_nft_id: item.id,
+      duration: Math.round(new Date().getTime() / 1000),
+      nft_link: item.nft_id.video,
+      is_Published: true,
+      is_Saved: true,
+      chain_id: chainId,
+    }));
+    setSavedLoading(true)
 
-      CreateTopNft({
-        variables: variables,
-      });
+    const { data } = await SavedTopNftsOrPublishedNftsBatch({
+      variables: { nfts_for_top_nfts: nftInputs, chain_id: chainId },
     });
+    if (data?.SavedTopNftsOrPublishedNftsBatch) {
+      setTopVideosDataForOneChain(data?.SavedTopNftsOrPublishedNftsBatch)
+    }
+    setSavedLoading(false)
+    refetchTopNFT()
+
   };
 
-  console.log("topNfts", topNfts?.GetTopNfts);
 
   useEffect(() => {
     toprefetch();
@@ -270,8 +290,6 @@ const DataSection = () => {
   };
 
   const handlePositionForPagination = (items) => {
-    console.log("ITEMITEMITEMS");
-    console.log(items, "ITEMITEMITEMS");
     switch (true) {
       case items.length >= 1 && items.length <= 3:
         return "12px";
@@ -426,8 +444,8 @@ const DataSection = () => {
                       viewOnly={viewOnly}
                       setAllVideosData={setAllVideosData}
                       allVideosData={allVideosData}
-                      setTopVideosData={setTopVideosData}
-                      topVideosData={topVideosData}
+                      setTopVideosData={setTopVideosDataForOneChain}
+                      topVideosData={topVideosDataForOneChain}
                     />
                   </div>
                 );
@@ -442,36 +460,44 @@ const DataSection = () => {
               background: "#f3f3f3",
               padding: "1rem",
               borderRadius: "10px",
+              position: "relative"
             }}
           >
             <div className="radius1">
-              <div className="row" style={{ position: "relative" }}>
-                {topVideosDataForOneChain && topVideosDataForOneChain.length > 0 &&
+              <div className="row" >
+                {savedLoading ?
+                  <div style={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
+                    Loading....
+                  </div>
+                  : topVideosDataForOneChain && topVideosDataForOneChain.length > 0 &&
                   <SortableList
                     items={topVideosDataForOneChain}
                     start={start}
                     end={end}
-                    setItems={setTopVideosData}
+                    setItems={setTopVideosDataForOneChain}
                   />
                 }
 
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: handlePositionForPagination(topVideosData),
-                    display: `${currentItems && currentItems.length > 0 ? "block" : "none"
-                      }`,
-                  }}
-                >
-                  <Pagination
-                    currentItems={currentItems}
-                    setCurrentItems={setCurrentItems}
-                    items={allVideosData}
-                  />
-                </div>
+
               </div>
+
             </div>
 
+            <div
+              style={{
+                position: "absolute",
+                bottom: handlePositionForPagination(topVideosData),
+                display: `${currentItems && currentItems.length > 0 ? "block" : "none"
+                  }`,
+                right: "20px"
+              }}
+            >
+              <Pagination
+                currentItems={currentItems}
+                setCurrentItems={setCurrentItems}
+                items={allVideosData}
+              />
+            </div>
             {/* <div
               className="bg-white2 radius1 d-flex justify-content-center center"
               style={{ height: "100vh" }}

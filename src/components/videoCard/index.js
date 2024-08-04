@@ -45,19 +45,30 @@ const VideoCard = ({
       return;
     }
 
+
+
     if (topVideosData.length < 8) {
+      // Check If it is already there 
+      const checkAlreadyThere = topVideosData.find((top_nft) => {
+        return top_nft.nft_id._id == id
+      })
+      if (checkAlreadyThere) {
+        ToastMessage("Error", "You have already added this one", "error");
+        return
+      }
       const videoIndex = allVideosData.findIndex((v) => v._id === id);
 
       if (videoIndex !== -1) {
+
+
         const updatedVideos = [
           allVideosData[videoIndex],
           ...allVideosData.slice(0, videoIndex),
           ...allVideosData.slice(videoIndex + 1),
         ];
 
-        console.log("top videos", topVideosData);
 
-        setTopVideosData((prev) => [...prev, allVideosData[videoIndex]]);
+        setTopVideosData((prev) => [...prev, { nft_id: allVideosData[videoIndex] }]);
         setAllVideosData(allVideosData.filter((item) => item._id != id));
       }
     } else {
@@ -70,8 +81,8 @@ const VideoCard = ({
     if (!isValidId(id)) {
       ToastMessage("Error", "Invalid video ID", "error");
       return;
-      }
-      
+    }
+
     const videoIndex = allVideosData.findIndex((v) => v._id === id);
 
     if (videoIndex !== -1) {

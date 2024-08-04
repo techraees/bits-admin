@@ -133,6 +133,39 @@ const CREATE_TOP_NFT = gql`
   }
 `;
 
+const SAVED_TOP_NFTS_OR_PUBLISHED_NFTS_BATCH = gql`
+  mutation SavedTopNftsOrPublishedNftsBatch(
+  $nfts_for_top_nfts: [NftInput!]!
+  $chain_id:Int!) {
+    SavedTopNftsOrPublishedNftsBatch(
+    nfts_for_top_nfts: $nfts_for_top_nfts 
+    chain_id: $chain_id 
+    ) {
+      id
+      nft_id
+      duration
+      nft_link
+      serial_number
+      is_Published
+      is_Saved
+      chain_id
+    }
+  }
+`;
+
+const NftInput = gql`
+  input NftInput {
+    nft_id: String!
+    top_nft_id: String
+    duration: Int!
+    nft_link: String!
+    is_Published: Boolean!
+    is_Saved: Boolean!
+    chain_id: Int!
+  }
+`;
+
+
 const UPDATE_TOP_NFT_LIST = gql`
   mutation UpdateSerialTopNft($nftArray: [topNftsTypeInput]) {
     UpdateSerialTopNft(nftArray: $nftArray) {
@@ -193,4 +226,5 @@ export {
   UPDATE_TOP_NFT_LIST,
   EDIT_TOP_NFT,
   DELETE_TOP_NFT,
+  SAVED_TOP_NFTS_OR_PUBLISHED_NFTS_BATCH
 };
