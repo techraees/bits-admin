@@ -282,11 +282,13 @@ const DataSection = () => {
     setChainId(1);
     setIconClicked(true);
     setShowRedImage(true);
+
   };
   const toggleImage = () => {
     setChainId(137);
     setShowRedImage(false);
     setIconClicked(false);
+
   };
 
   const handlePositionForPagination = (items) => {
