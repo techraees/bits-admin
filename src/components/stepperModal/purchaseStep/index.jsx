@@ -8,7 +8,7 @@ import { SEND_EMAIL_MUTATION } from "../../../gql/mutations";
 import { test } from "../../../assets";
 import { SuccessModal } from "../../index";
 import ConnectModal from "../../connectModal";
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
 import { trimWallet } from "../../../utills/trimWalletAddr";
 import { ETHToWei } from "../../../utills/convertWeiAndBnb";
 import { Loader, ToastMessage } from "../../../components";
@@ -42,10 +42,10 @@ function PurchaseStep({
   const [
     getProfile,
     {
-      loading: profileLoadeing,
-      error: profileError,
+      // loading: profileLoadeing,
+      // error: profileError,
       data: profileData,
-      refetch,
+      // refetch,
     },
   ] = useLazyQuery(GET_PROFILE_DETAILS_QUERY, {
     variables: { getProfileDetailsId: userData?.id },
@@ -53,7 +53,7 @@ function PurchaseStep({
 
   const [
     sendEmail,
-    { data: emailData, loading: emailLoading, error: emailError },
+    // { data: emailData, loading: emailLoading, error: emailError },
   ] = useMutation(SEND_EMAIL_MUTATION);
 
   const showModal = () => {
@@ -89,7 +89,7 @@ function PurchaseStep({
           const tx = await marketContractWithsigner.BuyFixedPriceItem(
             fixedId,
             quantity,
-            { value: amount }
+            { value: amount },
           );
 
           setLoadingStatus(true);
@@ -109,9 +109,9 @@ function PurchaseStep({
                 userData?.full_name,
                 name,
                 sellerUsername,
-                totalPrice
+                totalPrice,
               );
-              const res = await sendEmail({
+              await sendEmail({
                 variables: {
                   to: profileData?.GetProfileDetails?.email,
                   from: environment.REACT_APP_EMAIL_OWNER,
@@ -119,9 +119,6 @@ function PurchaseStep({
                   text: msgData.message,
                 },
               });
-
-              if (res) {
-              }
             } catch (error) {
               console.log(error);
             }
@@ -129,7 +126,7 @@ function PurchaseStep({
         } catch (error) {
           const parsedEthersError = getParsedEthersError(error);
           if (parsedEthersError.context == -32603) {
-            ToastMessage("Error", `Insufficient Balance`, "error");
+            ToastMessage("Error", "Insufficient Balance", "error");
           } else {
             ToastMessage("Error", `${parsedEthersError.context}`, "error");
           }

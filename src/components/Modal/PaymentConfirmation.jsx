@@ -81,7 +81,11 @@ const PaymentConfirmation = ({
               {paymentConfirm && (
                 <div
                   className="modal-footer flex-column"
-                  style={{ paddingLeft: 0, paddingRight: 0, borderTop: 0 }}
+                  style={{
+                    paddingLeft: 0,
+                    paddingRight: 0,
+                    borderTop: 0,
+                  }}
                 >
                   <button
                     type="button"

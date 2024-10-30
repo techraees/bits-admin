@@ -17,9 +17,9 @@ function StepperModal({ handleCancel, owners, name, sellerUsername }) {
   const [showAmt, setShowAmt] = useState(0);
   const [fixedId, setFixedId] = useState(0);
 
-  const onChange = (value) => {
-    setCurrent(value);
-  };
+  // const onChange = (value) => {
+  // 	setCurrent(value);
+  // };
 
   return (
     <div>

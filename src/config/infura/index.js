@@ -4,9 +4,7 @@ const env = process.env;
 
 const auth =
   "Basic " +
-  Buffer.from(
-    env.REACT_APP_INFURA_API_KEY + ":" + env.REACT_APP_INFURA_SECRET
-  ).toString("base64");
+  btoa(env.REACT_APP_INFURA_API_KEY + ":" + env.REACT_APP_INFURA_SECRET);
 
 export const getAllNftsByAddress = async (address, networkId, contract) => {
   const infura_url = `https://nft.api.infura.io/networks/${networkId}/`;
@@ -37,7 +35,7 @@ export const getAllNftsByAddress = async (address, networkId, contract) => {
 export const getAllNftsByAddressAlchemy = async (
   address,
   networkId,
-  contract
+  contract,
 ) => {
   const network = networkId == 137 ? "polygon-mainnet" : "eth-mainnet";
   const baseUrl = `https://${network}.g.alchemy.com/nft/v3/${env.REACT_APP_ALCHEMY_API_KEY}/getNFTsForOwner`;
@@ -49,8 +47,8 @@ export const getAllNftsByAddressAlchemy = async (
   };
 
   // Manually construct the query string
-  const queryString = new URLSearchParams(params).toString();
-  const finalUrl = `${baseUrl}?${queryString}`;
+  // const queryString = new URLSearchParams(params).toString();
+  // const finalUrl = `${baseUrl}?${queryString}`;
 
   const options = {
     method: "GET",
@@ -84,7 +82,7 @@ export const getOwnersOfTokenId = async (tokenId, networkId, contract) => {
     infura_url + "nfts/" + contract + "/" + tokenId + "/owners/";
 
   const request = new Request(request_url);
-  const response = await fetch(request, {
+  await fetch(request, {
     headers: {
       authorization: auth,
     },

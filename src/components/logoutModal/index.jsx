@@ -1,10 +1,9 @@
 import React from "react";
 import "./css/index.css";
-import { AiFillCheckCircle } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
-import NFtAddressReducer from "../../store/reducers/NftAddress";
 import { useNavigate } from "react-router-dom";
 import { logoutWallet } from "../../store/actions";
+import { removeStorage } from "../../utills/localStorage";
 function LogoutModal() {
   const navigate = useNavigate();
   const { userData } = useSelector((state) => state.address.userData);
@@ -26,7 +25,7 @@ function LogoutModal() {
         isLogged: false,
       },
     });
-    localStorage.removeItem("token");
+    removeStorage("token");
     dispatch(logoutWallet());
     navigate("/login");
   };

@@ -54,10 +54,26 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "set PORT=8080 && react-scripts start",
+    "start": "npm run format && npm run lint-fix && PORT=8080 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src/**/*.{js,jsx}",
+    "lint-fix": "eslint src/**/*.{js,jsx} --fix",
+    "format": "prettier --write \"**/*.{js,jsx,json}\"",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx}": [
+      "npm run format",
+      "npm run lint-fix",
+      "npm run lint"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && pretty-quick --staged"
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -76,5 +92,21 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "*",
+    "cross-env": "*",
+    "eslint": "*",
+    "eslint-config-prettier": "*",
+    "eslint-config-standard": "*",
+    "eslint-plugin-import": "*",
+    "eslint-plugin-node": "*",
+    "eslint-plugin-prettier": "*",
+    "eslint-plugin-promise": "*",
+    "eslint-plugin-react": "*",
+    "husky": "*",
+    "lint-staged": "*",
+    "prettier": "*",
+    "pretty-quick": "*"
   }
 }

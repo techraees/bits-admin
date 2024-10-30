@@ -3,7 +3,6 @@ import { bell } from "../../assets/index";
 import "./css/index.css";
 import { Nav } from "react-bootstrap";
 import profileimg from "../../assets/images/profile1.svg";
-import * as DOMPurify from "dompurify";
 
 const NotificationModal = () => {
   const [showModal, setShowModal] = useState(false);

@@ -18,9 +18,9 @@ export default combineReducers({
   nft: CreateNFtReducer,
   address: NFtAddressReducer,
   web3: web3Reducer,
-  chain : chainReducer,
-  fixedItems:fixedItemReducer,
+  chain: chainReducer,
+  fixedItems: fixedItemReducer,
   fixedItemDatas: fixedItemDataReducer,
-  auctionItems:auctionItemReducer,
+  auctionItems: auctionItemReducer,
   auctionItemDatas: auctionItemDataReducer,
 });

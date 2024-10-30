@@ -136,9 +136,9 @@ export const getSession = async () => {
 
     // Combine clientId and clientSecret, and base64 encode them
     const base64Credentials = Buffer.from(
-      `${clientId}:${clientSecret}`
+      `${clientId}:${clientSecret}`,
     ).toString("base64");
-    const response = await axios.get(uri, {
+    await axios.get(uri, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Basic ${base64Credentials}`,

@@ -20,7 +20,7 @@ export const sendFileToIPFS = async (file, isEmote) => {
 
       // console.log("ImgHash", res)
       const ImgHash = `${env.REACT_APP_IPFS_PATH}/${result.cid._baseCache.get(
-        "z"
+        "z",
       )}`;
       return ImgHash;
     } catch (error) {
@@ -34,6 +34,7 @@ export const sendFileToIPFS = async (file, isEmote) => {
 export const sendFileToIPFSV1 = async (file, isEmote) => {
   if (file) {
     try {
+      console.log({ isEmote });
       const formData = new FormData();
       formData.append("file", file);
 
@@ -50,14 +51,12 @@ export const sendFileToIPFSV1 = async (file, isEmote) => {
       const result = await axios.post(
         `${env.REACT_APP_INFURA}/add`,
         formData,
-        options
+        options,
       );
 
-      // console.log("ImgHash", res);
       const ImgHash = `${env.REACT_APP_IPFS_PATH}/${result.cid._baseCache.get(
-        "z"
+        "z",
       )}`;
-      console.log("ImgHash", ImgHash);
       return ImgHash;
     } catch (error) {
       console.log("Error sending File to IPFS: ");
@@ -100,13 +99,12 @@ export const sendFileToIPFSV2 = async (file, isEmote) => {
       const result = await axios.post(
         "https://api.nft.storage/upload",
         finalFile,
-        options
+        options,
       );
 
       // console.log("ImgHash", res)
       const ImgHash = `${env.REACT_APP_IPFS_PATH}/${result.data.value.cid}`;
 
-      console.log("Image hash", ImgHash);
       return ImgHash;
     } catch (error) {
       console.log("Error sending File to IPFS: ");
@@ -164,12 +162,11 @@ export const sendFileToIPFSV3 = async (file, isEmote) => {
       });
       const result = await ipfs.add(finalFile);
       const ImgHash = `${env.REACT_APP_IPFS_PATH}/${result.path}`;
-      console.log("ImgHash", ImgHash);
       return ImgHash;
     } catch (error) {
       console.error(
         "Error sending File to IPFS: ",
-        error.response ? error.response.data : error.message
+        error.response ? error.response.data : error.message,
       );
     }
   }

@@ -35,7 +35,6 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
       const signer = await provider.getSigner();
       const { chainId } = await provider.getNetwork();
 
-      console.log("All chaind", chainId, chain);
       if (chain === chainId) {
         const web3 = provider;
         const data = {
@@ -69,6 +68,7 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
 
 export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
   try {
+    console.log({ address });
     const DEFAULT_PROJECT_ID = "1eccdcef1fec662a8e65ca062f39ed04";
     const DEFAULT_RELAY_URL = "wss://relay.walletconnect.com";
 
@@ -89,21 +89,29 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
 
     // Subscribe to session ping
     connector.on("session_ping", ({ id, topic }) => {
+      console.log({ id, topic });
+
       console.log("EVENT", "session_ping");
     });
 
     // Subscribe to session event
     connector.on("session_event", ({ event, chainId }) => {
+      console.log({ event, chainId });
+
       console.log("EVENT", "session_event");
     });
 
     // Subscribe to session update
     connector.on("session_update", ({ topic, session }) => {
+      console.log({ topic, session });
+
       console.log("EVENT", "session_updated");
     });
 
     // Subscribe to session delete
     connector.on("session_delete", ({ id, topic }) => {
+      console.log({ id, topic });
+
       console.log("EVENT", "session_deleted");
 
       // resetApp();
@@ -127,7 +135,7 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
             "personal_sign",
             "eth_signTypedData",
           ],
-          chains: [`eip155:1`],
+          chains: ["eip155:1"],
           events: ["chainChanged", "accountsChanged"],
           rpcMap: rpc,
         },
@@ -202,17 +210,18 @@ export const loadContractIns = () => async (dispatch) => {
     const ethMarketContractIns = new ethers.Contract(
       ethMarketPlaceContract,
       ethMarketContractAbi,
-      ethProvider
+      ethProvider,
     );
+
     const ethMintingContractIns = new ethers.Contract(
       ethMintingConract,
       ethMintingContractAbi,
-      ethProvider
+      ethProvider,
     );
 
     //polygon
     const polygonProvider = new ethers.providers.JsonRpcProvider(
-      polygonInfuraIns
+      polygonInfuraIns,
     );
     const polygonMarketPlaceContract =
       "0x381c730F1646f00e4Ae9Dfe9589b1E0BDE107a1e";
@@ -220,12 +229,12 @@ export const loadContractIns = () => async (dispatch) => {
     const polygonMarketContractIns = new ethers.Contract(
       polygonMarketPlaceContract,
       polygonMarketContractAbi,
-      polygonProvider
+      polygonProvider,
     );
     const polygonMintingContractIns = new ethers.Contract(
       polygonMintingConract,
       polygonMintingContractAbi,
-      polygonProvider
+      polygonProvider,
     );
 
     // const imguri = extractNFTImage(ethMintingContract, 0)
@@ -254,12 +263,15 @@ export const loadContractIns = () => async (dispatch) => {
       (result) => {
         const { maticList, ethList } = result;
 
-        dispatch({ type: "LOAD_FIXED_ITEMS", payload: { maticList, ethList } });
+        dispatch({
+          type: "LOAD_FIXED_ITEMS",
+          payload: { maticList, ethList },
+        });
         dispatch({
           type: "MATIC_CHAIN_FIXED",
           fixedItemData: maticList,
         });
-      }
+      },
     );
 
     getAuctions(ethMarketContractIns, polygonMarketContractIns).then(
@@ -269,7 +281,7 @@ export const loadContractIns = () => async (dispatch) => {
           type: "MATIC_CHAIN_AUCTION",
           auctionItemData: maticAuctionsList,
         });
-      }
+      },
     );
   } catch (err) {
     console.log("errr", err);
@@ -279,7 +291,7 @@ export const loadContractIns = () => async (dispatch) => {
 // getting fixed prices
 const getEmoteItems = async (
   ethMarketContractIns,
-  polygonMarketContractIns
+  polygonMarketContractIns,
 ) => {
   const maticcombined = {};
   const ethcombined = {};

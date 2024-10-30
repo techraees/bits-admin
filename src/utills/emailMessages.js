@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 export const mintMessage = (username, nftName) => {
   return {
     subject: "Congratulations on Minting Your NFT on BITSNFT.com",
