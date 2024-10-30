@@ -211,7 +211,7 @@ const NavbarComponent = ({ dashboardNav }) => {
   const getPageName = (pathName) => {
     const pageName = routes?.find(
       (route) =>
-        trimAfterFirstSlash(route?.path) === trimAfterFirstSlash(pathName),
+        trimAfterFirstSlash(route?.path) === trimAfterFirstSlash(pathName)
     )?.name;
     return pageName === "Home" ? "" : pageName;
   };
@@ -225,17 +225,20 @@ const NavbarComponent = ({ dashboardNav }) => {
         sticky="top"
         style={{ zIndex: 1 }}
       >
-        <Modal
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={false}
-          className="logoutModal"
-          width={300}
-          centered={width < 992 && true}
-        >
-          <LogoutModal />
-        </Modal>
+        {isModalOpen && (
+          <Modal
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={false}
+            className="logoutModal"
+            width={300}
+            centered={width < 992 && true}
+          >
+            <LogoutModal handleOk={handleOk} />
+          </Modal>
+        )}
+
         <Navbar.Brand>
           <img
             onClick={toggleCollapsed}
@@ -302,7 +305,10 @@ const NavbarComponent = ({ dashboardNav }) => {
                 </>
               ) : (
                 <div className="d-flex align-items-center justify-content-center">
-                  <Nav.Link className="white mx-1 d-flex" onClick={showModal}>
+                  <Nav.Link
+                    className="white mx-1 d-flex"
+                    onClick={() => showModal()}
+                  >
                     <span className="me-2 mt-1">{full_name}</span>
                     {userProfile ? (
                       <img
@@ -412,7 +418,10 @@ const NavbarComponent = ({ dashboardNav }) => {
                     <img src={search} className="" alt="search" />
                   </Nav.Link>
                   <NotificationModal />
-                  <Nav.Link className="white mx-1 d-flex" onClick={showModal}>
+                  <Nav.Link
+                    className="white mx-1 d-flex"
+                    onClick={() => showModal()}
+                  >
                     <span className="me-2 mt-1">{full_name}</span>
                     {profileimg ? (
                       <img

@@ -13,10 +13,10 @@ export const useProtectedRoutes = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const validRoutes = routes?.map((route) => route?.path);
+  const validRoutes = routes?.map((route) => trimAfterFirstSlash(route?.path));
+  let token = getStorage("token");
 
   useEffect(() => {
-    let token = getStorage("token");
     if (token) {
       setIsAuthenticated(true);
       setLoading(false);
@@ -25,8 +25,8 @@ export const useProtectedRoutes = () => {
       setLoading(false);
     }
     // eslint-disable-next-line
-  }, [userData]);
-
+  }, [userData, token]);
+  console.log({ check: trimAfterFirstSlash(location?.pathname) });
   useEffect(() => {
     if (!validRoutes) return;
     if (!validRoutes?.includes(trimAfterFirstSlash(location?.pathname)))

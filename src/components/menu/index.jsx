@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/index.css";
 import { Menu, Tooltip } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { UploadVideoModal } from "../../components";
 import { useSelector } from "react-redux";
 import routes from "../../route";
@@ -12,6 +12,7 @@ const MenuComponent = ({ menuHandle, className }) => {
   const isLogged = userData?.isLogged;
 
   let navigate = useNavigate();
+  let location = useLocation();
 
   const [width, setWidth] = useState(window.innerWidth);
   console.log({ width });
@@ -92,9 +93,10 @@ const MenuComponent = ({ menuHandle, className }) => {
   };
   const getSelectedKey = () => {
     return JSON.stringify(
-      routes?.find((route) => route?.path === location?.pathname)?.key,
+      routes?.find((route) => route?.path === location?.pathname)?.key
     );
   };
+
   return (
     <div
       style={{

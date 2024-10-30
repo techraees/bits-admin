@@ -144,7 +144,7 @@ const routes = [
     visible: true,
     isNav: true,
 
-    key: 13,
+    key: 80,
   },
   {
     name: "Create Emote",

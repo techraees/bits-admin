@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutWallet } from "../../store/actions";
 import { removeStorage } from "../../utills/localStorage";
-function LogoutModal() {
+function LogoutModal({ handleOk }) {
   const navigate = useNavigate();
   const { userData } = useSelector((state) => state.address.userData);
   const dispatch = useDispatch();
@@ -27,6 +27,7 @@ function LogoutModal() {
     });
     removeStorage("token");
     dispatch(logoutWallet());
+    handleOk();
     navigate("/login");
   };
 
