@@ -211,7 +211,7 @@ const NavbarComponent = ({ dashboardNav }) => {
   const getPageName = (pathName) => {
     const pageName = routes?.find(
       (route) =>
-        trimAfterFirstSlash(route?.path) === trimAfterFirstSlash(pathName)
+        trimAfterFirstSlash(route?.path) === trimAfterFirstSlash(pathName),
     )?.name;
     return pageName === "Home" ? "" : pageName;
   };
@@ -273,9 +273,9 @@ const NavbarComponent = ({ dashboardNav }) => {
               {!full_name ? (
                 <>
                   <div className="connentbtn">
-                    <Nav.Link className="white mx-2 " onClick={handleLogin}>
+                    <NavLink to="/login" className="white mx-2 " onClick={handleLogin}>
                       Login
-                    </Nav.Link>
+                    </NavLink>
                     <Nav.Link
                       className="white mx-2  walletBtn d-flex justify-content-center align-items-center"
                       onClick={handleLogin}
@@ -286,9 +286,9 @@ const NavbarComponent = ({ dashboardNav }) => {
                     </Nav.Link>
                   </div>
                   <div className="connectIcon d-flex">
-                    <Nav.Link className="white" onClick={handleLogin}>
+                    <NavLink to="/login" className="white" onClick={handleLogin}>
                       Login
-                    </Nav.Link>
+                    </NavLink>
                     <Nav.Link
                       className="white mx-2 walletBtn d-flex justify-content-center align-items-center"
                       onClick={handleLogin}
@@ -401,9 +401,9 @@ const NavbarComponent = ({ dashboardNav }) => {
             <Nav className="ms-auto bottom-nav">
               {!full_name ? (
                 <div className="d-flex align-items-center justify-content-center navbar-menu1">
-                  <Nav.Link className="white mx-2" onClick={handleLogin}>
+                  <NavLink to="/login" className="white mx-2" onClick={handleLogin}>
                     Login
-                  </Nav.Link>
+                  </NavLink>
                   <Nav.Link
                     className="white mx-2 walletBtn d-flex justify-content-center align-items-center"
                     onClick={handleLogin}

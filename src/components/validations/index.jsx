@@ -64,7 +64,7 @@ const signUpSchema = yup.object().shape({
   user_name: yup
     .string()
     .trim()
-    .matches(/^\S+$/, "Username cannot contain spaces")
+    .matches(/^[a-zA-Z0-9_]+$/, "Username cannot contain spaces")
     .required("Username is required"),
   email: yup
     .string()
@@ -74,11 +74,18 @@ const signUpSchema = yup.object().shape({
   password: yup
     .string()
     .min(6, "Password must be at least 6 characters")
-    .matches(/^(\S|\S[\S ]*\S)$/, "Password cannot contain consecutive spaces")
+    // .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/, "Password cannot contain consecutive spaces")
     .required("Password is required"),
   phone_number: yup
     .string()
-    .matches(/^\d{10}$/, "Phone number must be 10 digits"),
+    .matches(/^\d{1,3}\d{5,}$/, "Phone number must be 10 digits")
+    .required("Phone Number is required"),
+  day: yup.string().required("Day is required"),
+  month: yup.string().required("Month is required"),
+  year: yup.string().required("Year is required"),
+  agree_condtion: yup.boolean()
+    .oneOf([true], "You must accept the terms and conditions")
+    .required("You must accept the terms and conditions"),
 });
 
 const signInSchema = yup.object().shape({

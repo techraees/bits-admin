@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { getStorage } from "../utills/localStorage";
+import { getStorage, removeAllStorage } from "../utills/localStorage";
 import { Loader } from "../components";
 import routes from "../route";
 import { trimAfterFirstSlash } from "../utills/reusableFunctions";

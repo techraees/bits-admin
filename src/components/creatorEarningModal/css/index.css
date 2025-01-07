@@ -105,23 +105,23 @@ button.add-address:hover {
     color: #fff;
 }
 
-.creator-earnings-table .ant-table-tbody > tr.ant-table-placeholder:hover > td {
+.creator-earnings-table .ant-table-tbody>tr.ant-table-placeholder:hover>td {
     background-color: #222;
 }
-.ant-table-tbody > tr.ant-table-row:hover > td {
+
+.ant-table-tbody>tr.ant-table-row:hover>td {
     background: none !important;
 }
 
-.ant-table-tbody > tr.ant-table-row:hover > td,
-.ant-table-tbody > tr > td.ant-table-cell-row-hover {
+.ant-table-tbody>tr.ant-table-row:hover>td,
+.ant-table-tbody>tr>td.ant-table-cell-row-hover {
     background-color: #222 !important;
 }
 
 .add-address .ant-btn:hover,
 .ant-btn:focus,
 .ant-btn:active {
-    background-color: transparent !important;
-    color: rgb(178, 50, 50) !important;
+    color: rgb(250, 115, 115) !important;
 }
 
 .ant-table-cell-scrollbar:not([rowspan]) {
@@ -144,6 +144,7 @@ button.add-address:hover {
     padding: 10px !important;
     border-radius: 8px !important;
 }
+
 ::-webkit-scrollbar {
     width: 10px;
 }

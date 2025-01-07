@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { check2 } from "../../assets";
 import "./css/index.css";
 
-const CustomCheckbox = ({ active, setActive }) => {
+const CustomCheckbox = ({ active, setActive, clearErrors }) => {
   const handleCheckbox = () => {
     setActive(!active);
   };
+  useEffect(() => {
+    if (clearErrors)
+      if (active) {
+        clearErrors()
+      }
+  }, [active])
   return (
     <div
       onClick={handleCheckbox}

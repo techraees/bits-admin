@@ -146,6 +146,9 @@ function Login() {
     setValue: signUpSetValue,
     formState: { errors: signUpFormError },
     watch,
+    getValues,
+    clearErrors: signupClearErrors,
+    trigger: triggerSignup,
     reset: signUpResetValue,
   } = useForm({
     resolver: yupResolver(signUpSchema),
@@ -155,6 +158,25 @@ function Login() {
       email: "",
     },
   });
+
+  console.log(getValues())
+  // Handling React Hook From For day month year
+  useEffect(() => {
+    if (day) {
+      signUpSetValue("day", day)
+      signupClearErrors(['day'])
+    }
+
+    if (month) {
+      signUpSetValue("month", month)
+      signupClearErrors(['month'])
+    }
+    if (year) {
+      signUpSetValue("year", year)
+      signupClearErrors(['year'])
+    }
+  }, [day, month, year,])
+
 
   useEffect(() => {
     const options = [];
@@ -235,26 +257,29 @@ function Login() {
   }, [signUpData, singUpError]);
 
   async function signUpHandle(data) {
-    if (
-      validatePassword(data.password) &&
-      validateEmail(data.email) &&
-      validateUsername(data.user_name) &&
-      validatePhoneNumber(data.phone_number)
-    ) {
-      const variables = {
-        userName: data.user_name,
-        email: data.email,
-        fullName: data.full_name,
-        password: data.password,
-        phoneNumber: data.phone_number,
-        userAddress: account,
-        dob: data.dob,
-      };
-      createUser({
-        variables: variables,
-      });
-    } else {
-      ToastMessage("Error", "Incorrect input format", "error");
+    try {
+      setconnectWalletLoading(true)
+      if (!web3) {
+        setConnectModal(true);
+      } else {
+        const variables = {
+          userName: data.user_name,
+          email: data.email,
+          fullName: data.full_name,
+          password: data.password,
+          phoneNumber: data.phone_number,
+          userAddress: account,
+          dob: data.dob,
+        };
+        createUser({
+          variables: variables,
+        });
+      }
+    } catch (err) {
+
+    } finally {
+      setconnectWalletLoading(false)
+
     }
   }
 
@@ -270,6 +295,9 @@ function Login() {
   const closeConnectModel = () => {
     setConnectModal(false);
   };
+  console.log(signUpFormError)
+
+  const [connectWalletLoading, setconnectWalletLoading] = useState(false)
   const connectWalletHandle = () => {
     if (!web3) {
       setConnectModal(true);
@@ -368,6 +396,7 @@ function Login() {
       return false;
     }
   };
+
 
   return (
     <div style={{ background: "black" }}>
@@ -522,12 +551,18 @@ function Login() {
                   <span>{signUpFormError.password.message}</span>
                 )}
                 <InputComponent
+
                   placeholder={"Phone number"}
                   ref={signUpRegister}
                   name="phone_number"
-                  value={watch("phone_number")}
                   onChange={handleChangeSignUp}
                   autocomplete="off"
+                  maxLength={10}
+                  onKeyPress={(e) => {
+                    if (!/[0-9]/.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 {signUpFormError.phone_number && (
                   <span>{signUpFormError.phone_number.message}</span>
@@ -550,6 +585,8 @@ function Login() {
                         onChange={handleMonth}
                         options={monthsOptions}
                       />
+                      {signUpFormError.month && <span>{signUpFormError.month.message}</span>}
+
                     </Col>
 
                     <Col span={8} className="my-3 mb-2">
@@ -559,10 +596,13 @@ function Login() {
                           width: "100%",
                         }}
                         name="day"
+                        // ref={signUpRegister}
                         className={"black"}
                         onChange={handleDay}
                         options={daysOptions}
                       />
+                      {signUpFormError.day && <span>{signUpFormError.day.message}</span>}
+
                     </Col>
 
                     <Col span={8} className="my-3 mb-2">
@@ -573,10 +613,13 @@ function Login() {
                           color: "black",
                         }}
                         name="year"
+                        // ref={signUpRegister}
                         className={"black"}
                         onChange={handleYear}
                         options={yearsOptions}
                       />
+                      {signUpFormError.year && <span>{signUpFormError.year.message}</span>}
+
                     </Col>
                   </Row>
                 </div>
@@ -590,18 +633,27 @@ function Login() {
                 <Divider style={{ border: "1.5px solid #dcdcdc" }} />
               </div>
 
-              <div className="my-2 d-flex" style={{ alignItems: "center" }}>
-                <CustomCheckbox
-                  active={signUpAgreeCheckbox}
-                  setActive={setSignUpAgreeCheckbox}
-                />
-                <Link to="/privacy-security">
-                  <span className="ms-3 light-grey">
-                    I agree to BITS’s{" "}
-                    <span className="red">Terms & Conditions</span> and{" "}
-                    <span className="red">Privacy Policy</span>
-                  </span>
-                </Link>
+              <div className="my-2 d-flex flex-column" style={{ alignItems: "start" }}>
+                <div className="d-flex ">
+                  <CustomCheckbox
+                    active={signUpAgreeCheckbox}
+                    setActive={setSignUpAgreeCheckbox}
+                    clearErrors={() => {
+                      signUpSetValue('agree_condtion', signUpAgreeCheckbox)
+                      signupClearErrors(['agree_condtion'])
+                    }
+                    }
+                  />
+                  <Link to="/privacy-security">
+                    <span className="ms-3 light-grey">
+                      I agree to BITS’s{" "}
+                      <span className="red">Terms & Conditions</span> and{" "}
+                      <span className="red">Privacy Policy</span>
+                    </span>
+                  </Link>
+                </div>
+                {signUpFormError.agree_condtion && <span>{signUpFormError.agree_condtion.message}</span>}
+
               </div>
               <div className="my-2 d-flex" style={{ alignItems: "center" }}>
                 <CustomCheckbox
@@ -613,9 +665,8 @@ function Login() {
               <div className="my-5">
                 {!web3 ? (
                   <ButtonComponent
-                    onClick={() => {
-                      connectWalletHandle();
-                    }}
+                    onClick={signUpSubmit(signUpHandle)}
+                    isLoading={connectWalletLoading}
                     text={"CONNECT WALLET"}
                   />
                 ) : (

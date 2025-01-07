@@ -10,7 +10,7 @@ import { ToastMessage } from "../../components";
 import UniversalProvider from "@walletconnect/universal-provider";
 import { Web3Modal } from "@web3modal/standalone";
 
-export const loadBlockchainAction = (chain, address) => async (dispatch) => {
+export const loadBlockchainAction = (chain, address,setLoading) => async (dispatch) => {
   // try {
   //   await Web3.givenProvider.enable();
   //   const web3 = new Web3(Web3.givenProvider);
@@ -24,6 +24,7 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
   //   let chainId = await web3.eth.getChainId();
 
   try {
+    setLoading(true)
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
     const accounts = await provider.listAccounts();
@@ -63,11 +64,15 @@ export const loadBlockchainAction = (chain, address) => async (dispatch) => {
     }
   } catch (err) {
     console.log("errr", err);
+  }finally{
+    setLoading(true)
+
   }
 };
 
-export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
+export const loadWalletConnectAction = (chain, address,setLoading) => async (dispatch) => {
   try {
+    setLoading(true)
     console.log({ address });
     const DEFAULT_PROJECT_ID = "1eccdcef1fec662a8e65ca062f39ed04";
     const DEFAULT_RELAY_URL = "wss://relay.walletconnect.com";
@@ -164,6 +169,9 @@ export const loadWalletConnectAction = (chain, address) => async (dispatch) => {
     }
   } catch (err) {
     console.log("errr", err);
+  }finally{
+    setLoading(false)
+
   }
 };
 

@@ -14,10 +14,23 @@
   height: 40px !important;
   border: none !important;
 }
+
 .btnDesign:disabled {
   background: gray !important;
 }
 
 .simpleBtnDesign:focus {
   border: none !important;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
+.button-disable-color {
+  background-color: rgb(219, 219, 219) !important;
 }

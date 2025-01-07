@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ButtonComponent } from "../index";
 import { Modal } from "antd";
 import "./css/index.css";
@@ -10,7 +10,8 @@ import {
 
 const ConnectModal = ({ visible, onClose }) => {
   const dispatch = useDispatch();
-
+  const [eeb3MetaMask, setWeb3MetaMaskLoading] = useState(false)
+  const [walletConnectLoading, setWalletConnectLoading] = useState(false)
   const { account } = useSelector((state) => state.web3.walletData);
   const { userData } = useSelector((state) => state.address.userData);
   const { contractData } = useSelector((state) => state.chain.contractData);
@@ -20,14 +21,14 @@ const ConnectModal = ({ visible, onClose }) => {
 
   const handleWeb3MetaMask = async () => {
     dispatch(
-      loadBlockchainAction(contractData.chain, userData?.address || account),
+      loadBlockchainAction(contractData.chain, userData?.address || account, setWeb3MetaMaskLoading),
     );
   };
 
   const handleWalletConnect = async () => {
     onClose();
     dispatch(
-      loadWalletConnectAction(contractData.chain, userData?.address || account),
+      loadWalletConnectAction(contractData.chain, userData?.address || account, setWalletConnectLoading),
     );
   };
 
@@ -49,12 +50,14 @@ const ConnectModal = ({ visible, onClose }) => {
             text={"Link MetaMask"}
             height={40}
             width={170}
+            isLoading={eeb3MetaMask}
           />
           <ButtonComponent
             onClick={handleWalletConnect}
             text={"Link Mobile Wallet"}
             height={40}
             width={170}
+            isLoading={walletConnectLoading}
           />
         </div>
       </div>

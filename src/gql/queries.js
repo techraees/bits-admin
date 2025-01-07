@@ -252,13 +252,34 @@ const GET_TOP_VIEW_NFTS = gql`
 `;
 
 const GET_TOP_NFTS = gql`
-  query GetTopNfts {
-    GetTopNfts {
+  query GetTopNfts($page: Int, $limit: Int) {
+    GetTopNfts(page: $page, limit: $limit) {
       id
       duration
       nft_link
       serial_number
-      nft_id
+      nft_id {
+        _id
+        name
+        artist_name1
+        video
+        description
+        metauri
+        user_id {
+          id: String
+          email: String
+          token: String
+          user_name: String
+          user_address: String
+          dob: String
+          country: String
+          bio: String
+          profileImg: String
+          phone_number: Int
+          createdAt: Date
+          is_login: Boolean
+        }
+      }
       is_Published
     }
   }
