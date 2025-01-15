@@ -33,6 +33,7 @@ import {
   move,
 } from "react-grid-dnd";
 import ToastMessage from "../../components/toastMessage";
+import TopNftsSkeletal from "./Skeletal/TopNftsSkeletal";
 const DataSection = () => {
   const { viewOnly } = useSelector((state) => state.adminDetails.adminDetails);
 
@@ -100,7 +101,7 @@ const DataSection = () => {
       setTopVideosDataForOneChain([]);
 
     }
-  }, [getTopNftsForOneChain?.GetTopNftsForOneChain,])
+  }, [getTopNftsForOneChain?.GetTopNftsForOneChain,topNfts])
 
   useEffect(() => {
     if (!fetchedData.length && allVideosData.length > 0) {
@@ -291,19 +292,24 @@ const DataSection = () => {
 
   };
 
-  const handlePositionForPagination = (items) => {
-    switch (true) {
-      case items.length >= 1 && items.length <= 3:
-        return "12px";
-      case items.length >= 4 && items.length <= 6:
-        return "-5px";
-      case items.length >= 7:
-        return "140px";
-      default:
-        return "50px"; // Default style if needed
+  const handlePositionForPagination = (items, savedLoading) => {
+    if (savedLoading) {
+      return "18px";
+    } else {
+      switch (true) {
+        case items.length >= 1 && items.length <= 3:
+          return "12px";
+        case items.length >= 4 && items.length <= 6:
+          return "-5px";
+        case items.length >= 7:
+          return "140px";
+        default:
+          return "50px"; // Default style if needed
+      }
     }
   };
 
+  
   return (
     <div className="bg-white2">
       <NavbarComponent lightNav headerTxt={"Data Section"} selectedKey={"3"} />
@@ -468,9 +474,7 @@ const DataSection = () => {
             <div className="radius1">
               <div className="row" >
                 {savedLoading ?
-                  <div style={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
-                    Loading....
-                  </div>
+                  <TopNftsSkeletal />
                   : topVideosDataForOneChain && topVideosDataForOneChain.length > 0 &&
                   <SortableList
                     items={topVideosDataForOneChain}
@@ -479,8 +483,6 @@ const DataSection = () => {
                     setItems={setTopVideosDataForOneChain}
                   />
                 }
-
-
               </div>
 
             </div>
@@ -488,7 +490,7 @@ const DataSection = () => {
             <div
               style={{
                 position: "absolute",
-                bottom: handlePositionForPagination(topVideosData),
+                bottom: handlePositionForPagination(topVideosData, savedLoading),
                 display: `${currentItems && currentItems.length > 0 ? "block" : "none"
                   }`,
                 right: "20px"

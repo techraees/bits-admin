@@ -45,7 +45,10 @@ const VideoCard = ({
       return;
     }
 
-
+    if (isBlocked) {
+      ToastMessage("Error", "Blocked nft cannot be added", "error");
+      return;
+    }
 
     if (topVideosData.length < 8) {
       // Check If it is already there 

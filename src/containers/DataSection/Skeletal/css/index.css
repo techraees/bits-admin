@@ -1,0 +1,135 @@
+.top_nfts_skeletal_parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* Creates 3 equal-width columns */
+  grid-template-rows: repeat(3, 1fr);
+  /* Creates 3 equal-height rows */
+  gap: 2px;
+  /* Optional: Adjust spacing between grid items */
+}
+
+
+.skeletal-card {
+  position: relative;
+  overflow: hidden;
+  width: 200px;
+  height: 300px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  column-gap: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.skeletal {
+  background-color: #ddd;
+  border-radius: 4px;
+}
+
+.published-placeholder {
+  width: 80px;
+  height: 12px;
+}
+
+.video-placeholder {
+  width: 100%;
+  height: 11rem;
+}
+
+.title-placeholder {
+  width: 20%;
+  height: 18px;
+}
+
+.button-placeholder {
+  width: 5rem;
+  height: 20px;
+}
+
+.channel-placeholder {
+  width: 50%;
+  height: 14px;
+}
+
+.description-placeholder {
+  width: 100%;
+  height: 12px;
+}
+
+.description-placeholder.short {
+  width: 80%;
+}
+
+
+.shimmer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.button_text{
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  align-items: center;
+}
+
+.published_span_skeletal {
+  filter: blur(2px);
+  position: absolute;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-45deg);
+  top: 23px;
+  left: -28px;
+  width: 125px;
+}
+
+.published_skeletal {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #1aae17;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+}
+
+.notpublished_skeletal {
+  width: 100%;
+  height: 21.92px;
+  position: relative;
+  overflow: hidden;
+  background-color: #ff9900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 10px;
+}
