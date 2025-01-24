@@ -82,20 +82,24 @@ const DataSection = () => {
     if (data?.getAllNftsWithoutAddress) {
       let temp = data?.getAllNftsWithoutAddress;
       temp = temp
-        .filter((item) => tokenIds.includes(Number(item.token_id)))
         .map((item) => {
-          return { ...item, is_Added: true };
-        });
+          if (tokenIds.includes(Number(item.token_id))) {
+            return { ...item, is_Added: true };
+          } else {
+            return { ...item, is_Added: false };
+          }
+        })
 
-      console.log("temp_neww", temp);
+
       if (searchByName) {
         temp = temp.filter((x) =>
           x?.name?.toLowerCase()?.startsWith(searchByName?.toLowerCase())
         );
       }
+
       setAllVideosData(temp);
     }
-  }, [searchByName, data?.getAllNftsWithoutAddress]);
+  }, [searchByName, data?.getAllNftsWithoutAddress, tokenIds]);
 
   // useEffect(() => {
   //   if (topNfts?.GetTopNfts.length > 0) {
@@ -463,9 +467,11 @@ const DataSection = () => {
                       refetch={refetch}
                       viewOnly={viewOnly}
                       setAllVideosData={setAllVideosData}
+                      is_Added={e.is_Added}
                       allVideosData={allVideosData}
                       setTopVideosData={setTopVideosDataForOneChain}
                       topVideosData={topVideosDataForOneChain}
+                      singleItem={e}
                     />
                   </div>
                 );
@@ -508,9 +514,8 @@ const DataSection = () => {
                   topVideosData,
                   savedLoading
                 ),
-                display: `${
-                  currentItems && currentItems.length > 0 ? "block" : "none"
-                }`,
+                display: `${currentItems && currentItems.length > 0 ? "block" : "none"
+                  }`,
                 right: "20px",
               }}
             >

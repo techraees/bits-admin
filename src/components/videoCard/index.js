@@ -16,11 +16,12 @@ const VideoCard = ({
   refetch,
   viewOnly,
   setAllVideosData,
+  is_Added,
+  singleItem,
   allVideosData,
   setTopVideosData,
   topVideosData,
 }) => {
-  console.log("ididid", video);
 
   const isValidId = (id) => typeof id === "string" && id.trim() !== "";
   const handleClick = async () => {
@@ -40,6 +41,9 @@ const VideoCard = ({
   console.log("top videos", topVideosData);
 
   const handleAdd = async (id) => {
+    if (!is_Added) {
+      return
+    }
     if (!isValidId(id)) {
       ToastMessage("Error", "Invalid video ID", "error");
       return;
@@ -118,8 +122,9 @@ const VideoCard = ({
       <div className="col-lg-3">
         <div className="d-block ms-3 videoCardMobAlignment">
           <Button
-            className="videoCardBtns bg-green radius1 mb-2 white"
+            className={`${is_Added ? "videoCardBtns bg-green radius1 mb-2 white" : "videoCardBtns bg-gray radius1 mb-2 black"}`}
             onClick={() => handleAdd(id)}
+            disabled={!is_Added}
           >
             Add
           </Button>
