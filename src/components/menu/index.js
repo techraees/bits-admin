@@ -29,8 +29,8 @@ function getItem(label, key, icon, navigate, children, type, admin) {
     navigate,
     onClick: admin
       ? () => {
-          window.open("https://bmd9150.zendesk.com/", "_blank");
-        }
+        window.open("https://bmd9150.zendesk.com/", "_blank");
+      }
       : undefined,
   };
 }
@@ -103,7 +103,7 @@ const MenuComponent = ({ selectedKey, routeAccess, className }) => {
         <div style={{ width: 260, height: 55 }} className="mt-2">
           <div className="d-flex justify-content-between center ps-2 pe-3">
             <div className="d-flex center">
-              <img src={logo2}  width="60px"/>
+              <img src={logo2} width="60px" />
               <h5 className="red ms-3 semi-bold m-0">BITS</h5>
             </div>
             <img
@@ -128,6 +128,9 @@ const MenuComponent = ({ selectedKey, routeAccess, className }) => {
             (filteredItem) => filteredItem.key === item.key
           );
           if (selectedItem.navigate !== "/logout") {
+            if (selectedItem.navigate == "/data-section") {
+              window.location.href = selectedItem.navigate
+            }
             navigate(selectedItem.navigate);
           } else {
             handleLogout();
