@@ -5,6 +5,7 @@ import contractReducer from "./Contract";
 import adminReducer from "../slices/admin";
 import tranReducer from "./Transactions";
 import AllTraReducer from "./AllTransactions";
+import AllIdsReducer from "./AllTokenIds";
 import TopUserReducer from "./TopUsers";
 
 export default combineReducers({
@@ -14,5 +15,6 @@ export default combineReducers({
   contracts: contractReducer,
   totalTrans: tranReducer,
   allTrans: AllTraReducer,
+  allIds: AllIdsReducer,
   topUsers: TopUserReducer,
 });

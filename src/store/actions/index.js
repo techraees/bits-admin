@@ -92,6 +92,17 @@ export const loadContractIns = () => async (dispatch) => {
 
     console.log("Top_Users", topUsersByBought, topUsersBySold);
 
+    // all items
+    const allTokenIds = await getAllTokenIds(
+      ethMarketContractIns,
+      polygonMarketContractIns
+    );
+
+    dispatch({
+      type: "LOAD_TOKEN_IDS",
+      payload: allTokenIds,
+    });
+
     const { totalTxs, totalFixedEvents } = await getTotalTrans(
       polygonProvider,
       polygonMarketPlaceContract,
@@ -444,4 +455,103 @@ const getPrice = async (amount, chain) => {
     value = Number(amount * eth2usdprice).toFixed(4);
   }
   return value;
+};
+
+//get all tokenId
+const getAllTokenIds = async (
+  ethMarketContractIns,
+  polygonMarketContractIns
+) => {
+  const emoteItems = await getEmoteItems(
+    ethMarketContractIns,
+    polygonMarketContractIns
+  );
+  const auctions = await getAuctions(
+    ethMarketContractIns,
+    polygonMarketContractIns
+  );
+
+  const combinedTokenIds = new Set([
+    ...emoteItems.maticTokenIds,
+    ...emoteItems.ethTokenIds,
+    ...auctions.maticTokenIds,
+    ...auctions.ethTokenIds,
+  ]);
+
+  return Array.from(combinedTokenIds);
+};
+
+// get fixed Item
+const getEmoteItems = async (
+  ethMarketContractIns,
+  polygonMarketContractIns
+) => {
+  const maticTokenIds = new Set();
+  const ethTokenIds = new Set();
+
+  const maticArray = Number(await polygonMarketContractIns.getAllFixedPrices());
+  const batchSize = 100;
+
+  // Polygon Market
+  for (let i = 0; i < Math.min(maticArray, batchSize); i++) {
+    const obj = await polygonMarketContractIns.Fixedprices(i);
+    if (obj?.tokenid && !obj.isSold) {
+      const tokenId = Number(obj.tokenid);
+      if (!isNaN(tokenId)) {
+        maticTokenIds.add(tokenId);
+      }
+    }
+  }
+
+  // Ethereum Market
+  const ethArray = Number(await ethMarketContractIns.getAllFixedPrices());
+  for (let i = 0; i < ethArray; i++) {
+    const ethObj = await ethMarketContractIns.Fixedprices(i);
+    if (ethObj?.tokenid) {
+      const tokenId = Number(ethObj.tokenid);
+      if (!isNaN(tokenId)) {
+        ethTokenIds.add(tokenId);
+      }
+    }
+  }
+
+  return {
+    maticTokenIds: Array.from(maticTokenIds),
+    ethTokenIds: Array.from(ethTokenIds),
+  };
+};
+
+//get auctions
+const getAuctions = async (ethMarketContractIns, polygonMarketContractIns) => {
+  const maticTokenIds = new Set();
+  const ethTokenIds = new Set();
+
+  // Polygon Market
+  const maticArray = Number(await polygonMarketContractIns.getAllAuctions());
+  for (let i = 0; i < maticArray; i++) {
+    const obj = await polygonMarketContractIns.auctions(i);
+    if (obj?.tokenid) {
+      const tokenId = Number(obj.tokenid);
+      if (!isNaN(tokenId)) {
+        maticTokenIds.add(tokenId);
+      }
+    }
+  }
+
+  // Ethereum Market
+  const ethArray = Number(await ethMarketContractIns.getAllAuctions());
+  for (let i = 0; i < ethArray; i++) {
+    const ethObj = await ethMarketContractIns.auctions(i);
+    if (ethObj?.tokenid) {
+      const tokenId = Number(ethObj.tokenid);
+      if (!isNaN(tokenId)) {
+        ethTokenIds.add(tokenId);
+      }
+    }
+  }
+
+  return {
+    maticTokenIds: Array.from(maticTokenIds),
+    ethTokenIds: Array.from(ethTokenIds),
+  };
 };
