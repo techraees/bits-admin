@@ -65,6 +65,7 @@ const DataSection = () => {
     variables: { chainId: chainId.toString() },
   });
 
+
   const [CreateTopNft, { createdata, createloading, createerror }] =
     useMutation(CREATE_TOP_NFT);
   const [
@@ -325,6 +326,7 @@ const DataSection = () => {
       }
     }
   };
+
 
   return (
     <div className="bg-white2">
