@@ -20,7 +20,7 @@ const TransactionCard = ({ data }) => {
   return (
     <>
       {data?.map((d) => (
-        <div className="transaction_card" key={d?._id}>
+        <div className="transaction_card" key={d.id}>
           <div className="d-flex justify-content-between align-items-center flex-wrap transaction_hash_section">
             <div className=" d-flex justify-content-between align-items-center flex-wrap">
               <div className="hash">Transaction Hash</div>
@@ -28,9 +28,9 @@ const TransactionCard = ({ data }) => {
             </div>
             <div className="transaction_hash d-flex justify-content-between align-items-center flex-wrap">
               <div className="hash_code">
-                {d?.transaction_hash && trimWallet(d?.transaction_hash, 66)}
+                {trimWallet(d.transaction_hash, 66)}
               </div>
-              <CopyToClipBoard text={d?.hash_field} />
+              <CopyToClipBoard text={d.transaction_hash} />
             </div>
           </div>
           <div className="d-flex justify-content-between align-items-center flex-wrap">
@@ -39,14 +39,14 @@ const TransactionCard = ({ data }) => {
               <div className="hash">&nbsp; :</div>
             </div>
             <div className="from_hash d-flex justify-content-between align-items-center flex-wrap">
-              <div className="hash_code">{(d?.second_person_wallet_address || d?.first_person_wallet_address) && trimWallet(d?.second_person_wallet_address || d?.first_person_wallet_address, 42)}</div>
-              <CopyToClipBoard text={d?.second_person_wallet_address || d?.first_person_wallet_address} />
+              <div className="hash_code">{trimWallet(d.from, 42)}</div>
+              <CopyToClipBoard text={d.from} />
             </div>
           </div>
 
           <div className="d-flex justify-content-between align-items-center flex-wrap date_price">
             <div className="d-flex justify-content-between align-items-center">
-              {d?.is_success ? (
+              {d.is_success ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -88,26 +88,21 @@ const TransactionCard = ({ data }) => {
                 </svg>
               )}
 
-              <span className="date">{moment(d?.date).format("L")}</span>
+              <span className="date">{moment(d.date).format("L")}</span>
             </div>
             <div className="price">
               $
-              {isNaN(d?.chain_id == 5
-                ? ((d?.amount * ethBal).toFixed(4) || d?.amount)
-                : ((d?.amount * maticBal).toFixed(4) || d?.amount)) ?
-                d?.amount
-                :
-                d?.chain_id == 5
-                  ? ((d?.amount * ethBal).toFixed(4) || d?.amount)
-                  : ((d?.amount * maticBal).toFixed(4) || d?.amount)
-              }
+              {d.chain == 5
+                ? (d.price * ethBal).toFixed(4)
+                : (d.price * maticBal).toFixed(4)}
             </div>
           </div>
 
           <button className="view_transaction">
             <a
-              href={`https://${d?.chain == 5 ? "goerli.etherscan.io" : "mumbai.polygonscan.com"
-                }/tx/${d?.hash_field}`}
+              href={`https://${
+                d.chain == 5 ? "goerli.etherscan.io" : "mumbai.polygonscan.com"
+              }/tx/${d.transaction_hash}`}
               target="_blank"
             >
               View Transaction

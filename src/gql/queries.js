@@ -189,6 +189,21 @@ const GET_TOP_NFTS_FOR_ONE_CHAIN = gql`
     }
   }
 `;
+const GET_ALL_TRANSACTIONS = gql`
+  query GetAllTransactionsAndApplyFilter(
+    $token: String!
+    $filterObj: JSON
+  ) {
+    getAllTransactionsAndApplyFilter(token: $token, filterObj: $filterObj)
+  }
+`;
+
+
+const GET_ALL_TRANSACTIONS_GRAPH_DATA = gql`
+ query GetAllTransactionGraphData($token: String!) {
+    getAllTransactionGraphData(token: $token)
+}
+`;
 
 export {
   GET_ALL_CONTACTS,
@@ -204,6 +219,8 @@ export {
   GET_ALL_NOTIFICATIONS,
   GET_NEW_REGISTRATION,
   GET_TOP_NFTS,
-  GET_TOP_NFTS_FOR_ONE_CHAIN
+  GET_TOP_NFTS_FOR_ONE_CHAIN,
+  GET_ALL_TRANSACTIONS,
+  GET_ALL_TRANSACTIONS_GRAPH_DATA,
 };
 // count={totalRegistered?.GetAllUsersCount?.registered}

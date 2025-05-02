@@ -5,6 +5,8 @@ import TransactionCard from "../../components/transactionCard";
 import NftsCard from "../../components/nftsCard";
 import "./css/index.css";
 import { useEffect, useState } from "react";
+import { GET_ALL_TRANSACTIONS, GET_ALL_TRANSACTIONS_GRAPH_DATA } from "../../gql/queries";
+import { useQuery } from "@apollo/client";
 
 const Payment = () => {
   const [allTransactions, setAllTransactions] = useState([]);
@@ -132,6 +134,42 @@ const Payment = () => {
   }
 
   window.addEventListener("resize", reportWindowSize);
+  const [inputValue, setInputValue] = useState('');
+
+  const {
+    loading: getAllTransactionLoading,
+    error: getAllTransactionError,
+    data: getAllTransactionsData,
+    refetch: getAllTransactionRefetch,
+  } = useQuery(GET_ALL_TRANSACTIONS, {
+    variables: {
+      token: localStorage.getItem('adminToken'),
+      filterObj: {
+        q: inputValue
+      }
+    },
+  });
+
+
+  const {
+    loading: getAllTransactionGraphDataLoading,
+    error: getAllTransactionGraphDataError,
+    data: getAllTransactionGraphDatasData,
+    refetch: getAllTransactionGraphDataRefetch,
+  } = useQuery(GET_ALL_TRANSACTIONS_GRAPH_DATA, {
+    variables: { token: localStorage.getItem('adminToken') },
+  });
+
+
+
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    alert(`Input Value: ${inputValue}`);
+  };
 
   const filteredForm = () => {
     return (
@@ -145,6 +183,8 @@ const Payment = () => {
           <Col xs={24} sm={24} md={12} lg={8}>
             <Form.Item name={"name"} className={"search"}>
               <Input
+                value={inputValue}
+                onChange={handleChange}
                 prefix={
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -173,6 +213,7 @@ const Payment = () => {
           <Col xs={24} sm={24} md={12} lg={6}>
             <Form.Item>
               <Button
+                onClick={handleSubmit}
                 htmlType="submit"
                 type="primary"
                 className={"search_button"}
@@ -185,7 +226,6 @@ const Payment = () => {
       </Form>
     );
   };
-
   return (
     <div className="bg-color">
       <NavbarComponent headerTxt={"Payment"} selectedKey={"5"} />
@@ -203,7 +243,7 @@ const Payment = () => {
               style={{ height: "calc(100vh - 50px)", overflow: "auto" }}
             >
               <TransactionCard
-                data={allTransactions ? allTransactions : data}
+                data={getAllTransactionsData?.getAllTransactionsAndApplyFilter?.payload?.results}
               />
             </div>
           </div>
@@ -212,7 +252,7 @@ const Payment = () => {
               <div className="total_transaction ">
                 <div className="total_transaction_text">Total Transactions</div>
                 <div className="total_transaction_price">
-                  {transactionData?.totalTrans}
+                  {getAllTransactionGraphDatasData?.getAllTransactionGraphData?.payload?.countAllTransactions}
                 </div>
               </div>
               <div className="bg_one position-absolute"></div>
@@ -221,11 +261,11 @@ const Payment = () => {
             <div className="d-flex justify-content-between align-items-center nfts_section">
               <NftsCard
                 nfts_text="Total Nfts Sold"
-                nfts_price={transactionData?.fixedprices}
+                nfts_price={getAllTransactionGraphDatasData?.getAllTransactionGraphData?.payload?.selling_nft}
               />
               <NftsCard
                 nfts_text="Total Nfts Bought"
-                nfts_price={transactionData?.fixedprices}
+                nfts_price={getAllTransactionGraphDatasData?.getAllTransactionGraphData?.payload?.buying_nft}
               />
             </div>
           </div>
