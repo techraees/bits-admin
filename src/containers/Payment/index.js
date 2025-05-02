@@ -4,9 +4,10 @@ import { NavbarComponent } from "../../components";
 import TransactionCard from "../../components/transactionCard";
 import NftsCard from "../../components/nftsCard";
 import "./css/index.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GET_ALL_TRANSACTIONS, GET_ALL_TRANSACTIONS_GRAPH_DATA } from "../../gql/queries";
 import { useQuery } from "@apollo/client";
+import { fa } from "faker/lib/locales";
 
 const Payment = () => {
   const [allTransactions, setAllTransactions] = useState([]);
@@ -135,9 +136,14 @@ const Payment = () => {
 
   window.addEventListener("resize", reportWindowSize);
   const [inputValue, setInputValue] = useState('');
+  const [stopCalling, setStopCalling] = useState(false);
+  const [page, setPage] = useState(1);
+  const scrollRef = useRef(null);
+  const [getAllTransactionsDataState, setGetAllTransactionsDataState] = useState([])
 
   const {
     loading: getAllTransactionLoading,
+    fetching: getAllTransactionFetching,
     error: getAllTransactionError,
     data: getAllTransactionsData,
     refetch: getAllTransactionRefetch,
@@ -145,7 +151,9 @@ const Payment = () => {
     variables: {
       token: localStorage.getItem('adminToken'),
       filterObj: {
-        q: inputValue
+        q: inputValue,
+        page,
+        limit: 10
       }
     },
   });
@@ -163,13 +171,58 @@ const Payment = () => {
 
 
   const handleChange = (e) => {
+    setGetAllTransactionsDataState([])
     setInputValue(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
     alert(`Input Value: ${inputValue}`);
   };
+
+
+  // ========================== Infinite Scroll Function ===========================
+  const handleScroll = () => {
+    const container = scrollRef.current;
+    if (container) {
+      // Check if the scroll position is at the bottom of the container
+      if (
+        container.scrollHeight - container.scrollTop <= container.clientHeight + 10
+      ) {
+        if (!getAllTransactionLoading && !getAllTransactionFetching) {
+          if (!stopCalling) {
+            setPage((prevPage) => parseInt(prevPage) + 1); // Load the next page
+          }
+        }
+      }
+    }
+  };
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (container) {
+      container.addEventListener("scroll", handleScroll);  // Attach the scroll event listener
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", handleScroll);  // Clean up the event listener
+      }
+    };
+  }, [getAllTransactionLoading, getAllTransactionFetching, stopCalling]);
+
+  // ========================== Infinite Scroll Function ===========================
+
+  useEffect(() => {
+    setStopCalling(false);
+  }, []);
+
+
+  useEffect(() => {
+    if (getAllTransactionsData?.getAllTransactionsAndApplyFilter?.payload?.results) {
+      setGetAllTransactionsDataState((prev) => ([...prev, ...getAllTransactionsData?.getAllTransactionsAndApplyFilter?.payload?.results]))
+    }
+  }, [getAllTransactionsData])
 
   const filteredForm = () => {
     return (
@@ -241,9 +294,10 @@ const Payment = () => {
             <div
               className="transaction_scrollbar"
               style={{ height: "calc(100vh - 50px)", overflow: "auto" }}
+              ref={scrollRef}
             >
               <TransactionCard
-                data={getAllTransactionsData?.getAllTransactionsAndApplyFilter?.payload?.results}
+                data={getAllTransactionsDataState}
               />
             </div>
           </div>
