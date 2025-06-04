@@ -27,80 +27,7 @@ const Payment = () => {
     }
   }, [txs]);
 
-  const data = [
-    {
-      id: 1,
-      transaction_hash: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJX",
-      from: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJJ",
-      is_success: true,
-      date: new Date(),
-      price: "300",
-    },
-    {
-      id: 2,
-      transaction_hash: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJA",
-      from: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJI",
-      is_success: false,
-      date: new Date(),
-      price: "300",
-    },
-    {
-      id: 3,
-      transaction_hash: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJS",
-      from: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJR",
-      is_success: true,
-      date: new Date(),
-      price: "300",
-    },
-    {
-      id: 4,
-      transaction_hash: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJS",
-      from: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJR",
-      is_success: true,
-      date: new Date(),
-      price: "300",
-    },
-    {
-      id: 5,
-      transaction_hash: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJS",
-      from: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJR",
-      is_success: true,
-      date: new Date(),
-      price: "300",
-    },
-    {
-      id: 6,
-      transaction_hash: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJS",
-      from: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJR",
-      is_success: true,
-      date: new Date(),
-      price: "300",
-    },
-    {
-      id: 7,
-      transaction_hash: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJS",
-      from: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJR",
-      is_success: true,
-      date: new Date(),
-      price: "300",
-    },
-    {
-      id: 8,
-      transaction_hash: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJS",
-      from: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJR",
-      is_success: true,
-      date: new Date(),
-      price: "300",
-    },
-    {
-      id: 9,
-      transaction_hash: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJS",
-      from: "6zySCRftBgFLSqFN9F52Rj4tLMECFDHfJR",
-      is_success: true,
-      date: new Date(),
-      price: "300",
-    },
-  ];
+
 
   const filterForm = (values) => {
     let query_string = "";
@@ -164,14 +91,22 @@ const Payment = () => {
     error: getAllTransactionGraphDataError,
     data: getAllTransactionGraphDatasData,
     refetch: getAllTransactionGraphDataRefetch,
+    networkStatus
   } = useQuery(GET_ALL_TRANSACTIONS_GRAPH_DATA, {
-    variables: { token: localStorage.getItem('adminToken') },
+    variables: {
+      token: localStorage.getItem('adminToken'),
+      filterObj: {
+        q: inputValue,
+      }
+    },
   });
 
-
+  const isInitialLoading = getAllTransactionGraphDataLoading && networkStatus === 1;
+  const isRefetching = networkStatus === 4;
 
   const handleChange = (e) => {
     setGetAllTransactionsDataState([])
+    setPage(1)
     setInputValue(e.target.value);
   };
 
@@ -223,6 +158,7 @@ const Payment = () => {
       setGetAllTransactionsDataState((prev) => ([...prev, ...getAllTransactionsData?.getAllTransactionsAndApplyFilter?.payload?.results]))
     }
   }, [getAllTransactionsData])
+
 
   const filteredForm = () => {
     return (
@@ -279,6 +215,9 @@ const Payment = () => {
       </Form>
     );
   };
+
+  console.log(getAllTransactionGraphDatasData?.getAllTransactionGraphData)
+
   return (
     <div className="bg-color">
       <NavbarComponent headerTxt={"Payment"} selectedKey={"5"} />
@@ -291,23 +230,64 @@ const Payment = () => {
         <div className="row">
           <div className="col-md-6 order-md-0 order-sm-last order-last">
             {tblContentsMobile && filteredForm()}
+            {isRefetching && <div style={{ color: "#fff" }}>Loading...</div>}
             <div
               className="transaction_scrollbar"
-              style={{ height: "calc(100vh - 50px)", overflow: "auto" }}
+              style={{ height: "calc(88vh - 50px)", overflow: "auto" }}
               ref={scrollRef}
             >
-              <TransactionCard
-                data={getAllTransactionsDataState}
-              />
+              {(isInitialLoading) ? Array.from({ length: 5 }).map((item, index) => (
+                <div className="transaction_card skeleton shimmer" key={index}>
+                  <div className="parent_transaction_detail">
+                    <div className="transaction_detail">
+                      <span className="skeleton_child shimmer_skeleton_child skeletal_transaction_hash"></span>
+                      <span className="skeleton_child shimmer_skeleton_child skeletal_transaction_hash_colon"></span>
+                    </div>
+                    <div className="transaction_detail_hash_field">
+                      <span className="skeleton_child shimmer_skeleton_child transaction_detail_hash_field_field_data"></span>
+                      <span className="skeleton_child shimmer_skeleton_child transaction_detail_hash_field_icon_copy"></span>
+                    </div>
+                  </div>
+                  <div className="parent_transaction_detail_from_data">
+                    <div className="transaction_detail">
+                      <span className="skeleton_child shimmer_skeleton_child parent_transaction_detail_from_data_field"></span>
+                      <span className="skeleton_child shimmer_skeleton_child skeletal_transaction_hash_colon"></span>
+                    </div>
+                    <div className="transaction_detail_hash_field">
+                      <span className="skeleton_child shimmer_skeleton_child transaction_detail_hash_field_field_data"></span>
+                      <span className="skeleton_child shimmer_skeleton_child transaction_detail_hash_field_icon_copy"></span>
+                    </div>
+                  </div>
+                  <div className="parent_transaction_detail_amount_data">
+                    <div className="transaction_detail">
+                      <span className="skeleton_child shimmer_skeleton_child parent_transaction_detail_amount_data_circle_icon"></span>
+                      <span className="skeleton_child shimmer_skeleton_child parent_transaction_detail_amount_data_date_field"></span>
+                    </div>
+                    <div className="transaction_detail_hash_field">
+                      <span className="skeleton_child shimmer_skeleton_child parent_transaction_detail_amount_field"></span>
+                    </div>
+                  </div>
+                  <div className="parent_transaction_detail_button skeleton_child shimmer_skeleton_child">
+                  </div>
+
+                </div>
+              )) :
+
+                <TransactionCard
+                  data={getAllTransactionsDataState}
+                />
+              }
             </div>
           </div>
           <div className="col-md-6 order-md-0 order-sm-first order-first mb-4 mb-md-0">
             <div className="position-relative">
               <div className="total_transaction ">
                 <div className="total_transaction_text">Total Transactions</div>
-                <div className="total_transaction_price">
-                  {getAllTransactionGraphDatasData?.getAllTransactionGraphData?.payload?.countAllTransactions}
-                </div>
+                {(isInitialLoading) ? <div className="total_transaction_price_skeletal" >...</div> :
+                  <div className="total_transaction_price">
+                    {getAllTransactionGraphDatasData?.getAllTransactionGraphData?.payload?.countAllTransactions}
+                  </div>
+                }
               </div>
               <div className="bg_one position-absolute"></div>
               <div className="bg_two position-absolute"></div>
@@ -316,10 +296,12 @@ const Payment = () => {
               <NftsCard
                 nfts_text="Total Nfts Sold"
                 nfts_price={getAllTransactionGraphDatasData?.getAllTransactionGraphData?.payload?.selling_nft}
+                isInitialLoading={isInitialLoading}
               />
               <NftsCard
                 nfts_text="Total Nfts Bought"
                 nfts_price={getAllTransactionGraphDatasData?.getAllTransactionGraphData?.payload?.buying_nft}
+                isInitialLoading={isInitialLoading}
               />
             </div>
           </div>

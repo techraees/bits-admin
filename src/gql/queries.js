@@ -200,8 +200,11 @@ const GET_ALL_TRANSACTIONS = gql`
 
 
 const GET_ALL_TRANSACTIONS_GRAPH_DATA = gql`
- query GetAllTransactionGraphData($token: String!) {
-    getAllTransactionGraphData(token: $token)
+ query GetAllTransactionGraphData(
+ $token: String!
+ $filterObj: JSON
+ ) {
+    getAllTransactionGraphData(token: $token,filterObj: $filterObj)
 }
 `;
 

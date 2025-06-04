@@ -17,6 +17,7 @@ const TransactionCard = ({ data }) => {
     setMaticBal(result);
   });
 
+  console.log(data[0]?.createdAt,"THIS IS THE DATA COMING")
   return (
     <>
       {data?.map((d) => (
@@ -28,7 +29,7 @@ const TransactionCard = ({ data }) => {
             </div>
             <div className="transaction_hash d-flex justify-content-between align-items-center flex-wrap">
               <div className="hash_code">
-                {d?.transaction_hash && trimWallet(d?.transaction_hash, 66)}
+                {d?.hash_field && trimWallet(d?.hash_field, 66)}
               </div>
               <CopyToClipBoard text={d?.hash_field} />
             </div>
@@ -88,18 +89,18 @@ const TransactionCard = ({ data }) => {
                 </svg>
               )}
 
-              <span className="date">{moment(d?.date).format("L")}</span>
+              <span className="date">{moment(d?.createdAt).format("L")}</span>
             </div>
             <div className="price">
-              $
+              $ 
               {isNaN(d?.chain_id == 5
-                ? ((d?.amount * ethBal).toFixed(4) || d?.amount)
-                : ((d?.amount * maticBal).toFixed(4) || d?.amount)) ?
+                ? ((d?.amount * ethBal).toFixed(6) || d?.amount)
+                : ((d?.amount * maticBal).toFixed(6) || d?.amount)) ?
                 d?.amount
                 :
                 d?.chain_id == 5
-                  ? ((d?.amount * ethBal).toFixed(4) || d?.amount)
-                  : ((d?.amount * maticBal).toFixed(4) || d?.amount)
+                  ? ((d?.amount * ethBal).toFixed(6) || d?.amount)
+                  : ((d?.amount * maticBal).toFixed(6) || d?.amount)
               }
             </div>
           </div>

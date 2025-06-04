@@ -4,7 +4,8 @@
   font-size: 26px;
   font-style: normal;
   font-weight: 700;
-  line-height: 20px; /* 76.923% */
+  line-height: 20px;
+  /* 76.923% */
   letter-spacing: 0.2px;
   margin-bottom: 46px;
 }
@@ -74,40 +75,23 @@
   letter-spacing: 0.2px;
 }
 
-.search
-  .ant-form-item-control
-  .ant-form-item-control-input
-  .ant-form-item-control-input-content
-  .ant-input-affix-wrapper
-  .ant-input {
+.search .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-input-affix-wrapper .ant-input {
   background: #10101c;
   color: white;
 }
 
-.search
-  .ant-form-item-control
-  .ant-form-item-control-input
-  .ant-form-item-control-input-content
-  .ant-input-affix-wrapper {
+.search .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-input-affix-wrapper {
   padding: 16px 10px;
   border-radius: 4px;
   border: 1px solid #222235;
   background: #10101c;
 }
 
-.search
-  .ant-form-item-control
-  .ant-form-item-control-input
-  .ant-form-item-control-input-content
-  .ant-input-affix-wrapper:focus {
+.search .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-input-affix-wrapper:focus {
   box-shadow: 0 0 0 2px #10101c;
 }
 
-.search
-  .ant-form-item-control
-  .ant-form-item-control-input
-  .ant-form-item-control-input-content
-  .ant-input-affix-wrapper-focused {
+.search .ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-input-affix-wrapper-focused {
   box-shadow: 0 0 0 2px #10101c;
 }
 
@@ -124,6 +108,7 @@
   padding: 13px 52px !important;
   height: auto !important;
 }
+
 .transaction_scrollbar::-webkit-scrollbar {
   width: 0.5rem;
 }
@@ -170,6 +155,7 @@
 }
 
 @media (min-width: 992px) and (max-width: 1199.99px) {
+
   .transaction_hash,
   .from_hash {
     margin-top: 5px;
@@ -233,3 +219,162 @@
 /*        margin-top: 20px;*/
 /*    }*/
 /*}*/
+
+
+.skeleton {
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  height: 100%;
+  width: 150%;
+  background: linear-gradient(to right,
+      transparent 0%,
+      rgba(44, 44, 60, 0.6) 50%,
+      transparent 100%);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
+}
+
+.skeleton_child {
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeletal_transaction_hash {
+  width: 135px;
+  height: 20px;
+  display: block;
+}
+
+.parent_transaction_detail_from_data_field {
+  width: 41px;
+  height: 20px;
+  margin-right: 80px;
+  display: block;
+}
+
+.parent_transaction_detail_amount_data {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.parent_transaction_detail_amount_data_circle_icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.parent_transaction_detail_amount_data_date_field {
+  width: 60px;
+  height: 20px;
+}
+
+.parent_transaction_detail_amount_field {
+  width: 118px;
+  height: 27px;
+}
+
+.parent_transaction_detail_button {
+  width: 100%;
+  height: 27px;
+  margin-top: 30px;
+}
+
+.transaction_detail {
+  display: flex;
+  gap: 5;
+  align-items: center;
+}
+
+.parent_transaction_detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.parent_transaction_detail_from_data {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 10px;
+  margin-top: 15px;
+}
+
+.transaction_detail_hash_field {
+  display: flex;
+  align-items: center;
+}
+
+.transaction_detail_hash_field_field_data {
+  width: 244px;
+  height: 20px;
+  display: block;
+}
+
+.transaction_detail_hash_field_icon_copy {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.skeletal_transaction_hash_colon {
+  width: 12px;
+  height: 20px;
+  display: block;
+}
+
+
+.shimmer_skeleton_child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  height: 100%;
+  width: 150%;
+  background: linear-gradient(to right,
+      transparent 0%,
+      rgba(72, 88, 167, 0.6) 50%,
+      transparent 100%);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
+}
+
+.skeleton .shimmer .shimmer_skeleton_child {
+  animation-delay: 0s !important;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.total_transaction_price_skeletal {
+  color: rgb(178, 46, 46);
+  font-size: 2rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  margin-top: 10px;
+  height: 40px;
+}
