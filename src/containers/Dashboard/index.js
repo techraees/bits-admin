@@ -24,6 +24,15 @@ import { grabEvents } from "../../utills/grabEvents";
 import "./css/index.css";
 import LineChart from "./LineChart";
 
+import TotalVisits from './components/TotalVisits'
+import ActiveUsers from './components/ActiveUsers'
+import DailyAvgRegistrations from './components/DailyAvgRegistrations'
+import MaxAllTime from './components/MaxAllTime'
+import NewRegistrations from './components/NewRegistrations'
+import NftSold from './components/NftSold'
+import TotalRegisteredUsers from './components/TotalRegisteredUsers'
+import UniqueVisits from './components/UniqueVisits'
+
 
 ChartJS.register(
   CategoryScale,
@@ -94,53 +103,43 @@ const Dashboard = () => {
         <div className="container py-4 dashboardContainer">
           <h5 className="white">Dashboard</h5>
           <div className="row card-data">
-            <StatisticsCard
-              icon={bar_chart}
-              count={0}
-              status={"Total Visits"}
-              onClick={(e) => {
-                setGhraphToShow({ bg: '#2F49D1', type: "Total Visits" })
-              }
-              }
+            <TotalVisits
               ghraphToShow={ghraphToShow}
+              setGhraphToShow={setGhraphToShow}
             />
-            <StatisticsCard
-              icon={user2}
-              count={0}
-              status={"Unique Visitors"}
-              onClick={(e) => {
-                setGhraphToShow(
-                  { bg: '#FFB748', type: "Unique Visitors" }
-                )
-              }
-              }
+            <UniqueVisits
               ghraphToShow={ghraphToShow}
-        
-            />
-            <StatisticsCard
-              icon={message2}
-              count={0}
-              status={"Total Registered users"}
-              onClick={(e) => {
-                setGhraphToShow(
-                  { bg: '#EA2EC1', type: "Total Registered users" }
-                )
-              }
-              }
+              setGhraphToShow={setGhraphToShow} />
+
+            <TotalRegisteredUsers
               ghraphToShow={ghraphToShow}
-            />
-            <StatisticsCard
-              icon={users}
-              count={0}
-              status={"Active users"}
-              onClick={(e) => {
-                setGhraphToShow(
-                  { bg: '#3386C1', type: "Active users" }
-                )
-              }
-              }
+              setGhraphToShow={setGhraphToShow} />
+
+
+            <ActiveUsers
               ghraphToShow={ghraphToShow}
-            />
+              setGhraphToShow={setGhraphToShow} />
+
+            <NftSold
+              ghraphToShow={ghraphToShow}
+              setGhraphToShow={setGhraphToShow} />
+
+            <NewRegistrations
+              ghraphToShow={ghraphToShow}
+              setGhraphToShow={setGhraphToShow} />
+
+
+            <DailyAvgRegistrations
+              ghraphToShow={ghraphToShow}
+              setGhraphToShow={setGhraphToShow} />
+
+
+            <MaxAllTime
+              ghraphToShow={ghraphToShow}
+              setGhraphToShow={setGhraphToShow} />
+
+
+           
 
           </div>
 
@@ -153,7 +152,7 @@ const Dashboard = () => {
                 <div
                   className="col-lg-4 cursor-pointer"
                   onClick={(e) => {
-                  
+
                   }}
                 >
                   <div
@@ -174,7 +173,7 @@ const Dashboard = () => {
                 <div
                   className="col-lg-4 cursor-pointer"
                   onClick={(e) => {
-                   
+
                   }}
 
 
@@ -197,7 +196,7 @@ const Dashboard = () => {
                 <div
                   className="col-lg-4 cursor-pointer"
                   onClick={(e) => {
-                   
+
                   }}
                 >
                   <div
@@ -324,7 +323,7 @@ const Dashboard = () => {
               <div
                 className="radius2 d-flex center my-3 pb-4 pt-5 cursor-pointer"
                 onClick={(e) => {
-                
+
                 }}
                 style={{
                   flexDirection: "column",
