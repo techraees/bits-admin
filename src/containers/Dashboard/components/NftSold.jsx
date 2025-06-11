@@ -1,6 +1,11 @@
 import React from 'react'
 
-const NftSold = () => {
+const NftSold = ({
+  dateFormat,
+  setDateFormat,
+  setFeatureName,
+  featureName,
+}) => {
   return (
     <div>NftSold</div>
   )

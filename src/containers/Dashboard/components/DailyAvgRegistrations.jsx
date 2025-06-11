@@ -1,7 +1,12 @@
 
 import React from 'react'
 
-const DailyAvgRegistrations = () => {
+const DailyAvgRegistrations = ({
+  dateFormat,
+  setDateFormat,
+  setFeatureName,
+  featureName,
+}) => {
   return (
     <div>DailyAvgRegistrations</div>
   )

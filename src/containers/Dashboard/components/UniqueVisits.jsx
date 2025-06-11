@@ -1,10 +1,15 @@
 import React from 'react'
 import { StatisticsCard } from '../../../components'
 import { user2 } from '../../../assets'
+import { ALLOWED_SUPPORT_GRAPH_TYPE } from '../../../data/enums'
 
 const UniqueVisits = ({
   setGhraphToShow,
-  ghraphToShow
+  ghraphToShow,
+  dateFormat,
+  setDateFormat,
+  setFeatureName,
+  featureName,
 }) => {
   return (
     <StatisticsCard
@@ -12,6 +17,7 @@ const UniqueVisits = ({
       count={0}
       status={"Unique Visitors"}
       onClick={(e) => {
+        setFeatureName(ALLOWED_SUPPORT_GRAPH_TYPE.UNIQUE_VISITS)
         setGhraphToShow(
           { bg: '#FFB748', type: "Unique Visitors" }
         )

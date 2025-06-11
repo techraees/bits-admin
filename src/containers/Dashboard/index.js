@@ -24,6 +24,8 @@ import { grabEvents } from "../../utills/grabEvents";
 import "./css/index.css";
 import LineChart from "./LineChart";
 
+import { ALLOWED_ACCEPTED_DATE_TYPE, ALLOWED_SUPPORT_GRAPH_TYPE } from '../../data/enums'
+
 import TotalVisits from './components/TotalVisits'
 import ActiveUsers from './components/ActiveUsers'
 import DailyAvgRegistrations from './components/DailyAvgRegistrations'
@@ -45,6 +47,8 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+  const [dateFormat, setDateFormat] = useState(ALLOWED_ACCEPTED_DATE_TYPE.LAST_WEEK)
+  const [featureName, setFeatureName] = useState(ALLOWED_SUPPORT_GRAPH_TYPE.TOTAL_VISITS)
   const [chartData, setChartData] = useState(0)
   const navigate = useNavigate();
   const [ghraphToShow, setGhraphToShow] = useState({
@@ -58,18 +62,6 @@ const Dashboard = () => {
     refetch: dataRefetch,
   } = useQuery(GET_ALL_CONTACTS);
 
-  const {
-    loading: visitsLoading,
-    error: visitsError,
-    data: visitData,
-    refetch: visitdataRefetch,
-  } = useQuery(GET_ALL_VISITS);
-  const {
-    loading,
-    error,
-    data: totalRegistered,
-    refetch,
-  } = useQuery(GET_USERS_COUNT);
   const { data: allNotifications } = useQuery(GET_ALL_NOTIFICATIONS);
 
   const { topUsersData } = useSelector((state) => state.topUsers.topUsersData);
@@ -91,9 +83,6 @@ const Dashboard = () => {
     dataRefetch();
   }, []);
 
-  useEffect(() => {
-    visitdataRefetch();
-  }, []);
 
 
   return (
@@ -106,40 +95,79 @@ const Dashboard = () => {
             <TotalVisits
               ghraphToShow={ghraphToShow}
               setGhraphToShow={setGhraphToShow}
+              dateFormat={dateFormat}
+              setDateFormat={setDateFormat}
+              setFeatureName={setFeatureName}
+              featureName={featureName}
             />
             <UniqueVisits
               ghraphToShow={ghraphToShow}
-              setGhraphToShow={setGhraphToShow} />
+              setGhraphToShow={setGhraphToShow}
+              dateFormat={dateFormat}
+              setDateFormat={setDateFormat}
+              setFeatureName={setFeatureName}
+              featureName={featureName}
+            />
 
             <TotalRegisteredUsers
               ghraphToShow={ghraphToShow}
-              setGhraphToShow={setGhraphToShow} />
+              setGhraphToShow={setGhraphToShow}
+              dateFormat={dateFormat}
+              setDateFormat={setDateFormat}
+              setFeatureName={setFeatureName}
+              featureName={featureName}
+            />
 
 
             <ActiveUsers
               ghraphToShow={ghraphToShow}
-              setGhraphToShow={setGhraphToShow} />
+              setGhraphToShow={setGhraphToShow}
+              dateFormat={dateFormat}
+              setDateFormat={setDateFormat}
+              setFeatureName={setFeatureName}
+              featureName={featureName}
+            />
 
             <NftSold
               ghraphToShow={ghraphToShow}
-              setGhraphToShow={setGhraphToShow} />
+              setGhraphToShow={setGhraphToShow}
+              dateFormat={dateFormat}
+              setDateFormat={setDateFormat}
+              setFeatureName={setFeatureName}
+              featureName={featureName}
+            />
 
             <NewRegistrations
               ghraphToShow={ghraphToShow}
-              setGhraphToShow={setGhraphToShow} />
+              setGhraphToShow={setGhraphToShow}
+              dateFormat={dateFormat}
+              setDateFormat={setDateFormat}
+              setFeatureName={setFeatureName}
+              featureName={featureName}
+            />
 
 
             <DailyAvgRegistrations
               ghraphToShow={ghraphToShow}
-              setGhraphToShow={setGhraphToShow} />
+              setGhraphToShow={setGhraphToShow}
+              dateFormat={dateFormat}
+              setDateFormat={setDateFormat}
+              setFeatureName={setFeatureName}
+              featureName={featureName}
+            />
 
 
             <MaxAllTime
               ghraphToShow={ghraphToShow}
-              setGhraphToShow={setGhraphToShow} />
+              setGhraphToShow={setGhraphToShow}
+              dateFormat={dateFormat}
+              setDateFormat={setDateFormat}
+              setFeatureName={setFeatureName}
+              featureName={featureName}
+            />
 
 
-           
+
 
           </div>
 
@@ -152,6 +180,7 @@ const Dashboard = () => {
                 <div
                   className="col-lg-4 cursor-pointer"
                   onClick={(e) => {
+                    setDateFormat(ALLOWED_ACCEPTED_DATE_TYPE.LAST_WEEK)
 
                   }}
                 >
@@ -159,7 +188,7 @@ const Dashboard = () => {
                     className="radius2 d-flex center my-3 pb-4 pt-5"
                     style={{
                       flexDirection: "column",
-                      backgroundColor: `${"null" == "Week" ? "#2a2a57" : "#8BA937"
+                      backgroundColor: `${dateFormat == ALLOWED_ACCEPTED_DATE_TYPE.LAST_WEEK ? "#2a2a57" : "#8BA937"
                         }`,
                     }}
                   >
@@ -173,7 +202,7 @@ const Dashboard = () => {
                 <div
                   className="col-lg-4 cursor-pointer"
                   onClick={(e) => {
-
+                    setDateFormat(ALLOWED_ACCEPTED_DATE_TYPE.LAST_MONTH)
                   }}
 
 
@@ -182,7 +211,7 @@ const Dashboard = () => {
                     className="radius2 d-flex center my-3 pb-4 pt-5"
                     style={{
                       flexDirection: "column",
-                      backgroundColor: `${"null" == "Month" ? "#2a2a57" : "#246390"
+                      backgroundColor: `${dateFormat == ALLOWED_ACCEPTED_DATE_TYPE.LAST_MONTH ? "#2a2a57" : "#246390"
                         }`,
                     }}
                   >
@@ -196,14 +225,14 @@ const Dashboard = () => {
                 <div
                   className="col-lg-4 cursor-pointer"
                   onClick={(e) => {
-
+                    setDateFormat(ALLOWED_ACCEPTED_DATE_TYPE.LAST_YEAR)
                   }}
                 >
                   <div
                     className="radius2 d-flex center my-3 pb-4 pt-5"
                     style={{
                       flexDirection: "column",
-                      backgroundColor: `${"null" == "Year" ? "#2a2a57" : "#B52269"
+                      backgroundColor: `${dateFormat == ALLOWED_ACCEPTED_DATE_TYPE.LAST_YEAR ? "#2a2a57" : "#B52269"
                         }`,
                     }}
                   >
@@ -323,11 +352,11 @@ const Dashboard = () => {
               <div
                 className="radius2 d-flex center my-3 pb-4 pt-5 cursor-pointer"
                 onClick={(e) => {
-
+                  setDateFormat(ALLOWED_ACCEPTED_DATE_TYPE.ALL_TIME)
                 }}
                 style={{
                   flexDirection: "column",
-                  backgroundColor: `${"null" == "Max" ? "rgb(61, 18, 26)" : "#8B37A9"
+                  backgroundColor: `${dateFormat == ALLOWED_ACCEPTED_DATE_TYPE.ALL_TIME ? "rgb(61, 18, 26)" : "#8B37A9"
                     }`,
                 }}
               >
