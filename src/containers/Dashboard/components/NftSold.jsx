@@ -5,9 +5,12 @@ const NftSold = ({
   setDateFormat,
   setFeatureName,
   featureName,
+  dataValue,
+  isLoading,
 }) => {
   return (
-    <div>NftSold</div>
+    <div style={{ color: "white" }}>{dataValue}</div>
+
   )
 }
 

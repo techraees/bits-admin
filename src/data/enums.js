@@ -42,6 +42,7 @@ export const ALLOWED_ACCEPTED_DATE_TYPE = Object.freeze({
 
 export const ALLOWED_SUPPORT_GRAPH_TYPE = Object.freeze({
     TOTAL_VISITS: "total_visits",
+    ALL_ENTITIES: "all_entities",
     UNIQUE_VISITS: "unique_visits",
     TOTAL_REGISTERED_USERS: "total_registered_users",
     ACTIVE_USERS: "active_users",

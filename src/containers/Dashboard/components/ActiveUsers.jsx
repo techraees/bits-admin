@@ -10,12 +10,15 @@ const ActiveUsers = ({
   setDateFormat,
   setFeatureName,
   featureName,
+dataValue 
+
 }) => {
   return (
 
     <StatisticsCard
       icon={users}
-      count={0}
+      count={dataValue || 0}
+
       status={"Active users"}
       onClick={(e) => {
         setFeatureName(ALLOWED_SUPPORT_GRAPH_TYPE.ACTIVE_USERS)

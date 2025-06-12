@@ -6,9 +6,12 @@ const DailyAvgRegistrations = ({
   setDateFormat,
   setFeatureName,
   featureName,
+  dataValue,
+  isLoading,
 }) => {
   return (
-    <div>DailyAvgRegistrations</div>
+    <div style={{color:"white"}}>{dataValue}</div>
+
   )
 }
 

@@ -19,7 +19,7 @@ import {
   users
 } from "../../assets";
 import { NavbarComponent, StatisticsCard } from "../../components";
-import { GET_ALL_CONTACTS, GET_ALL_NOTIFICATIONS, GET_ALL_VISITS, GET_USERS_COUNT } from "../../gql/queries";
+import { GET_ALL_CONTACTS, GET_ALL_NOTIFICATIONS, GET_ALL_VISITS, GET_GRAPH_DATA_HOME_PAGE_FOR_ADMIN_PANEL, GET_USERS_COUNT } from "../../gql/queries";
 import { grabEvents } from "../../utills/grabEvents";
 import "./css/index.css";
 import LineChart from "./LineChart";
@@ -29,7 +29,6 @@ import { ALLOWED_ACCEPTED_DATE_TYPE, ALLOWED_SUPPORT_GRAPH_TYPE } from '../../da
 import TotalVisits from './components/TotalVisits'
 import ActiveUsers from './components/ActiveUsers'
 import DailyAvgRegistrations from './components/DailyAvgRegistrations'
-import MaxAllTime from './components/MaxAllTime'
 import NewRegistrations from './components/NewRegistrations'
 import NftSold from './components/NftSold'
 import TotalRegisteredUsers from './components/TotalRegisteredUsers'
@@ -47,8 +46,8 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  const [dateFormat, setDateFormat] = useState(ALLOWED_ACCEPTED_DATE_TYPE.LAST_WEEK)
-  const [featureName, setFeatureName] = useState(ALLOWED_SUPPORT_GRAPH_TYPE.TOTAL_VISITS)
+  const [dateFormat, setDateFormat] = useState(ALLOWED_ACCEPTED_DATE_TYPE.ALL_TIME)
+  const [featureName, setFeatureName] = useState(ALLOWED_SUPPORT_GRAPH_TYPE.ALL_ENTITIES)
   const [chartData, setChartData] = useState(0)
   const navigate = useNavigate();
   const [ghraphToShow, setGhraphToShow] = useState({
@@ -84,6 +83,24 @@ const Dashboard = () => {
   }, []);
 
 
+  const {
+    loading: getAllGeneralGraphGraphDataLoading,
+    error: getAllGeneralGraphGraphDataError,
+    data: getAllGeneralGraphGraphDatasData,
+    refetch: getAllGeneralGraphGraphDataRefetch,
+    networkStatus
+  } = useQuery(GET_GRAPH_DATA_HOME_PAGE_FOR_ADMIN_PANEL, {
+    variables: {
+      token: localStorage.getItem('adminToken'),
+      filterObj: {
+        date_type: dateFormat,
+        featureName: ALLOWED_SUPPORT_GRAPH_TYPE.ALL_ENTITIES
+      }
+    },
+  });
+
+  console.log(getAllGeneralGraphGraphDataLoading,"AAAAAAAAA BBBBBBB CCCCCCCC")
+
 
   return (
     <>
@@ -99,6 +116,8 @@ const Dashboard = () => {
               setDateFormat={setDateFormat}
               setFeatureName={setFeatureName}
               featureName={featureName}
+              dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.TotalVisits}
+              isLoading={getAllGeneralGraphGraphDataLoading}
             />
             <UniqueVisits
               ghraphToShow={ghraphToShow}
@@ -107,6 +126,10 @@ const Dashboard = () => {
               setDateFormat={setDateFormat}
               setFeatureName={setFeatureName}
               featureName={featureName}
+              dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.UniqueVisits}
+              isLoading={getAllGeneralGraphGraphDataLoading}
+              
+
             />
 
             <TotalRegisteredUsers
@@ -116,6 +139,10 @@ const Dashboard = () => {
               setDateFormat={setDateFormat}
               setFeatureName={setFeatureName}
               featureName={featureName}
+              dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.TotalUsers}
+              isLoading={getAllGeneralGraphGraphDataLoading}
+
+
             />
 
 
@@ -126,6 +153,10 @@ const Dashboard = () => {
               setDateFormat={setDateFormat}
               setFeatureName={setFeatureName}
               featureName={featureName}
+              dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.ActiveUsers}
+              isLoading={getAllGeneralGraphGraphDataLoading}
+
+
             />
 
             <NftSold
@@ -135,6 +166,10 @@ const Dashboard = () => {
               setDateFormat={setDateFormat}
               setFeatureName={setFeatureName}
               featureName={featureName}
+              dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.NftsSold}
+              isLoading={getAllGeneralGraphGraphDataLoading}
+
+
             />
 
             <NewRegistrations
@@ -144,6 +179,10 @@ const Dashboard = () => {
               setDateFormat={setDateFormat}
               setFeatureName={setFeatureName}
               featureName={featureName}
+              dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.NewRegistrations}
+              isLoading={getAllGeneralGraphGraphDataLoading}
+
+
             />
 
 
@@ -154,17 +193,13 @@ const Dashboard = () => {
               setDateFormat={setDateFormat}
               setFeatureName={setFeatureName}
               featureName={featureName}
+              dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.avgDailyRegistrations}
+              isLoading={getAllGeneralGraphGraphDataLoading}
+
+
             />
 
 
-            <MaxAllTime
-              ghraphToShow={ghraphToShow}
-              setGhraphToShow={setGhraphToShow}
-              dateFormat={dateFormat}
-              setDateFormat={setDateFormat}
-              setFeatureName={setFeatureName}
-              featureName={featureName}
-            />
 
 
 

@@ -5,9 +5,12 @@ const MaxAllTime = ({
   setDateFormat,
   setFeatureName,
   featureName,
+  dataValue,
+  isLoading
 }) => {
   return (
-    <div>MaxAllTime</div>
+    <div style={{color:"white"}}>{dataValue}</div>
+
   )
 }
 

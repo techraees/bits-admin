@@ -5,9 +5,11 @@ const NewRegistrations = ({
   setDateFormat,
   setFeatureName,
   featureName,
+  dataValue,
+  isLoading
 }) => {
   return (
-    <div>NewRegistrations</div>
+    <div style={{color:"white"}}>{dataValue}</div>
   )
 }
 

@@ -208,6 +208,15 @@ const GET_ALL_TRANSACTIONS_GRAPH_DATA = gql`
 }
 `;
 
+const GET_GRAPH_DATA_HOME_PAGE_FOR_ADMIN_PANEL = gql`
+ query GetGraphDataHomePageForAdminPanel(
+ $token: String!
+ $filterObj: JSON
+ ) {
+    getGraphDataHomePageForAdminPanel(token: $token,filterObj: $filterObj)
+}
+`;
+
 export {
   GET_ALL_CONTACTS,
   GET_ALL_VISITS,
@@ -225,5 +234,6 @@ export {
   GET_TOP_NFTS_FOR_ONE_CHAIN,
   GET_ALL_TRANSACTIONS,
   GET_ALL_TRANSACTIONS_GRAPH_DATA,
+  GET_GRAPH_DATA_HOME_PAGE_FOR_ADMIN_PANEL
 };
 // count={totalRegistered?.GetAllUsersCount?.registered}
