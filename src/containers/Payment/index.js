@@ -234,7 +234,7 @@ const Payment = () => {
               style={{ height: "calc(88vh - 50px)", overflow: "auto" }}
               ref={scrollRef}
             >
-              {(isInitialLoading) ? Array.from({ length: 5 }).map((item, index) => (
+              {(getAllTransactionGraphDataLoading) ? Array.from({ length: 5 }).map((item, index) => (
                 <div className="transaction_card skeleton shimmer" key={index}>
                   <div className="parent_transaction_detail">
                     <div className="transaction_detail">
@@ -281,7 +281,7 @@ const Payment = () => {
             <div className="position-relative">
               <div className="total_transaction ">
                 <div className="total_transaction_text">Total Transactions</div>
-                {(isInitialLoading) ? <div className="total_transaction_price_skeletal" >...</div> :
+                {(getAllTransactionGraphDataLoading) ? <div className="total_transaction_price_skeletal" >...</div> :
                   <div className="total_transaction_price">
                     {getAllTransactionGraphDatasData?.getAllTransactionGraphData?.payload?.countAllTransactions}
                   </div>
@@ -294,12 +294,14 @@ const Payment = () => {
               <NftsCard
                 nfts_text="Total Nfts Sold"
                 nfts_price={getAllTransactionGraphDatasData?.getAllTransactionGraphData?.payload?.selling_nft}
-                isInitialLoading={isInitialLoading}
+                isInitialLoading={getAllTransactionGraphDataLoading}
+                getAllTransactionLoading={getAllTransactionGraphDataLoading}
               />
               <NftsCard
                 nfts_text="Total Nfts Bought"
                 nfts_price={getAllTransactionGraphDatasData?.getAllTransactionGraphData?.payload?.buying_nft}
-                isInitialLoading={isInitialLoading}
+                isInitialLoading={getAllTransactionGraphDataLoading}
+                getAllTransactionLoading={getAllTransactionGraphDataLoading}
               />
             </div>
           </div>
