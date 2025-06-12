@@ -33,6 +33,7 @@ import NewRegistrations from './components/NewRegistrations'
 import NftSold from './components/NftSold'
 import TotalRegisteredUsers from './components/TotalRegisteredUsers'
 import UniqueVisits from './components/UniqueVisits'
+import MaxAllTime from './components/MaxAllTime'
 
 
 ChartJS.register(
@@ -99,7 +100,7 @@ const Dashboard = () => {
     },
   });
 
-  console.log(getAllGeneralGraphGraphDataLoading,"AAAAAAAAA BBBBBBB CCCCCCCC")
+  console.log(getAllGeneralGraphGraphDataLoading, "AAAAAAAAA BBBBBBB CCCCCCCC")
 
 
   return (
@@ -128,7 +129,7 @@ const Dashboard = () => {
               featureName={featureName}
               dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.UniqueVisits}
               isLoading={getAllGeneralGraphGraphDataLoading}
-              
+
 
             />
 
@@ -155,49 +156,9 @@ const Dashboard = () => {
               featureName={featureName}
               dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.ActiveUsers}
               isLoading={getAllGeneralGraphGraphDataLoading}
-
-
-            />
-
-            <NftSold
-              ghraphToShow={ghraphToShow}
-              setGhraphToShow={setGhraphToShow}
-              dateFormat={dateFormat}
-              setDateFormat={setDateFormat}
-              setFeatureName={setFeatureName}
-              featureName={featureName}
-              dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.NftsSold}
-              isLoading={getAllGeneralGraphGraphDataLoading}
-
-
-            />
-
-            <NewRegistrations
-              ghraphToShow={ghraphToShow}
-              setGhraphToShow={setGhraphToShow}
-              dateFormat={dateFormat}
-              setDateFormat={setDateFormat}
-              setFeatureName={setFeatureName}
-              featureName={featureName}
-              dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.NewRegistrations}
-              isLoading={getAllGeneralGraphGraphDataLoading}
-
-
             />
 
 
-            <DailyAvgRegistrations
-              ghraphToShow={ghraphToShow}
-              setGhraphToShow={setGhraphToShow}
-              dateFormat={dateFormat}
-              setDateFormat={setDateFormat}
-              setFeatureName={setFeatureName}
-              featureName={featureName}
-              dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.avgDailyRegistrations}
-              isLoading={getAllGeneralGraphGraphDataLoading}
-
-
-            />
 
 
 
@@ -321,84 +282,53 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="col-lg-3">
-              <div
-                className="radius2 d-flex center py-4 my-3 cursor-pointer"
-                style={{
-                  flexDirection: "column",
-                  height: "8.5rem",
-                  justifyContent: "center",
-                  backgroundColor: `${ghraphToShow.type == "NFTs Sold"
-                    ? "rgb(61, 18, 26)"
-                    : "#222235"
-                    }`,
-                }}
-                onClick={(e) => {
-                  setGhraphToShow({ type: "NFTs Sold", bg: '#8B37A9' })
-                }
-                }
-              >
-                <h5 className="white mb-1">NFTs Sold</h5>
-                <h5 className="red m-0">{0}</h5>
-              </div>
-              <div
-                className="radius2 d-flex center py-4 my-4  cursor-pointer"
-                style={{
-                  flexDirection: "column",
-                  height: "8.5rem",
-                  justifyContent: "center",
-                  backgroundColor: `${ghraphToShow.type == "New Registrations"
-                    ? "rgb(61, 18, 26)"
-                    : "#222235"
-                    }`,
-                }}
-                onClick={(e) => {
-                  setGhraphToShow({ type: "New Registrations", bg: '#8B37A9' })
-                }
-                }
+              <NftSold
+                ghraphToShow={ghraphToShow}
+                setGhraphToShow={setGhraphToShow}
+                dateFormat={dateFormat}
+                setDateFormat={setDateFormat}
+                setFeatureName={setFeatureName}
+                featureName={featureName}
+                dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.NftsSold}
+                isLoading={getAllGeneralGraphGraphDataLoading}
+              />
+
+              <NewRegistrations
+                ghraphToShow={ghraphToShow}
+                setGhraphToShow={setGhraphToShow}
+                dateFormat={dateFormat}
+                setDateFormat={setDateFormat}
+                setFeatureName={setFeatureName}
+                featureName={featureName}
+                dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.NewRegistrations}
+                isLoading={getAllGeneralGraphGraphDataLoading}
+              />
 
 
-              >
-                <h5 className="white mb-1">New Registrations</h5>
-                <h5 className="red m-0">{0}</h5>
-              </div>
-              <div
-                className="radius2 d-flex center py-4 my-4  cursor-pointer"
-                style={{
-                  flexDirection: "column",
-                  height: "8.5rem",
-                  justifyContent: "center",
-                  backgroundColor: `${ghraphToShow.type == "Daily Avg Registrations"
-                    ? "rgb(61, 18, 26)"
-                    : "#222235"
-                    }`,
-                }}
-                onClick={(e) => {
-                  setGhraphToShow({ type: "Daily Avg Registrations", bg: '#8B37A9' })
-                }
-                }
+              <DailyAvgRegistrations
+                ghraphToShow={ghraphToShow}
+                setGhraphToShow={setGhraphToShow}
+                dateFormat={dateFormat}
+                setDateFormat={setDateFormat}
+                setFeatureName={setFeatureName}
+                featureName={featureName}
+                dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.avgDailyRegistrations}
+                isLoading={getAllGeneralGraphGraphDataLoading}
+              />
 
-              >
-                <h5 className="white mb-1">Daily Avg Registrations</h5>
-                <h5 className="red m-0">
-                  {0}
-                </h5>
-              </div>
 
-              <div
-                className="radius2 d-flex center my-3 pb-4 pt-5 cursor-pointer"
-                onClick={(e) => {
-                  setDateFormat(ALLOWED_ACCEPTED_DATE_TYPE.ALL_TIME)
-                }}
-                style={{
-                  flexDirection: "column",
-                  backgroundColor: `${dateFormat == ALLOWED_ACCEPTED_DATE_TYPE.ALL_TIME ? "rgb(61, 18, 26)" : "#8B37A9"
-                    }`,
-                }}
-              >
-                <h5 className="white">Max</h5>
-                <div className="d-flex center">
-                </div>
-              </div>
+              <MaxAllTime
+                ghraphToShow={ghraphToShow}
+                setGhraphToShow={setGhraphToShow}
+                dateFormat={dateFormat}
+                setDateFormat={setDateFormat}
+                setFeatureName={setFeatureName}
+                featureName={featureName}
+                dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.avgDailyRegistrations}
+                isLoading={getAllGeneralGraphGraphDataLoading}
+              />
+
+
 
               <div className="bg-dark-blue3 radius2 p-3 my-3">
                 <div

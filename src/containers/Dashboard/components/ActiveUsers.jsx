@@ -2,6 +2,7 @@ import React from 'react'
 import { StatisticsCard } from '../../../components'
 import { users } from '../../../assets'
 import { ALLOWED_SUPPORT_GRAPH_TYPE } from '../../../data/enums'
+import { ClipLoader } from 'react-spinners'
 
 const ActiveUsers = ({
   ghraphToShow,
@@ -10,15 +11,14 @@ const ActiveUsers = ({
   setDateFormat,
   setFeatureName,
   featureName,
-dataValue 
-
+  dataValue,
+  isLoading
 }) => {
   return (
 
     <StatisticsCard
       icon={users}
-      count={dataValue || 0}
-
+      count={isLoading ? <ClipLoader size={20} color="#fff" /> : (dataValue || 0)}
       status={"Active users"}
       onClick={(e) => {
         setFeatureName(ALLOWED_SUPPORT_GRAPH_TYPE.ACTIVE_USERS)
