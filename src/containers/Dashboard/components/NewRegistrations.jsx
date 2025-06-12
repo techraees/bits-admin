@@ -1,5 +1,6 @@
 import React from 'react'
 import { ClipLoader } from 'react-spinners'
+import { ALLOWED_SUPPORT_GRAPH_TYPE } from '../../../data/enums'
 
 const NewRegistrations = ({
   dateFormat,
@@ -25,6 +26,7 @@ const NewRegistrations = ({
           }`,
       }}
       onClick={(e) => {
+        setFeatureName(ALLOWED_SUPPORT_GRAPH_TYPE.NEW_REGISTRATIONS)
         setGhraphToShow({ type: "New Registrations", bg: '#8B37A9' })
       }
       }

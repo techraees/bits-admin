@@ -70,7 +70,7 @@ const LineChart = ({ data, labels, title, period }) => {
 
     // Ensure all labels have a corresponding value, defaulting to 0
     const chartData = {
-        labels: formattedLabels,
+        labels: labels,
         datasets: [
             {
                 label: title,

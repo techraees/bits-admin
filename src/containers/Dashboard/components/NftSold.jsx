@@ -1,5 +1,6 @@
 import React from 'react'
 import { ClipLoader } from 'react-spinners'
+import { ALLOWED_SUPPORT_GRAPH_TYPE } from '../../../data/enums'
 
 const NftSold = ({
   dateFormat,
@@ -25,6 +26,7 @@ const NftSold = ({
           }`,
       }}
       onClick={(e) => {
+        setFeatureName(ALLOWED_SUPPORT_GRAPH_TYPE.NFTS_SOLD)
         setGhraphToShow({ type: "NFTs Sold", bg: '#8B37A9' })
       }
       }

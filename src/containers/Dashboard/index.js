@@ -34,6 +34,7 @@ import NftSold from './components/NftSold'
 import TotalRegisteredUsers from './components/TotalRegisteredUsers'
 import UniqueVisits from './components/UniqueVisits'
 import MaxAllTime from './components/MaxAllTime'
+import { Line } from "react-chartjs-2";
 
 
 ChartJS.register(
@@ -48,8 +49,7 @@ ChartJS.register(
 
 const Dashboard = () => {
   const [dateFormat, setDateFormat] = useState(ALLOWED_ACCEPTED_DATE_TYPE.ALL_TIME)
-  const [featureName, setFeatureName] = useState(ALLOWED_SUPPORT_GRAPH_TYPE.ALL_ENTITIES)
-  const [featureNameFroGraph, setFeatureNameForGraph] = useState(ALLOWED_SUPPORT_GRAPH_TYPE.TOTAL_VISITS)
+  const [featureName, setFeatureName] = useState(ALLOWED_SUPPORT_GRAPH_TYPE.TOTAL_VISITS)
   const [chartData, setChartData] = useState(0)
   const navigate = useNavigate();
   const [ghraphToShow, setGhraphToShow] = useState({
@@ -176,7 +176,20 @@ const Dashboard = () => {
           <div className="row data">
             <div className="col-lg-9">
               <div className="graph">
-                {chartData?.data && <LineChart data={chartData.data} labels={chartData.labels} />}
+                {
+                  (getAllGeneralGraphGraphDataGraphShowingLoading) ?
+
+                    <div className="chart-container" />
+                    :
+
+                    (getAllGeneralGraphGraphDatasGraphShowingData?.getGraphDataHomePageForAdminPanel?.data &&
+                      getAllGeneralGraphGraphDatasGraphShowingData?.getGraphDataHomePageForAdminPanel?.labels
+                    ) &&
+                    <LineChart
+                      data={getAllGeneralGraphGraphDatasGraphShowingData?.getGraphDataHomePageForAdminPanel?.data}
+                      labels={getAllGeneralGraphGraphDatasGraphShowingData?.getGraphDataHomePageForAdminPanel?.labels}
+                    />
+                }
               </div>
               <div className="row visits-data">
                 <div
