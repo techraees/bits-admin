@@ -66,6 +66,7 @@ const DataSection = () => {
   });
 
 
+
   const [CreateTopNft, { createdata, createloading, createerror }] =
     useMutation(CREATE_TOP_NFT);
   const [
@@ -464,7 +465,7 @@ const DataSection = () => {
                       refetch={refetch}
                       viewOnly={viewOnly}
                       setAllVideosData={setAllVideosData}
-                      is_Added={e.is_Added}
+                      is_Added={e.is_active}
                       allVideosData={allVideosData}
                       setTopVideosData={setTopVideosDataForOneChain}
                       topVideosData={topVideosDataForOneChain}

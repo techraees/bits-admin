@@ -80,25 +80,7 @@ const GET_USERS_COUNT = gql`
 
 const GET_ALL_NFTS_FOR_ADMIN = gql`
   query GetAllNftsWithoutAddress {
-    getAllNftsWithoutAddress {
-      _id
-      artist_name1
-      description
-      name
-      royalty
-      status
-      token_id
-      chainId
-      video
-      wallet_address
-      is_blocked
-      user_id {
-        id
-        user_name
-        user_address
-        profileImg
-      }
-    }
+    getAllNftsWithoutAddress
   }
 `;
 
