@@ -12,7 +12,7 @@ const TotalVisits = ({
   setFeatureName,
   featureName,
   dataValue,
-  isLoading
+  isLoading,
 }) => {
   return (
     <StatisticsCard

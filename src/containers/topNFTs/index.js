@@ -205,7 +205,6 @@ const TopNFTs = () => {
           ...item,
           serial_number: index + 1,
         }));
-        console.log(updatedData, "updatedData");
         UpdateSerialTopNft({
           variables: {
             nftArray: updatedData?.map((c) => ({

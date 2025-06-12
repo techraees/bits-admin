@@ -2,7 +2,6 @@
 
 // const maxValue = Math.max(...array);
 
-// console.log(maxValue); // Output: 10
 
 // // let oneWeekAgo = new Date();
 // // oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
@@ -139,4 +138,3 @@
 //     .filter((value, index, self) => self.indexOf(value) === index);
 // }
 
-// console.log(;

@@ -120,7 +120,6 @@ const DataSection = () => {
   useEffect(() => {
     if (getTopNftsForOneChain?.GetTopNftsForOneChain.length > 0) {
       const temp = getTopNftsForOneChain?.GetTopNftsForOneChain;
-      console.log(temp, "Chianing Data For the app");
       setTopVideosDataForOneChain(temp);
     } else {
       setTopVideosDataForOneChain([]);
@@ -133,7 +132,6 @@ const DataSection = () => {
     }
   }, [allVideosData, fetchedData]);
 
-  console.log("All nfts", allVideosData);
 
   useEffect(() => {
     if (topNfts?.GetTopNfts.length > 0 && fetchedData.length > 0) {
@@ -143,7 +141,6 @@ const DataSection = () => {
           (otherItem) => otherItem.nft_id === item._id && item.is_Published
         )
       );
-      console.log("filtered items", filteredItem);
       setTopVideosData(filteredItem);
     }
   }, [topNfts?.GetTopNfts, fetchedData]);
@@ -165,7 +162,6 @@ const DataSection = () => {
   const SortableList = ({ items, start, end, setItems }) => {
     function onChange(sourceId, sourceIndex, targetIndex, targetId) {
       const nextState = swap(items, sourceIndex, targetIndex);
-      console.log("nextState", nextState);
       setItems(nextState);
     }
     const handleSettingHeightForSortedLists = (items) => {
@@ -288,7 +284,6 @@ const DataSection = () => {
         }
       });
     }
-    console.log(newTopNfts, "OOOOOOOOOOOOOOOOOOOOOOOOO");
     setTopVideosData(newTopNfts);
   }, [topNfts?.GetTopNfts, fetchedData]);
 

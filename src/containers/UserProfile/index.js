@@ -57,7 +57,9 @@ const UserProfile = () => {
 
   const menu = (
     <Menu
-      onClick={(e) => console.log(e)}
+      onClick={(e) => {
+        
+      }}
       items={[
         {
           label: "1st menu item",

@@ -6,7 +6,6 @@ const INITIAL_STATE = {
 };
 
 const TopUserReducer = (state = INITIAL_STATE , action) => {
-    console.log("active", state, action.payload);
     switch (action.type) {
       case "TOP_USERS":
         return {

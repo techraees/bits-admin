@@ -7,7 +7,6 @@ const INITIAL_STATE = {
 };
 
 const tranReducer = (state = INITIAL_STATE, action) => {
-  console.log("active", state, action.payload);
   switch (action.type) {
     case "LOAD_TX":
       return {

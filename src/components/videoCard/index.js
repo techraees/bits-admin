@@ -38,7 +38,6 @@ const VideoCard = ({
     await refetch();
   };
 
-  console.log("top videos", topVideosData);
 
   const handleAdd = async (id) => {
     if (!is_Added) {
@@ -82,7 +81,6 @@ const VideoCard = ({
       ToastMessage("Error", "You cannot add more than 8", "error");
     }
   };
-  console.log(allVideosData);
 
   const handleConfirmRemove = async () => {
     if (!isValidId(id)) {

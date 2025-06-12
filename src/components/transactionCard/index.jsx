@@ -17,7 +17,6 @@ const TransactionCard = ({ data }) => {
     setMaticBal(result);
   });
 
-  console.log(data[0]?.createdAt,"THIS IS THE DATA COMING")
   return (
     <>
       {data?.map((d) => (

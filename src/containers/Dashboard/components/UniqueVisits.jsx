@@ -12,7 +12,7 @@ const UniqueVisits = ({
   setFeatureName,
   featureName,
   dataValue,
-  isLoading
+  isLoading,
 }) => {
   return (
     <StatisticsCard

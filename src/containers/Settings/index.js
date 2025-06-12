@@ -34,7 +34,6 @@ const Settings = () => {
   const [isModalVisible, setIsModalVisible] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [isViewOnly, setIsViewOnly] = useState(false);
-  console.log("isViewOnly",isViewOnly)
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -44,7 +43,6 @@ const Settings = () => {
 
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
-    console.log("value", value);
     if (event.target.checked) {
       setSelectedOptions((prevSelectedOptions) => [
         ...prevSelectedOptions,
@@ -56,7 +54,6 @@ const Settings = () => {
       );
     }
   };
-  console.log("selectedOptions", selectedOptions); // Log the selected options onChange
 
   const [createSubAdmin, { loading: subLoading, error: deleteError, data }] =
     useMutation(CREATE_SUB_ADMIN);
@@ -93,12 +90,10 @@ const Settings = () => {
         navigate("/login");
         ToastMessage("Password updated", "", "success");
 
-        console.log(data);
       } catch (e) {
         if (e?.message) {
           ToastMessage(e?.message, "", "error");
         }
-        console.error("eee", e?.message);
       }
     },
   });
@@ -134,7 +129,6 @@ const Settings = () => {
         ToastMessage("Username Updated", "", "success");
 
       } catch (e) {
-        console.error(e);
       }
     },
   });
@@ -148,7 +142,6 @@ const Settings = () => {
 
     onSubmit: async (values) => {
       try {
-        console.log("values", values);
         const data = await createSubAdmin({
           variables: {
             values: {
@@ -159,9 +152,7 @@ const Settings = () => {
             },
           },
         });
-        console.log(data);
       } catch (e) {
-        console.error(e);
       }
     },
   });

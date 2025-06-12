@@ -185,6 +185,5 @@ export const grabEvents = async (setContractEvents) => {
       }
     );
   } catch (err) {
-    console.log("errr", err);
   }
 };

@@ -200,7 +200,6 @@ const UserInformation = () => {
       title: "",
       dataIndex: "icon",
       render: (value, record) => {
-        console.log("value", value, record);
         return (
           <Dropdown className="ms-4" overlay={profileMenu(record?.id)}>
             <img
@@ -216,7 +215,9 @@ const UserInformation = () => {
 
   const menu = (
     <Menu
-      onClick={(e) => console.log(e)}
+      onClick={(e) => {
+
+      }}
       items={[
         {
           label: "Creators",
@@ -234,7 +235,6 @@ const UserInformation = () => {
     <Menu
       onClick={(e) => {
         e.key === "1" && navigate(`user-profile/${id}`); // Pass the id to the navigation URL
-        console.log(e);
       }}
       items={[
         {
@@ -283,7 +283,6 @@ const UserInformation = () => {
     }
   }, [searchUser, contactData?.GetAllUsers]);
 
-  console.log("contactData", contactData?.GetAllUsers);
 
   return (
     <div className="bg-white2">

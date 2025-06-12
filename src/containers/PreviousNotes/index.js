@@ -22,7 +22,6 @@ const PreviousNotes = () => {
   const [openDesc, setOpenDesc] = useState(false);
   const [viewType, setViewType] = useState("1");
   const [deleteNoteById] = useMutation(DELETE_NOTE_BY_ID);
-  console.log("viewOnly",viewOnly)
   const menuItems = [
     {
       label: "All Notes",
@@ -80,10 +79,7 @@ const PreviousNotes = () => {
     } else if (viewType === "2" && notesByAdminIdData) {
       return notesByAdminIdData?.getAllNoteByAdminId;
     } else if (viewType === "3" && allNotesData) {
-      console.log(
-        "allNotesData?.getAllAdminNotes",
-        allNotesData?.getAllAdminNotes
-      );
+      
       return allNotesData?.getAllAdminNotes;
     }
   }, [notesByAdminIdData, allNotesData, viewType]);
@@ -92,7 +88,6 @@ const PreviousNotes = () => {
     try {
       setIsLoading(true);
       const { data } = await deleteNoteById({ variables: { id: id } });
-      console.log(data);
       // Handle the response data or perform any additional actions
       if (data) {
         refetchAdminNotes();
@@ -101,7 +96,6 @@ const PreviousNotes = () => {
         setIsLoading(false);
       }
     } catch (error) {
-      console.error(error);
       setIsLoading(false);
       if (error?.message) {
         ToastMessage(error.message, "", "error");

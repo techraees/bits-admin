@@ -39,10 +39,8 @@ const NavbarComponent = ({ selectedKey, lightNav, headerTxt }) => {
       fetchPolicy: "network-only",
     });
 
-  console.log("adminData", adminData);
   useEffect(() => {
     if (adminEmail && adminToken) {
-      console.log("adminEmail", adminEmail);
       getAdmin({
         variables: {
           email: adminEmail,

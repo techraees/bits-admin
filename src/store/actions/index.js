@@ -10,7 +10,6 @@ import { ETHTOUSD, MATICTOUSD } from "../../utills/currencyConverter";
 
 export const loadAdminDetailsAction = (args) => async (dispatch) => {
   try {
-    console.log("argsargs", args);
     const data = {
       id: args?.id,
       name: args?.name,
@@ -19,11 +18,9 @@ export const loadAdminDetailsAction = (args) => async (dispatch) => {
       routeAccess: args?.routes_access,
       viewOnly: args?.view_only,
     };
-    console.log("data", data);
 
     dispatch({ type: "LOAD_ADMIN_DATA", payload: data });
   } catch (err) {
-    console.log("errr", err);
   }
 };
 
@@ -90,7 +87,6 @@ export const loadContractIns = () => async (dispatch) => {
       },
     });
 
-    console.log("Top_Users", topUsersByBought, topUsersBySold);
 
     // all items
     const allTokenIds = await getAllTokenIds(
@@ -119,7 +115,6 @@ export const loadContractIns = () => async (dispatch) => {
       ethMarketContractIns
     );
 
-    console.log("fixedItemSoldData", fixedItemSoldData);
 
     dispatch({
       type: "LOAD_TX",
@@ -141,9 +136,7 @@ export const loadContractIns = () => async (dispatch) => {
 
     dispatch({ type: "LOAD_TRANS", payload: totalArr });
 
-    console.log("Total Arr List", totalArr);
   } catch (err) {
-    console.log("errr", err);
   }
 };
 
@@ -193,7 +186,6 @@ const formatCurrentTime = () => {
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
 };
 
-console.log(formatCurrentTime());
 
 //total transactions
 const getTotalTrans = async (
@@ -220,7 +212,6 @@ const getTotalTrans = async (
     "0xc6f8764d0fd285fcfc565f3f3a9d61368e8af5218b874aac2485aea65e67ae1a"
   );
 
-  console.log("The Trans", polyMarketTxs);
 
   const totalTxs =
     polyMarketTxs.length +
@@ -242,7 +233,6 @@ const getTotalTrans = async (
     "latest"
   );
 
-  console.log("polygon events", polygonEvents);
 
   const totalFixedEvents = polygonEvents.length + ethEvents.length;
 
@@ -400,7 +390,6 @@ const getTopUsers = async (
   const topUsersByBought = topByAdress(combinedArray, "buyer");
   const topUsersBySold = topByAdress(combinedArray, "seller");
 
-  console.log("tobybought", combinedArray);
 
   return { topUsersByBought, topUsersBySold };
 };

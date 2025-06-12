@@ -76,9 +76,6 @@ const MenuComponent = ({ selectedKey, routeAccess, className }) => {
     }
   }, [routeAccess]);
 
-  console.log("filteredItems", filteredItems);
-
-  console.log("menuItems", filteredItems);
 
   return (
     <div

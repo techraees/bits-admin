@@ -49,6 +49,7 @@ ChartJS.register(
 const Dashboard = () => {
   const [dateFormat, setDateFormat] = useState(ALLOWED_ACCEPTED_DATE_TYPE.ALL_TIME)
   const [featureName, setFeatureName] = useState(ALLOWED_SUPPORT_GRAPH_TYPE.ALL_ENTITIES)
+  const [featureNameFroGraph, setFeatureNameForGraph] = useState(ALLOWED_SUPPORT_GRAPH_TYPE.TOTAL_VISITS)
   const [chartData, setChartData] = useState(0)
   const navigate = useNavigate();
   const [ghraphToShow, setGhraphToShow] = useState({
@@ -100,7 +101,24 @@ const Dashboard = () => {
     },
   });
 
-  console.log(getAllGeneralGraphGraphDataLoading, "AAAAAAAAA BBBBBBB CCCCCCCC")
+
+  const {
+    loading: getAllGeneralGraphGraphDataGraphShowingLoading,
+    error: getAllGeneralGraphGraphDataGraphShowingError,
+    data: getAllGeneralGraphGraphDatasGraphShowingData,
+    refetch: getAllGeneralGraphGraphDataGraphShowingRefetch,
+    networkStatus: networkStatusGraphShowing
+  } = useQuery(GET_GRAPH_DATA_HOME_PAGE_FOR_ADMIN_PANEL, {
+    variables: {
+      token: localStorage.getItem('adminToken'),
+      filterObj: {
+        date_type: dateFormat,
+        featureName: featureName
+      }
+    },
+  });
+
+  console.log(getAllGeneralGraphGraphDatasGraphShowingData?.getGraphDataHomePageForAdminPanel, "AAAAAAAAA BBBBBBB CCCCCCCC")
 
 
   return (
@@ -129,8 +147,6 @@ const Dashboard = () => {
               featureName={featureName}
               dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.UniqueVisits}
               isLoading={getAllGeneralGraphGraphDataLoading}
-
-
             />
 
             <TotalRegisteredUsers
@@ -142,8 +158,6 @@ const Dashboard = () => {
               featureName={featureName}
               dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.TotalUsers}
               isLoading={getAllGeneralGraphGraphDataLoading}
-
-
             />
 
 
@@ -157,14 +171,6 @@ const Dashboard = () => {
               dataValue={getAllGeneralGraphGraphDatasData?.getGraphDataHomePageForAdminPanel?.ActiveUsers}
               isLoading={getAllGeneralGraphGraphDataLoading}
             />
-
-
-
-
-
-
-
-
           </div>
 
           <div className="row data">

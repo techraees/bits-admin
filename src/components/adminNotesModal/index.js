@@ -41,7 +41,6 @@ const AdminNotesModal = ({id,visible, onCancel, refetch }) => {
             is_public: isPublic,
           },
         });
-        console.log("data", data);
         if (data) {
           setEditorData(null)
           resetForm()
@@ -50,7 +49,6 @@ const AdminNotesModal = ({id,visible, onCancel, refetch }) => {
           ToastMessage("Notes added successfully", " ", "success");
         }
       } catch (error) {
-        console.log(error);
         if (error && error?.message) {
           ToastMessage(error.message, " ", "error");
         }
@@ -110,9 +108,7 @@ const AdminNotesModal = ({id,visible, onCancel, refetch }) => {
         wrapperClassName="wrapperClassName"
         editorClassName="editorClassName"
         onEditorStateChange={(editorData) => {
-          console.log("editor", editorData);
           let newData = editorData?.getCurrentContent().getPlainText();
-          console.log("newData", newData);
           setEditorData(editorData);
           setFieldValue("description", newData);
         }}

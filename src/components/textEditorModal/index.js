@@ -89,7 +89,6 @@ const TextEditorModal = ({
     onSubmit: async (values) => {
       const formData = new FormData();
       formData.append("file", file);
-      console.log("all data", email);
       try {
         const result = await sendEmail({
           variables: {
@@ -100,7 +99,6 @@ const TextEditorModal = ({
           },
         });
       } catch (error) {
-        console.log(error);
       }
       // try {
       //   let response;
@@ -124,7 +122,6 @@ const TextEditorModal = ({
       //     },
       //   });
       // } catch (error) {
-      //   console.log(error);
       // }
     },
   });

@@ -48,7 +48,6 @@ const TopNftVideoCard = ({
   //     </Draggable>
   //   );
   const handleRemove = (id) => {
-    console.log(topVideosData, id, "Fire From Current Position")
     const videoToadd = topVideosData.find((item) => item.nft_id._id == id);
     if (videoToadd) {
       setTopVideosData(topVideosData.filter((item, i) => item.nft_id._id != id));

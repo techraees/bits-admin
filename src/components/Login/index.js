@@ -30,7 +30,6 @@ function Login() {
 
       onSubmit: async (values) => {
         try {
-          console.log("values", values);
           const data = await login({
             variables: {
               email: values.email,
@@ -38,9 +37,7 @@ function Login() {
             },
           });
 
-          console.log(data);
         } catch (e) {
-          console.error(e);
         }
       },
     });

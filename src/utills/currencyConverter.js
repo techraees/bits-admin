@@ -8,7 +8,6 @@ import axios from "axios";
 
 //         return (amount / price);
 //     } catch (error) {
-//         console.log(error);
 //     }
 // }
 
@@ -22,7 +21,6 @@ export const USDTOETH = async (amount) => {
 
     return amount / price;
   } catch (error) {
-    console.log(error);
   }
 };
 
@@ -36,7 +34,6 @@ export const USDTOMATIC = async (amount) => {
 
     return amount / price;
   } catch (error) {
-    console.log(error);
   }
 };
 
@@ -50,7 +47,6 @@ export const ETHTOUSD = async (amount) => {
     const finalAmount = amount * price;
     return finalAmount;
   } catch (error) {
-    console.log(error);
   }
 };
 
@@ -63,6 +59,5 @@ export const MATICTOUSD = async (amount) => {
     const price = await response.data.data.rates.USD;
     return amount * price;
   } catch (error) {
-    console.log(error);
   }
 };

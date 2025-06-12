@@ -18,7 +18,6 @@ const CopyToClipBoard = ({text}) => {
                     theme: "colored",
                 });
             }, (err) => {
-                console.error(err);
             }
         );
         setTimeout(() => {

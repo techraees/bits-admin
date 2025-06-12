@@ -12,7 +12,7 @@ const TotalRegisteredUsers = ({
   setFeatureName,
   featureName,
   dataValue,
-  isLoading
+  isLoading,
 }) => {
   return (
 

@@ -50,7 +50,6 @@ const Payment = () => {
       const result = txs.filter(
         (item) => item.transaction_hash == query_string
       );
-      console.log("tranHash", result);
       setAllTransactions(result);
     }
   };
@@ -216,7 +215,6 @@ const Payment = () => {
     );
   };
 
-  console.log(getAllTransactionGraphDatasData?.getAllTransactionGraphData)
 
   return (
     <div className="bg-color">

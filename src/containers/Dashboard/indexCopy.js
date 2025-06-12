@@ -265,7 +265,6 @@ const Dashboard = () => {
     refetch: visitdataRefetch,
   } = useQuery(GET_ALL_VISITS);
 
-  console.log("visit Data", visitData?.GetAllVisits);
 
   const [likesData, setLikesData] = useState(likes);
   const [nftsData, setNftsData] = useState(nfts);
@@ -282,7 +281,6 @@ const Dashboard = () => {
   const [nftSoldGraphValue, setnftSoldGraphValue] = useState(0);
   const [newRegGraphValue, setnewRegGraphValue] = useState(0);
 
-  console.log("All user data", newRegisterations);
 
   const getLables = (type, ghraphToShowtype) => {
     if (type == "Max") {
@@ -316,7 +314,6 @@ const Dashboard = () => {
             .filter((value, index, self) => self.indexOf(value) === index)
         );
       } else if (ghraphToShowtype == "Total Visits") {
-        console.log("Condtion Matched");
 
         return completeYearRange(
           visitsData
@@ -442,14 +439,11 @@ const Dashboard = () => {
     data: totalRegistered,
     refetch,
   } = useQuery(GET_USERS_COUNT);
-  // console.log("totalRegistered", totalRegistered?.GetAllUsersCount);
   const navigate = useNavigate();
 
   const { data: allNotifications } = useQuery(GET_ALL_NOTIFICATIONS);
-  // console.log("allNotifications", allNotifications);
 
   const { data: newRegistration } = useQuery(GET_NEW_REGISTRATION);
-  // console.log("newRegistration", newRegistration);
 
   const { topUsersData } = useSelector((state) => state.topUsers.topUsersData);
   const contracts = useSelector((state) => state.contracts);
@@ -500,7 +494,6 @@ const Dashboard = () => {
     }
   }, [transactionData?.soldnft]);
 
-  // console.log("contractEvents", contractEvents);
 
   const [ghraphToShow, setGhraphToShow] = useState({
     type: "Total Visits",
